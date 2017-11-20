@@ -1,0 +1,25 @@
+{
+    "include": [
+        "src/**/*.ts"
+    ],
+    "compilerOptions": {
+        "target": "ES2017",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "baseUrl": "src",
+        "outDir": "build",
+        "pretty": true,
+        "noEmitOnError": true,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "alwaysStrict": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true
+    }
+}

@@ -1,0 +1,1 @@
+# staticdeploy-cli

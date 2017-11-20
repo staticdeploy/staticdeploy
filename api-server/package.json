@@ -1,0 +1,62 @@
+{
+  "name": "@staticdeploy/staticdeploy-api-server",
+  "description": "staticdeploy api server",
+  "version": "0.0.0",
+  "main": "build/server.js",
+  "license": "MIT",
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "precommit": "yarn lint",
+    "compile": "tsc",
+    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:ts-lint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:ts-lint",
+    "test": "TS_NODE_CACHE=false NODE_ENV=test NODE_PATH=src mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "coverage": "nyc -r html -r lcov -r text-summary --extension .ts npm test",
+    "start": "NODE_ENV=production NODE_PATH=build node build/server.js"
+  },
+  "dependencies": {
+    "@mondora/env": "^1.0.4",
+    "bunyan": "^1.8.12",
+    "bunyan-middleware": "^0.8.0",
+    "convexpress": "^2.2.0",
+    "express": "^4.16.2",
+    "express-healthchecker": "^1.0.0",
+    "express-jwt": "^5.3.0",
+    "reflect-metadata": "^0.1.10",
+    "sequelize": "^4.22.8",
+    "sequelize-typescript": "^0.6.0-beta.5",
+    "sqlite3": "^3.1.13"
+  },
+  "devDependencies": {
+    "@types/bunyan": "^1.8.3",
+    "@types/chai": "^4.0.5",
+    "@types/express": "^4.0.39",
+    "@types/express-jwt": "^0.0.38",
+    "@types/jsonwebtoken": "^7.2.3",
+    "@types/lodash": "^4.14.85",
+    "@types/mocha": "^2.2.44",
+    "@types/supertest": "^2.0.3",
+    "chai": "^4.1.2",
+    "husky": "^0.14.3",
+    "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0",
+    "prettier": "^1.8.2",
+    "supertest": "^3.0.0",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "typescript": "^2.6.1"
+  }
+}
