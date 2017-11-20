@@ -1,0 +1,1 @@
+# staticdeploy-static-server
