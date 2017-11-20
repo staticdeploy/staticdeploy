@@ -1,0 +1,56 @@
+{
+  "name": "staticdeploy-app",
+  "description": "staticdeploy app",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "prettier": "prettier 'src/**/*.@(ts|tsx|css)'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:tslint": "tslint 'src/**/*.ts?(x)'",
+    "lint": "npm-run-all lint:*",
+    "test": "react-scripts-ts test --env=jsdom",
+    "dev:mock-server": "TS_NODE_PROJECT=mock-server mock-server --delay 1000 --watch --require ts-node/register --serveConfig",
+    "dev:server": "BROWSER=none react-scripts-ts start",
+    "dev": "npm-run-all -p dev:*",
+    "build": "react-scripts-ts build"
+  },
+  "dependencies": {
+    "antd": "^2.13.7",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2"
+  },
+  "devDependencies": {
+    "@staticdeploy/app-server": "^1.1.1",
+    "@staticdeploy/mock-server": "^1.6.2",
+    "@types/enzyme": "^3.1.4",
+    "@types/enzyme-adapter-react-16": "^1.0.1",
+    "@types/express": "^4.0.39",
+    "@types/faker": "^4.1.2",
+    "@types/jest": "^21.1.6",
+    "@types/lodash": "^4.14.79",
+    "@types/node": "^8.0.47",
+    "@types/react": "^16.0.18",
+    "@types/react-dom": "^16.0.2",
+    "@types/react-router-dom": "^4.0.8",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.4",
+    "npm-run-all": "^4.1.1",
+    "nyc": "^11.3.0",
+    "prettier": "^1.7.4",
+    "react-scripts-ts": "^2.8.0",
+    "ts-node": "^3.3.0",
+    "tslint-config-prettier": "^1.6.0"
+  }
+}

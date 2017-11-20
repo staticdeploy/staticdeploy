@@ -1,0 +1,25 @@
+.c-Root {
+    height: 100vh;
+}
+
+.c-Root .sider {
+    overflow: hidden;
+}
+
+.c-Root .logo-container {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 64px;
+}
+
+.c-Root .logo {
+    height: 44px;
+}
+
+.c-Root .content {
+    padding: 16px;
+    background-color: white;
+}

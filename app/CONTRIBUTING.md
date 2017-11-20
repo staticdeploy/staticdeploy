@@ -9,9 +9,9 @@ To get started developing the service:
 
 Then you can either:
 
+- `yarn dev`: starts the development server
 - `yarn test`: runs tests
-- `yarn test --watch`: runs tests, re-runs them on code changes
-- `yarn coverage`: runs tests, calculates code coverage
+- `yarn test --coverage`: runs tests, calculates code coverage
 - `yarn lint`: runs code linters
 - `yarn prettify`: formats code with prettier
 

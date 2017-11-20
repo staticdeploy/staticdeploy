@@ -13,7 +13,6 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
-    "precommit": "yarn lint",
     "compile": "tsc",
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
@@ -47,7 +46,6 @@
     "@types/mocha": "^2.2.44",
     "@types/supertest": "^2.0.3",
     "chai": "^4.1.2",
-    "husky": "^0.14.3",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
     "mocha": "^4.0.1",

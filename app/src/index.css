@@ -1,0 +1,8 @@
+@import "~antd/dist/antd.css";
+@import "./common/colors.css";
+@import "./common/utils.css";
+
+body {
+    margin: 0;
+    padding: 0;
+}
