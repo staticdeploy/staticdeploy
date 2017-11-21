@@ -1,3 +1,3 @@
-## What is staticdeploy
+## What is staticdeploy
 
 TODO
