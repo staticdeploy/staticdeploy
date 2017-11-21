@@ -8,3 +8,4 @@ This is the main repo for staticdeploy projects:
 - [static-server](./static-server)
 - [app](./app)
 - [cli](./cli)
+- [docs](./docs)

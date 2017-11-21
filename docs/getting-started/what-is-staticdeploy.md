@@ -1,0 +1,3 @@
+## What is staticdeploy
+
+TODO

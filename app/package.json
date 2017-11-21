@@ -1,5 +1,5 @@
 {
-  "name": "staticdeploy-app",
+  "name": "@staticdeploy/staticdeploy-app",
   "description": "staticdeploy app",
   "version": "0.0.0",
   "license": "MIT",

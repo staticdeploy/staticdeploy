@@ -1,0 +1,23 @@
+{
+  "name": "@staticdeploy/staticdeploy-docs",
+  "description": "User guide and technical documentation for staticdeploy",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "dev": "gitbook install && gitbook serve",
+    "build": "gitbook install && gitbook build",
+    "start": "static -a 0.0.0.0 -p $PORT _book"
+  },
+  "dependencies": {
+    "gitbook-cli": "^2.3.2",
+    "node-static": "^0.7.10"
+  }
+}
