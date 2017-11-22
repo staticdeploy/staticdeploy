@@ -1,7 +1,8 @@
 {
-  "name": "@staticdeploy/staticdeploy-api-server",
+  "name": "@staticdeploy/api-server",
   "description": "staticdeploy api server",
   "version": "0.0.0",
+  "private": true,
   "main": "build/server.js",
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",

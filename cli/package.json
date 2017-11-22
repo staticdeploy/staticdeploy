@@ -1,5 +1,5 @@
 {
-  "name": "@staticdeploy/staticdeploy-cli",
+  "name": "@staticdeploy/cli",
   "description": "CLI tool for staticdeploy",
   "version": "0.0.0",
   "publishConfig": {

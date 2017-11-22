@@ -1,7 +1,8 @@
 {
-  "name": "@staticdeploy/staticdeploy-docs",
+  "name": "@staticdeploy/docs",
   "description": "User guide and technical documentation for staticdeploy",
   "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "repository": {

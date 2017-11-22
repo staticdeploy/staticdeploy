@@ -1,7 +1,8 @@
 {
-  "name": "@staticdeploy/staticdeploy-app",
+  "name": "@staticdeploy/app",
   "description": "staticdeploy app",
   "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "repository": {
