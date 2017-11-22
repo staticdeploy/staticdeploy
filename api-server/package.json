@@ -17,8 +17,8 @@
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",
-    "lint:ts-lint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
-    "lint": "yarn lint:prettier && yarn lint:ts-lint",
+    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:tslint",
     "test": "TS_NODE_CACHE=false NODE_ENV=test NODE_PATH=src mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
     "coverage": "nyc -r html -r lcov -r text-summary --extension .ts npm test",
     "start": "NODE_ENV=production NODE_PATH=build node build/server.js"
