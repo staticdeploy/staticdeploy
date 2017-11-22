@@ -1,0 +1,11 @@
+# Npm + yarn files
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Typescript compiler output directory
+build/
+
+# Nyc (test coverage) files
+coverage/
+.nyc_output/
