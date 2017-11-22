@@ -1,0 +1,7 @@
+# Npm + yarn files
+node_modules
+npm-debug.log*
+npm-error.log*
+package-lock.json
+yarn-debug.log*
+yarn-error.log*

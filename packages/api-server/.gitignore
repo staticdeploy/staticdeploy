@@ -1,9 +1,3 @@
-# Npm + yarn files
-/node_modules
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # Typescript compiler output directory
 /build
 

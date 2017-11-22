@@ -1,12 +1,6 @@
-# npm & yarn
-/node_modules
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# dotenv
+# dotenv file
 .env
 
-# react-scripts
+# react-scripts directories
 /build
 /coverage
