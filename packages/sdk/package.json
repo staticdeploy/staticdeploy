@@ -1,0 +1,49 @@
+{
+  "name": "@staticdeploy/sdk",
+  "description": "staticdeploy sdk",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "homepage": "https://github.com/staticdeploy/staticdeploy",
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:tslint",
+    "test": "TS_NODE_CACHE=false NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "coverage": "nyc -r html -r lcov -r text-summary --extension .ts npm test"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.5",
+    "@types/mocha": "^2.2.44",
+    "@types/nock": "^8.2.1",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nock": "^9.1.0",
+    "nyc": "^11.3.0",
+    "prettier": "^1.8.0",
+    "ts-node": "^3.1.0",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "typescript": "^2.6.1"
+  },
+  "dependencies": {
+    "axios": "^0.17.1"
+  }
+}
