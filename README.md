@@ -6,15 +6,15 @@ This is the main repo for staticdeploy projects:
 
 **[Server side]**
 
-* [api-server](./api-server)
-* [static-server](./static-server)
+* [api-server](./packages/api-server)
+* [static-server](./packages/static-server)
 
 **[Client side]**
 
-* [sdk](./sdk)
-* [cli](./cli)
-* [app](./app)
+* [sdk](./packages/sdk)
+* [cli](./packages/cli)
+* [app](./packages/app)
 
 **[Documentation]**
 
-* [docs](./docs)
+* [docs](./packages/docs)
