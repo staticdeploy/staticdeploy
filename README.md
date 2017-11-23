@@ -4,8 +4,17 @@ Deploy and configure your static apps with ease.
 
 This is the main repo for staticdeploy projects:
 
-- [api-server](./api-server)
-- [static-server](./static-server)
-- [app](./app)
-- [cli](./cli)
-- [docs](./docs)
+**[Server side]**
+
+* [api-server](./api-server)
+* [static-server](./static-server)
+
+**[Client side]**
+
+* [sdk](./sdk)
+* [cli](./cli)
+* [app](./app)
+
+**[Documentation]**
+
+* [docs](./docs)

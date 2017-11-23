@@ -7,10 +7,8 @@
 
 ## Concepts
 
-
 ## Architecture
 
 * [Overview](./architecture/overview.md)
 
 ## Architectural Decision Records
-
