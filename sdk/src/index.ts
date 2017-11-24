@@ -9,11 +9,11 @@ export default class StaticdeployClient {
     public deployments: DeploymentsClient;
     public entrypoints: EntrypointsClient;
 
-    constructor(apiUrl: string, apiToken: string) {
+    constructor(config: { apiUrl: string; apiToken: string }) {
         const axios = Axios.create({
-            baseURL: apiUrl,
+            baseURL: config.apiUrl,
             headers: {
-                Authorization: `Bearer ${apiToken}`
+                Authorization: `Bearer ${config.apiToken}`
             },
             withCredentials: true
         });

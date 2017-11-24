@@ -33,27 +33,11 @@ export default class AppsClient {
         await this.axios.delete(`/apps/${id}`);
     }
 
-    async updateName(id: string, name: string): Promise<IApp> {
-        const result = await this.axios.put(
-            `/apps/${id}/name`,
-            JSON.stringify(name),
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-        return result.data;
-    }
-
-    async updateDefaultConfiguration(
+    async update(
         id: string,
-        defaultConfiguration: IConfiguration
+        patch: { name?: string; defaultConfiguration?: IConfiguration }
     ): Promise<IApp> {
-        const result = await this.axios.put(
-            `/apps/${id}/defaultConfiguration`,
-            defaultConfiguration
-        );
+        const result = await this.axios.patch(`/apps/${id}`, patch);
         return result.data;
     }
 }

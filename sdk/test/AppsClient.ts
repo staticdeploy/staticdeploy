@@ -17,22 +17,18 @@ describe("AppsClient", () => {
         it("requests GET /apps", async () => {
             const scope = nock(baseUrl)
                 .get("/apps")
-                .reply(200, [
-                    { id: "id", name: "name", defaultConfiguration: {} }
-                ]);
+                .reply(200);
             await appsClient.getAll();
             scope.done();
         });
         it("returns a list of apps", async () => {
             nock(baseUrl)
                 .get("/apps")
-                .reply(200, [
-                    { id: "id", name: "name", defaultConfiguration: {} }
-                ]);
+                // For testing it's enough to simulate the API returning an
+                // empty array
+                .reply(200, []);
             const apps = await appsClient.getAll();
-            expect(apps).to.deep.equal([
-                { id: "id", name: "name", defaultConfiguration: {} }
-            ]);
+            expect(apps).to.deep.equal([]);
         });
     });
 
@@ -40,11 +36,7 @@ describe("AppsClient", () => {
         it("requests GET /apps/:appId", async () => {
             const scope = nock(baseUrl)
                 .get("/apps/id")
-                .reply(200, {
-                    id: "id",
-                    name: "name",
-                    defaultConfiguration: {}
-                });
+                .reply(200);
             await appsClient.getOne("id");
             scope.done();
         });
@@ -69,11 +61,7 @@ describe("AppsClient", () => {
         it("requests POST /apps", async () => {
             const scope = nock(baseUrl)
                 .post("/apps", { name: "name" })
-                .reply(201, {
-                    id: "id",
-                    name: "name",
-                    defaultConfiguration: {}
-                });
+                .reply(201);
             await appsClient.create({ name: "name" });
             scope.done();
         });
@@ -104,64 +92,27 @@ describe("AppsClient", () => {
         });
     });
 
-    describe("updateName", () => {
-        it("requests PUT /apps/:appId/name", async () => {
-            const scope = nock(baseUrl, {
-                reqheaders: { "Content-Type": "application/json" }
-            })
-                .put("/apps/id/name", '"new-name"')
-                .reply(200, {
-                    id: "id",
-                    name: "new-name",
-                    defaultConfiguration: {}
-                });
-            await appsClient.updateName("id", "new-name");
+    describe("update", () => {
+        it("requests PATCH /apps/:appId", async () => {
+            const scope = nock(baseUrl)
+                .patch("/apps/id", { name: "new-name" })
+                .reply(200);
+            await appsClient.update("id", { name: "new-name" });
             scope.done();
         });
         it("returns the updated app", async () => {
             nock(baseUrl)
-                .put("/apps/id/name", '"new-name"')
+                .patch("/apps/id", { name: "new-name" })
                 .reply(200, {
                     id: "id",
                     name: "new-name",
                     defaultConfiguration: {}
                 });
-            const app = await appsClient.updateName("id", "new-name");
+            const app = await appsClient.update("id", { name: "new-name" });
             expect(app).to.deep.equal({
                 id: "id",
                 name: "new-name",
                 defaultConfiguration: {}
-            });
-        });
-    });
-
-    describe("updateDefaultConfiguration", () => {
-        it("requests PUT /apps/:appId/defaultConfiguration", async () => {
-            const scope = nock(baseUrl)
-                .put("/apps/id/defaultConfiguration", { key: "value" })
-                .reply(200, {
-                    id: "id",
-                    name: "name",
-                    defaultConfiguration: { key: "value" }
-                });
-            await appsClient.updateDefaultConfiguration("id", { key: "value" });
-            scope.done();
-        });
-        it("returns the updated app", async () => {
-            nock(baseUrl)
-                .put("/apps/id/defaultConfiguration", { key: "value" })
-                .reply(200, {
-                    id: "id",
-                    name: "name",
-                    defaultConfiguration: { key: "value" }
-                });
-            const app = await appsClient.updateDefaultConfiguration("id", {
-                key: "value"
-            });
-            expect(app).to.deep.equal({
-                id: "id",
-                name: "name",
-                defaultConfiguration: { key: "value" }
             });
         });
     });

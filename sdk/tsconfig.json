@@ -3,9 +3,20 @@
         "src/**/*.ts"
     ],
     "compilerOptions": {
-        "target": "ES5",
+        "target": "es2017",
         "lib": [
             "es2015"
+        ],
+        // yarn (through lerna) hoist dependencies of all workspaces in the
+        // project root. Since some @types packages conflict with each other
+        // (for example jest and mocha, both defining global `beforeEach`), we
+        // can't use the compiler's default behaviour of loading all @types
+        // packages, and we need to manually specify the required ones
+        // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
+        "types": [
+            "@types/chai",
+            "@types/mocha",
+            "@types/nock"
         ],
         "module": "commonjs",
         "moduleResolution": "node",
