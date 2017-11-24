@@ -21,4 +21,4 @@ Deploy and configure your static apps with ease.
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.mg).
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
