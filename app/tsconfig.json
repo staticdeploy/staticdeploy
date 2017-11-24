@@ -6,6 +6,18 @@
       "es2017",
       "dom"
     ],
+    "types": [
+      "@types/enzyme",
+      "@types/enzyme-adapter-react-16",
+      "@types/express",
+      "@types/faker",
+      "@types/jest",
+      "@types/lodash",
+      "@types/node",
+      "@types/react",
+      "@types/react-dom",
+      "@types/react-router-dom"
+    ],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
