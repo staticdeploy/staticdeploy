@@ -1,0 +1,22 @@
+{
+  "name": "@staticdeploy/staticdeploy",
+  "description": "staticdeploy project",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "api-server",
+    "app",
+    "cli",
+    "docs",
+    "sdk"
+  ],
+  "license": "MIT",
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  }
+}
