@@ -10,7 +10,7 @@ interface IRequest extends Request {
 }
 
 export default convroute({
-    path: "/entrypoint/:entrypointId",
+    path: "/entrypoints/:entrypointId",
     method: "delete",
     description: "Delete entrypoint",
     tags: ["entrypoints"],
