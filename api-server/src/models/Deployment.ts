@@ -25,8 +25,7 @@ export default class Deployment extends Model<Deployment> {
     entrypoint: Entrypoint;
 
     @Column({
-        type: DataType.TEXT,
-        primaryKey: true
+        type: DataType.TEXT
     })
     description: string;
 

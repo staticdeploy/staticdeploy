@@ -45,9 +45,7 @@ export default convroute({
 
         // Find all deployments
         const deployments = await Deployment.findAll({
-            where: {
-                ...filterEntrypoint ? { entrypointId: filterEntrypoint.id } : {}
-            }
+            where: filterEntrypoint ? { entrypointId: filterEntrypoint.id } : {}
         });
 
         // Respond to the client
