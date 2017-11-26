@@ -46,7 +46,8 @@ export default class Entrypoint extends Model<Entrypoint> {
 
     @Column({
         type: DataType.STRING,
-        references: { model: "deployments", key: "id" },
+        // TODO: figure out how to set a reference
+        // references: { model: "Deployment", key: "id" },
         allowNull: true
     })
     activeDeploymentId: string | null;

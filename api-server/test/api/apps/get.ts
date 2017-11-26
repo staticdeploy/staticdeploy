@@ -9,16 +9,13 @@ import App from "models/App";
 
 describe("api GET /apps", () => {
     let server: Express;
-    const apps: any[] = [];
     const token = sign({ sub: "sub" }, JWT_SECRET);
 
     before(async () => {
         server = await getApp();
         await App.destroy({ where: {} });
-        apps.push(
-            await App.create({ id: "app", name: "app" }),
-            await App.create({ id: "other-app", name: "other-app" })
-        );
+        await App.create({ id: "1", name: "1" });
+        await App.create({ id: "2", name: "2" });
     });
 
     it("200 and returns all apps", async () => {
@@ -28,8 +25,8 @@ describe("api GET /apps", () => {
             .expect(200);
         expect(response.body).to.have.length(2);
         expect(response.body.map((app: App) => app.id)).to.deep.equal([
-            "app",
-            "other-app"
+            "1",
+            "2"
         ]);
     });
 });
