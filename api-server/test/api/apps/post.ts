@@ -14,7 +14,7 @@ describe("api POST /apps", () => {
     before(async () => {
         server = await getApp();
         await App.destroy({ where: {} });
-        await App.create({ id: "app", name: "app" });
+        await App.create({ id: "1", name: "1" });
     });
 
     it("400 on invalid request body", () => {
@@ -32,7 +32,7 @@ describe("api POST /apps", () => {
         return request(server)
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
-            .send({ name: "app" })
+            .send({ name: "1" })
             .expect(409);
     });
 
@@ -40,9 +40,9 @@ describe("api POST /apps", () => {
         const response = await request(server)
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
-            .send({ name: "other-app" })
+            .send({ name: "2" })
             .expect(201);
-        const app = await App.findOne({ where: { name: "other-app" } });
+        const app = await App.findOne({ where: { name: "2" } });
         expect(app).not.to.equal(null);
         expect(response.body.id).to.deep.equal((app as App).id);
     });
