@@ -7,12 +7,17 @@ import logger from "services/logger";
 logger.debug("Server config", { config });
 
 (async () => {
-    const app = await getApp();
-    createServer()
-        .on("request", app)
-        .listen(config.PORT, () => {
-            logger.info(
-                `Server listening on ${config.HOSTNAME}:${config.PORT}`
-            );
-        });
+    try {
+        const app = await getApp();
+        createServer()
+            .on("request", app)
+            .listen(config.PORT, () => {
+                logger.info(
+                    `Server listening on ${config.HOSTNAME}:${config.PORT}`
+                );
+            });
+    } catch (err) {
+        logger.error(err, "Error boostrapping app");
+        process.exit(1);
+    }
 })();

@@ -2,7 +2,8 @@ import { Request } from "express";
 
 import convroute from "common/convroute";
 import generateId from "common/generateId";
-import App, { schema } from "models/App";
+import * as schemas from "common/schemas";
+import App from "models/App";
 
 interface IRequest extends Request {
     body: {
@@ -10,6 +11,16 @@ interface IRequest extends Request {
         defaultConfiguration?: App["defaultConfiguration"];
     };
 }
+
+const bodySchema = {
+    type: "object",
+    properties: {
+        name: schemas.appName,
+        defaultConfiguration: schemas.configuration
+    },
+    required: ["name"],
+    additionalProperties: false
+};
 
 export default convroute({
     path: "/apps",
@@ -21,7 +32,7 @@ export default convroute({
             name: "app",
             in: "body",
             required: true,
-            schema: schema
+            schema: bodySchema
         }
     ],
     responses: {
@@ -31,20 +42,26 @@ export default convroute({
     },
     handler: async (req: IRequest, res) => {
         const { body } = req;
-        const existingApp = await App.findOne({
+
+        // Ensure no app with the same name exists
+        const conflictingApp = await App.findOne({
             where: { name: body.name }
         });
-        if (existingApp) {
+        if (conflictingApp) {
             res.status(409).send({
                 message: `An app with name = ${body.name} already exists`
             });
-        } else {
-            const app = await App.create({
-                id: generateId(),
-                name: body.name,
-                defaultConfiguration: body.defaultConfiguration
-            });
-            res.status(201).send(app);
+            return;
         }
+
+        // Create the app
+        const app = await App.create({
+            id: generateId(),
+            name: body.name,
+            defaultConfiguration: body.defaultConfiguration
+        });
+
+        // Respond to the client
+        res.status(201).send(app);
     }
 });

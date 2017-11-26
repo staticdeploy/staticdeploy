@@ -1,23 +1,13 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import {
+    Column,
+    CreatedAt,
+    DataType,
+    Model,
+    Table,
+    UpdatedAt
+} from "sequelize-typescript";
 
-export const schema = {
-    type: "object",
-    properties: {
-        name: {
-            type: "string",
-            pattern: "^[a-zA-Z0-9-]+$",
-            minLength: 1,
-            maxLength: 255
-        },
-        defaultConfiguration: {
-            type: "object",
-            patternProperties: { ".*": { type: "string" } },
-            additionalProperties: false
-        }
-    },
-    required: ["name"],
-    additionalProperties: false
-};
+import IConfiguration from "common/IConfiguration";
 
 @Table
 export default class App extends Model<App> {
@@ -37,7 +27,9 @@ export default class App extends Model<App> {
         allowNull: false,
         defaultValue: {}
     })
-    defaultConfiguration: {
-        [key: string]: string;
-    };
+    defaultConfiguration: IConfiguration;
+
+    @CreatedAt createdAt: Date;
+
+    @UpdatedAt updatedAt: Date;
 }
