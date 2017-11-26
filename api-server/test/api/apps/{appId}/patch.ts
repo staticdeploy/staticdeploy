@@ -14,18 +14,18 @@ describe("api PATCH /apps/:appId", () => {
     before(async () => {
         server = await getApp();
         await App.destroy({ where: {} });
-        await App.create({ id: "app", name: "app" });
-        await App.create({ id: "other-app", name: "other-app" });
+        await App.create({ id: "1", name: "1" });
+        await App.create({ id: "2", name: "2" });
     });
 
-    it("400 on validation failed", async () => {
+    it("400 on invalid request body", async () => {
         await request(server)
-            .patch("/apps/app")
-            .send({ name: "new_name" })
+            .patch("/apps/1")
+            .send({ name: "3_" })
             .set("Authorization", `Bearer ${token}`)
             .expect(400);
         await request(server)
-            .patch("/apps/app")
+            .patch("/apps/1")
             .send({ defaultConfiguration: { key: {} } })
             .set("Authorization", `Bearer ${token}`)
             .expect(400);
@@ -33,7 +33,7 @@ describe("api PATCH /apps/:appId", () => {
 
     it("404 on app not found", () => {
         return request(server)
-            .patch("/apps/non-existing")
+            .patch("/apps/3")
             .send({})
             .set("Authorization", `Bearer ${token}`)
             .expect(404);
@@ -41,32 +41,27 @@ describe("api PATCH /apps/:appId", () => {
 
     it("409 on existing app != selected app with name == newName", () => {
         return request(server)
-            .patch("/apps/app")
-            .send({ name: "other-app" })
+            .patch("/apps/1")
+            .send({ name: "2" })
             .set("Authorization", `Bearer ${token}`)
             .expect(409);
     });
 
     it("no 409 on no existing app != selected app with name = newName", () => {
         return request(server)
-            .patch("/apps/app")
-            .send({ name: "app" })
+            .patch("/apps/1")
+            .send({ name: "1" })
             .set("Authorization", `Bearer ${token}`)
             .expect(200);
     });
 
     it("200 on app updated, updates app and returns it", async () => {
         const response = await request(server)
-            .patch("/apps/app")
-            .send({ name: "new-name", defaultConfiguration: { key: "value" } })
+            .patch("/apps/1")
+            .send({ name: "3" })
             .set("Authorization", `Bearer ${token}`)
             .expect(200);
-        expect(response.body).to.have.property("id", "app");
-        expect(response.body).to.have.property("name", "new-name");
-        expect(response.body)
-            .to.have.property("defaultConfiguration")
-            .that.deep.equals({
-                key: "value"
-            });
+        expect(response.body).to.have.property("id", "1");
+        expect(response.body).to.have.property("name", "3");
     });
 });
