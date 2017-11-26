@@ -6,6 +6,7 @@ import request = require("supertest");
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
 import App from "models/App";
+import insertFixtures from "../../insertFixtures";
 
 describe("api GET /apps", () => {
     let server: Express;
@@ -13,9 +14,9 @@ describe("api GET /apps", () => {
 
     before(async () => {
         server = await getApp();
-        await App.destroy({ where: {} });
-        await App.create({ id: "1", name: "1" });
-        await App.create({ id: "2", name: "2" });
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }, { id: "2", name: "2" }]
+        });
     });
 
     it("200 and returns all apps", async () => {

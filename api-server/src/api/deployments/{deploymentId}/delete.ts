@@ -10,7 +10,7 @@ interface IRequest extends Request {
 }
 
 export default convroute({
-    path: "/deploymenty/:deploymentId",
+    path: "/deployments/:deploymentId",
     method: "delete",
     description: "Delete deployment",
     tags: ["deployments"],

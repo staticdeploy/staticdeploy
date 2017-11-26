@@ -6,6 +6,7 @@ import request = require("supertest");
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
 import App from "models/App";
+import insertFixtures from "../../insertFixtures";
 
 describe("api POST /apps", () => {
     let server: Express;
@@ -13,8 +14,9 @@ describe("api POST /apps", () => {
 
     before(async () => {
         server = await getApp();
-        await App.destroy({ where: {} });
-        await App.create({ id: "1", name: "1" });
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }]
+        });
     });
 
     it("400 on invalid request body", () => {

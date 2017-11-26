@@ -5,8 +5,8 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import App from "models/App";
 import Entrypoint from "models/Entrypoint";
+import insertFixtures from "../../insertFixtures";
 
 describe("api POST /entrypoints", () => {
     let server: Express;
@@ -14,10 +14,10 @@ describe("api POST /entrypoints", () => {
 
     before(async () => {
         server = await getApp();
-        await Entrypoint.destroy({ where: {} });
-        await App.destroy({ where: {} });
-        await App.create({ id: "1", name: "1" });
-        await Entrypoint.create({ id: "1", appId: "1", urlMatcher: "1" });
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+        });
     });
 
     it("400 on invalid request body", () => {

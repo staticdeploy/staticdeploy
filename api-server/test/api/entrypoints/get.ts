@@ -5,8 +5,8 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import App from "models/App";
 import Entrypoint from "models/Entrypoint";
+import insertFixtures from "../../insertFixtures";
 
 describe("api GET /entrypoints", () => {
     let server: Express;
@@ -14,12 +14,13 @@ describe("api GET /entrypoints", () => {
 
     before(async () => {
         server = await getApp();
-        await Entrypoint.destroy({ where: {} });
-        await App.destroy({ where: {} });
-        await App.create({ id: "1", name: "1" });
-        await App.create({ id: "2", name: "2" });
-        await Entrypoint.create({ id: "1", appId: "1", urlMatcher: "1" });
-        await Entrypoint.create({ id: "2", appId: "2", urlMatcher: "2" });
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }, { id: "2", name: "2" }],
+            entrypoints: [
+                { id: "1", appId: "1", urlMatcher: "1" },
+                { id: "2", appId: "2", urlMatcher: "2" }
+            ]
+        });
     });
 
     it("404 on non-existing filter app", () => {

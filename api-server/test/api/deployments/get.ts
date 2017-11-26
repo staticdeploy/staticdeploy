@@ -5,24 +5,26 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import App from "models/App";
 import Deployment from "models/Deployment";
-import Entrypoint from "models/Entrypoint";
+import insertFixtures from "../../insertFixtures";
 
-describe.only("api GET /deployments", () => {
+describe("api GET /deployments", () => {
     let server: Express;
     const token = sign({ sub: "sub" }, JWT_SECRET);
 
     before(async () => {
         server = await getApp();
-        await Deployment.destroy({ where: {} });
-        await Entrypoint.destroy({ where: {} });
-        await App.destroy({ where: {} });
-        await App.create({ id: "1", name: "1" });
-        await Entrypoint.create({ id: "1", appId: "1", urlMatcher: "1" });
-        await Entrypoint.create({ id: "2", appId: "1", urlMatcher: "2" });
-        await Deployment.create({ id: "1", entrypointId: "1" });
-        await Deployment.create({ id: "2", entrypointId: "2" });
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }],
+            entrypoints: [
+                { id: "1", appId: "1", urlMatcher: "1" },
+                { id: "2", appId: "1", urlMatcher: "2" }
+            ],
+            deployments: [
+                { id: "1", entrypointId: "1" },
+                { id: "2", entrypointId: "2" }
+            ]
+        });
     });
 
     it("404 on non-existing filter entrypoint", () => {
