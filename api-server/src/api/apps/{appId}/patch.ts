@@ -2,9 +2,9 @@ import convroute from "common/convroute";
 import App, { schema } from "models/App";
 
 export default convroute({
-    path: "/apps/:appId/name",
-    method: "put",
-    description: "Update app name",
+    path: "/apps/:appId",
+    method: "patch",
+    description: "Update app",
     tags: ["apps"],
     parameters: [
         {
@@ -13,15 +13,15 @@ export default convroute({
             type: "string"
         },
         {
-            name: "appName",
+            name: "patch",
             in: "body",
             required: true,
-            schema: schema.properties.name
+            schema: { ...schema, required: [] }
         }
     ],
     responses: {
-        "200": { description: "App name updated, returns the app" },
-        "400": { description: "name validation failed" },
+        "200": { description: "App updated, returns the app" },
+        "400": { description: "Patch validation failed" },
         "404": { description: "App not found" },
         "409": { description: "App with same name already exists" }
     },
@@ -34,15 +34,19 @@ export default convroute({
             });
             return;
         }
-        const newName = req.body;
-        const appWithSameName = await App.findOne({ where: { name: newName } });
-        if (appWithSameName && appWithSameName.id !== app.id) {
-            res.status(409).send({
-                message: `An app with name = ${newName} already exists`
+        const patch = req.body;
+        if (patch.name) {
+            const appWithSameName = await App.findOne({
+                where: { name: patch.name }
             });
-            return;
+            if (appWithSameName && appWithSameName.id !== app.id) {
+                res.status(409).send({
+                    message: `An app with name = ${patch.name} already exists`
+                });
+                return;
+            }
         }
-        await app.update({ name: newName });
+        await app.update(patch);
         res.status(200).send(app);
     }
 });
