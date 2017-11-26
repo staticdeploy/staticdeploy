@@ -2,6 +2,7 @@ import {
     BelongsTo,
     Column,
     CreatedAt,
+    DataType,
     ForeignKey,
     Model,
     Table
@@ -22,6 +23,12 @@ export default class Deployment extends Model<Deployment> {
 
     @BelongsTo(() => Entrypoint)
     entrypoint: Entrypoint;
+
+    @Column({
+        type: DataType.TEXT,
+        primaryKey: true
+    })
+    description: string;
 
     @CreatedAt createdAt: Date;
 }

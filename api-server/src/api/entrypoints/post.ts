@@ -53,7 +53,7 @@ export default convroute({
     responses: {
         "201": { description: "Entrypoint created, returns the entrypoint" },
         "400": { description: "Body validation failed" },
-        "404": { description: "App with the specified id doesn't exist" },
+        "404": { description: "Linked app not found" },
         "409": { description: "Entrypoint with same urlMatcher already exists" }
     },
     handler: async (req: IRequest, res) => {

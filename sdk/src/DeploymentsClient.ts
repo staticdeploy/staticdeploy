@@ -5,6 +5,7 @@ import parseDates from "./parseDates";
 export interface IDeployment {
     id: string;
     entrypointId: string;
+    description: string;
     createdAt: Date;
 }
 
@@ -12,7 +13,6 @@ export default class DeploymentClient {
     constructor(private axios: AxiosInstance) {}
 
     async getAll(filter?: {
-        appIdOrName?: string;
         entrypointIdOrUrlMatcher?: string;
     }): Promise<IDeployment[]> {
         const result = await this.axios.get("/deployments", { params: filter });
@@ -20,10 +20,11 @@ export default class DeploymentClient {
     }
 
     async create(deployment: {
-        appIdOrName?: string;
-        entrypointIdOrUrlMatcher?: string;
+        entrypointIdOrUrlMatcher: string;
         /** base64 string of the tar.gz directory */
         content: string;
+        appIdOrName?: string;
+        description?: string;
     }): Promise<IDeployment> {
         const result = await this.axios.post("/deployments", deployment);
         return parseDates(result.data);

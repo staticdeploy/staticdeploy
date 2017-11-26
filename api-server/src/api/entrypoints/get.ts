@@ -18,7 +18,8 @@ export default convroute({
     tags: ["entrypoints"],
     parameters: [{ name: "appIdOrName", in: "query" }],
     responses: {
-        "200": { description: "Returns an array of all entrypoints" }
+        "200": { description: "Returns an array of all entrypoints" },
+        "404": { description: "Filter app not found" }
     },
     handler: async (req: IRequest, res) => {
         const { query } = req;
