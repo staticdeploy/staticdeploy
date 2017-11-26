@@ -8,17 +8,25 @@ import getApp from "getApp";
 import App from "models/App";
 import Entrypoint from "models/Entrypoint";
 
-describe.only("api GET /entrypoints", () => {
+describe("api GET /entrypoints", () => {
     let server: Express;
     const token = sign({ sub: "sub" }, JWT_SECRET);
 
     before(async () => {
         server = await getApp();
         await Entrypoint.destroy({ where: {} });
+        await App.destroy({ where: {} });
         await App.create({ id: "1", name: "1" });
         await App.create({ id: "2", name: "2" });
         await Entrypoint.create({ id: "1", appId: "1", urlMatcher: "1" });
         await Entrypoint.create({ id: "2", appId: "2", urlMatcher: "2" });
+    });
+
+    it("404 on non-existing filter app", () => {
+        return request(server)
+            .get("/entrypoints?appIdOrName=3")
+            .set("Authorization", `Bearer ${token}`)
+            .expect(404);
     });
 
     it("filters entrypoints by appIdOrName", async () => {
