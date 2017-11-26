@@ -1,8 +1,11 @@
 import { AxiosInstance } from "axios";
 
+import parseDates from "./parseDates";
+
 export interface IDeployment {
     id: string;
     entrypointId: string;
+    createdAt: Date;
 }
 
 export default class DeploymentClient {
@@ -13,7 +16,7 @@ export default class DeploymentClient {
         entrypointIdOrUrlMatcher?: string;
     }): Promise<IDeployment[]> {
         const result = await this.axios.get("/deployments", { params: filter });
-        return result.data;
+        return result.data.map(parseDates);
     }
 
     async create(deployment: {
@@ -23,7 +26,7 @@ export default class DeploymentClient {
         content: string;
     }): Promise<IDeployment> {
         const result = await this.axios.post("/deployments", deployment);
-        return result.data;
+        return parseDates(result.data);
     }
 
     async delete(id: string): Promise<void> {

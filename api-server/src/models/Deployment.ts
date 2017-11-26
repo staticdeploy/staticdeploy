@@ -4,8 +4,7 @@ import {
     CreatedAt,
     ForeignKey,
     Model,
-    Table,
-    UpdatedAt
+    Table
 } from "sequelize-typescript";
 
 import Entrypoint from "models/Entrypoint";
@@ -25,6 +24,4 @@ export default class Deployment extends Model<Deployment> {
     entrypoint: Entrypoint;
 
     @CreatedAt createdAt: Date;
-
-    @UpdatedAt updatedAt: Date;
 }
