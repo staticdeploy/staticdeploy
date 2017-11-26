@@ -1,10 +1,10 @@
-/* tslint:disable */
 // This polyfill must be set before require-ing enzyme libs
-// TODO: remove once jest issue #4545 is resolved
-(global as any).requestAnimationFrame = (callback: any) => {
+global.requestAnimationFrame = callback => {
     setTimeout(callback, 0);
 };
-
+require("ignore-styles");
+require("ts-node/register");
+require("jsdom-global/register");
 const { configure } = require("enzyme");
 const Adapter = require("enzyme-adapter-react-16");
 

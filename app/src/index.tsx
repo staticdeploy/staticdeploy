@@ -1,7 +1,7 @@
 import LocaleProvider from "antd/lib/locale-provider";
 import enUS from "antd/lib/locale-provider/en_US";
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 
 import "./index.css";

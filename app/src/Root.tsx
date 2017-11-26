@@ -1,14 +1,14 @@
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import Menu from "antd/lib/menu";
-import React, { Component } from "react";
+import * as React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 
 import Logo from "./components/Logo";
 import Home from "./pages/Home";
 import "./root.css";
 
-export default class Root extends Component {
+export default class Root extends React.Component {
     renderRoutes() {
         return (
             <Switch>
