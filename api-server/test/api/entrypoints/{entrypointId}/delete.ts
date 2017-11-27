@@ -12,7 +12,7 @@ describe("api DELETE /entrypoints/:entrypointId", () => {
     let server: Express;
     const token = sign({ sub: "sub" }, JWT_SECRET);
 
-    before(async () => {
+    beforeEach(async () => {
         server = await getApp();
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
