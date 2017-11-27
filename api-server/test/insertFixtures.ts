@@ -1,3 +1,6 @@
+import { execSync } from "child_process";
+
+import { DEPLOYMENTS_PATH } from "config";
 import App from "models/App";
 import Deployment from "models/Deployment";
 import Entrypoint from "models/Entrypoint";
@@ -9,6 +12,8 @@ interface IData {
 }
 
 export default async function insertFixtures(data: IData) {
+    execSync(`rm -r ${DEPLOYMENTS_PATH}`);
+    execSync(`mkdir -p ${DEPLOYMENTS_PATH}`);
     await Deployment.destroy({ where: {} });
     await Entrypoint.destroy({ where: {} });
     await App.destroy({ where: {} });
