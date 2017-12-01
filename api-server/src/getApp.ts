@@ -8,11 +8,11 @@ import * as config from "config";
 import * as databaseHC from "healthChecks/database";
 import authenticateRequest from "middleware/authenticateRequest";
 import logger from "services/logger";
-import sequelize from "services/sequelize";
+import { migrate } from "services/migrator";
 
 export default async function getApp(): Promise<express.Express> {
-    // Init sequelize
-    await sequelize.sync({});
+    // Init database
+    await migrate();
 
     // Init filesystem
     await exec(`mkdir -p ${config.DEPLOYMENTS_PATH}`);

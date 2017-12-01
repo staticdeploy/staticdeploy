@@ -3,6 +3,7 @@ import {
     CreatedAt,
     DataType,
     Model,
+    PrimaryKey,
     Table,
     UpdatedAt
 } from "sequelize-typescript";
@@ -11,22 +12,13 @@ import IConfiguration from "common/IConfiguration";
 
 @Table
 export default class App extends Model<App> {
-    @Column({
-        primaryKey: true
-    })
+    @PrimaryKey
+    @Column
     id: string;
 
-    @Column({
-        allowNull: false,
-        unique: true
-    })
-    name: string;
+    @Column name: string;
 
-    @Column({
-        type: DataType.JSON,
-        allowNull: false,
-        defaultValue: {}
-    })
+    @Column({ type: DataType.JSON })
     defaultConfiguration: IConfiguration;
 
     @CreatedAt createdAt: Date;

@@ -1,33 +1,22 @@
 import {
-    BelongsTo,
     Column,
     CreatedAt,
     DataType,
-    ForeignKey,
     Model,
+    PrimaryKey,
     Table
 } from "sequelize-typescript";
 
-import Entrypoint from "models/Entrypoint";
-
-@Table
+@Table({ timestamps: true, updatedAt: false })
 export default class Deployment extends Model<Deployment> {
-    @Column({
-        primaryKey: true
-    })
+    @PrimaryKey
+    @Column
     id: string;
 
-    @ForeignKey(() => Entrypoint)
-    @Column
-    entrypointId: string;
+    @Column entrypointId: string;
 
-    @BelongsTo(() => Entrypoint)
-    entrypoint: Entrypoint;
-
-    @Column({
-        type: DataType.TEXT
-    })
-    description: string;
+    @Column({ type: DataType.TEXT })
+    description: string | null;
 
     @CreatedAt createdAt: Date;
 }

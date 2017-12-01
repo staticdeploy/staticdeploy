@@ -1,61 +1,33 @@
 import {
-    BelongsTo,
     Column,
     CreatedAt,
     DataType,
-    ForeignKey,
     Model,
+    PrimaryKey,
     Table,
     UpdatedAt
 } from "sequelize-typescript";
 
 import IConfiguration from "common/IConfiguration";
-import App from "models/App";
 
 @Table
 export default class Entrypoint extends Model<Entrypoint> {
-    @Column({
-        primaryKey: true
-    })
+    @PrimaryKey
+    @Column
     id: string;
 
-    @ForeignKey(() => App)
-    @Column
-    appId: string;
+    @Column appId: string;
 
-    @BelongsTo(() => App)
-    app: App;
+    @Column urlMatcher: string;
 
-    @Column({
-        allowNull: false,
-        unique: true
-    })
-    urlMatcher: string;
+    @Column urlMatcherPriority: number;
 
-    @Column({
-        allowNull: false,
-        defaultValue: 0
-    })
-    urlMatcherPriority: number;
+    @Column smartRoutingEnabled: boolean;
 
-    @Column({
-        allowNull: false,
-        defaultValue: true
-    })
-    smartRoutingEnabled: boolean;
-
-    @Column({
-        type: DataType.STRING,
-        // TODO: figure out how to set a reference
-        // references: { model: "Deployment", key: "id" },
-        allowNull: true
-    })
+    @Column({ type: DataType.STRING })
     activeDeploymentId: string | null;
 
-    @Column({
-        type: DataType.JSON,
-        allowNull: true
-    })
+    @Column({ type: DataType.JSON })
     configuration: IConfiguration | null;
 
     @CreatedAt createdAt: Date;
