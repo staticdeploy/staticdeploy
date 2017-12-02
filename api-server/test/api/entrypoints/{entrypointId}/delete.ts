@@ -5,6 +5,7 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import Deployment from "models/Deployment";
 import Entrypoint from "models/Entrypoint";
 import insertFixtures from "../../../insertFixtures";
 
@@ -16,7 +17,8 @@ describe("api DELETE /entrypoints/:entrypointId", () => {
         server = await getApp();
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }],
+            deployments: [{ id: "1", entrypointId: "1" }]
         });
     });
 
@@ -34,5 +36,16 @@ describe("api DELETE /entrypoints/:entrypointId", () => {
             .expect(204);
         const entrypoint = await Entrypoint.findById("1");
         expect(entrypoint).to.equal(null);
+    });
+
+    it("on entrypoint deleted, deletes linked deployments", async () => {
+        await request(server)
+            .delete("/entrypoints/1")
+            .set("Authorization", `Bearer ${token}`)
+            .expect(204);
+        const entrypoint = await Entrypoint.findById("1");
+        expect(entrypoint).to.equal(null);
+        const deployment = await Deployment.findById("1");
+        expect(deployment).to.equal(null);
     });
 });
