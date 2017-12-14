@@ -1,24 +1,22 @@
 // tslint:disable:no-console
+import findUp = require("find-up");
+import fs = require("fs-extra");
 import yargs = require("yargs");
 
-interface IArgv extends yargs.Arguments {
-    apiUrl: string;
-    apiToken: string;
+export interface IArgv extends yargs.Arguments {
+    apiUrl: string | void;
+    apiToken: string | void;
 }
+
+const configPath: string | null = findUp.sync([".staticdeployrc"]);
+const config: object = configPath ? fs.readJsonSync(configPath) : {};
 
 const argv = yargs
     .usage("Usage: $0 <options>")
+    .config(config)
+    .commandDir("../commands")
+    .demandCommand(1)
     .env("STATICDEPLOY")
-    .option("apiUrl", {
-        default: "http://localhost:3000",
-        describe: "Api server url",
-        type: "string"
-    })
-    .option("apiToken", {
-        describe: "Api server auth token",
-        type: "string",
-        demandOption: true
-    })
     .strict().argv as IArgv;
 
-console.log(argv);
+console.log("argv", argv);
