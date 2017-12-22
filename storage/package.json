@@ -1,0 +1,54 @@
+{
+  "name": "@staticdeploy/storage",
+  "description": "staticdeploy storage module",
+  "version": "0.0.0",
+  "private": true,
+  "main": "lib/index.js",
+  "license": "MIT",
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "compile": "rimraf lib && tsc",
+    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:tslint",
+    "test": "TS_NODE_CACHE=false NODE_ENV=test NODE_PATH=src mocha --exit -t 5000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "coverage": "nyc -r html -r lcov -r text-summary --extension .ts npm test"
+  },
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "mz": "^2.7.0",
+    "sequelize": "^4.28.6",
+    "sqlite3": "^3.1.13",
+    "tar": "^4.1.1",
+    "umzug": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.5",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/fs-extra": "^5.0.0",
+    "@types/mocha": "^2.2.44",
+    "@types/mz": "^0.0.32",
+    "@types/tar": "^4.0.0",
+    "@types/umzug": "^2.0.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "create-fs-tree": "^1.0.0",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0",
+    "prettier": "^1.8.2",
+    "rimraf": "^2.6.2",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "typescript": "^2.6.1"
+  }
+}
