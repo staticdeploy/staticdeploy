@@ -7,7 +7,7 @@ import Sequelize = require("sequelize");
 
 import StorageClient from "../src";
 import migrate from "../src/migrate";
-import getModels from "../src/models";
+import getModels, { IModels } from "../src/models";
 
 chai.use(chaiAsPromised);
 
@@ -22,9 +22,9 @@ export const storageClient = new StorageClient({
 });
 
 const sequelize = new Sequelize(databaseUrl, { logging: false });
-export const models = getModels(sequelize);
+export const models: IModels = getModels(sequelize);
 
-interface IData {
+export interface IData {
     apps?: any[];
     deployments?: any[];
     entrypoints?: any[];

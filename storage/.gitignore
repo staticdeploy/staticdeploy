@@ -1,5 +1,5 @@
 # Typescript compiler output directory
-/build
+/lib
 
 # Nyc (test coverage) files
 /coverage

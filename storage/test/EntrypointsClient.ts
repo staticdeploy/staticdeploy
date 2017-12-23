@@ -1,5 +1,6 @@
 import { expect } from "chai";
 
+import * as errors from "../src/utils/errors";
 import { insertFixtures, models, storageClient } from "./setup";
 
 describe("EntrypointsClient.findOneById", () => {
@@ -16,28 +17,6 @@ describe("EntrypointsClient.findOneById", () => {
     });
     it("if an entrypoint by the specified id doesn't exist, returns null", async () => {
         const entrypoint = await storageClient.entrypoints.findOneById("2");
-        expect(entrypoint).to.equal(null);
-    });
-});
-
-describe("EntrypointsClient.findOneByUrlMatcher", () => {
-    beforeEach(async () => {
-        await insertFixtures({
-            apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
-        });
-    });
-    it("if an entrypoint by the specified urlMatcher exists, returns it as a pojo", async () => {
-        const entrypoint = await storageClient.entrypoints.findOneByUrlMatcher(
-            "1"
-        );
-        expect(entrypoint).to.have.property("id", "1");
-        expect(entrypoint).to.have.property("urlMatcher", "1");
-    });
-    it("if an entrypoint by the specified urlMatcher doesn't exist, returns null", async () => {
-        const entrypoint = await storageClient.entrypoints.findOneByUrlMatcher(
-            "2"
-        );
         expect(entrypoint).to.equal(null);
     });
 });
@@ -112,8 +91,31 @@ describe("EntrypointsClient.findAll", () => {
 describe("EntrypointsClient.create", () => {
     beforeEach(async () => {
         await insertFixtures({
-            apps: [{ id: "1", name: "1" }]
+            apps: [{ id: "1", name: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "2" }]
         });
+    });
+    it("throws an AppNotFoundError if the entrypoint links to a non-existing app", async () => {
+        const createPromise = storageClient.entrypoints.create({
+            appId: "2",
+            urlMatcher: "1"
+        });
+        await expect(createPromise).to.be.rejectedWith(errors.AppNotFoundError);
+        await expect(createPromise).to.be.rejectedWith(
+            "No app found with id = 2"
+        );
+    });
+    it("throws a ConflictingEntrypointError if an entrypoint with the same urlMatcher exists", async () => {
+        const createPromise = storageClient.entrypoints.create({
+            appId: "1",
+            urlMatcher: "2"
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.ConflictingEntrypointError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "An entrypoint with urlMatcher = 2 already exists"
+        );
     });
     it("creates an entrypoint", async () => {
         await storageClient.entrypoints.create({ appId: "1", urlMatcher: "1" });
@@ -135,27 +137,62 @@ describe("EntrypointsClient.update", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+            entrypoints: [
+                { id: "1", appId: "1", urlMatcher: "1" },
+                { id: "2", appId: "1", urlMatcher: "2" }
+            ]
         });
     });
-    it("throws an error if no entrypoint with the specified id exists", async () => {
-        const updatePromise = storageClient.entrypoints.update("2", {
-            urlMatcher: "1"
+    it("throws an EntrypointNotFoundError if no entrypoint with the specified id exists", async () => {
+        const updatePromise = storageClient.entrypoints.update("3", {});
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.EntrypointNotFoundError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "No entrypoint found with id = 3"
+        );
+    });
+    it("throws an AppNotFoundError if the entrypoint links to a non-existing app", async () => {
+        const updatePromise = storageClient.entrypoints.update("1", {
+            appId: "2"
+        });
+        await expect(updatePromise).to.be.rejectedWith(errors.AppNotFoundError);
+        await expect(updatePromise).to.be.rejectedWith(
+            "No app found with id = 2"
+        );
+    });
+    it("throws a DeploymentNotFoundError if the entrypoint links to a non-existing deployment", async () => {
+        const updatePromise = storageClient.entrypoints.update("1", {
+            activeDeploymentId: "1"
         });
         await expect(updatePromise).to.be.rejectedWith(
-            "No entrypoint found with id = 2"
+            errors.DeploymentNotFoundError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "No deployment found with id = 1"
+        );
+    });
+    it("throws a ConflictingEntrypointError if an entrypoint with the same urlMatcher exists", async () => {
+        const updatePromise = storageClient.entrypoints.update("1", {
+            urlMatcher: "2"
+        });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.ConflictingEntrypointError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "An entrypoint with urlMatcher = 2 already exists"
         );
     });
     it("updates the entrypoint", async () => {
-        await storageClient.entrypoints.update("1", { urlMatcher: "2" });
+        await storageClient.entrypoints.update("1", { urlMatcher: "3" });
         const entrypointInstance = await models.Entrypoint.findById("1");
-        expect(entrypointInstance!.get("urlMatcher")).to.equal("2");
+        expect(entrypointInstance!.get("urlMatcher")).to.equal("3");
     });
     it("returns the updated entrypoint as a pojo", async () => {
         const entrypoint = await storageClient.entrypoints.update("1", {
-            urlMatcher: "2"
+            urlMatcher: "3"
         });
-        expect(entrypoint).to.have.property("urlMatcher", "2");
+        expect(entrypoint).to.have.property("urlMatcher", "3");
     });
 });
 
@@ -167,8 +204,11 @@ describe("EntrypointsClient.delete", () => {
             deployments: [{ id: "1", entrypointId: "1" }]
         });
     });
-    it("throws an error if no entrypoint with the specified id exists", async () => {
+    it("throws an EntrypointNotFoundError if no entrypoint with the specified id exists", async () => {
         const deletePromise = storageClient.entrypoints.delete("2");
+        await expect(deletePromise).to.be.rejectedWith(
+            errors.EntrypointNotFoundError
+        );
         await expect(deletePromise).to.be.rejectedWith(
             "No entrypoint found with id = 2"
         );

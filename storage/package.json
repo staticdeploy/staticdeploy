@@ -2,8 +2,11 @@
   "name": "@staticdeploy/storage",
   "description": "staticdeploy storage module",
   "version": "0.0.0",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/index.js",
+  "typings": "lib/index.d.js",
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "repository": {
@@ -15,6 +18,7 @@
   },
   "scripts": {
     "compile": "rimraf lib && tsc",
+    "prepublish": "yarn compile",
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",

@@ -4,6 +4,7 @@ import * as path from "path";
 import tar = require("tar");
 
 import IDeployment from "./types/IDeployment";
+import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import toPojo from "./utils/toPojo";
 
@@ -14,9 +15,11 @@ const getBaseDeploymentPath = (deploymentsPath: string, deploymentId: string) =>
 
 export default class DeploymentsClient {
     private Deployment: IModels["Deployment"];
+    private Entrypoint: IModels["Entrypoint"];
     private deploymentsPath: string;
 
     constructor(options: { deploymentsPath: string; models: IModels }) {
+        this.Entrypoint = options.models.Entrypoint;
         this.Deployment = options.models.Deployment;
         this.deploymentsPath = options.deploymentsPath;
     }
@@ -43,6 +46,14 @@ export default class DeploymentsClient {
         content: Buffer;
         description?: string;
     }): Promise<IDeployment> {
+        // Ensure the linked entrypoint exists
+        const linkedEntrypoint = await this.Entrypoint.findById(
+            partial.entrypointId
+        );
+        if (!linkedEntrypoint) {
+            throw new errors.EntrypointNotFoundError(partial.entrypointId);
+        }
+
         const deployment = await this.Deployment.create({
             id: generateId(),
             entrypointId: partial.entrypointId,
@@ -65,10 +76,18 @@ export default class DeploymentsClient {
     }
 
     async delete(id: string): Promise<void> {
+        // Ensure the deployment exists
         const deployment = await this.Deployment.findById(id);
         if (!deployment) {
-            throw new Error(`No deployment found with id = ${id}`);
+            throw new errors.DeploymentNotFoundError(id);
         }
+
+        // Null-ify entrypoint links the deployment
+        await this.Entrypoint.update(
+            { activeDeploymentId: null },
+            { where: { activeDeploymentId: deployment.get("id") } }
+        );
+
         await deployment.destroy();
         const baseDeploymentPath = getBaseDeploymentPath(
             this.deploymentsPath,

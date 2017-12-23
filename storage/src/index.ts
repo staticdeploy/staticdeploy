@@ -6,6 +6,14 @@ import DeploymentsClient from "./DeploymentsClient";
 import EntrypointsClient from "./EntrypointsClient";
 import migrate from "./migrate";
 import getModels from "./models";
+import IHealthCheckResult from "./types/IHealthCheckResult";
+
+export { default as IApp } from "./types/IApp";
+export { default as IConfiguration } from "./types/IConfiguration";
+export { default as IDeployment } from "./types/IDeployment";
+export { default as IEntrypoint } from "./types/IEntrypoint";
+
+export * from "./utils/errors";
 
 export default class StorageClient {
     apps: AppsClient;
@@ -40,5 +48,19 @@ export default class StorageClient {
     async setup() {
         await migrate(this.sequelize);
         await mkdirp(this.deploymentsPath);
+    }
+
+    async checkHealth(): Promise<IHealthCheckResult> {
+        try {
+            await this.sequelize.query("select 1");
+            return {
+                isHealthy: true
+            };
+        } catch (err) {
+            return {
+                isHealthy: false,
+                details: err
+            };
+        }
     }
 }

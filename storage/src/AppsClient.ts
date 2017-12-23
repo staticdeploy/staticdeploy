@@ -4,6 +4,7 @@ import EntrypointsClient from "./EntrypointsClient";
 import { IModels } from "./models";
 import IApp from "./types/IApp";
 import IConfiguration from "./types/IConfiguration";
+import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import toPojo from "./utils/toPojo";
 
@@ -21,11 +22,6 @@ export default class AppsClient {
 
     async findOneById(id: string): Promise<IApp | null> {
         const app = await this.App.findById(id);
-        return toPojo(app);
-    }
-
-    async findOneByName(name: string): Promise<IApp | null> {
-        const app = await this.App.findOne({ where: { name } });
         return toPojo(app);
     }
 
@@ -47,6 +43,14 @@ export default class AppsClient {
         name: string;
         defaultConfiguration?: IConfiguration;
     }): Promise<IApp> {
+        // Ensure no app with the same name exists
+        const conflictingApp = await this.App.findOne({
+            where: { name: partial.name }
+        });
+        if (conflictingApp) {
+            throw new errors.ConflictingAppError(partial.name);
+        }
+
         const app = await this.App.create({
             id: generateId(),
             name: partial.name,
@@ -62,25 +66,41 @@ export default class AppsClient {
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
+        // Ensure the app exists
         const app = await this.App.findById(id);
         if (!app) {
-            throw new Error(`No app found with id = ${id}`);
+            throw new errors.AppNotFoundError(id);
         }
+
+        // Ensure no app with the same name exists
+        if (patch.name && patch.name !== app.get("name")) {
+            const conflictingApp = await this.App.findOne({
+                where: { name: patch.name }
+            });
+            if (conflictingApp) {
+                throw new errors.ConflictingAppError(patch.name);
+            }
+        }
+
         await app.update(patch);
         return toPojo(app);
     }
 
     async delete(id: string): Promise<void> {
+        // Ensure the app exists
         const app = await this.App.findById(id);
         if (!app) {
-            throw new Error(`No app found with id = ${id}`);
+            throw new errors.AppNotFoundError(id);
         }
+
+        // Delete linked entrypoints
         const linkedEntrypoints = await this.entrypointsClient.findManyByAppId(
             id
         );
         for (const entrypoint of linkedEntrypoints) {
             await this.entrypointsClient.delete(entrypoint.id);
         }
+
         await app.destroy();
     }
 }

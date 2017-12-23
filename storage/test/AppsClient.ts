@@ -1,5 +1,6 @@
 import { expect } from "chai";
 
+import * as errors from "../src/utils/errors";
 import { insertFixtures, models, storageClient } from "./setup";
 
 describe("AppsClient.findOneById", () => {
@@ -15,23 +16,6 @@ describe("AppsClient.findOneById", () => {
     });
     it("if an app by the specified id doesn't exist, returns null", async () => {
         const app = await storageClient.apps.findOneById("2");
-        expect(app).to.equal(null);
-    });
-});
-
-describe("AppsClient.findOneByName", () => {
-    beforeEach(async () => {
-        await insertFixtures({
-            apps: [{ id: "1", name: "1" }]
-        });
-    });
-    it("if an app by the specified name exists, returns it as a pojo", async () => {
-        const app = await storageClient.apps.findOneByName("1");
-        expect(app).to.have.property("id", "1");
-        expect(app).to.have.property("name", "1");
-    });
-    it("if an app by the specified name doesn't exist, returns null", async () => {
-        const app = await storageClient.apps.findOneByName("2");
         expect(app).to.equal(null);
     });
 });
@@ -72,7 +56,18 @@ describe("AppsClient.findAll", () => {
 
 describe("AppsClient.create", () => {
     beforeEach(async () => {
-        await insertFixtures({});
+        await insertFixtures({
+            apps: [{ id: "2", name: "2" }]
+        });
+    });
+    it("throws a ConflictingAppError if an app with the same name exists", async () => {
+        const createPromise = storageClient.apps.create({ name: "2" });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.ConflictingAppError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "An app with name = 2 already exists"
+        );
     });
     it("creates an app", async () => {
         await storageClient.apps.create({ name: "1" });
@@ -88,23 +83,33 @@ describe("AppsClient.create", () => {
 describe("AppsClient.update", () => {
     beforeEach(async () => {
         await insertFixtures({
-            apps: [{ id: "1", name: "1" }]
+            apps: [{ id: "1", name: "1" }, { id: "2", name: "2" }]
         });
     });
-    it("throws an error if no app with the specified id exists", async () => {
-        const updatePromise = storageClient.apps.update("2", { name: "2" });
+    it("throws an AppNotFoundError if no app with the specified id exists", async () => {
+        const updatePromise = storageClient.apps.update("3", {});
+        await expect(updatePromise).to.be.rejectedWith(errors.AppNotFoundError);
         await expect(updatePromise).to.be.rejectedWith(
-            "No app found with id = 2"
+            "No app found with id = 3"
+        );
+    });
+    it("throws a ConflictingAppError if an app with the same name exists", async () => {
+        const updatePromise = storageClient.apps.update("1", { name: "2" });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.ConflictingAppError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "An app with name = 2 already exists"
         );
     });
     it("updates the app", async () => {
-        await storageClient.apps.update("1", { name: "2" });
+        await storageClient.apps.update("1", { name: "3" });
         const appInstance = await models.App.findById("1");
-        expect(appInstance!.get("name")).to.equal("2");
+        expect(appInstance!.get("name")).to.equal("3");
     });
     it("returns the updated app as a pojo", async () => {
-        const app = await storageClient.apps.update("1", { name: "2" });
-        expect(app).to.have.property("name", "2");
+        const app = await storageClient.apps.update("1", { name: "3" });
+        expect(app).to.have.property("name", "3");
     });
 });
 
@@ -115,8 +120,9 @@ describe("AppsClient.delete", () => {
             entrypoints: [{ id: "1", urlMatcher: "1", appId: "1" }]
         });
     });
-    it("throws an error if no app with the specified id exists", async () => {
+    it("throws an AppNotFoundError if no app with the specified id exists", async () => {
         const deletePromise = storageClient.apps.delete("2");
+        await expect(deletePromise).to.be.rejectedWith(errors.AppNotFoundError);
         await expect(deletePromise).to.be.rejectedWith(
             "No app found with id = 2"
         );

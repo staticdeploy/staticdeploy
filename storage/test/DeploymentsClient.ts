@@ -6,6 +6,7 @@ import os = require("os");
 import path = require("path");
 import tar = require("tar");
 
+import * as errors from "../src/utils/errors";
 import {
     deploymentsPath,
     insertFixtures,
@@ -96,6 +97,18 @@ describe("DeploymentsClient.create", () => {
             entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
         });
     });
+    it("throws an EntrypointNotFoundError if the deployment links to a non-existing entrypoint", async () => {
+        const createPromise = storageClient.deployments.create({
+            entrypointId: "2",
+            content: contentTargz
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.EntrypointNotFoundError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "No entrypoint found with id = 2"
+        );
+    });
     it("creates a deployment", async () => {
         await storageClient.deployments.create({
             entrypointId: "1",
@@ -146,9 +159,16 @@ describe("DeploymentsClient.delete", () => {
             entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }],
             deployments: [{ id: "1", entrypointId: "1" }]
         });
+        await models.Entrypoint.update(
+            { activeDeploymentId: "1" },
+            { where: { id: "1" } }
+        );
     });
-    it("throws an error if no deployment with the specified id exists", async () => {
+    it("throws a DeploymentNotFoundError if no deployment with the specified id exists", async () => {
         const deletePromise = storageClient.deployments.delete("2");
+        await expect(deletePromise).to.be.rejectedWith(
+            errors.DeploymentNotFoundError
+        );
         await expect(deletePromise).to.be.rejectedWith(
             "No deployment found with id = 2"
         );
@@ -162,5 +182,10 @@ describe("DeploymentsClient.delete", () => {
         await storageClient.deployments.delete("1");
         const deploymentInstance = await models.Deployment.findById("1");
         expect(deploymentInstance).to.equal(null);
+    });
+    it("null-ifies entrypoint links the deployment", async () => {
+        await storageClient.deployments.delete("1");
+        const entrypointInstance = await models.Entrypoint.findById("1");
+        expect(entrypointInstance!.get("activeDeploymentId")).to.equal(null);
     });
 });
