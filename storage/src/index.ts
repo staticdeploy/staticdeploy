@@ -24,13 +24,15 @@ export default class StorageClient {
     private sequelize: Sequelize.Sequelize;
 
     constructor(options: { databaseUrl: string; deploymentsPath: string }) {
+        this.deploymentsPath = options.deploymentsPath;
+
         // Instantiate sequelize
-        const sequelize = new Sequelize(options.databaseUrl, {
+        this.sequelize = new Sequelize(options.databaseUrl, {
             logging: false
         });
-        const models = getModels(sequelize);
 
         // Instantiate storage clients
+        const models = getModels(this.sequelize);
         this.deployments = new DeploymentsClient({
             deploymentsPath: options.deploymentsPath,
             models: models
