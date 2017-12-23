@@ -124,7 +124,10 @@ describe("DeploymentsClient.create", () => {
             entrypointId: "1",
             content: contentTargz
         });
-        expect(deployment).to.have.property("entrypointId", "1");
+        const deploymentInstance = await models.Deployment.findOne({
+            where: { entrypointId: "1" }
+        });
+        expect(deployment).to.deep.equal(deploymentInstance!.get());
     });
     it("unpacks the deployment content", async () => {
         const deployment = await storageClient.deployments.create({

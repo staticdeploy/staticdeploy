@@ -57,7 +57,7 @@ export default class DeploymentsClient {
         const deployment = await this.Deployment.create({
             id: generateId(),
             entrypointId: partial.entrypointId,
-            description: partial.description
+            description: partial.description || null
         });
 
         // Unpack the deployment content

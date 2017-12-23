@@ -54,7 +54,7 @@ export default class AppsClient {
         const app = await this.App.create({
             id: generateId(),
             name: partial.name,
-            defaultConfiguration: partial.defaultConfiguration
+            defaultConfiguration: partial.defaultConfiguration || {}
         });
         return toPojo(app);
     }

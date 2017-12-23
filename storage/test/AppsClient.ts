@@ -76,7 +76,8 @@ describe("AppsClient.create", () => {
     });
     it("returns the created app as a pojo", async () => {
         const app = await storageClient.apps.create({ name: "1" });
-        expect(app).to.have.property("name", "1");
+        const appInstance = await models.App.findOne({ where: { name: "1" } });
+        expect(app).to.deep.equal(appInstance!.get());
     });
 });
 

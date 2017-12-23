@@ -75,8 +75,14 @@ export default class EntrypointsClient {
         }
 
         const entrypoint = await this.Entrypoint.create({
-            ...partial,
-            id: generateId()
+            id: generateId(),
+            appId: partial.appId,
+            urlMatcher: partial.urlMatcher,
+            urlMatcherPriority: partial.urlMatcherPriority || 0,
+            smartRoutingEnabled:
+                partial.smartRoutingEnabled === false ? false : true,
+            activeDeploymentId: null,
+            configuration: partial.configuration || null
         });
         return toPojo(entrypoint);
     }

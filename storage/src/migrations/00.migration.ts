@@ -13,8 +13,7 @@ export const up = async (q: Sequelize.QueryInterface) => {
         },
         defaultConfiguration: {
             type: Sequelize.JSON,
-            allowNull: false,
-            defaultValue: {}
+            allowNull: false
         },
         createdAt: {
             type: Sequelize.DATE,
@@ -45,19 +44,19 @@ export const up = async (q: Sequelize.QueryInterface) => {
         },
         urlMatcherPriority: {
             type: Sequelize.INTEGER,
-            allowNull: false,
-            defaultValue: 0
+            allowNull: false
         },
         smartRoutingEnabled: {
             type: Sequelize.BOOLEAN,
-            allowNull: false,
-            defaultValue: true
+            allowNull: false
         },
         activeDeploymentId: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: true
         },
         configuration: {
-            type: Sequelize.JSON
+            type: Sequelize.JSON,
+            allowNull: true
         },
         createdAt: {
             type: Sequelize.DATE,
@@ -82,7 +81,8 @@ export const up = async (q: Sequelize.QueryInterface) => {
             onUpdate: "CASCADE"
         },
         description: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: true
         },
         createdAt: {
             type: Sequelize.DATE,

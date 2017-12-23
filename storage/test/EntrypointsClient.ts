@@ -129,7 +129,10 @@ describe("EntrypointsClient.create", () => {
             appId: "1",
             urlMatcher: "1"
         });
-        expect(entrypoint).to.have.property("urlMatcher", "1");
+        const entrypointInstance = await models.Entrypoint.findOne({
+            where: { urlMatcher: "1" }
+        });
+        expect(entrypoint).to.deep.equal(entrypointInstance!.get());
     });
 });
 
