@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import Deployment from "models/Deployment";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     params: {
@@ -27,23 +27,7 @@ export default convroute({
         "404": { description: "Deployment not found" }
     },
     handler: async (req: IRequest, res) => {
-        const { deploymentId } = req.params;
-
-        // Find the deployment
-        const deployment = await Deployment.findById(deploymentId);
-
-        // Ensure the deployment exists
-        if (!deployment) {
-            res.status(404).send({
-                message: `No deployment found with id = ${deploymentId}`
-            });
-            return;
-        }
-
-        // Delete the deployment
-        await deployment.destroy();
-
-        // Respond to the client
+        await storage.deployments.delete(req.params.deploymentId);
         res.status(204).send();
     }
 });

@@ -1,14 +1,14 @@
+import { IApp } from "@staticdeploy/storage";
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import generateId from "common/generateId";
 import * as schemas from "common/schemas";
-import App from "models/App";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     body: {
-        name: App["name"];
-        defaultConfiguration?: App["defaultConfiguration"];
+        name: IApp["name"];
+        defaultConfiguration?: IApp["defaultConfiguration"];
     };
 }
 
@@ -41,27 +41,7 @@ export default convroute({
         "409": { description: "App with same name already exists" }
     },
     handler: async (req: IRequest, res) => {
-        const { body } = req;
-
-        // Ensure no app with the same name exists
-        const conflictingApp = await App.findOne({
-            where: { name: body.name }
-        });
-        if (conflictingApp) {
-            res.status(409).send({
-                message: `An app with name = ${body.name} already exists`
-            });
-            return;
-        }
-
-        // Create the app
-        const app = await App.create({
-            id: generateId(),
-            name: body.name,
-            defaultConfiguration: body.defaultConfiguration
-        });
-
-        // Respond to the client
+        const app = await storage.apps.create(req.body);
         res.status(201).send(app);
     }
 });

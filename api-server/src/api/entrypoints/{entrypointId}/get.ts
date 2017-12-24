@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import Entrypoint from "models/Entrypoint";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     params: {
@@ -28,9 +28,7 @@ export default convroute({
     },
     handler: async (req: IRequest, res) => {
         const { entrypointId } = req.params;
-
-        // Find the entrypoint
-        const entrypoint = await Entrypoint.findById(entrypointId);
+        const entrypoint = await storage.entrypoints.findOneById(entrypointId);
 
         // Ensure the entrypoint exists
         if (!entrypoint) {
@@ -40,7 +38,6 @@ export default convroute({
             return;
         }
 
-        // Respond to the client
         res.status(200).send(entrypoint);
     }
 });

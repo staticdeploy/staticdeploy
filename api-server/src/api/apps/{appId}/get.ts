@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import App from "models/App";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     params: {
@@ -28,9 +28,7 @@ export default convroute({
     },
     handler: async (req: IRequest, res) => {
         const { appId } = req.params;
-
-        // Find the app
-        const app = await App.findById(appId);
+        const app = await storage.apps.findOneById(appId);
 
         // Ensure the app exists
         if (!app) {
@@ -40,7 +38,6 @@ export default convroute({
             return;
         }
 
-        // Respond to the client
         res.status(200).send(app);
     }
 });

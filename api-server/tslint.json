@@ -4,6 +4,7 @@
         "tslint-config-prettier"
     ],
     "rules": {
+        "array-type": false,
         "member-access": false,
         "no-implicit-dependencies": false,
         "no-object-literal-type-assertion": false,

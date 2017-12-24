@@ -1,9 +1,8 @@
+import { IEntrypoint } from "@staticdeploy/storage";
 import { Request } from "express";
-import { Sequelize } from "sequelize-typescript";
 
 import convroute from "common/convroute";
-import Deployment from "models/Deployment";
-import Entrypoint from "models/Entrypoint";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     query: {
@@ -22,33 +21,25 @@ export default convroute({
         "404": { description: "Filter entrypoint not found" }
     },
     handler: async (req: IRequest, res) => {
-        const { query } = req;
-        let filterEntrypoint: Entrypoint | null = null;
+        const { entrypointIdOrUrlMatcher } = req.query;
+        let filterEntrypoint: IEntrypoint | null = null;
 
         // Ensure the filter entrypoint exists
-        if (query.entrypointIdOrUrlMatcher) {
-            filterEntrypoint = await Entrypoint.findOne({
-                where: Sequelize.or(
-                    { id: query.entrypointIdOrUrlMatcher },
-                    { urlMatcher: query.entrypointIdOrUrlMatcher }
-                )
-            });
+        if (entrypointIdOrUrlMatcher) {
+            filterEntrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
+                entrypointIdOrUrlMatcher
+            );
             if (!filterEntrypoint) {
                 res.status(404).send({
-                    message: `No entrypoint found with id or urlMatcher = ${
-                        query.entrypointIdOrUrlMatcher
-                    }`
+                    message: `No entrypoint found with id or urlMatcher = ${entrypointIdOrUrlMatcher}`
                 });
                 return;
             }
         }
 
-        // Find all deployments
-        const deployments = await Deployment.findAll({
-            where: filterEntrypoint ? { entrypointId: filterEntrypoint.id } : {}
-        });
-
-        // Respond to the client
+        const deployments = await (filterEntrypoint
+            ? storage.deployments.findManyByEntrypointId(filterEntrypoint.id)
+            : storage.deployments.findAll());
         res.status(200).send(deployments);
     }
 });

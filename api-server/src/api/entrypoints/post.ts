@@ -1,18 +1,17 @@
+import { IConfiguration, IEntrypoint } from "@staticdeploy/storage";
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import generateId from "common/generateId";
 import * as schemas from "common/schemas";
-import App from "models/App";
-import Entrypoint from "models/Entrypoint";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     body: {
-        appId: Entrypoint["appId"];
-        urlMatcher: Entrypoint["urlMatcher"];
-        urlMatcherPriority?: Entrypoint["urlMatcherPriority"];
-        smartRoutingEnabled?: Entrypoint["smartRoutingEnabled"];
-        configuration?: Entrypoint["configuration"];
+        appId: IEntrypoint["appId"];
+        urlMatcher: IEntrypoint["urlMatcher"];
+        urlMatcherPriority?: IEntrypoint["urlMatcherPriority"];
+        smartRoutingEnabled?: IEntrypoint["smartRoutingEnabled"];
+        configuration?: IConfiguration;
     };
 }
 
@@ -57,37 +56,7 @@ export default convroute({
         "409": { description: "Entrypoint with same urlMatcher already exists" }
     },
     handler: async (req: IRequest, res) => {
-        const { body } = req;
-
-        // Ensure the linked app exists
-        const linkedApp = await App.findById(body.appId);
-        if (!linkedApp) {
-            res.status(404).send({
-                message: `No app found with id = ${body.appId}`
-            });
-            return;
-        }
-
-        // Ensure no entrypoint with the same urlMatcher exists
-        const conflictingEntrypoint = await Entrypoint.findOne({
-            where: { urlMatcher: body.urlMatcher }
-        });
-        if (conflictingEntrypoint) {
-            res.status(409).send({
-                message: `An entrypoint with urlMatcher = ${
-                    body.urlMatcher
-                } already exists`
-            });
-            return;
-        }
-
-        // Create the entrypoint
-        const entrypoint = await Entrypoint.create({
-            id: generateId(),
-            ...body
-        });
-
-        // Respond to the client
+        const entrypoint = await storage.entrypoints.create(req.body);
         res.status(201).send(entrypoint);
     }
 });

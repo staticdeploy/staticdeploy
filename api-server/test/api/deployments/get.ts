@@ -5,54 +5,54 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import Deployment from "models/Deployment";
-import insertFixtures from "../../insertFixtures";
+import storage from "services/storage";
+import { IIds, insertFixtures } from "../../setup";
 
 describe("api GET /deployments", () => {
     let server: Express;
     const token = sign({ sub: "sub" }, JWT_SECRET);
+    let ids: IIds;
 
     beforeEach(async () => {
         server = await getApp();
-        await insertFixtures({
-            apps: [{ id: "1", name: "1" }],
+        ids = await insertFixtures({
+            apps: [{ name: "0" }],
             entrypoints: [
-                { id: "1", appId: "1", urlMatcher: "1" },
-                { id: "2", appId: "1", urlMatcher: "2" }
+                { appId: "$0", urlMatcher: "0" },
+                { appId: "$0", urlMatcher: "1" }
             ],
-            deployments: [
-                { id: "1", entrypointId: "1" },
-                { id: "2", entrypointId: "2" }
-            ]
+            deployments: [{ entrypointId: "$0" }, { entrypointId: "$1" }]
         });
     });
 
     it("404 on non-existing filter entrypoint", () => {
         return request(server)
-            .get("/deployments?entrypointIdOrUrlMatcher=3")
+            .get("/deployments?entrypointIdOrUrlMatcher=non-existing")
             .set("Authorization", `Bearer ${token}`)
             .expect(404);
     });
 
-    it("filters deployments by entrypointIdOrUrlMatcher", async () => {
-        const response = await request(server)
-            .get("/deployments?entrypointIdOrUrlMatcher=1")
-            .set("Authorization", `Bearer ${token}`)
-            .expect(200);
-        expect(response.body).to.have.length(1);
-        expect(
-            response.body.map((deployment: Deployment) => deployment.id)
-        ).to.deep.equal(["1"]);
+    describe("filters deployments by entrypointIdOrUrlMatcher", () => {
+        it("case: filter by id", async () => {
+            const entrypointId = ids.entrypoints[0];
+            const deploymentId = ids.deployments[0];
+            const deployment = await storage.deployments.findOneById(
+                deploymentId
+            );
+            const response = await request(server)
+                .get(`/deployments?entrypointIdOrUrlMatcher=${entrypointId}`)
+                .set("Authorization", `Bearer ${token}`)
+                .expect(200);
+            expect(response.body).to.be.jsonOf([deployment]);
+        });
     });
 
     it("200 and returns all deployments", async () => {
+        const deployments = await storage.deployments.findAll();
         const response = await request(server)
             .get("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .expect(200);
-        expect(response.body).to.have.length(2);
-        expect(
-            response.body.map((deployment: Deployment) => deployment.id)
-        ).to.deep.equal(["1", "2"]);
+        expect(response.body).to.be.jsonOf(deployments);
     });
 });

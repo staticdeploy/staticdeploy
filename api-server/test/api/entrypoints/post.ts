@@ -5,18 +5,19 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import Entrypoint from "models/Entrypoint";
-import insertFixtures from "../../insertFixtures";
+import storage from "services/storage";
+import { IIds, insertFixtures } from "../../setup";
 
 describe("api POST /entrypoints", () => {
     let server: Express;
     const token = sign({ sub: "sub" }, JWT_SECRET);
+    let ids: IIds;
 
     beforeEach(async () => {
         server = await getApp();
-        await insertFixtures({
-            apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+        ids = await insertFixtures({
+            apps: [{ name: "0" }],
+            entrypoints: [{ appId: "$0", urlMatcher: "0" }]
         });
     });
 
@@ -35,7 +36,7 @@ describe("api POST /entrypoints", () => {
         return request(server)
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
-            .send({ appId: "2", urlMatcher: "2" })
+            .send({ appId: "non-existing", urlMatcher: "1" })
             .expect(404);
     });
 
@@ -43,7 +44,7 @@ describe("api POST /entrypoints", () => {
         return request(server)
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
-            .send({ appId: "1", urlMatcher: "1" })
+            .send({ appId: ids.apps[0], urlMatcher: "0" })
             .expect(409);
     });
 
@@ -51,12 +52,11 @@ describe("api POST /entrypoints", () => {
         const response = await request(server)
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
-            .send({ appId: "1", urlMatcher: "2" })
+            .send({ appId: ids.apps[0], urlMatcher: "1" })
             .expect(201);
-        const entrypoint = await Entrypoint.findOne({
-            where: { urlMatcher: "2" }
-        });
-        expect(entrypoint).not.to.equal(null);
-        expect(response.body.id).to.deep.equal((entrypoint as Entrypoint).id);
+        const entrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
+            "1"
+        );
+        expect(response.body).to.be.jsonOf(entrypoint);
     });
 });

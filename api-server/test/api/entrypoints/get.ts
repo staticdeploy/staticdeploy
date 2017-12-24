@@ -5,50 +5,65 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import Entrypoint from "models/Entrypoint";
-import insertFixtures from "../../insertFixtures";
+import storage from "services/storage";
+import { IIds, insertFixtures } from "../../setup";
 
 describe("api GET /entrypoints", () => {
     let server: Express;
     const token = sign({ sub: "sub" }, JWT_SECRET);
+    let ids: IIds;
 
     beforeEach(async () => {
         server = await getApp();
-        await insertFixtures({
-            apps: [{ id: "1", name: "1" }, { id: "2", name: "2" }],
+        ids = await insertFixtures({
+            apps: [{ name: "0" }, { name: "1" }],
             entrypoints: [
-                { id: "1", appId: "1", urlMatcher: "1" },
-                { id: "2", appId: "2", urlMatcher: "2" }
+                { appId: "$0", urlMatcher: "0" },
+                { appId: "$1", urlMatcher: "1" }
             ]
         });
     });
 
     it("404 on non-existing filter app", () => {
         return request(server)
-            .get("/entrypoints?appIdOrName=3")
+            .get("/entrypoints?appIdOrName=2")
             .set("Authorization", `Bearer ${token}`)
             .expect(404);
     });
 
-    it("filters entrypoints by appIdOrName", async () => {
-        const response = await request(server)
-            .get("/entrypoints?appIdOrName=1")
-            .set("Authorization", `Bearer ${token}`)
-            .expect(200);
-        expect(response.body).to.have.length(1);
-        expect(
-            response.body.map((entrypoint: Entrypoint) => entrypoint.id)
-        ).to.deep.equal(["1"]);
+    describe("filters entrypoints by appIdOrName", () => {
+        it("case: filter by id", async () => {
+            const appId = ids.apps[0];
+            const entrypointId = ids.entrypoints[0];
+            const entrypoint = await storage.entrypoints.findOneById(
+                entrypointId
+            );
+            const response = await request(server)
+                .get(`/entrypoints?appIdOrName=${appId}`)
+                .set("Authorization", `Bearer ${token}`)
+                .expect(200);
+            expect(response.body).to.be.jsonOf([entrypoint]);
+        });
+        it("case: filter by name", async () => {
+            const appName = "0";
+            const entrypointId = ids.entrypoints[0];
+            const entrypoint = await storage.entrypoints.findOneById(
+                entrypointId
+            );
+            const response = await request(server)
+                .get(`/entrypoints?appIdOrName=${appName}`)
+                .set("Authorization", `Bearer ${token}`)
+                .expect(200);
+            expect(response.body).to.be.jsonOf([entrypoint]);
+        });
     });
 
     it("200 and returns all entrypoints", async () => {
+        const entrypoints = await storage.entrypoints.findAll();
         const response = await request(server)
             .get("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
             .expect(200);
-        expect(response.body).to.have.length(2);
-        expect(
-            response.body.map((entrypoint: Entrypoint) => entrypoint.id)
-        ).to.deep.equal(["1", "2"]);
+        expect(response.body).to.be.jsonOf(entrypoints);
     });
 });

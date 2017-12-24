@@ -1,16 +1,12 @@
 import { expect } from "chai";
 import { Express } from "express";
-import * as fs from "fs";
 import { sign } from "jsonwebtoken";
-import * as path from "path";
 import request = require("supertest");
 
-import { DEPLOYMENTS_PATH, JWT_SECRET } from "config";
+import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import App from "models/App";
-import Deployment from "models/Deployment";
-import Entrypoint from "models/Entrypoint";
-import insertFixtures from "../../insertFixtures";
+import storage from "services/storage";
+import { insertFixtures } from "../../setup";
 
 describe("api POST /deployments", () => {
     let server: Express;
@@ -19,8 +15,8 @@ describe("api POST /deployments", () => {
     beforeEach(async () => {
         server = await getApp();
         await insertFixtures({
-            apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+            apps: [{ name: "0" }],
+            entrypoints: [{ appId: "$0", urlMatcher: "0" }]
         });
     });
 
@@ -39,23 +35,23 @@ describe("api POST /deployments", () => {
         return request(server)
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
-            .send({ entrypointIdOrUrlMatcher: "2", content: "" })
+            .send({ entrypointIdOrUrlMatcher: "non-existing", content: "" })
             .expect(404);
     });
 
-    it("creates linked entrypoint if it doesn't exist", async () => {
+    it("creates linked entrypoint if it doesn't exist (but app exists)", async () => {
         await request(server)
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "2",
-                appIdOrName: "1",
+                entrypointIdOrUrlMatcher: "1",
+                appIdOrName: "0",
                 content: ""
             })
             .expect(201);
-        const entrypoint = await Entrypoint.findOne({
-            where: { appId: "1", urlMatcher: "2" }
-        });
+        const entrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
+            "1"
+        );
         expect(entrypoint).not.to.equal(null);
     });
 
@@ -64,18 +60,16 @@ describe("api POST /deployments", () => {
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "2",
-                appIdOrName: "2",
+                entrypointIdOrUrlMatcher: "1",
+                appIdOrName: "1",
                 content: ""
             })
             .expect(201);
-        const app = await App.findOne({
-            where: { name: "2" }
-        });
+        const app = await storage.apps.findOneByIdOrName("1");
         expect(app).not.to.equal(null);
-        const entrypoint = await Entrypoint.findOne({
-            where: { appId: (app as App).id, urlMatcher: "2" }
-        });
+        const entrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
+            "1"
+        );
         expect(entrypoint).not.to.equal(null);
     });
 
@@ -84,35 +78,12 @@ describe("api POST /deployments", () => {
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "1",
+                entrypointIdOrUrlMatcher: "0",
                 content: ""
             })
             .expect(201);
-        const deployment = await Deployment.findOne({
-            where: { entrypointId: "1" }
-        });
-        expect(deployment).not.to.equal(null);
-    });
-
-    // TODO: fix implementation so that the test passes
-    it.skip("unpacks the deploymeny content", async () => {
-        await request(server)
-            .post("/deployments")
-            .set("Authorization", `Bearer ${token}`)
-            .send({
-                entrypointIdOrUrlMatcher: "1",
-                content: ""
-            })
-            .expect(201);
-        const deployment = await Deployment.findOne({
-            where: { entrypointId: "1" }
-        });
-        expect(deployment).not.to.equal(null);
-        expect(
-            fs.existsSync(
-                path.join(DEPLOYMENTS_PATH, (deployment as Deployment).id)
-            )
-        ).to.equal(true);
+        const deployments = await storage.deployments.findAll();
+        expect(deployments).to.have.length(1);
     });
 
     it("201 on deployment created and returns the deployment", async () => {
@@ -120,14 +91,11 @@ describe("api POST /deployments", () => {
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "1",
+                entrypointIdOrUrlMatcher: "0",
                 content: ""
             })
             .expect(201);
-        const deployment = await Deployment.findOne({
-            where: { entrypointId: "1" }
-        });
-        expect(deployment).not.to.equal(null);
-        expect(response.body.id).to.deep.equal((deployment as Deployment).id);
+        const [deployment] = await storage.deployments.findAll();
+        expect(response.body).to.be.jsonOf(deployment);
     });
 });

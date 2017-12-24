@@ -5,8 +5,8 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import App from "models/App";
-import insertFixtures from "../../insertFixtures";
+import storage from "services/storage";
+import { insertFixtures } from "../../setup";
 
 describe("api POST /apps", () => {
     let server: Express;
@@ -15,7 +15,7 @@ describe("api POST /apps", () => {
     beforeEach(async () => {
         server = await getApp();
         await insertFixtures({
-            apps: [{ id: "1", name: "1" }]
+            apps: [{ name: "0" }]
         });
     });
 
@@ -34,7 +34,7 @@ describe("api POST /apps", () => {
         return request(server)
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
-            .send({ name: "1" })
+            .send({ name: "0" })
             .expect(409);
     });
 
@@ -42,10 +42,9 @@ describe("api POST /apps", () => {
         const response = await request(server)
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
-            .send({ name: "2" })
+            .send({ name: "1" })
             .expect(201);
-        const app = await App.findOne({ where: { name: "2" } });
-        expect(app).not.to.equal(null);
-        expect(response.body.id).to.deep.equal((app as App).id);
+        const app = await storage.apps.findOneByIdOrName("1");
+        expect(response.body).to.be.jsonOf(app);
     });
 });

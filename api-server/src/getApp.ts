@@ -3,19 +3,15 @@ import convexpress = require("convexpress");
 import express = require("express");
 import { healthRoute } from "express-healthchecker";
 
-import exec from "common/exec";
 import * as config from "config";
-import * as databaseHC from "healthChecks/database";
+import storageHC from "healthChecks/storage";
 import authenticateRequest from "middleware/authenticateRequest";
 import logger from "services/logger";
-import { migrate } from "services/migrator";
+import storage from "services/storage";
 
 export default async function getApp(): Promise<express.Express> {
-    // Init database
-    await migrate();
-
-    // Init filesystem
-    await exec(`mkdir -p ${config.DEPLOYMENTS_PATH}`);
+    // Init storage
+    await storage.setup();
 
     // Build convexpress router
     const options = {
@@ -33,7 +29,7 @@ export default async function getApp(): Promise<express.Express> {
         .get(
             "/health",
             healthRoute({
-                healthChecks: [databaseHC],
+                healthChecks: [storageHC],
                 accessToken: config.HEALTH_ROUTE_ACCESS_TOKEN
             })
         )

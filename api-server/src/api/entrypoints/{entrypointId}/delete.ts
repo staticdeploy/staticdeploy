@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import Entrypoint from "models/Entrypoint";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     params: {
@@ -27,23 +27,7 @@ export default convroute({
         "404": { description: "Entrypoint not found" }
     },
     handler: async (req: IRequest, res) => {
-        const { entrypointId } = req.params;
-
-        // Find the entrypoint
-        const entrypoint = await Entrypoint.findById(entrypointId);
-
-        // Ensure the entrypoint exists
-        if (!entrypoint) {
-            res.status(404).send({
-                message: `No entrypoint found with id = ${entrypointId}`
-            });
-            return;
-        }
-
-        // Delete the entrypoint
-        await entrypoint.destroy();
-
-        // Respond to the client
+        await storage.entrypoints.delete(req.params.entrypointId);
         res.status(204).send();
     }
 });

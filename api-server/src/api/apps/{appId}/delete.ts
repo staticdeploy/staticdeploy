@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import App from "models/App";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     params: {
@@ -27,23 +27,7 @@ export default convroute({
         "404": { description: "App not found" }
     },
     handler: async (req: IRequest, res) => {
-        const { appId } = req.params;
-
-        // Find the app
-        const app = await App.findById(appId);
-
-        // Ensure the app exists
-        if (!app) {
-            res.status(404).send({
-                message: `No app found with id = ${appId}`
-            });
-            return;
-        }
-
-        // Delete the app
-        await app.destroy();
-
-        // Respond to the client
+        await storage.apps.delete(req.params.appId);
         res.status(204).send();
     }
 });

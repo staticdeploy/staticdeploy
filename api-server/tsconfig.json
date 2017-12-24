@@ -13,11 +13,13 @@
         "types": [
             "@types/bunyan",
             "@types/chai",
+            "@types/chai-fuzzy",
             "@types/express",
             "@types/express-jwt",
             "@types/jsonwebtoken",
             "@types/lodash",
             "@types/mocha",
+            "@types/sinon",
             "@types/supertest"
         ],
         "module": "commonjs",

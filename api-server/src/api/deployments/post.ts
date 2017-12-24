@@ -1,21 +1,14 @@
+import { IApp, IEntrypoint } from "@staticdeploy/storage";
 import { Request } from "express";
-import * as path from "path";
-import { Sequelize } from "sequelize-typescript";
 
 import convroute from "common/convroute";
-import exec from "common/exec";
-import generateId from "common/generateId";
-import writeFile from "common/writeFile";
-import * as config from "config";
-import App from "models/App";
-import Deployment from "models/Deployment";
-import Entrypoint from "models/Entrypoint";
+import storage from "services/storage";
 
 interface IRequest extends Request {
     body: {
-        appIdOrName?: App["id"] | App["name"];
-        entrypointIdOrUrlMatcher: Entrypoint["id"] | Entrypoint["urlMatcher"];
-        description?: Deployment["description"];
+        appIdOrName?: IApp["id"] | IApp["name"];
+        entrypointIdOrUrlMatcher: IEntrypoint["id"] | IEntrypoint["urlMatcher"];
+        description?: string;
         content: string;
     };
 }
@@ -58,69 +51,49 @@ export default convroute({
         "400": { description: "Body validation failed" }
     },
     handler: async (req: IRequest, res) => {
-        const { body } = req;
+        const partial = req.body;
 
         // Find linked entrypoint
-        let linkedEntrypoint = await Entrypoint.findOne({
-            where: Sequelize.or(
-                { id: body.entrypointIdOrUrlMatcher },
-                { urlMatcher: body.entrypointIdOrUrlMatcher }
-            )
-        });
+        let linkedEntrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
+            partial.entrypointIdOrUrlMatcher
+        );
 
         // Create entrypoint if doesn't exist
         if (!linkedEntrypoint) {
-            if (!body.appIdOrName) {
+            if (!partial.appIdOrName) {
                 res.status(404).send({
                     message: `No entrypoint found with id or urlMatcher = ${
-                        body.entrypointIdOrUrlMatcher
+                        partial.entrypointIdOrUrlMatcher
                     }`
                 });
                 return;
             }
-            let linkedApp = await App.findOne({
-                where: Sequelize.or(
-                    { id: body.appIdOrName },
-                    { name: body.appIdOrName }
-                )
-            });
+            let linkedApp = await storage.apps.findOneByIdOrName(
+                partial.appIdOrName
+            );
 
             // Create app if it doesn't exist
             if (!linkedApp) {
-                linkedApp = await App.create({
-                    id: generateId(),
-                    name: body.appIdOrName
+                linkedApp = await storage.apps.create({
+                    name: partial.appIdOrName
                 });
             }
 
-            linkedEntrypoint = await Entrypoint.create({
-                id: generateId(),
+            linkedEntrypoint = await storage.entrypoints.create({
                 appId: linkedApp.id,
-                urlMatcher: body.entrypointIdOrUrlMatcher
+                urlMatcher: partial.entrypointIdOrUrlMatcher
             });
         }
 
         // Create the deployment
-        const deployment = await Deployment.create({
-            id: generateId(),
+        const deployment = await storage.deployments.create({
             entrypointId: linkedEntrypoint.id,
-            description: body.description
-        });
-
-        // Unpack the deployment content
-        // TODO: ensure content is a valid tar.gz
-        const targz = Buffer.from(body.content, "base64");
-        const targzPath = path.join(
-            config.DEPLOYMENTS_PATH,
-            `${deployment.id}.tar.gz`
-        );
-        await writeFile(targzPath, targz);
-        await exec(`tar -xzf ${targzPath}`, {
-            cwd: config.DEPLOYMENTS_PATH
+            description: partial.description,
+            content: Buffer.from(partial.content, "base64")
         });
 
         // Set the deployment as active for the linked entrypoint
-        await linkedEntrypoint.update({
+        await storage.entrypoints.update(linkedEntrypoint.id, {
             activeDeploymentId: deployment.id
         });
 
