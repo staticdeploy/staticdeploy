@@ -7,6 +7,8 @@ import DeploymentsClient from "../src/DeploymentsClient";
 const baseUrl = "http://localhost";
 const axios = Axios.create({ baseURL: baseUrl });
 const deploymentsClient = new DeploymentsClient(axios);
+const unixEpoch = new Date(0);
+const unixEpochISO = unixEpoch.toISOString();
 
 beforeEach(() => {
     nock.cleanAll();
@@ -17,21 +19,14 @@ describe("DeploymentsClient", () => {
         it("requests GET /deployments", async () => {
             const scope = nock(baseUrl)
                 .get("/deployments")
-                .reply(200);
+                .reply(200, []);
             await deploymentsClient.getAll();
-            scope.done();
-        });
-        it("optionally sets a filter on the request with querystrig parameter ?appIdOrName", async () => {
-            const scope = nock(baseUrl)
-                .get("/deployments?appIdOrName=appIdOrName")
-                .reply(200);
-            await deploymentsClient.getAll({ appIdOrName: "appIdOrName" });
             scope.done();
         });
         it("optionally sets a filter on the request with querystrig parameter ?entrypointIdOrUrlMatcher", async () => {
             const scope = nock(baseUrl)
                 .get("/deployments?entrypointIdOrUrlMatcher=value")
-                .reply(200);
+                .reply(200, []);
             await deploymentsClient.getAll({
                 entrypointIdOrUrlMatcher: "value"
             });
@@ -40,36 +35,59 @@ describe("DeploymentsClient", () => {
         it("returns a list of deployments", async () => {
             nock(baseUrl)
                 .get("/deployments")
-                // For testing it's enough to simulate the API returning an
-                // empty array
                 .reply(200, []);
             const deployments = await deploymentsClient.getAll();
             expect(deployments).to.deep.equal([]);
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .get("/deployments")
+                .reply(200, [{ createdAt: unixEpochISO }]);
+            const deployments = await deploymentsClient.getAll();
+            expect(deployments).to.deep.equal([{ createdAt: unixEpoch }]);
         });
     });
 
     describe("create", () => {
         it("requests POST /deployments", async () => {
             const scope = nock(baseUrl)
-                .post("/deployments", { content: "content" })
+                .post("/deployments", {
+                    entrypointIdOrUrlMatcher: "entrypointIdOrUrlMatcher",
+                    content: "content"
+                })
                 .reply(201);
-            await deploymentsClient.create({ content: "content" });
+            await deploymentsClient.create({
+                entrypointIdOrUrlMatcher: "entrypointIdOrUrlMatcher",
+                content: "content"
+            });
             scope.done();
         });
         it("returns the created deployment", async () => {
             nock(baseUrl)
-                .post("/deployments", { content: "content" })
-                .reply(201, {
-                    id: "id",
-                    entrypointId: "entrypointId"
-                });
+                .post("/deployments", {
+                    entrypointIdOrUrlMatcher: "entrypointIdOrUrlMatcher",
+
+                    content: "content"
+                })
+                .reply(201, {});
             const deployment = await deploymentsClient.create({
+                entrypointIdOrUrlMatcher: "entrypointIdOrUrlMatcher",
                 content: "content"
             });
-            expect(deployment).to.deep.equal({
-                id: "id",
-                entrypointId: "entrypointId"
+            expect(deployment).to.deep.equal({});
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .post("/deployments", {
+                    entrypointIdOrUrlMatcher: "entrypointIdOrUrlMatcher",
+                    content: "content"
+                })
+                .reply(201, { createdAt: unixEpochISO });
+            const deployment = await deploymentsClient.create({
+                entrypointIdOrUrlMatcher: "entrypointIdOrUrlMatcher",
+                content: "content"
             });
+            expect(deployment).to.deep.equal({ createdAt: unixEpoch });
         });
     });
 

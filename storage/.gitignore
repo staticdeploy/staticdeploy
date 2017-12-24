@@ -1,0 +1,6 @@
+# Typescript compiler output directory
+/lib
+
+# Nyc (test coverage) files
+/coverage
+/.nyc_output

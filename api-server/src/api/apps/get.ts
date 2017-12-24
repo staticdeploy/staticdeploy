@@ -1,5 +1,5 @@
 import convroute from "common/convroute";
-import App from "models/App";
+import storage from "services/storage";
 
 export default convroute({
     path: "/apps",
@@ -7,10 +7,10 @@ export default convroute({
     description: "Get all apps",
     tags: ["apps"],
     responses: {
-        "200": { description: "Returns an array of all the apps" }
+        "200": { description: "Returns an array of all apps" }
     },
     handler: async (_req, res) => {
-        const apps = await App.findAll();
+        const apps = await storage.apps.findAll();
         res.status(200).send(apps);
     }
 });

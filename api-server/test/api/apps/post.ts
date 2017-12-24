@@ -5,16 +5,18 @@ import request = require("supertest");
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import App from "models/App";
+import storage from "services/storage";
+import { insertFixtures } from "../../setup";
 
 describe("api POST /apps", () => {
     let server: Express;
     const token = sign({ sub: "sub" }, JWT_SECRET);
 
-    before(async () => {
+    beforeEach(async () => {
         server = await getApp();
-        await App.destroy({ where: {} });
-        await App.create({ id: "app", name: "app" });
+        await insertFixtures({
+            apps: [{ name: "0" }]
+        });
     });
 
     it("400 on invalid request body", () => {
@@ -32,7 +34,7 @@ describe("api POST /apps", () => {
         return request(server)
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
-            .send({ name: "app" })
+            .send({ name: "0" })
             .expect(409);
     });
 
@@ -40,10 +42,9 @@ describe("api POST /apps", () => {
         const response = await request(server)
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
-            .send({ name: "other-app" })
+            .send({ name: "1" })
             .expect(201);
-        const app = await App.findOne({ where: { name: "other-app" } });
-        expect(app).not.to.equal(null);
-        expect(response.body.id).to.deep.equal((app as App).id);
+        const app = await storage.apps.findOneByIdOrName("1");
+        expect(response.body).to.be.jsonOf(app);
     });
 });

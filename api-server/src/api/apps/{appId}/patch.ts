@@ -1,5 +1,28 @@
+import { IApp } from "@staticdeploy/storage";
+import { Request } from "express";
+
 import convroute from "common/convroute";
-import App, { schema } from "models/App";
+import * as schemas from "common/schemas";
+import storage from "services/storage";
+
+interface IRequest extends Request {
+    params: {
+        appId: string;
+    };
+    body: {
+        name?: IApp["name"];
+        defaultConfiguration?: IApp["defaultConfiguration"];
+    };
+}
+
+const bodySchema = {
+    type: "object",
+    properties: {
+        name: schemas.appName,
+        defaultConfiguration: schemas.configuration
+    },
+    additionalProperties: false
+};
 
 export default convroute({
     path: "/apps/:appId",
@@ -10,13 +33,14 @@ export default convroute({
         {
             name: "appId",
             in: "path",
+            required: true,
             type: "string"
         },
         {
             name: "patch",
             in: "body",
             required: true,
-            schema: { ...schema, required: [] }
+            schema: bodySchema
         }
     ],
     responses: {
@@ -25,28 +49,8 @@ export default convroute({
         "404": { description: "App not found" },
         "409": { description: "App with same name already exists" }
     },
-    handler: async (req, res) => {
-        const { appId } = req.params;
-        const app = await App.findById(appId);
-        if (!app) {
-            res.status(404).send({
-                message: `No app found with id = ${appId}`
-            });
-            return;
-        }
-        const patch = req.body;
-        if (patch.name) {
-            const appWithSameName = await App.findOne({
-                where: { name: patch.name }
-            });
-            if (appWithSameName && appWithSameName.id !== app.id) {
-                res.status(409).send({
-                    message: `An app with name = ${patch.name} already exists`
-                });
-                return;
-            }
-        }
-        await app.update(patch);
+    handler: async (req: IRequest, res) => {
+        const app = await storage.apps.update(req.params.appId, req.body);
         res.status(200).send(app);
     }
 });

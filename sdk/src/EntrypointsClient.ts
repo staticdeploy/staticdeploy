@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 
 import IConfiguration from "./IConfiguration";
+import parseDates from "./parseDates";
 
 export interface IEntrypoint {
     id: string;
@@ -10,6 +11,8 @@ export interface IEntrypoint {
     smartRoutingEnabled: boolean;
     activeDeploymentId: string | null;
     configuration: IConfiguration | null;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export default class EntrypointsClient {
@@ -17,12 +20,12 @@ export default class EntrypointsClient {
 
     async getAll(filter?: { appIdOrName?: string }): Promise<IEntrypoint[]> {
         const result = await this.axios.get("/entrypoints", { params: filter });
-        return result.data;
+        return result.data.map(parseDates);
     }
 
     async getOne(id: string): Promise<IEntrypoint> {
         const result = await this.axios.get(`/entrypoints/${id}`);
-        return result.data;
+        return parseDates(result.data);
     }
 
     async create(entrypoint: {
@@ -33,7 +36,7 @@ export default class EntrypointsClient {
         configuration?: IConfiguration;
     }): Promise<IEntrypoint> {
         const result = await this.axios.post("/entrypoints", entrypoint);
-        return result.data;
+        return parseDates(result.data);
     }
 
     async delete(id: string): Promise<void> {
@@ -52,6 +55,6 @@ export default class EntrypointsClient {
         }
     ): Promise<void> {
         const result = await this.axios.patch(`/entrypoints/${id}`, patch);
-        return result.data;
+        return parseDates(result.data);
     }
 }

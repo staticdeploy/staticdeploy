@@ -1,5 +1,6 @@
 import env from "@mondora/env";
 import { LogLevelString } from "bunyan";
+import { tmpdir } from "os";
 
 // General service configurations
 export const APP_NAME = "staticeploy-api-server";
@@ -19,7 +20,12 @@ export const JWT_SECRET = env("JWT_SECRET", {
     parse: Buffer.from
 });
 
-// Database configuration
+// Database configurations
 export const DATABASE_URL = env("DATABASE_URL", {
     default: "sqlite://:memory:"
+});
+
+// Filesystem storage configurations
+export const DEPLOYMENTS_PATH = env("DEPLOYMENTS_PATH", {
+    default: `${tmpdir()}/staticdeploy/deployments`
 });

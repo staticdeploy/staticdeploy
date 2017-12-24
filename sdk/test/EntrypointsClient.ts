@@ -7,6 +7,8 @@ import EntrypointsClient from "../src/EntrypointsClient";
 const baseUrl = "http://localhost";
 const axios = Axios.create({ baseURL: baseUrl });
 const entrypointsClient = new EntrypointsClient(axios);
+const unixEpoch = new Date(0);
+const unixEpochISO = unixEpoch.toISOString();
 
 beforeEach(() => {
     nock.cleanAll();
@@ -17,25 +19,34 @@ describe("EntrypointsClient", () => {
         it("requests GET /entrypoints", async () => {
             const scope = nock(baseUrl)
                 .get("/entrypoints")
-                .reply(200);
+                .reply(200, []);
             await entrypointsClient.getAll();
             scope.done();
         });
         it("optionally sets a filter on the request with querystrig parameter ?appIdOrName", async () => {
             const scope = nock(baseUrl)
                 .get("/entrypoints?appIdOrName=value")
-                .reply(200);
+                .reply(200, []);
             await entrypointsClient.getAll({ appIdOrName: "value" });
             scope.done();
         });
         it("returns a list of entrypoints", async () => {
             nock(baseUrl)
                 .get("/entrypoints")
-                // For testing it's enough to simulate the API returning an
-                // empty array
                 .reply(200, []);
             const entrypoints = await entrypointsClient.getAll();
             expect(entrypoints).to.deep.equal([]);
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .get("/entrypoints")
+                .reply(200, [
+                    { createdAt: unixEpochISO, updatedAt: unixEpochISO }
+                ]);
+            const entrypoints = await entrypointsClient.getAll();
+            expect(entrypoints).to.deep.equal([
+                { createdAt: unixEpoch, updatedAt: unixEpoch }
+            ]);
         });
     });
 
@@ -50,24 +61,21 @@ describe("EntrypointsClient", () => {
         it("returns the entrypoint with the specified id", async () => {
             nock(baseUrl)
                 .get("/entrypoints/id")
+                .reply(200, {});
+            const entrypoint = await entrypointsClient.getOne("id");
+            expect(entrypoint).to.deep.equal({});
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .get("/entrypoints/id")
                 .reply(200, {
-                    id: "id",
-                    appId: "appId",
-                    urlMatcher: "urlMatcher",
-                    urlMatcherPriority: 0,
-                    smartRoutingEnabled: true,
-                    activeDeploymentId: null,
-                    configuration: null
+                    createdAt: unixEpochISO,
+                    updatedAt: unixEpochISO
                 });
             const entrypoint = await entrypointsClient.getOne("id");
             expect(entrypoint).to.deep.equal({
-                id: "id",
-                appId: "appId",
-                urlMatcher: "urlMatcher",
-                urlMatcherPriority: 0,
-                smartRoutingEnabled: true,
-                activeDeploymentId: null,
-                configuration: null
+                createdAt: unixEpoch,
+                updatedAt: unixEpoch
             });
         });
     });
@@ -92,27 +100,30 @@ describe("EntrypointsClient", () => {
                     appId: "appId",
                     urlMatcher: "urlMatcher"
                 })
-                .reply(201, {
-                    id: "id",
+                .reply(201, {});
+            const entrypoint = await entrypointsClient.create({
+                appId: "appId",
+                urlMatcher: "urlMatcher"
+            });
+            expect(entrypoint).to.deep.equal({});
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .post("/entrypoints", {
                     appId: "appId",
-                    urlMatcher: "urlMatcher",
-                    urlMatcherPriority: 0,
-                    smartRoutingEnabled: true,
-                    activeDeploymentId: null,
-                    configuration: null
+                    urlMatcher: "urlMatcher"
+                })
+                .reply(201, {
+                    createdAt: unixEpochISO,
+                    updatedAt: unixEpochISO
                 });
             const entrypoint = await entrypointsClient.create({
                 appId: "appId",
                 urlMatcher: "urlMatcher"
             });
             expect(entrypoint).to.deep.equal({
-                id: "id",
-                appId: "appId",
-                urlMatcher: "urlMatcher",
-                urlMatcherPriority: 0,
-                smartRoutingEnabled: true,
-                activeDeploymentId: null,
-                configuration: null
+                createdAt: unixEpoch,
+                updatedAt: unixEpoch
             });
         });
     });
@@ -138,26 +149,25 @@ describe("EntrypointsClient", () => {
         it("returns the updated entrypoint", async () => {
             nock(baseUrl)
                 .patch("/entrypoints/id", { appId: "newAppId" })
+                .reply(200, {});
+            const entrypoint = await entrypointsClient.update("id", {
+                appId: "newAppId"
+            });
+            expect(entrypoint).to.deep.equal({});
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .patch("/entrypoints/id", { appId: "newAppId" })
                 .reply(200, {
-                    id: "id",
-                    appId: "newAppId",
-                    urlMatcher: "urlMatcher",
-                    urlMatcherPriority: 0,
-                    smartRoutingEnabled: true,
-                    activeDeploymentId: null,
-                    configuration: null
+                    createdAt: unixEpochISO,
+                    updatedAt: unixEpochISO
                 });
             const entrypoint = await entrypointsClient.update("id", {
                 appId: "newAppId"
             });
             expect(entrypoint).to.deep.equal({
-                id: "id",
-                appId: "newAppId",
-                urlMatcher: "urlMatcher",
-                urlMatcherPriority: 0,
-                smartRoutingEnabled: true,
-                activeDeploymentId: null,
-                configuration: null
+                createdAt: unixEpoch,
+                updatedAt: unixEpoch
             });
         });
     });
