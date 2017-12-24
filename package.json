@@ -8,7 +8,8 @@
     "app",
     "cli",
     "docs",
-    "sdk"
+    "sdk",
+    "storage"
   ],
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",

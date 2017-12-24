@@ -21,7 +21,7 @@ export default class DeploymentClient {
 
     async create(deployment: {
         entrypointIdOrUrlMatcher: string;
-        /** base64 string of the tar.gz directory */
+        /** base64 string of the tar.gz of the directory to deploy */
         content: string;
         appIdOrName?: string;
         description?: string;

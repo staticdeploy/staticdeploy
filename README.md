@@ -8,6 +8,7 @@ Deploy and configure your static apps with ease.
 
 * [api-server](./api-server)
 * [static-server](./static-server)
+* [storage](./storage)
 
 **[Client side]**
 

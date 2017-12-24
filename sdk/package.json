@@ -33,13 +33,13 @@
   "devDependencies": {
     "@types/chai": "^4.0.5",
     "@types/mocha": "^2.2.44",
-    "@types/nock": "^8.2.1",
+    "@types/nock": "^9.1.0",
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
     "nock": "^9.1.0",
     "nyc": "^11.3.0",
     "prettier": "^1.8.0",
-    "ts-node": "^3.1.0",
+    "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
     "typescript": "^2.6.1"
