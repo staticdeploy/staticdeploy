@@ -11,10 +11,11 @@ import getModels, { IModels } from "../src/models";
 
 chai.use(chaiAsPromised);
 
-const databaseUrl = `sqlite://${os.tmpdir()}/db.sqlite`;
+const databasePath = path.join(os.tmpdir(), "db.sqlite");
+const databaseUrl = `sqlite://${databasePath}`;
 export const deploymentsPath = path.join(os.tmpdir(), "deployments");
 
-removeSync(databaseUrl);
+removeSync(databasePath);
 
 export const storageClient = new StorageClient({
     databaseUrl,
@@ -25,9 +26,9 @@ const sequelize = new Sequelize(databaseUrl, { logging: false });
 export const models: IModels = getModels(sequelize);
 
 export interface IData {
-    apps?: any[];
-    deployments?: any[];
-    entrypoints?: any[];
+    apps?: { id: string; name: string }[];
+    entrypoints?: { id: string; urlMatcher: string; appId: string }[];
+    deployments?: { id: string; entrypointId: string }[];
 }
 
 export async function insertFixtures(data: IData) {
@@ -46,13 +47,25 @@ export async function insertFixtures(data: IData) {
 
     // Insert provided database fixtures
     for (const app of data.apps || []) {
-        await App.create(app);
+        await App.create({
+            ...app,
+            defaultConfiguration: {}
+        });
     }
     for (const entrypoint of data.entrypoints || []) {
-        await Entrypoint.create(entrypoint);
+        await Entrypoint.create({
+            ...entrypoint,
+            urlMatcherPriority: 0,
+            smartRoutingEnabled: true,
+            activeDeploymentId: null,
+            configuration: null
+        });
     }
     for (const deployment of data.deployments || []) {
-        await Deployment.create(deployment);
+        await Deployment.create({
+            ...deployment,
+            description: null
+        });
         await mkdirp(path.join(deploymentsPath, deployment.id));
     }
 }
