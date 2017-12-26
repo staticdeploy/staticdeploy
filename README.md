@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/staticdeploy/staticdeploy.svg?style=svg)](https://circleci.com/gh/staticdeploy/staticdeploy)
+[![CircleCI](https://img.shields.io/circleci/project/github/staticdeploy/staticdeploy.svg)](https://circleci.com/gh/staticdeploy/staticdeploy)
 [![codecov](https://codecov.io/gh/staticdeploy/staticdeploy/branch/master/graph/badge.svg)](https://codecov.io/gh/staticdeploy/staticdeploy)
 
 # staticdeploy
