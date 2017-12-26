@@ -6,11 +6,20 @@ jobs:
     steps:
       - checkout
       - run:
-          command: |
-            yarn install
-            yarn lint
-            yarn coverage
-            yarn publish-coverage
+          name: Install dependencies
+          command: yarn install
+      - run:
+          name: Compile modules
+          command: yarn compile
+      - run:
+          name: Run linters
+          command: yarn lint
+      - run:
+          name: Run tests and calculate code coverage
+          command: yarn coverage
+      - run:
+          name: Publish code coverage report
+          command: yarn publish-coverage
 
 workflows:
   version: 2

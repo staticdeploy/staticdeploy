@@ -21,6 +21,7 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
+    "compile": "lerna run compile --stream --concurrency 1",
     "lint": "lerna run lint --stream --concurrency 1",
     "test": "lerna run test --stream --concurrency 1",
     "coverage": "nyc --all yarn test",
