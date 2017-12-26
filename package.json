@@ -19,5 +19,17 @@
   },
   "bugs": {
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "compile": "lerna run compile --stream --concurrency 1",
+    "lint": "lerna run lint --stream --concurrency 1",
+    "test": "lerna run test --stream --concurrency 1",
+    "coverage": "nyc --all yarn test",
+    "publish-coverage": "codecov"
+  },
+  "devDependencies": {
+    "codecov": "^3.0.0",
+    "lerna": "^2.5.1",
+    "nyc": "^11.4.1"
   }
 }

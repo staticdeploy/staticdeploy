@@ -1,0 +1,19 @@
+{
+  "include": [
+    "**/src/**/*.js",
+    "**/src/**/*.jsx",
+    "**/src/**/*.ts",
+    "**/src/**/*.tsx"
+  ],
+  "reporter": [
+    "lcov",
+    "text-summary",
+    "html"
+  ],
+  "extension": [
+    ".js",
+    ".jsx",
+    ".ts",
+    ".tsx"
+  ]
+}

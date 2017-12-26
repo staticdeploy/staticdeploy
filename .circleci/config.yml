@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - run:
+          name: Compile modules
+          command: yarn compile
+      - run:
+          name: Run linters
+          command: yarn lint
+      - run:
+          name: Run tests and calculate code coverage
+          command: yarn coverage
+      - run:
+          name: Publish code coverage report
+          command: yarn publish-coverage
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test

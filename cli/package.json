@@ -23,7 +23,7 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
-    "compile": "tsc",
+    "compile": "rimraf build && tsc",
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",
@@ -38,6 +38,7 @@
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
     "prettier": "^1.8.0",
+    "rimraf": "^2.6.2",
     "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
