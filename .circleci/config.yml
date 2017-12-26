@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          command: |
+            yarn install
+            yarn lint
+            yarn coverage
+            yarn publish-coverage
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test

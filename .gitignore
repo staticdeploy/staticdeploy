@@ -1,3 +1,7 @@
+# Nyc (test coverage) files
+/coverage
+/.nyc_output
+
 # Npm + yarn files
 node_modules
 npm-debug.log*
