@@ -14,10 +14,9 @@ export default (sequelize: Sequelize.Sequelize): EntrypointModel =>
             id: { type: Sequelize.STRING, primaryKey: true },
             appId: { type: Sequelize.STRING },
             urlMatcher: { type: Sequelize.STRING },
-            urlMatcherPriority: { type: Sequelize.INTEGER },
-            smartRoutingEnabled: { type: Sequelize.BOOLEAN },
-            activeDeploymentId: { type: Sequelize.STRING },
+            fallbackResource: { type: Sequelize.STRING },
             configuration: { type: Sequelize.JSON },
+            activeDeploymentId: { type: Sequelize.STRING },
             createdAt: { type: Sequelize.DATE },
             updatedAt: { type: Sequelize.DATE }
         },

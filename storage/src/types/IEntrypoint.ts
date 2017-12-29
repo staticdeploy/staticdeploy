@@ -4,10 +4,9 @@ export default interface IEntrypoint {
     id: string;
     appId: string;
     urlMatcher: string;
-    urlMatcherPriority: number;
-    smartRoutingEnabled: boolean;
-    activeDeploymentId: string | null;
+    fallbackResource: string;
     configuration: IConfiguration | null;
+    activeDeploymentId: string | null;
     createdAt: Date;
     updatedAt: Date;
 };

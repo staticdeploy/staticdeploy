@@ -27,3 +27,15 @@ export class ConflictingEntrypointError extends Error {
         super(`An entrypoint with urlMatcher = ${urlMatcher} already exists`);
     }
 }
+
+export class UrlMatcherNotValidError extends Error {
+    constructor(urlMatcher: string) {
+        super(`${urlMatcher} is not a valid urlMatcher`);
+    }
+}
+
+export class DeploymentAssetNotFoundError extends Error {
+    constructor(path: string) {
+        super(`No asset found at path ${path}`);
+    }
+}

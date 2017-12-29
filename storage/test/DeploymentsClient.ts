@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { createTree, destroyTree } from "create-fs-tree";
-import { pathExists } from "fs-extra";
-import { readFile } from "mz/fs";
+import { createTree, destroyTree, IDefinition } from "create-fs-tree";
+import { pathExists, removeSync } from "fs-extra";
+import { readFile, readFileSync } from "mz/fs";
 import os = require("os");
 import path = require("path");
 import tar = require("tar");
@@ -14,26 +14,22 @@ import {
     storageClient
 } from "./setup";
 
-const contentPath = path.join(os.tmpdir(), "content");
-const contentTargzPath = path.join(os.tmpdir(), "content.tar.gz");
-let contentTargz: Buffer;
-before(async () => {
-    createTree(contentPath, {
-        "index.html": "index.html",
-        "index.js": "index.js"
-    });
-    await tar.create({ cwd: contentPath, file: contentTargzPath }, ["."]);
-    contentTargz = await readFile(contentTargzPath);
-});
-after(() => {
+function targzOf(definition: IDefinition): Buffer {
+    const contentPath = path.join(os.tmpdir(), "content");
+    const contentTargzPath = path.join(os.tmpdir(), "content.tar.gz");
+    createTree(contentPath, definition);
+    tar.create({ cwd: contentPath, file: contentTargzPath, sync: true }, ["."]);
     destroyTree(contentPath);
-});
+    const contentTargz = readFileSync(contentTargzPath);
+    removeSync(contentTargzPath);
+    return contentTargz;
+}
 
 describe("DeploymentsClient.findOneById", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }],
             deployments: [{ id: "1", entrypointId: "1" }]
         });
     });
@@ -52,7 +48,7 @@ describe("DeploymentsClient.findManyByEntrypointId", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }],
             deployments: [{ id: "1", entrypointId: "1" }]
         });
     });
@@ -78,7 +74,7 @@ describe("DeploymentsClient.findAll", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }],
             deployments: [{ id: "1", entrypointId: "1" }]
         });
     });
@@ -94,13 +90,16 @@ describe("DeploymentsClient.create", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
         });
     });
     it("throws an EntrypointNotFoundError if the deployment links to a non-existing entrypoint", async () => {
         const createPromise = storageClient.deployments.create({
             entrypointId: "2",
-            content: contentTargz
+            content: targzOf({
+                "index.html": "index.html",
+                "index.js": "index.js"
+            })
         });
         await expect(createPromise).to.be.rejectedWith(
             errors.EntrypointNotFoundError
@@ -112,7 +111,10 @@ describe("DeploymentsClient.create", () => {
     it("creates a deployment", async () => {
         await storageClient.deployments.create({
             entrypointId: "1",
-            content: contentTargz
+            content: targzOf({
+                "index.html": "index.html",
+                "index.js": "index.js"
+            })
         });
         const deploymentInstance = await models.Deployment.findOne({
             where: { entrypointId: "1" }
@@ -122,7 +124,10 @@ describe("DeploymentsClient.create", () => {
     it("returns the created deployment as a pojo", async () => {
         const deployment = await storageClient.deployments.create({
             entrypointId: "1",
-            content: contentTargz
+            content: targzOf({
+                "index.html": "index.html",
+                "index.js": "index.js"
+            })
         });
         const deploymentInstance = await models.Deployment.findOne({
             where: { entrypointId: "1" }
@@ -132,7 +137,10 @@ describe("DeploymentsClient.create", () => {
     it("unpacks the deployment content", async () => {
         const deployment = await storageClient.deployments.create({
             entrypointId: "1",
-            content: contentTargz
+            content: targzOf({
+                "index.html": "index.html",
+                "index.js": "index.js"
+            })
         });
         // Base folder
         const deploymentPath = path.join(deploymentsPath, deployment.id);
@@ -159,7 +167,7 @@ describe("DeploymentsClient.delete", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }],
             deployments: [{ id: "1", entrypointId: "1" }]
         });
         await models.Entrypoint.update(
@@ -190,5 +198,97 @@ describe("DeploymentsClient.delete", () => {
         await storageClient.deployments.delete("1");
         const entrypointInstance = await models.Entrypoint.findById("1");
         expect(entrypointInstance!.get("activeDeploymentId")).to.equal(null);
+    });
+});
+
+describe("DeploymentsClient.listDeploymentAssetsPaths", () => {
+    beforeEach(async () => {
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
+        });
+    });
+    it("throws a DeploymentNotFoundError if no deployment with the specified id exists", async () => {
+        const deletePromise = storageClient.deployments.listDeploymentAssetsPaths(
+            "1"
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            errors.DeploymentNotFoundError
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            "No deployment found with id = 1"
+        );
+    });
+    it("returns a list of the (absolute) paths of the deployment assets", async () => {
+        const deployment = await storageClient.deployments.create({
+            entrypointId: "1",
+            content: targzOf({
+                file: "file",
+                "folder-0": {
+                    "folder-1": {
+                        file: "file"
+                    },
+                    file: "file"
+                }
+            })
+        });
+        const deploymentAssetsPaths = await storageClient.deployments.listDeploymentAssetsPaths(
+            deployment.id
+        );
+        expect(deploymentAssetsPaths.sort()).to.deep.equal(
+            ["/file", "/folder-0/file", "/folder-0/folder-1/file"].sort()
+        );
+    });
+});
+
+describe("DeploymentsClient.getDeploymentAsset", () => {
+    beforeEach(async () => {
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }],
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
+        });
+    });
+    it("throws a DeploymentNotFoundError if no deployment with the specified id exists", async () => {
+        const deletePromise = storageClient.deployments.getDeploymentAsset(
+            "1",
+            "/index.html"
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            errors.DeploymentNotFoundError
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            "No deployment found with id = 1"
+        );
+    });
+    it("throws an DeploymentAssetNotFoundError if no asset is found at the given path", async () => {
+        const deployment = await storageClient.deployments.create({
+            entrypointId: "1",
+            content: targzOf({ file: "file" })
+        });
+        const deletePromise = storageClient.deployments.getDeploymentAsset(
+            deployment.id,
+            "/non-existing"
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            errors.DeploymentAssetNotFoundError
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            "No asset found at path /non-existing"
+        );
+    });
+    it("returns the asset (as an IAsset) at the specified path", async () => {
+        const deployment = await storageClient.deployments.create({
+            entrypointId: "1",
+            content: targzOf({ "index.html": "index.html" })
+        });
+        const deploymentAsset = await storageClient.deployments.getDeploymentAsset(
+            deployment.id,
+            "/index.html"
+        );
+        expect(deploymentAsset).to.deep.equal({
+            path: "/index.html",
+            mimeType: "text/html",
+            content: Buffer.from("index.html")
+        });
     });
 });

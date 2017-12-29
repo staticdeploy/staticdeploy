@@ -118,7 +118,7 @@ describe("AppsClient.delete", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", urlMatcher: "1", appId: "1" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
         });
     });
     it("throws an AppNotFoundError if no app with the specified id exists", async () => {

@@ -1,4 +1,6 @@
+import { isAbsolute, normalize } from "path";
 import Sequelize = require("sequelize");
+import { isFQDN } from "validator";
 
 import DeploymentsClient from "./DeploymentsClient";
 import { IModels } from "./models";
@@ -9,6 +11,43 @@ import generateId from "./utils/generateId";
 import toPojo from "./utils/toPojo";
 
 export default class EntrypointsClient {
+    /*
+    *   A valid urlMatcher has the shape domain + path, where domain is a
+    *   fully-qualified domain name, and path an absolute and normalized path
+    *   ending with a /.
+    *
+    *   Example of valid urlMatchers:
+    *   - domain.com/
+    *   - domain.com/path/
+    *   - subdomain.domain.com/path/subpath/
+    *
+    *   Example of invalid urlMatchers:
+    *   - http://domain.com/
+    *   - domain.com
+    *   - domain.com/path
+    */
+    static isUrlMatcherValid(urlMatcher: string): boolean {
+        const indexOfFirstSlash = urlMatcher.indexOf("/");
+        // Must contain at least a / to be valid
+        if (indexOfFirstSlash === -1) {
+            return false;
+        }
+        const domain = urlMatcher.slice(0, indexOfFirstSlash);
+        const path = urlMatcher.slice(indexOfFirstSlash);
+        return (
+            isFQDN(domain) &&
+            isAbsolute(path) &&
+            normalize(path) === path &&
+            /\/$/.test(path)
+        );
+    }
+
+    static validateUrlMatcher(urlMatcher: string): void {
+        if (!EntrypointsClient.isUrlMatcherValid(urlMatcher)) {
+            throw new errors.UrlMatcherNotValidError(urlMatcher);
+        }
+    }
+
     private deploymentsClient: DeploymentsClient;
     private App: IModels["App"];
     private Deployment: IModels["Deployment"];
@@ -56,8 +95,7 @@ export default class EntrypointsClient {
     async create(partial: {
         appId: string;
         urlMatcher: string;
-        urlMatcherPriority?: number;
-        smartRoutingEnabled?: boolean;
+        fallbackResource?: string;
         configuration?: IConfiguration;
     }): Promise<IEntrypoint> {
         // Ensure the linked app exists
@@ -65,6 +103,9 @@ export default class EntrypointsClient {
         if (!linkedApp) {
             throw new errors.AppNotFoundError(partial.appId);
         }
+
+        // Validate the urlMatcher
+        EntrypointsClient.validateUrlMatcher(partial.urlMatcher);
 
         // Ensure no entrypoint with the same urlMatcher exists
         const conflictingEntrypoint = await this.Entrypoint.findOne({
@@ -78,11 +119,9 @@ export default class EntrypointsClient {
             id: generateId(),
             appId: partial.appId,
             urlMatcher: partial.urlMatcher,
-            urlMatcherPriority: partial.urlMatcherPriority || 0,
-            smartRoutingEnabled:
-                partial.smartRoutingEnabled === false ? false : true,
-            activeDeploymentId: null,
-            configuration: partial.configuration || null
+            fallbackResource: partial.fallbackResource || "/index.html",
+            configuration: partial.configuration || null,
+            activeDeploymentId: null
         });
         return toPojo(entrypoint);
     }
@@ -92,10 +131,9 @@ export default class EntrypointsClient {
         patch: {
             appId?: string;
             urlMatcher?: string;
-            urlMatcherPriority?: number;
-            smartRoutingEnabled?: boolean;
-            activeDeploymentId?: string | null;
+            fallbackResource?: string;
             configuration?: IConfiguration | null;
+            activeDeploymentId?: string | null;
         }
     ): Promise<IEntrypoint> {
         // Ensure the entrypoint exists
@@ -122,6 +160,11 @@ export default class EntrypointsClient {
                     patch.activeDeploymentId
                 );
             }
+        }
+
+        // Validate the urlMatcher
+        if (patch.urlMatcher) {
+            EntrypointsClient.validateUrlMatcher(patch.urlMatcher);
         }
 
         // Ensure no entrypoint with the same urlMatcher exists

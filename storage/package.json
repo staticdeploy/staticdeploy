@@ -18,7 +18,7 @@
   },
   "scripts": {
     "compile": "rimraf lib && tsc",
-    "prepublish": "yarn compile",
+    "prepublishOnly": "yarn compile",
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",
@@ -29,20 +29,28 @@
   },
   "dependencies": {
     "fs-extra": "^5.0.0",
+    "lodash": "^4.17.4",
+    "mime": "^2.1.0",
     "mz": "^2.7.0",
+    "recursive-readdir": "^2.2.1",
     "sequelize": "^4.28.6",
     "sqlite3": "^3.1.13",
     "tar": "^4.1.1",
-    "umzug": "^2.1.0"
+    "umzug": "^2.1.0",
+    "validator": "^9.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.5",
     "@types/chai-as-promised": "^7.1.0",
     "@types/fs-extra": "^5.0.0",
+    "@types/lodash": "^4.14.91",
+    "@types/mime": "^2.0.0",
     "@types/mocha": "^2.2.44",
     "@types/mz": "^0.0.32",
+    "@types/recursive-readdir": "^2.2.0",
     "@types/tar": "^4.0.0",
     "@types/umzug": "^2.0.1",
+    "@types/validator": "^6.3.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "create-fs-tree": "^1.0.0",

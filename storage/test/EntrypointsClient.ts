@@ -1,5 +1,6 @@
 import { expect } from "chai";
 
+import EntrypointsClient from "../src/EntrypointsClient";
 import * as errors from "../src/utils/errors";
 import { insertFixtures, models, storageClient } from "./setup";
 
@@ -7,13 +8,13 @@ describe("EntrypointsClient.findOneById", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
         });
     });
     it("if an entrypoint by the specified id exists, returns it as a pojo", async () => {
         const entrypoint = await storageClient.entrypoints.findOneById("1");
         expect(entrypoint).to.have.property("id", "1");
-        expect(entrypoint).to.have.property("urlMatcher", "1");
+        expect(entrypoint).to.have.property("urlMatcher", "1.com/");
     });
     it("if an entrypoint by the specified id doesn't exist, returns null", async () => {
         const entrypoint = await storageClient.entrypoints.findOneById("2");
@@ -25,7 +26,7 @@ describe("EntrypointsClient.findOneByIdOrUrlMatcher", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "2" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "2.com/" }]
         });
     });
     it("if an entrypoint by the specified id or urlMatcher exists, returns it as a pojo", async () => {
@@ -33,12 +34,12 @@ describe("EntrypointsClient.findOneByIdOrUrlMatcher", () => {
             "1"
         );
         expect(entrypointById).to.have.property("id", "1");
-        expect(entrypointById).to.have.property("urlMatcher", "2");
+        expect(entrypointById).to.have.property("urlMatcher", "2.com/");
         const entrypointByUrlMatcher = await storageClient.entrypoints.findOneByIdOrUrlMatcher(
-            "2"
+            "2.com/"
         );
         expect(entrypointByUrlMatcher).to.have.property("id", "1");
-        expect(entrypointByUrlMatcher).to.have.property("urlMatcher", "2");
+        expect(entrypointByUrlMatcher).to.have.property("urlMatcher", "2.com/");
     });
     it("if an entrypoint by the specified id or urlMatcher doesn't exist, returns null", async () => {
         const entrypoint = await storageClient.entrypoints.findOneByIdOrUrlMatcher(
@@ -52,7 +53,7 @@ describe("EntrypointsClient.findManyByAppId", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
         });
     });
     describe("returns all entrypoints with the specified appId as pojo-s", () => {
@@ -62,7 +63,7 @@ describe("EntrypointsClient.findManyByAppId", () => {
             );
             expect(entrypoints).to.have.length(1);
             expect(entrypoints[0]).to.have.property("id", "1");
-            expect(entrypoints[0]).to.have.property("urlMatcher", "1");
+            expect(entrypoints[0]).to.have.property("urlMatcher", "1.com/");
         });
         it("case: no existing entrypoints with specified appId", async () => {
             const entrypoints = await storageClient.entrypoints.findManyByAppId(
@@ -77,14 +78,14 @@ describe("EntrypointsClient.findAll", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
         });
     });
     it("returns all entrypoints as pojo-s", async () => {
         const entrypoints = await storageClient.entrypoints.findAll();
         expect(entrypoints).to.have.length(1);
         expect(entrypoints[0]).to.have.property("id", "1");
-        expect(entrypoints[0]).to.have.property("urlMatcher", "1");
+        expect(entrypoints[0]).to.have.property("urlMatcher", "1.com/");
     });
 });
 
@@ -92,13 +93,25 @@ describe("EntrypointsClient.create", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", appId: "1", urlMatcher: "2" }]
+            entrypoints: [{ id: "1", appId: "1", urlMatcher: "2.com/" }]
         });
+    });
+    it("throws an UrlMatcherNotValidError if the urlMatcher is not valid", async () => {
+        const createPromise = storageClient.entrypoints.create({
+            appId: "1",
+            urlMatcher: "1"
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.UrlMatcherNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "1 is not a valid urlMatcher"
+        );
     });
     it("throws an AppNotFoundError if the entrypoint links to a non-existing app", async () => {
         const createPromise = storageClient.entrypoints.create({
             appId: "2",
-            urlMatcher: "1"
+            urlMatcher: "1.com/"
         });
         await expect(createPromise).to.be.rejectedWith(errors.AppNotFoundError);
         await expect(createPromise).to.be.rejectedWith(
@@ -108,29 +121,32 @@ describe("EntrypointsClient.create", () => {
     it("throws a ConflictingEntrypointError if an entrypoint with the same urlMatcher exists", async () => {
         const createPromise = storageClient.entrypoints.create({
             appId: "1",
-            urlMatcher: "2"
+            urlMatcher: "2.com/"
         });
         await expect(createPromise).to.be.rejectedWith(
             errors.ConflictingEntrypointError
         );
         await expect(createPromise).to.be.rejectedWith(
-            "An entrypoint with urlMatcher = 2 already exists"
+            "An entrypoint with urlMatcher = 2.com/ already exists"
         );
     });
     it("creates an entrypoint", async () => {
-        await storageClient.entrypoints.create({ appId: "1", urlMatcher: "1" });
+        await storageClient.entrypoints.create({
+            appId: "1",
+            urlMatcher: "1.com/"
+        });
         const entrypointInstance = await models.Entrypoint.findOne({
-            where: { urlMatcher: "1" }
+            where: { urlMatcher: "1.com/" }
         });
         expect(entrypointInstance).not.to.equal(null);
     });
     it("returns the created entrypoint as a pojo", async () => {
         const entrypoint = await storageClient.entrypoints.create({
             appId: "1",
-            urlMatcher: "1"
+            urlMatcher: "1.com/"
         });
         const entrypointInstance = await models.Entrypoint.findOne({
-            where: { urlMatcher: "1" }
+            where: { urlMatcher: "1.com/" }
         });
         expect(entrypoint).to.deep.equal(entrypointInstance!.get());
     });
@@ -141,8 +157,8 @@ describe("EntrypointsClient.update", () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
             entrypoints: [
-                { id: "1", appId: "1", urlMatcher: "1" },
-                { id: "2", appId: "1", urlMatcher: "2" }
+                { id: "1", appId: "1", urlMatcher: "1.com/" },
+                { id: "2", appId: "1", urlMatcher: "2.com/" }
             ]
         });
     });
@@ -175,27 +191,38 @@ describe("EntrypointsClient.update", () => {
             "No deployment found with id = 1"
         );
     });
+    it("throws an UrlMatcherNotValidError if the urlMatcher is not valid", async () => {
+        const updatePromise = storageClient.entrypoints.update("1", {
+            urlMatcher: "1"
+        });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.UrlMatcherNotValidError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "1 is not a valid urlMatcher"
+        );
+    });
     it("throws a ConflictingEntrypointError if an entrypoint with the same urlMatcher exists", async () => {
         const updatePromise = storageClient.entrypoints.update("1", {
-            urlMatcher: "2"
+            urlMatcher: "2.com/"
         });
         await expect(updatePromise).to.be.rejectedWith(
             errors.ConflictingEntrypointError
         );
         await expect(updatePromise).to.be.rejectedWith(
-            "An entrypoint with urlMatcher = 2 already exists"
+            "An entrypoint with urlMatcher = 2.com/ already exists"
         );
     });
     it("updates the entrypoint", async () => {
-        await storageClient.entrypoints.update("1", { urlMatcher: "3" });
+        await storageClient.entrypoints.update("1", { urlMatcher: "3.com/" });
         const entrypointInstance = await models.Entrypoint.findById("1");
-        expect(entrypointInstance!.get("urlMatcher")).to.equal("3");
+        expect(entrypointInstance!.get("urlMatcher")).to.equal("3.com/");
     });
     it("returns the updated entrypoint as a pojo", async () => {
         const entrypoint = await storageClient.entrypoints.update("1", {
-            urlMatcher: "3"
+            urlMatcher: "3.com/"
         });
-        expect(entrypoint).to.have.property("urlMatcher", "3");
+        expect(entrypoint).to.have.property("urlMatcher", "3.com/");
     });
 });
 
@@ -227,5 +254,35 @@ describe("EntrypointsClient.delete", () => {
         await storageClient.entrypoints.delete("1");
         const entrypointInstance = await models.Entrypoint.findById("1");
         expect(entrypointInstance).to.equal(null);
+    });
+});
+
+describe("EntrypointsClient.isUrlMatcherValid", () => {
+    describe("returns true when the passed-in urlMatcher is valid", () => {
+        [
+            "domain.com/",
+            "domain.com/path/",
+            "subdomain.domain.com/path/subpath/"
+        ].forEach(urlMatcher => {
+            it(`case: ${urlMatcher}`, () => {
+                expect(
+                    EntrypointsClient.isUrlMatcherValid(urlMatcher)
+                ).to.equal(true);
+            });
+        });
+    });
+    describe("returns false when the passed-in urlMatcher is not valid", () => {
+        [
+            "http://domain.com/",
+            "domain.com",
+            "domain.com/path",
+            "domain.com/path/../subpath/"
+        ].forEach(urlMatcher => {
+            it(`case: ${urlMatcher}`, () => {
+                expect(
+                    EntrypointsClient.isUrlMatcherValid(urlMatcher)
+                ).to.equal(false);
+            });
+        });
     });
 });

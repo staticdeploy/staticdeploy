@@ -55,8 +55,7 @@ export async function insertFixtures(data: IData) {
     for (const entrypoint of data.entrypoints || []) {
         await Entrypoint.create({
             ...entrypoint,
-            urlMatcherPriority: 0,
-            smartRoutingEnabled: true,
+            fallbackResource: "index.html",
             activeDeploymentId: null,
             configuration: null
         });

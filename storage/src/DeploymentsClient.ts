@@ -1,17 +1,17 @@
-import { remove } from "fs-extra";
-import { mkdir, writeFile } from "mz/fs";
-import * as path from "path";
+import { remove, pathExists } from "fs-extra";
+import { getType } from "mime";
+import { mkdir, readFile, writeFile } from "mz/fs";
+import { join, normalize } from "path";
+import recursiveReaddir = require("recursive-readdir");
 import tar = require("tar");
 
+import { IModels } from "./models";
+import IAsset from "./types/IAsset";
 import IDeployment from "./types/IDeployment";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
+import removePrefix from "./utils/removePrefix";
 import toPojo from "./utils/toPojo";
-
-import { IModels } from "./models";
-
-const getBaseDeploymentPath = (deploymentsPath: string, deploymentId: string) =>
-    path.join(deploymentsPath, deploymentId);
 
 export default class DeploymentsClient {
     private Deployment: IModels["Deployment"];
@@ -61,12 +61,11 @@ export default class DeploymentsClient {
         });
 
         // Unpack the deployment content
-        const baseDeploymentPath = getBaseDeploymentPath(
-            this.deploymentsPath,
+        const baseDeploymentPath = this.getBaseDeploymentPath(
             deployment.get("id")
         );
-        const targzPath = path.join(baseDeploymentPath, "content.tar.gz");
-        const rootPath = path.join(baseDeploymentPath, "root");
+        const targzPath = join(baseDeploymentPath, "content.tar.gz");
+        const rootPath = join(baseDeploymentPath, "root");
         await mkdir(baseDeploymentPath);
         await mkdir(rootPath);
         await writeFile(targzPath, partial.content);
@@ -89,10 +88,48 @@ export default class DeploymentsClient {
         );
 
         await deployment.destroy();
-        const baseDeploymentPath = getBaseDeploymentPath(
-            this.deploymentsPath,
-            id
-        );
+        const baseDeploymentPath = this.getBaseDeploymentPath(id);
         await remove(baseDeploymentPath);
+    }
+
+    async listDeploymentAssetsPaths(id: string): Promise<string[]> {
+        // Ensure the deployment exists
+        const deployment = await this.Deployment.findById(id);
+        if (!deployment) {
+            throw new errors.DeploymentNotFoundError(id);
+        }
+
+        const baseDeploymentPath = this.getBaseDeploymentPath(id);
+        const rootPath = join(baseDeploymentPath, "root");
+        const localPaths = await recursiveReaddir(rootPath);
+        return localPaths.map(localPath => removePrefix(localPath, rootPath));
+    }
+
+    async getDeploymentAsset(id: string, path: string): Promise<IAsset> {
+        // Ensure the deployment exists
+        const deployment = await this.Deployment.findById(id);
+        if (!deployment) {
+            throw new errors.DeploymentNotFoundError(id);
+        }
+
+        const baseDeploymentPath = this.getBaseDeploymentPath(id);
+        const rootPath = join(baseDeploymentPath, "root");
+        const normalizedPath = normalize(join("/", path));
+        const assetPath = join(rootPath, normalizedPath);
+
+        // Ensure the asset exists
+        if (!await pathExists(assetPath)) {
+            throw new errors.DeploymentAssetNotFoundError(path);
+        }
+
+        return {
+            path: normalizedPath,
+            mimeType: getType(normalizedPath) || "application/octet-stream",
+            content: await readFile(join(rootPath, normalizedPath))
+        };
+    }
+
+    private getBaseDeploymentPath(id: string) {
+        return join(this.deploymentsPath, id);
     }
 }

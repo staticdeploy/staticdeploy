@@ -42,20 +42,16 @@ export const up = async (q: Sequelize.QueryInterface) => {
             unique: true,
             allowNull: false
         },
-        urlMatcherPriority: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        smartRoutingEnabled: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false
-        },
-        activeDeploymentId: {
+        fallbackResource: {
             type: Sequelize.STRING,
-            allowNull: true
+            allowNull: false
         },
         configuration: {
             type: Sequelize.JSON,
+            allowNull: true
+        },
+        activeDeploymentId: {
+            type: Sequelize.STRING,
             allowNull: true
         },
         createdAt: {
