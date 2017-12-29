@@ -1,4 +1,4 @@
-import { remove, pathExists } from "fs-extra";
+import { pathExists, remove } from "fs-extra";
 import { getType } from "mime";
 import { mkdir, readFile, writeFile } from "mz/fs";
 import { join, normalize } from "path";

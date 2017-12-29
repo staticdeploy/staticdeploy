@@ -14,13 +14,14 @@
             "@types/chai",
             "@types/chai-as-promised",
             "@types/fs-extra",
-            "@types/fs-readdir-recursive",
             "@types/lodash",
             "@types/mime",
             "@types/mocha",
             "@types/mz",
+            "@types/recursive-readdir",
             "@types/tar",
-            "@types/umzug"
+            "@types/umzug",
+            "@types/validator"
         ],
         "module": "commonjs",
         "moduleResolution": "node",
