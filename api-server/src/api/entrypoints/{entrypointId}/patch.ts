@@ -12,8 +12,7 @@ interface IRequest extends Request {
     body: {
         appId?: IEntrypoint["appId"];
         urlMatcher?: IEntrypoint["urlMatcher"];
-        urlMatcherPriority?: IEntrypoint["urlMatcherPriority"];
-        smartRoutingEnabled?: IEntrypoint["smartRoutingEnabled"];
+        fallbackResource?: IEntrypoint["fallbackResource"];
         activeDeploymentId?: IEntrypoint["activeDeploymentId"];
         configuration?: IEntrypoint["configuration"];
     };
@@ -28,11 +27,8 @@ const bodySchema = {
         urlMatcher: {
             type: "string"
         },
-        urlMatcherPriority: {
-            type: "number"
-        },
-        smartRoutingEnabled: {
-            type: "boolean"
+        fallbackResource: {
+            type: "string"
         },
         activeDeploymentId: {
             type: "string"

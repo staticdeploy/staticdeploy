@@ -17,7 +17,7 @@ describe("api GET /entrypoints/:entrypointId", () => {
         server = await getApp();
         ids = await insertFixtures({
             apps: [{ name: "0" }],
-            entrypoints: [{ appId: "$0", urlMatcher: "0" }]
+            entrypoints: [{ appId: "$0", urlMatcher: "0.com/" }]
         });
     });
 

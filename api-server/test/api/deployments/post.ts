@@ -16,14 +16,11 @@ describe("api POST /deployments", () => {
         server = await getApp();
         await insertFixtures({
             apps: [{ name: "0" }],
-            entrypoints: [{ appId: "$0", urlMatcher: "0" }]
+            entrypoints: [{ appId: "$0", urlMatcher: "0.com/" }]
         });
     });
 
     it("400 on invalid request body", () => {
-        // We just test one case in which the body is invalid (missing property
-        // name), to test that validation is indeed working. We do not test all
-        // validation cases, since validation is expressed declaratively
         return request(server)
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
@@ -44,13 +41,13 @@ describe("api POST /deployments", () => {
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "1",
+                entrypointIdOrUrlMatcher: "1.com/",
                 appIdOrName: "0",
                 content: ""
             })
             .expect(201);
         const entrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
-            "1"
+            "1.com/"
         );
         expect(entrypoint).not.to.equal(null);
     });
@@ -60,7 +57,7 @@ describe("api POST /deployments", () => {
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "1",
+                entrypointIdOrUrlMatcher: "1.com/",
                 appIdOrName: "1",
                 content: ""
             })
@@ -68,7 +65,7 @@ describe("api POST /deployments", () => {
         const app = await storage.apps.findOneByIdOrName("1");
         expect(app).not.to.equal(null);
         const entrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
-            "1"
+            "1.com/"
         );
         expect(entrypoint).not.to.equal(null);
     });
@@ -78,7 +75,7 @@ describe("api POST /deployments", () => {
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "0",
+                entrypointIdOrUrlMatcher: "0.com/",
                 content: ""
             })
             .expect(201);
@@ -91,7 +88,7 @@ describe("api POST /deployments", () => {
             .post("/deployments")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                entrypointIdOrUrlMatcher: "0",
+                entrypointIdOrUrlMatcher: "0.com/",
                 content: ""
             })
             .expect(201);

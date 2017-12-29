@@ -20,9 +20,6 @@ describe("api POST /apps", () => {
     });
 
     it("400 on invalid request body", () => {
-        // We just test one case in which the body is invalid (missing property
-        // name), to test that validation is indeed working. We do not test all
-        // validation cases, since validation is expressed declaratively
         return request(server)
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)

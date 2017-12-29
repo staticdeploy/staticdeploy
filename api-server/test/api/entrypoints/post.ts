@@ -17,14 +17,11 @@ describe("api POST /entrypoints", () => {
         server = await getApp();
         ids = await insertFixtures({
             apps: [{ name: "0" }],
-            entrypoints: [{ appId: "$0", urlMatcher: "0" }]
+            entrypoints: [{ appId: "$0", urlMatcher: "0.com/" }]
         });
     });
 
     it("400 on invalid request body", () => {
-        // We just test one case in which the body is invalid (missing property
-        // name), to test that validation is indeed working. We do not test all
-        // validation cases, since validation is expressed declaratively
         return request(server)
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
@@ -32,11 +29,20 @@ describe("api POST /entrypoints", () => {
             .expect(400);
     });
 
+    it("400 on invalid urlMatcher", () => {
+        return request(server)
+            .post("/entrypoints")
+            .set("Authorization", `Bearer ${token}`)
+            .send({ appId: ids.apps[0], urlMatcher: "1" })
+            .expect(400)
+            .expect({ message: "1 is not a valid urlMatcher" });
+    });
+
     it("404 on non-existing linked app", () => {
         return request(server)
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
-            .send({ appId: "non-existing", urlMatcher: "1" })
+            .send({ appId: "non-existing", urlMatcher: "1.com/" })
             .expect(404);
     });
 
@@ -44,7 +50,7 @@ describe("api POST /entrypoints", () => {
         return request(server)
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
-            .send({ appId: ids.apps[0], urlMatcher: "0" })
+            .send({ appId: ids.apps[0], urlMatcher: "0.com/" })
             .expect(409);
     });
 
@@ -52,10 +58,10 @@ describe("api POST /entrypoints", () => {
         const response = await request(server)
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
-            .send({ appId: ids.apps[0], urlMatcher: "1" })
+            .send({ appId: ids.apps[0], urlMatcher: "1.com/" })
             .expect(201);
         const entrypoint = await storage.entrypoints.findOneByIdOrUrlMatcher(
-            "1"
+            "1.com/"
         );
         expect(response.body).to.be.jsonOf(entrypoint);
     });

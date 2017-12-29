@@ -18,8 +18,8 @@ describe("api GET /entrypoints", () => {
         ids = await insertFixtures({
             apps: [{ name: "0" }, { name: "1" }],
             entrypoints: [
-                { appId: "$0", urlMatcher: "0" },
-                { appId: "$1", urlMatcher: "1" }
+                { appId: "$0", urlMatcher: "0.com/" },
+                { appId: "$1", urlMatcher: "1.com/" }
             ]
         });
     });

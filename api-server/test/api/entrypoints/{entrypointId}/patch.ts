@@ -18,8 +18,8 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
         ids = await insertFixtures({
             apps: [{ name: "0" }],
             entrypoints: [
-                { appId: "$0", urlMatcher: "0" },
-                { appId: "$0", urlMatcher: "1" }
+                { appId: "$0", urlMatcher: "0.com/" },
+                { appId: "$0", urlMatcher: "1.com/" }
             ]
         });
     });
@@ -31,6 +31,16 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
             .send({ defaultConfiguration: { key: {} } })
             .set("Authorization", `Bearer ${token}`)
             .expect(400);
+    });
+
+    it("400 on invalid urlMatcher", async () => {
+        const entrypointId = ids.entrypoints[0];
+        await request(server)
+            .patch(`/entrypoints/${entrypointId}`)
+            .send({ urlMatcher: "2" })
+            .set("Authorization", `Bearer ${token}`)
+            .expect(400)
+            .expect({ message: "2 is not a valid urlMatcher" });
     });
 
     it("404 on entrypoint not found", () => {
@@ -63,7 +73,7 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
         const entrypointId = ids.entrypoints[0];
         return request(server)
             .patch(`/entrypoints/${entrypointId}`)
-            .send({ urlMatcher: "1" })
+            .send({ urlMatcher: "1.com/" })
             .set("Authorization", `Bearer ${token}`)
             .expect(409);
     });
@@ -72,7 +82,7 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
         const entrypointId = ids.entrypoints[0];
         return request(server)
             .patch(`/entrypoints/${entrypointId}`)
-            .send({ urlMatcher: "0" })
+            .send({ urlMatcher: "0.com/" })
             .set("Authorization", `Bearer ${token}`)
             .expect(200);
     });
@@ -81,7 +91,7 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
         const entrypointId = ids.entrypoints[0];
         const response = await request(server)
             .patch(`/entrypoints/${entrypointId}`)
-            .send({ urlMatcher: "2" })
+            .send({ urlMatcher: "2.com/" })
             .set("Authorization", `Bearer ${token}`)
             .expect(200);
         const entrypoint = await storage.entrypoints.findOneById(entrypointId);

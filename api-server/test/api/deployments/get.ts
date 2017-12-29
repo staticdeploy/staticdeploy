@@ -18,8 +18,8 @@ describe("api GET /deployments", () => {
         ids = await insertFixtures({
             apps: [{ name: "0" }],
             entrypoints: [
-                { appId: "$0", urlMatcher: "0" },
-                { appId: "$0", urlMatcher: "1" }
+                { appId: "$0", urlMatcher: "0.com/" },
+                { appId: "$0", urlMatcher: "1.com/" }
             ],
             deployments: [{ entrypointId: "$0" }, { entrypointId: "$1" }]
         });
@@ -41,6 +41,17 @@ describe("api GET /deployments", () => {
             );
             const response = await request(server)
                 .get(`/deployments?entrypointIdOrUrlMatcher=${entrypointId}`)
+                .set("Authorization", `Bearer ${token}`)
+                .expect(200);
+            expect(response.body).to.be.jsonOf([deployment]);
+        });
+        it("case: filter by urlMatcher", async () => {
+            const deploymentId = ids.deployments[0];
+            const deployment = await storage.deployments.findOneById(
+                deploymentId
+            );
+            const response = await request(server)
+                .get(`/deployments?entrypointIdOrUrlMatcher=0.com/`)
                 .set("Authorization", `Bearer ${token}`)
                 .expect(200);
             expect(response.body).to.be.jsonOf([deployment]);

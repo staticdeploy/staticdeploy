@@ -3,7 +3,8 @@ import {
     ConflictingAppError,
     ConflictingEntrypointError,
     DeploymentNotFoundError,
-    EntrypointNotFoundError
+    EntrypointNotFoundError,
+    UrlMatcherNotValidError
 } from "@staticdeploy/storage";
 import { IConvRoute } from "convexpress";
 
@@ -13,7 +14,9 @@ export default (
     try {
         await (handler as any)(req, res);
     } catch (err) {
-        if (
+        if (err instanceof UrlMatcherNotValidError) {
+            res.status(400).send({ message: err.message });
+        } else if (
             err instanceof AppNotFoundError ||
             err instanceof DeploymentNotFoundError ||
             err instanceof EntrypointNotFoundError
