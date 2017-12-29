@@ -46,6 +46,7 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
+    "@staticdeploy/storage": "^0.0.0",
     "axios": "^0.17.1"
   }
 }

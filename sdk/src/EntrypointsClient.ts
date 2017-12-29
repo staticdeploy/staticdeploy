@@ -1,19 +1,7 @@
+import { IConfiguration, IEntrypoint } from "@staticdeploy/storage";
 import { AxiosInstance } from "axios";
 
-import IConfiguration from "./IConfiguration";
 import parseDates from "./parseDates";
-
-export interface IEntrypoint {
-    id: string;
-    appId: string;
-    urlMatcher: string;
-    urlMatcherPriority: number;
-    smartRoutingEnabled: boolean;
-    activeDeploymentId: string | null;
-    configuration: IConfiguration | null;
-    createdAt: Date;
-    updatedAt: Date;
-}
 
 export default class EntrypointsClient {
     constructor(private axios: AxiosInstance) {}
@@ -31,8 +19,7 @@ export default class EntrypointsClient {
     async create(entrypoint: {
         appId: string;
         urlMatcher: string;
-        urlMatcherPriority?: string;
-        smartRoutingEnabled?: boolean;
+        fallbackResource?: string;
         configuration?: IConfiguration;
     }): Promise<IEntrypoint> {
         const result = await this.axios.post("/entrypoints", entrypoint);
@@ -48,10 +35,9 @@ export default class EntrypointsClient {
         patch: {
             appId?: string;
             urlMatcher?: string;
-            urlMatcherPriority?: string;
-            activeDeploymentId?: string;
-            smartRoutingEnabled?: boolean;
-            configuration?: IConfiguration;
+            fallbackResource?: string;
+            configuration?: IConfiguration | null;
+            activeDeploymentId?: string | null;
         }
     ): Promise<void> {
         const result = await this.axios.patch(`/entrypoints/${id}`, patch);

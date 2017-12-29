@@ -4,6 +4,13 @@ import AppsClient from "./AppsClient";
 import DeploymentsClient from "./DeploymentsClient";
 import EntrypointsClient from "./EntrypointsClient";
 
+export {
+    IApp,
+    IConfiguration,
+    IDeployment,
+    IEntrypoint
+} from "@staticdeploy/storage";
+
 export default class StaticdeployClient {
     public apps: AppsClient;
     public deployments: DeploymentsClient;

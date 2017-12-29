@@ -31,7 +31,7 @@ const bodySchema = {
             type: "string"
         },
         activeDeploymentId: {
-            type: "string"
+            $oneOf: [{ type: "string" }, { type: "null" }]
         },
         configuration: {
             $oneOf: [schemas.configuration, { type: "null" }]

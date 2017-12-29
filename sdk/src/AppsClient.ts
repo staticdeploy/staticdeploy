@@ -1,15 +1,7 @@
+import { IApp, IConfiguration } from "@staticdeploy/storage";
 import { AxiosInstance } from "axios";
 
-import IConfiguration from "./IConfiguration";
 import parseDates from "./parseDates";
-
-export interface IApp {
-    id: string;
-    name: string;
-    defaultConfiguration: IConfiguration;
-    createdAt: Date;
-    updatedAt: Date;
-}
 
 export default class AppsClient {
     constructor(private axios: AxiosInstance) {}
