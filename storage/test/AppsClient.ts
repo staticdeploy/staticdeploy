@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import * as errors from "../src/utils/errors";
+import { eq } from "../src/utils/sequelizeOperators";
 import { insertFixtures, models, storageClient } from "./setup";
 
 describe("AppsClient.findOneById", () => {
@@ -71,12 +72,16 @@ describe("AppsClient.create", () => {
     });
     it("creates an app", async () => {
         await storageClient.apps.create({ name: "1" });
-        const appInstance = await models.App.findOne({ where: { name: "1" } });
+        const appInstance = await models.App.findOne({
+            where: { name: eq("1") }
+        });
         expect(appInstance).not.to.equal(null);
     });
     it("returns the created app as a pojo", async () => {
         const app = await storageClient.apps.create({ name: "1" });
-        const appInstance = await models.App.findOne({ where: { name: "1" } });
+        const appInstance = await models.App.findOne({
+            where: { name: eq("1") }
+        });
         expect(app).to.deep.equal(appInstance!.get());
     });
 });
@@ -131,7 +136,7 @@ describe("AppsClient.delete", () => {
     it("deletes all linked entrypoints", async () => {
         await storageClient.apps.delete("1");
         const entrypointInstances = await models.Entrypoint.findAll({
-            where: { appId: "1" }
+            where: { appId: eq("1") }
         });
         expect(entrypointInstances).to.have.length(0);
     });

@@ -1,5 +1,4 @@
 import { isAbsolute, normalize } from "path";
-import Sequelize = require("sequelize");
 import { isFQDN } from "validator";
 
 import DeploymentsClient from "./DeploymentsClient";
@@ -8,6 +7,7 @@ import IConfiguration from "./types/IConfiguration";
 import IEntrypoint from "./types/IEntrypoint";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
+import { eq, or } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
 
 export default class EntrypointsClient {
@@ -72,18 +72,18 @@ export default class EntrypointsClient {
         idOrUrlMatcher: string
     ): Promise<IEntrypoint | null> {
         const entrypoint = await this.Entrypoint.findOne({
-            where: {
-                [Sequelize.Op.or]: [
-                    { id: idOrUrlMatcher },
-                    { urlMatcher: idOrUrlMatcher }
-                ]
-            }
+            where: or([
+                { id: eq(idOrUrlMatcher) },
+                { urlMatcher: eq(idOrUrlMatcher) }
+            ])
         });
         return toPojo(entrypoint);
     }
 
     async findManyByAppId(appId: string): Promise<IEntrypoint[]> {
-        const entrypoints = await this.Entrypoint.findAll({ where: { appId } });
+        const entrypoints = await this.Entrypoint.findAll({
+            where: { appId: eq(appId) }
+        });
         return entrypoints.map(toPojo);
     }
 
@@ -109,7 +109,7 @@ export default class EntrypointsClient {
 
         // Ensure no entrypoint with the same urlMatcher exists
         const conflictingEntrypoint = await this.Entrypoint.findOne({
-            where: { urlMatcher: partial.urlMatcher }
+            where: { urlMatcher: eq(partial.urlMatcher) }
         });
         if (conflictingEntrypoint) {
             throw new errors.ConflictingEntrypointError(partial.urlMatcher);
@@ -173,7 +173,7 @@ export default class EntrypointsClient {
             patch.urlMatcher !== entrypoint.get("urlMatcher")
         ) {
             const conflictingEntrypoint = await this.Entrypoint.findOne({
-                where: { urlMatcher: patch.urlMatcher }
+                where: { urlMatcher: eq(patch.urlMatcher) }
             });
             if (conflictingEntrypoint) {
                 throw new errors.ConflictingEntrypointError(patch.urlMatcher);

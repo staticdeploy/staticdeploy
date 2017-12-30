@@ -7,6 +7,7 @@ import path = require("path");
 import tar = require("tar");
 
 import * as errors from "../src/utils/errors";
+import { eq } from "../src/utils/sequelizeOperators";
 import {
     deploymentsPath,
     insertFixtures,
@@ -117,7 +118,7 @@ describe("DeploymentsClient.create", () => {
             })
         });
         const deploymentInstance = await models.Deployment.findOne({
-            where: { entrypointId: "1" }
+            where: { entrypointId: eq("1") }
         });
         expect(deploymentInstance).not.to.equal(null);
     });
@@ -130,7 +131,7 @@ describe("DeploymentsClient.create", () => {
             })
         });
         const deploymentInstance = await models.Deployment.findOne({
-            where: { entrypointId: "1" }
+            where: { entrypointId: eq("1") }
         });
         expect(deployment).to.deep.equal(deploymentInstance!.get());
     });
@@ -172,7 +173,7 @@ describe("DeploymentsClient.delete", () => {
         });
         await models.Entrypoint.update(
             { activeDeploymentId: "1" },
-            { where: { id: "1" } }
+            { where: { id: eq("1") } }
         );
     });
     it("throws a DeploymentNotFoundError if no deployment with the specified id exists", async () => {

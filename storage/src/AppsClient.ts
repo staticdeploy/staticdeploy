@@ -1,11 +1,10 @@
-import Sequelize = require("sequelize");
-
 import EntrypointsClient from "./EntrypointsClient";
 import { IModels } from "./models";
 import IApp from "./types/IApp";
 import IConfiguration from "./types/IConfiguration";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
+import { eq, or } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
 
 export default class AppsClient {
@@ -27,9 +26,7 @@ export default class AppsClient {
 
     async findOneByIdOrName(idOrName: string): Promise<IApp | null> {
         const app = await this.App.findOne({
-            where: {
-                [Sequelize.Op.or]: [{ id: idOrName }, { name: idOrName }]
-            }
+            where: or([{ id: eq(idOrName) }, { name: eq(idOrName) }])
         });
         return toPojo(app);
     }
@@ -45,7 +42,7 @@ export default class AppsClient {
     }): Promise<IApp> {
         // Ensure no app with the same name exists
         const conflictingApp = await this.App.findOne({
-            where: { name: partial.name }
+            where: { name: eq(partial.name) }
         });
         if (conflictingApp) {
             throw new errors.ConflictingAppError(partial.name);
@@ -75,7 +72,7 @@ export default class AppsClient {
         // Ensure no app with the same name exists
         if (patch.name && patch.name !== app.get("name")) {
             const conflictingApp = await this.App.findOne({
-                where: { name: patch.name }
+                where: { name: eq(patch.name) }
             });
             if (conflictingApp) {
                 throw new errors.ConflictingAppError(patch.name);

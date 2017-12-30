@@ -28,7 +28,8 @@ export default class StorageClient {
 
         // Instantiate sequelize
         this.sequelize = new Sequelize(options.databaseUrl, {
-            logging: false
+            logging: false,
+            operatorsAliases: false
         });
 
         // Instantiate storage clients

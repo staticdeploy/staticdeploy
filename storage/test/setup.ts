@@ -22,7 +22,10 @@ export const storageClient = new StorageClient({
     deploymentsPath
 });
 
-const sequelize = new Sequelize(databaseUrl, { logging: false });
+const sequelize = new Sequelize(databaseUrl, {
+    logging: false,
+    operatorsAliases: false
+});
 export const models: IModels = getModels(sequelize);
 
 export interface IData {

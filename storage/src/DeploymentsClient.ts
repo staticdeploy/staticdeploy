@@ -11,6 +11,7 @@ import IDeployment from "./types/IDeployment";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import removePrefix from "./utils/removePrefix";
+import { eq } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
 
 export default class DeploymentsClient {
@@ -31,7 +32,7 @@ export default class DeploymentsClient {
 
     async findManyByEntrypointId(entrypointId: string): Promise<IDeployment[]> {
         const deployments = await this.Deployment.findAll({
-            where: { entrypointId }
+            where: { entrypointId: eq(entrypointId) }
         });
         return deployments.map(toPojo);
     }
@@ -84,7 +85,11 @@ export default class DeploymentsClient {
         // Null-ify entrypoint links the deployment
         await this.Entrypoint.update(
             { activeDeploymentId: null },
-            { where: { activeDeploymentId: deployment.get("id") } }
+            {
+                where: {
+                    activeDeploymentId: eq(deployment.get("id"))
+                }
+            }
         );
 
         await deployment.destroy();

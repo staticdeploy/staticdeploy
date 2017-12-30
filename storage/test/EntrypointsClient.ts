@@ -2,6 +2,7 @@ import { expect } from "chai";
 
 import EntrypointsClient from "../src/EntrypointsClient";
 import * as errors from "../src/utils/errors";
+import { eq } from "../src/utils/sequelizeOperators";
 import { insertFixtures, models, storageClient } from "./setup";
 
 describe("EntrypointsClient.findOneById", () => {
@@ -136,7 +137,7 @@ describe("EntrypointsClient.create", () => {
             urlMatcher: "1.com/"
         });
         const entrypointInstance = await models.Entrypoint.findOne({
-            where: { urlMatcher: "1.com/" }
+            where: { urlMatcher: eq("1.com/") }
         });
         expect(entrypointInstance).not.to.equal(null);
     });
@@ -146,7 +147,7 @@ describe("EntrypointsClient.create", () => {
             urlMatcher: "1.com/"
         });
         const entrypointInstance = await models.Entrypoint.findOne({
-            where: { urlMatcher: "1.com/" }
+            where: { urlMatcher: eq("1.com/") }
         });
         expect(entrypoint).to.deep.equal(entrypointInstance!.get());
     });
@@ -246,7 +247,7 @@ describe("EntrypointsClient.delete", () => {
     it("deletes all linked deployments", async () => {
         await storageClient.entrypoints.delete("1");
         const deploymentInstances = await models.Deployment.findAll({
-            where: { entrypointId: "1" }
+            where: { entrypointId: eq("1") }
         });
         expect(deploymentInstances).to.have.length(0);
     });

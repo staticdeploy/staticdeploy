@@ -19,7 +19,7 @@ export interface IIds {
 
 export async function insertFixtures(data: IData): Promise<IIds> {
     // Setup and/or reset database
-    // await storage.setup();
+    await storage.setup();
     const apps = await storage.apps.findAll();
     for (const app of apps) {
         await storage.apps.delete(app.id);
