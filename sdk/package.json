@@ -32,9 +32,9 @@
   "devDependencies": {
     "@types/chai": "^4.0.5",
     "@types/mocha": "^2.2.44",
-    "@types/nock": "^9.1.0",
+    "@types/nock": "^9.1.1",
     "chai": "^4.1.2",
-    "mocha": "^4.0.1",
+    "mocha": "^4.1.0",
     "nock": "^9.1.0",
     "nyc": "^11.3.0",
     "prettier": "^1.8.0",
