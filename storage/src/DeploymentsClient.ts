@@ -110,7 +110,7 @@ export default class DeploymentsClient {
         return localPaths.map(localPath => removePrefix(localPath, rootPath));
     }
 
-    async getDeploymentAsset(id: string, path: string): Promise<IAsset> {
+    async getDeploymentAsset(id: string, path: string): Promise<IAsset | null> {
         // Ensure the deployment exists
         const deployment = await this.Deployment.findById(id);
         if (!deployment) {
@@ -124,7 +124,7 @@ export default class DeploymentsClient {
 
         // Ensure the asset exists
         if (!await pathExists(assetPath)) {
-            throw new errors.DeploymentAssetNotFoundError(path);
+            return null;
         }
 
         return {

@@ -261,21 +261,16 @@ describe("DeploymentsClient.getDeploymentAsset", () => {
             "No deployment found with id = 1"
         );
     });
-    it("throws an DeploymentAssetNotFoundError if no asset is found at the given path", async () => {
+    it("returns null if no asset is found at the given path", async () => {
         const deployment = await storageClient.deployments.create({
             entrypointId: "1",
             content: targzOf({ file: "file" })
         });
-        const deletePromise = storageClient.deployments.getDeploymentAsset(
+        const deploymentAsset = await storageClient.deployments.getDeploymentAsset(
             deployment.id,
             "/non-existing"
         );
-        await expect(deletePromise).to.be.rejectedWith(
-            errors.DeploymentAssetNotFoundError
-        );
-        await expect(deletePromise).to.be.rejectedWith(
-            "No asset found at path /non-existing"
-        );
+        expect(deploymentAsset).to.equal(null);
     });
     it("returns the asset (as an IAsset) at the specified path", async () => {
         const deployment = await storageClient.deployments.create({

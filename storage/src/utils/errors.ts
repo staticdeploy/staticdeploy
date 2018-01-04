@@ -33,9 +33,3 @@ export class UrlMatcherNotValidError extends Error {
         super(`${urlMatcher} is not a valid urlMatcher`);
     }
 }
-
-export class DeploymentAssetNotFoundError extends Error {
-    constructor(path: string) {
-        super(`No asset found at path ${path}`);
-    }
-}
