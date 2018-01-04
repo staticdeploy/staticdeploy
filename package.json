@@ -22,6 +22,8 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
+    "precommit": "yarn lint && yarn test",
+    "commitmsg": "commitlint -e $GIT_PARAMS",
     "compile": "lerna run compile --stream --concurrency 1",
     "lint": "lerna run lint --stream --concurrency 1",
     "test": "lerna run test --stream --concurrency 1",
@@ -29,7 +31,11 @@
     "publish-coverage": "codecov"
   },
   "devDependencies": {
+    "@commitlint/cli": "^5.2.8",
+    "@commitlint/config-conventional": "^5.2.3",
+    "@commitlint/config-lerna-scopes": "^5.2.7",
     "codecov": "^3.0.0",
+    "husky": "^0.14.3",
     "lerna": "^2.5.1",
     "nyc": "^11.4.1"
   }
