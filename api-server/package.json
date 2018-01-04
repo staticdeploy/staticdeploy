@@ -20,8 +20,7 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "TS_NODE_CACHE=false NODE_ENV=test NODE_PATH=src mocha --exit -t 5000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
-    "coverage": "nyc -r html -r lcov -r text-summary --extension .ts npm test",
+    "test": "TS_NODE_TYPE_CHECK=true NODE_ENV=test NODE_PATH=src mocha --exit -t 5000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
     "start": "NODE_ENV=production NODE_PATH=build node build/server.js"
   },
   "dependencies": {

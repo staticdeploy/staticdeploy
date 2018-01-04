@@ -18,9 +18,8 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint '@(src|test)/**/*.ts?(x)'",
     "lint": "npm-run-all lint:*",
-    "test": "TS_NODE_CACHE=false TS_NODE_PROJECT=test NODE_ENV=test mocha --exit -r test/setup --watch-extensions ts,tsx 'test/**/*.ts?(x)'",
-    "coverage": "nyc -r html -r lcov -r text-summary --extension .ts --extension .tsx npm test",
-    "dev:mock-server": "TS_NODE_PROJECT=mock-server mock-server --delay 1000 --watch --require ts-node/register --serveConfig",
+    "test": "TS_NODE_TYPE_CHECK=true TS_NODE_PROJECT=test NODE_ENV=test mocha --exit -r test/setup --watch-extensions ts,tsx 'test/**/*.ts?(x)'",
+    "dev:mock-server": "TS_NODE_TYPE_CHECK=true TS_NODE_PROJECT=mock-server mock-server --delay 1000 --watch --require ts-node/register --serveConfig",
     "dev:server": "webpack-dev-server --config webpack/dev.js",
     "dev": "npm-run-all -p dev:*",
     "build": "webpack --config webpack/prod.js"
