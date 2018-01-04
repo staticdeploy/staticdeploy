@@ -9,7 +9,8 @@
     "cli",
     "docs",
     "sdk",
-    "storage"
+    "storage",
+    "static-server"
   ],
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",

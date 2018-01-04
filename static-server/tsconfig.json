@@ -1,0 +1,42 @@
+{
+    "include": [
+        "src/**/*.ts",
+        "typings/**/*.ts"
+    ],
+    "compilerOptions": {
+        "target": "es2017",
+        // yarn (through lerna) hoist dependencies of all workspaces in the
+        // project root. Since some @types packages conflict with each other
+        // (for example jest and mocha, both defining global `beforeEach`), we
+        // can't use the compiler's default behaviour of loading all @types
+        // packages, and we need to manually specify the required ones
+        // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
+        "types": [
+            "@types/bunyan",
+            "@types/chai",
+            "@types/cheerio",
+            "@types/express",
+            "@types/lodash",
+            "@types/mocha",
+            "@types/supertest",
+            "@types/tar"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "baseUrl": "src",
+        "outDir": "build",
+        "pretty": true,
+        "noEmitOnError": true,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "alwaysStrict": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true
+    }
+}
