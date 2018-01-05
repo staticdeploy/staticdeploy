@@ -35,7 +35,6 @@
     "@types/mocha": "^2.2.44",
     "@types/yargs": "^10.0.1",
     "mocha": "^4.1.0",
-    "nyc": "^11.3.0",
     "prettier": "^1.8.0",
     "rimraf": "^2.6.2",
     "ts-node": "^4.1.0",
