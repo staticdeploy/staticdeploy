@@ -1,22 +1,11 @@
 {
     "extends": [
-        "tslint:latest",
-        "tslint-config-prettier",
+        "../tslint.json",
         "tslint-react"
     ],
     "rules": {
-        "array-type": false,
         "jsx-no-lambda": false,
         "jsx-no-multiline-js": false,
-        "jsx-wrap-multiline": false,
-        "max-classes-per-file": false,
-        "member-access": false,
-        "no-console": false,
-        "no-submodule-imports": false,
-        "no-implicit-dependencies": false,
-        "object-literal-shorthand": false,
-        "object-literal-sort-keys": false,
-        "prefer-object-spread": false,
-        "variable-name": false
+        "jsx-wrap-multiline": false
     }
 }

@@ -1,7 +1,0 @@
-# dotenv file
-.env
-
-# react-scripts directories
-/build
-/coverage
-/.nyc_output

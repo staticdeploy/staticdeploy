@@ -1,40 +1,35 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
     "target": "es5",
+    "module": "esnext",
     "lib": [
       "es2017",
       "dom"
     ],
+    // yarn (through lerna) hoists dependencies of all workspaces in the
+    // project root. Since some @types packages conflict with each other
+    // (for example jest and mocha, both defining global `beforeEach`), we
+    // can't use the compiler's default behaviour of loading all @types
+    // packages, and we need to manually specify the required ones
+    // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
     "types": [
       "@types/chai",
-      "@types/enzyme-adapter-react-16",
       "@types/enzyme",
+      "@types/enzyme-adapter-react-16",
       "@types/express",
       "@types/faker",
       "@types/lodash",
       "@types/mocha",
       "@types/node",
+      "@types/react",
       "@types/react-dom",
       "@types/react-router-dom",
-      "@types/react",
-      "@types/sinon-chai",
-      "@types/sinon"
+      "@types/sinon",
+      "@types/sinon-chai"
     ],
-    "sourceMap": true,
     "jsx": "react",
-    "moduleResolution": "node",
-    "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "suppressImplicitAnyIndexErrors": true
   }
 }

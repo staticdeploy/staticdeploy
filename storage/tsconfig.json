@@ -1,10 +1,10 @@
 {
+    "extends": "../tsconfig.json",
     "include": [
         "src/**/*.ts"
     ],
     "compilerOptions": {
-        "target": "es2017",
-        // yarn (through lerna) hoist dependencies of all workspaces in the
+        // yarn (through lerna) hoists dependencies of all workspaces in the
         // project root. Since some @types packages conflict with each other
         // (for example jest and mocha, both defining global `beforeEach`), we
         // can't use the compiler's default behaviour of loading all @types
@@ -23,22 +23,7 @@
             "@types/umzug",
             "@types/validator"
         ],
-        "module": "commonjs",
-        "moduleResolution": "node",
         "outDir": "lib",
-        "pretty": true,
-        "noEmitOnError": true,
-        "sourceMap": true,
-        "declaration": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "alwaysStrict": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "strictNullChecks": true
+        "declaration": true
     }
 }

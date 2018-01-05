@@ -28,7 +28,8 @@
     "lint": "lerna run lint --stream --concurrency 1",
     "test": "lerna run test --stream --concurrency 1",
     "coverage": "nyc --all yarn test",
-    "publish-coverage": "codecov"
+    "publish-coverage": "codecov",
+    "lerna": "lerna"
   },
   "devDependencies": {
     "@commitlint/cli": "^5.2.8",

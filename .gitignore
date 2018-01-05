@@ -1,6 +1,11 @@
+# Output directories
+lib
+build
+_book
+
 # Nyc (test coverage) files
-/coverage
-/.nyc_output
+coverage
+.nyc_output
 
 # Npm + yarn files
 node_modules
@@ -11,3 +16,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 lerna-error.log*
+
+# dotenv file
+.env

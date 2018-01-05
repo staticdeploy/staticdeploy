@@ -1,9 +1,0 @@
-{
-    "tabWidth": 4,
-    "overrides": [{
-        "files": "test/**/*.ts",
-        "options": {
-            "printWidth": 120
-        }
-    }]
-}
