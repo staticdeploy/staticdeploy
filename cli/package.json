@@ -1,75 +1,59 @@
 {
-  "name": "@staticdeploy/cli",
-  "description": "CLI tool for staticdeploy",
-  "version": "0.0.0",
-  "publishConfig": {
-    "access": "public"
-  },
-  "bin": {
-    "staticdeploy": "./bin/staticdeploy.js"
-  },
-  "files": [
-    "bin",
-    "build"
-  ],
-  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/staticdeploy/staticdeploy.git"
-  },
-  "homepage": "https://github.com/staticdeploy/staticdeploy",
-  "bugs": {
-    "url": "https://github.com/staticdeploy/staticdeploy/issues"
-  },
-  "scripts": {
-    "compile": "rimraf build && tsc",
-    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
-    "prettify": "yarn prettier --write",
-    "lint:prettier": "yarn prettier --list-different",
-    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
-    "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "TS_NODE_TYPE_CHECK=true NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
-  },
-  "devDependencies": {
-<<<<<<< HEAD
-    "@types/mocha": "^2.2.48",
-    "@types/yargs": "^10.0.1",
-    "mocha": "^5.0.0",
-    "prettier": "^1.10.2",
-    "rimraf": "^2.6.2",
-    "ts-node": "^4.1.0",
-    "tslint": "^5.9.1",
-    "tslint-config-prettier": "^1.7.0",
-    "typescript": "^2.7.1"
-  },
-  "dependencies": {
-    "yargs": "^11.0.0"
-=======
-    "@types/chai": "^4.0.8",
-    "@types/find-up": "^2.1.1",
-    "@types/fs-extra": "^4.0.5",
-    "@types/mocha": "^2.2.44",
-    "@types/node": "^8.0.53",
-    "@types/sinon": "^4.1.0",
-    "@types/sinon-chai": "^2.7.29",
-    "@types/yargs": "^8.0.2",
-    "chai": "^4.1.2",
-    "mocha": "^4.0.1",
-    "nyc": "^11.3.0",
-    "prettier": "^1.8.0",
-    "sinon": "^4.1.3",
-    "sinon-chai": "^2.14.0",
-    "ts-node": "^3.1.0",
-    "tslint": "^5.8.0",
-    "tslint-config-prettier": "^1.6.0",
-    "typescript": "^2.6.1"
-  },
-  "dependencies": {
-    "@staticdeploy/sdk": "^0.0.0",
-    "find-up": "^2.1.0",
-    "fs-extra": "^4.0.2",
-    "yargs": "^10.0.3"
->>>>>>> feat(cli): add login and logout commands
-  }
+    "name": "@staticdeploy/cli",
+    "description": "CLI tool for staticdeploy",
+    "version": "0.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "bin": {
+        "staticdeploy": "./bin/staticdeploy.js"
+    },
+    "files": ["bin", "build"],
+    "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/staticdeploy/staticdeploy.git"
+    },
+    "homepage": "https://github.com/staticdeploy/staticdeploy",
+    "bugs": {
+        "url": "https://github.com/staticdeploy/staticdeploy/issues"
+    },
+    "scripts": {
+        "compile": "rimraf build && tsc",
+        "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+        "prettify": "yarn prettier --write",
+        "lint:prettier": "yarn prettier --list-different",
+        "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+        "lint": "yarn lint:prettier && yarn lint:tslint",
+        "test":
+            "TS_NODE_TYPE_CHECK=true NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.0.8",
+        "@types/find-up": "^2.1.1",
+        "@types/form-data": "^2.2.1",
+        "@types/fs-extra": "^4.0.5",
+        "@types/mocha": "^2.2.44",
+        "@types/node": "^8.0.53",
+        "@types/sinon": "^4.1.0",
+        "@types/sinon-chai": "^2.7.29",
+        "@types/yargs": "^8.0.2",
+        "chai": "^4.1.2",
+        "mocha": "^4.0.1",
+        "nyc": "^11.3.0",
+        "prettier": "^1.8.0",
+        "sinon": "^4.1.3",
+        "sinon-chai": "^2.14.0",
+        "ts-node": "^3.1.0",
+        "tslint": "^5.8.0",
+        "tslint-config-prettier": "^1.6.0",
+        "typescript": "^2.6.1"
+    },
+    "dependencies": {
+        "@staticdeploy/sdk": "^0.0.0",
+        "find-up": "^2.1.0",
+        "fs-extra": "^4.0.2",
+        "yargs": "^10.0.3"
+    }
 }
