@@ -1,5 +1,4 @@
 // tslint:disable:no-console
-import FormData = require("form-data");
 import fs = require("fs-extra");
 import yargs = require("yargs");
 
@@ -34,14 +33,12 @@ export const handler = (argv: yargs.Arguments): void => {
     (async () => {
         const { appIdOrName, contentPath, entrypointIdOrUrlMatcher } = argv;
         if (fs.existsSync(contentPath)) {
-            const content = fs.readFileSync(contentPath).toString();
+            // const content = fs.readFileSync(contentPath).toString();
             const client = sdk(argv.apiUrl, argv.apiToken);
-            const form = new FormData();
-            form.append("file", content);
             await client.deployments.create({
                 appIdOrName,
                 entrypointIdOrUrlMatcher,
-                content: form
+                content: ""
             });
         } else {
             throw new Error("There is nothing at the specified path");

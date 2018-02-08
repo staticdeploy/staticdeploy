@@ -11,10 +11,13 @@
         // packages, and we need to manually specify the required ones
         // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
         "types": [
+            "@types/chai",
             "@types/find-up",
             "@types/fs-extra",
             "@types/mocha",
             "@types/node",
+            "@types/sinon",
+            "@types/sinon-chai",
             "@types/yargs"
         ],
         "outDir": "build"
