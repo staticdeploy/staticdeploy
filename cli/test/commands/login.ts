@@ -1,5 +1,6 @@
 import chai = require("chai");
 import fs = require("fs-extra");
+import mockFs = require("mock-fs");
 import os = require("os");
 import sinon = require("sinon");
 const { expect } = chai;
@@ -37,20 +38,21 @@ describe("login", () => {
     });
 
     describe("handler function", () => {
-        let fsStub: sinon.SinonStub;
         let osStub: sinon.SinonStub;
         before(() => {
-            fsStub = sinon.stub(fs, "outputJsonSync");
+            mockFs();
             osStub = sinon.stub(os, "homedir").returns("/home-directory");
         });
 
         beforeEach(() => {
-            fsStub.resetHistory();
             osStub.resetHistory();
         });
 
+        afterEach(() => {
+            mockFs.restore();
+        });
+
         after(() => {
-            fsStub.restore();
             osStub.restore();
         });
 
@@ -61,15 +63,15 @@ describe("login", () => {
                 apiToken: "api-token",
                 $0: "build/bin/staticdeploy.js"
             });
-            expect(fs.outputJsonSync).to.have.callCount(1);
-            expect(fs.outputJsonSync).to.have.been.calledWithExactly(
-                "/home-directory/.staticdeployrc",
-                {
-                    apiUrl: "api-url",
-                    apiToken: "api-token"
-                },
-                { spaces: 4 }
+            expect(fs.existsSync("/home-directory/.staticdeployrc")).to.equal(
+                true
             );
+            expect(
+                fs.readJsonSync("/home-directory/.staticdeployrc")
+            ).to.deep.equal({
+                apiUrl: "api-url",
+                apiToken: "api-token"
+            });
         });
     });
 });

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require("../build/staticdeploy.js");
+require("../build/bin/staticdeploy");

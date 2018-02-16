@@ -1,6 +1,7 @@
 import chai = require("chai");
 import findUp = require("find-up");
 import fs = require("fs-extra");
+import mockFs = require("mock-fs");
 import sinon = require("sinon");
 const { expect } = chai;
 
@@ -36,14 +37,16 @@ describe("logout", () => {
     describe("handler function", () => {
         let argv: IArgv;
 
-        let fsStub: sinon.SinonStub;
         let findUpStub: sinon.SinonStub;
-        before(() => {
-            fsStub = sinon.stub(fs, "removeSync");
-        });
-
         beforeEach(() => {
-            fsStub.resetHistory();
+            mockFs({
+                "/home-directory": {
+                    ".staticdeployrc": {
+                        apiToken: "api-token",
+                        apiUrl: "api-url"
+                    }
+                }
+            });
             argv = {
                 _: ["logout"],
                 apiUrl: "api-url",
@@ -54,10 +57,7 @@ describe("logout", () => {
 
         afterEach(() => {
             findUpStub.restore();
-        });
-
-        after(() => {
-            fsStub.restore();
+            mockFs.restore();
         });
 
         it("calls findUp.sync with correct parameter", () => {
@@ -81,13 +81,6 @@ describe("logout", () => {
                     apiToken: "api-token",
                     $0: "build/bin/staticdeploy.js"
                 });
-                expect(fs.removeSync).to.have.callCount(0);
-            });
-
-            it("do not call fs.removeSync", () => {
-                findUpStub = sinon.stub(findUp, "sync").returns(undefined);
-                logout.handler(argv);
-                expect(fs.removeSync).to.have.callCount(0);
             });
         });
 
@@ -105,15 +98,17 @@ describe("logout", () => {
                 });
             });
 
-            it("calls removeSync with correct path config", () => {
+            it("remove .staticdeployrc file", () => {
                 findUpStub = sinon
                     .stub(findUp, "sync")
                     .returns("/home-directory/.staticdeployrc");
+                expect(
+                    fs.existsSync("/home-directory/.staticdeployrc")
+                ).to.equal(true);
                 logout.handler(argv);
-                expect(fs.removeSync).to.have.callCount(1);
-                expect(fs.removeSync).to.have.been.calledWithExactly(
-                    "/home-directory/.staticdeployrc"
-                );
+                expect(
+                    fs.existsSync("/home-directory/.staticdeployrc")
+                ).to.equal(false);
             });
         });
     });
