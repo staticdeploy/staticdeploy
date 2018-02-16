@@ -1,9 +1,9 @@
 // tslint:disable:no-console
+import StaticdeployClient from "@staticdeploy/sdk";
 import fs = require("fs-extra");
 import yargs = require("yargs");
 
 import defaultBuilder from "../../constants/defaultBuilder";
-import sdk from "../../services/staticdeploy-sdk";
 
 export const command = "create";
 export const describe = "Create deployment";
@@ -29,19 +29,35 @@ export const builder = {
     }
 };
 
-export const handler = (argv: yargs.Arguments): void => {
-    (async () => {
-        const { appIdOrName, contentPath, entrypointIdOrUrlMatcher } = argv;
-        if (fs.existsSync(contentPath)) {
-            // const content = fs.readFileSync(contentPath).toString();
-            const client = sdk(argv.apiUrl, argv.apiToken);
-            await client.deployments.create({
-                appIdOrName,
-                entrypointIdOrUrlMatcher,
-                content: ""
-            });
-        } else {
-            throw new Error("There is nothing at the specified path");
-        }
-    })();
-};
+export interface IDeployment {
+    id: string;
+    entrypointId: string;
+}
+
+export async function handler(argv: yargs.Arguments): Promise<IDeployment> {
+    const {
+        appIdOrName,
+        contentPath,
+        entrypointIdOrUrlMatcher,
+        description
+    } = argv;
+    if (!fs.existsSync(contentPath)) {
+        throw new Error("There is nothing at the specified path");
+    }
+    if (!fs.statSync(contentPath).isFile()) {
+        throw new Error(
+            "There is a folder at the specified path, please insert a path to a file"
+        );
+    }
+    const content = fs.readFileSync(contentPath, { encoding: "base64" });
+    const client = new StaticdeployClient({
+        apiUrl: argv.apiUrl,
+        apiToken: argv.apiToken
+    });
+    return client.deployments.create({
+        appIdOrName,
+        entrypointIdOrUrlMatcher,
+        content,
+        description
+    });
+}
