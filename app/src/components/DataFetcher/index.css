@@ -1,0 +1,19 @@
+.c-DataFetcher-spinner {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    min-height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.c-DataFetcher-error {
+    padding-top: 15px;
+}
+.c-DataFetcher-error a {
+    color: var(--grey-8);
+    text-decoration: underline;
+}

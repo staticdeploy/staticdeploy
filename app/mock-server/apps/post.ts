@@ -1,10 +1,12 @@
 import { RequestHandler } from "express";
-import * as faker from "faker";
+import faker from "faker";
 
 export default ((req, res) => {
     res.status(201).send({
-        id: faker.random.alphaNumeric(8),
         defaultConfiguration: {},
-        ...req.body
+        ...req.body,
+        id: faker.random.alphaNumeric(8),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
     });
 }) as RequestHandler;

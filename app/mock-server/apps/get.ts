@@ -1,13 +1,19 @@
 import { RequestHandler } from "express";
-import * as faker from "faker";
+import faker from "faker";
 import { lowerCase, range } from "lodash";
 
 const apps = range(10).map(() => ({
     id: faker.random.alphaNumeric(8),
     name: lowerCase(faker.commerce.productName()).replace(/ /g, "-"),
-    defaultConfiguration: { KEY: "VALUE" }
+    defaultConfiguration: { KEY: "VALUE" },
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.past()
 }));
 
 export default ((_req, res) => {
-    res.status(200).send(apps);
+    if (Math.random() > 0.9) {
+        res.status(400).send({ message: "Random error" });
+    } else {
+        res.status(200).send(apps);
+    }
 }) as RequestHandler;

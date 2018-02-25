@@ -3,8 +3,5 @@
     "compilerOptions": {
         "module": "commonjs"
     },
-    "include": [
-        "**/*.ts?(x)",
-        "../typings/**/*.ts"
-    ]
+    "include": ["**/*.ts?(x)", "../typings/**/*.ts"]
 }

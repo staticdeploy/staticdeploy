@@ -1,0 +1,12 @@
+.c-LoginMask {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    background: var(--grey-2);
+    padding-top: 200px;
+}
+
+.c-LoginMask-container {
+    width: 520px;
+}

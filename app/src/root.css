@@ -1,25 +1,32 @@
 .c-Root {
-    height: 100vh;
+    min-height: 100vh;
 }
 
-.c-Root .sider {
+.c-Root-sider {
+    min-height: 100vh;
     overflow: hidden;
 }
 
-.c-Root .logo-container {
+.c-Root-logo-container {
     width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     height: 64px;
 }
 
-.c-Root .logo {
-    height: 44px;
+.c-Root-logout-button-container {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 64px;
+    color: var(--grey-4);
+    transition: all 0.3s ease;
+}
+.c-Root-logout-button-container:hover {
+    color: var(--grey-1);
 }
 
-.c-Root .content {
+.c-Root-content {
     padding: 16px;
-    background-color: white;
 }

@@ -1,0 +1,10 @@
+.c-TextField
+    .has-error
+    .ant-input-affix-wrapper:hover
+    .ant-input:not(.ant-input-disabled) {
+    border-color: var(--red-6);
+}
+
+.c-TextField .has-error .ant-input-suffix {
+    color: var(--red-6);
+}

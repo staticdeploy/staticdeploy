@@ -1,35 +1,36 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    // yarn (through lerna) hoists dependencies of all workspaces in the
-    // project root. Since some @types packages conflict with each other
-    // (for example jest and mocha, both defining global `beforeEach`), we
-    // can't use the compiler's default behaviour of loading all @types
-    // packages, and we need to manually specify the required ones
-    // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
-    "types": [
-      "@types/chai",
-      "@types/enzyme",
-      "@types/enzyme-adapter-react-16",
-      "@types/express",
-      "@types/faker",
-      "@types/lodash",
-      "@types/mocha",
-      "@types/node",
-      "@types/react",
-      "@types/react-dom",
-      "@types/react-router-dom",
-      "@types/sinon",
-      "@types/sinon-chai"
-    ],
-    "jsx": "react",
-    "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true
-  }
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "esnext",
+        "lib": ["es2017", "dom"],
+        // yarn (through lerna) hoists dependencies of all workspaces in the
+        // project root. Since some @types packages conflict with each other
+        // (for example jest and mocha, both defining global `beforeEach`), we
+        // can't use the compiler's default behaviour of loading all @types
+        // packages, and we need to manually specify the required ones
+        // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
+        "types": [
+            "@types/chai",
+            "@types/classnames",
+            "@types/enzyme",
+            "@types/enzyme-adapter-react-16",
+            "@types/express",
+            "@types/faker",
+            "@types/lodash",
+            "@types/mocha",
+            "@types/node",
+            "@types/prop-types",
+            "@types/react",
+            "@types/react-dom",
+            "@types/react-router-dom",
+            "@types/sinon",
+            "@types/sinon-chai",
+            "@types/validator"
+        ],
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "suppressImplicitAnyIndexErrors": true
+    }
 }

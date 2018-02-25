@@ -1,0 +1,40 @@
+@keyframes c-OperationModal-flash-red {
+    0% {
+        background: var(--red-2);
+    }
+    100% {
+        background: initial;
+    }
+}
+
+.c-OperationModal-has-error .ant-modal-header,
+.c-OperationModal-has-error .ant-modal-body,
+.c-OperationModal-has-error .ant-modal-footer {
+    animation: c-OperationModal-flash-red 0.7s ease-in-out;
+}
+
+.c-OperationModal-success-check-container {
+    color: var(--green-6);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-OperationModal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.c-OperationModal-footer-error {
+    visibility: hidden;
+    color: var(--red-6);
+}
+.c-OperationModal-has-error .c-OperationModal-footer-error {
+    visibility: visible;
+}
+
+.c-OperationModal-footer-error .anticon {
+    margin-right: 8px;
+}

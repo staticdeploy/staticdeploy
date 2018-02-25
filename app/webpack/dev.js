@@ -4,7 +4,10 @@ const merge = require("webpack-merge");
 const common = require("./common.js");
 
 module.exports = merge(common, {
+    output: {
+        publicPath: "/"
+    },
     devServer: {
-        contentBase: common.output.path
+        historyApiFallback: true
     }
 });

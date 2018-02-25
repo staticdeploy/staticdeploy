@@ -1,0 +1,38 @@
+.c-DeploymentsList {
+    margin-bottom: 16px;
+}
+
+.c-DeploymentsList-header {
+    font-weight: 500;
+}
+
+.c-DeploymentsList-header,
+.c-DeploymentsList-item {
+    border-style: solid;
+    border-color: var(--grey-4);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 8px;
+}
+
+.c-DeploymentsList-item-description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.c-DeploymentsList-item-activate .ant-tag {
+    cursor: default;
+}
+.c-DeploymentsList-item-activate .ant-tag:hover {
+    opacity: 1;
+}
+
+.c-DeploymentsList-item-activate-button {
+    color: transparent;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.c-DeploymentsList-item-activate:hover .c-DeploymentsList-item-activate-button {
+    color: var(--blue-6);
+}

@@ -1,0 +1,25 @@
+.c-ConfigurationFieldRO {
+    margin-bottom: 16px;
+}
+
+.c-ConfigurationFieldRO-kv-pair-header {
+    font-weight: 500;
+}
+
+.c-ConfigurationFieldRO-kv-pair,
+.c-ConfigurationFieldRO-kv-pair-header {
+    border-style: solid;
+    border-color: var(--grey-4);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 8px;
+    line-height: 21px;
+}
+
+.c-ConfigurationFieldRO-kv-pair code {
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

@@ -1,0 +1,11 @@
+.c-OperationsDropdown-link {
+    font-size: 14px;
+}
+
+.c-OperationsDropdown-menu .ant-dropdown-menu-item {
+    padding: 0;
+}
+
+.c-OperationsDropdown-menu .ant-dropdown-menu-item .c-OperationsDropdownItem {
+    padding: 5px 12px;
+}
