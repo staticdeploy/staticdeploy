@@ -34,7 +34,12 @@ export default async function getApp(): Promise<express.Express> {
             })
         )
         .serveSwagger()
-        .use(bunyanMiddleware({ logger }))
+        .use(
+            bunyanMiddleware({
+                logger: logger,
+                obscureHeaders: ["Authorization"]
+            })
+        )
         .use(authenticateRequest(config.JWT_SECRET))
         .loadFrom(`${__dirname}/api/**/*.@(ts|js)`);
 
