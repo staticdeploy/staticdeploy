@@ -39,7 +39,7 @@ export default class EntrypointsClient {
             configuration?: IConfiguration | null;
             activeDeploymentId?: string | null;
         }
-    ): Promise<void> {
+    ): Promise<IEntrypoint> {
         const result = await this.axios.patch(`/entrypoints/${id}`, patch);
         return parseDates(result.data);
     }

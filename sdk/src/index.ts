@@ -33,7 +33,11 @@ export default class StaticdeployClient {
         this.entrypoints = new EntrypointsClient(this.axios);
     }
 
-    setApiToken(apiToken: string) {
-        this.axios.defaults.headers.Authorization = `Bearer ${apiToken}`;
+    setApiToken(apiToken: string | null) {
+        if (apiToken) {
+            this.axios.defaults.headers.Authorization = `Bearer ${apiToken}`;
+        } else {
+            delete this.axios.defaults.headers.Authorization;
+        }
     }
 }
