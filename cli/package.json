@@ -31,6 +31,12 @@
     "lint": "yarn lint:prettier && yarn lint:tslint",
     "test": "TS_NODE_TYPE_CHECK=true NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
+  "dependencies": {
+    "@staticdeploy/sdk": "^0.0.0",
+    "fs-extra": "^5.0.0",
+    "tar": "^4.4.0",
+    "yargs": "^11.0.0"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/chai-as-promised": "^7.1.0",
@@ -54,11 +60,5 @@
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.9.0",
     "typescript": "^2.7.2"
-  },
-  "dependencies": {
-    "@staticdeploy/sdk": "^0.0.0",
-    "fs-extra": "^5.0.0",
-    "tar": "^4.4.0",
-    "yargs": "^11.0.0"
   }
 }

@@ -26,6 +26,7 @@
     "build": "yarn compile"
   },
   "dependencies": {
+    "@staticdeploy/sdk": "^0.0.0",
     "antd": "^3.2.2",
     "classnames": "^2.2.5",
     "date-fns": "^1.29.0",

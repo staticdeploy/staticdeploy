@@ -29,6 +29,11 @@
     "lint": "yarn lint:prettier && yarn lint:tslint",
     "test": "TS_NODE_TYPE_CHECK=true NODE_ENV=test mocha --exit -r ts-node/register -r test/setup.ts --watch-extensions ts 'test/**/*.ts'"
   },
+  "dependencies": {
+    "@staticdeploy/storage": "^0.0.0",
+    "axios": "^0.18.0",
+    "lodash": "^4.17.5"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/chai-as-promised": "^7.1.0",
@@ -47,10 +52,5 @@
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.9.0",
     "typescript": "^2.7.2"
-  },
-  "dependencies": {
-    "@staticdeploy/storage": "^0.0.0",
-    "axios": "^0.18.0",
-    "lodash": "^4.17.5"
   }
 }
