@@ -1,8 +1,6 @@
 {
     "extends": "../tsconfig.json",
-    "include": [
-        "src/**/*.ts"
-    ],
+    "include": ["src/**/*.ts"],
     "compilerOptions": {
         // yarn (through lerna) hoists dependencies of all workspaces in the
         // project root. Since some @types packages conflict with each other
@@ -11,7 +9,14 @@
         // packages, and we need to manually specify the required ones
         // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
         "types": [
+            "@types/chai",
+            "@types/chai-as-promised",
+            "@types/fs-extra",
             "@types/mocha",
+            "@types/node",
+            "@types/sinon",
+            "@types/sinon-chai",
+            "@types/tar",
             "@types/yargs"
         ],
         "outDir": "build"

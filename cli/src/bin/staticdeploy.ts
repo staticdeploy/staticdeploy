@@ -1,24 +1,11 @@
-// tslint:disable:no-console
 import yargs = require("yargs");
 
-interface IArgv extends yargs.Arguments {
-    apiUrl: string;
-    apiToken: string;
-}
+import deploy from "../commands/deploy";
 
-const argv = yargs
+// tslint:disable-next-line:no-unused-expression
+yargs
     .usage("Usage: $0 <options>")
     .env("STATICDEPLOY")
-    .option("apiUrl", {
-        default: "http://localhost:3000",
-        describe: "Api server url",
-        type: "string"
-    })
-    .option("apiToken", {
-        describe: "Api server auth token",
-        type: "string",
-        demandOption: true
-    })
-    .strict().argv as IArgv;
-
-console.log(argv);
+    .command(deploy)
+    .demandCommand(1)
+    .strict().argv;

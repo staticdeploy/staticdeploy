@@ -8,7 +8,6 @@ import LinksList from "../../components/LinksList";
 import ODItem from "../../components/OperationsDropdown/Item";
 import Page from "../../components/Page";
 import AppCreateOperationModal from "./AppCreateOperationModal";
-import "./index.css";
 
 interface IProps {
     result: IApp[];

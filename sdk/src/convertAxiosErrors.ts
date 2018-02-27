@@ -18,8 +18,8 @@ function wrapMethod(method: (...args: any[]) => any) {
             const responseErrorMessage = get(err, "response.data.message");
             const message = responseStatusCode
                 ? responseErrorMessage
-                  ? `Error ${responseStatusCode}: ${responseErrorMessage}`
-                  : `Error ${responseStatusCode}`
+                    ? `Error ${responseStatusCode}: ${responseErrorMessage}`
+                    : `Error ${responseStatusCode}`
                 : err.message;
             throw new StaticdeployClientError(message, err);
         }

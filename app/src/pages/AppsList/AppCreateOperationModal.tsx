@@ -6,7 +6,6 @@ import emphasizeString from "../../common/emphasizeString";
 import staticdeploy from "../../common/staticdeployClient";
 import AppForm, { IAppFormInstance } from "../../components/AppForm";
 import BaseOperationModal from "../../components/OperationModal";
-import "./index.css";
 
 class OperationModal extends BaseOperationModal<IApp> {}
 

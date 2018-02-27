@@ -37,9 +37,9 @@ export function reduxForm<ExternalValues, InternalValues>(
             form: config.form,
             validate: config.validate
         })(Form);
-        return class ConverterForm extends React.PureComponent<
-            IProps<ExternalValues>
-        > implements IConverterForm<ExternalValues> {
+        return class ConverterForm
+            extends React.PureComponent<IProps<ExternalValues>>
+            implements IConverterForm<ExternalValues> {
             private form: FormInstance<
                 InternalValues,
                 Partial<ConfigProps<InternalValues, {}>>
