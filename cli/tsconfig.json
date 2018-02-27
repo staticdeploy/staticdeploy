@@ -11,13 +11,12 @@
         "types": [
             "@types/chai",
             "@types/chai-as-promised",
-            "@types/find-up",
             "@types/fs-extra",
             "@types/mocha",
-            "@types/mock-fs",
             "@types/node",
             "@types/sinon",
             "@types/sinon-chai",
+            "@types/tar",
             "@types/yargs"
         ],
         "outDir": "build"

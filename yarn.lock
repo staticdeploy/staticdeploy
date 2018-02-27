@@ -274,10 +274,6 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/faker/-/faker-4.1.2.tgz#f8ab50c9f9af68c160dd71b63f83e24b712d0df5"
 
-"@types/find-up@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@types/find-up/-/find-up-2.1.1.tgz#1cd2d240f1ad1f48d32346074724dc3107248a11"
-
 "@types/fs-extra@^4.0.5":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-4.0.7.tgz#02533262386b5a6b9a49797dc82feffdf269140a"
@@ -316,12 +312,6 @@
   version "2.2.48"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
 
-"@types/mock-fs@^3.6.30":
-  version "3.6.30"
-  resolved "https://registry.yarnpkg.com/@types/mock-fs/-/mock-fs-3.6.30.tgz#4d812541e87b23577261a5aa95f704dd3d01e410"
-  dependencies:
-    "@types/node" "*"
-
 "@types/mz@^0.0.32":
   version "0.0.32"
   resolved "https://registry.yarnpkg.com/@types/mz/-/mz-0.0.32.tgz#e8248b4e41424c052edc1725dd33650c313a3659"
@@ -334,11 +324,11 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*":
+"@types/node@*", "@types/node@^9.4.6":
   version "9.4.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
-"@types/node@^8.0.53", "@types/node@^8.9.1":
+"@types/node@^8.9.1":
   version "8.9.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.4.tgz#dfd327582a06c114eb6e0441fa3d6fab35edad48"
 
@@ -4546,6 +4536,10 @@ is-symbol@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-symbol/-/is-symbol-1.0.1.tgz#3cc59f00025194b6ab2e38dbae6689256b660572"
 
+is-tar@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-tar/-/is-tar-1.0.0.tgz#2f6b2e1792c1f5bb36519acaa9d65c0d26fe853d"
+
 is-text-path@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-text-path/-/is-text-path-1.0.1.tgz#4e1aa0fb51bfbcb3e92688001397202c1775b66e"
@@ -5614,10 +5608,6 @@ mocha@^5.0.0:
     he "1.1.1"
     mkdirp "0.5.1"
     supports-color "4.4.0"
-
-mock-fs@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/mock-fs/-/mock-fs-4.4.2.tgz#09dec5313f97095a450be6aa2ad8ab6738d63d6b"
 
 modify-values@^1.0.0:
   version "1.0.0"
@@ -8992,6 +8982,17 @@ tar@^2.0.0, tar@^2.2.1, tar@~2.2.1:
 tar@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/tar/-/tar-4.3.3.tgz#e03823dbde4e8060f606fef7d09f92ce06c1064b"
+  dependencies:
+    chownr "^1.0.1"
+    fs-minipass "^1.2.3"
+    minipass "^2.2.1"
+    minizlib "^1.1.0"
+    mkdirp "^0.5.0"
+    yallist "^3.0.2"
+
+tar@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.0.tgz#3aaf8c29b6b800a8215f33efb4df1c95ce2ac2f5"
   dependencies:
     chownr "^1.0.1"
     fs-minipass "^1.2.3"

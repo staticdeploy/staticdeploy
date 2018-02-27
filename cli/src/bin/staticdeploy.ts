@@ -1,22 +1,11 @@
-// tslint:disable:no-console
-import findUp = require("find-up");
-import fs = require("fs-extra");
 import yargs = require("yargs");
 
-export interface IArgv extends yargs.Arguments {
-    apiUrl: string | void;
-    apiToken: string | void;
-}
+import deploy from "../commands/deploy";
 
-const configPath: string | null = findUp.sync([".staticdeployrc"]);
-const config: object = configPath ? fs.readJsonSync(configPath) : {};
-
-const argv = yargs
+// tslint:disable-next-line:no-unused-expression
+yargs
     .usage("Usage: $0 <options>")
-    .config(config)
-    .commandDir("../commands")
-    .demandCommand(1)
     .env("STATICDEPLOY")
-    .strict().argv as IArgv;
-
-console.log("argv", argv);
+    .command(deploy)
+    .demandCommand(1)
+    .strict().argv;
