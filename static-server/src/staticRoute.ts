@@ -1,7 +1,7 @@
 import { configureHtml } from "@staticdeploy/app-config";
 import { IConfiguration } from "@staticdeploy/storage";
 import { Request, Response } from "express";
-import _ = require("lodash");
+import _ from "lodash";
 import { endsWith, maxBy, startsWith } from "lodash";
 import { join } from "path";
 

@@ -1,5 +1,5 @@
-import chai = require("chai");
-import chaiFuzzy = require("chai-fuzzy");
+import chai from "chai";
+import chaiFuzzy from "chai-fuzzy";
 
 import storage from "services/storage";
 

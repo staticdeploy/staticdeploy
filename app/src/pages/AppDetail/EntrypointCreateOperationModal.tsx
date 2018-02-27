@@ -20,10 +20,10 @@ interface IProps {
 export default class EntrypointCreateOperationModal extends React.Component<
     IProps
 > {
-    form: IEntrypointFormInstance | null;
+    form!: IEntrypointFormInstance;
     createEntrypoint = () => {
-        if (!this.form!.isValid()) {
-            this.form!.submit();
+        if (!this.form.isValid()) {
+            this.form.submit();
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
@@ -55,7 +55,7 @@ export default class EntrypointCreateOperationModal extends React.Component<
                     </span>
                 )}
             >
-                <EntrypointForm ref={form => (this.form = form)} />
+                <EntrypointForm ref={form => (this.form = form!)} />
             </OperationModal>
         );
     }

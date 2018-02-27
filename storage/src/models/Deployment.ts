@@ -1,4 +1,4 @@
-import Sequelize = require("sequelize");
+import Sequelize from "sequelize";
 
 import IDeployment from "../types/IDeployment";
 

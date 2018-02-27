@@ -2,8 +2,8 @@ import { pathExists, remove } from "fs-extra";
 import { getType } from "mime";
 import { mkdir, readFile, writeFile } from "mz/fs";
 import { join, normalize } from "path";
-import recursiveReaddir = require("recursive-readdir");
-import tar = require("tar");
+import recursiveReaddir from "recursive-readdir";
+import tar from "tar";
 
 import { IModels } from "./models";
 import IAsset from "./types/IAsset";

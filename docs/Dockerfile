@@ -6,12 +6,14 @@ COPY . /usr/src/app
 
 # Install dependencies and compile code
 WORKDIR /usr/src/app
-RUN npm install
-RUN npm run build
+# Install dependencies
+RUN yarn install && \
+    # Compile docs
+    yarn compile
 
 # Configure the listening port
 ENV PORT 80
 EXPOSE 80
 
 # Set start command
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

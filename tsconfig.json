@@ -3,6 +3,7 @@
         "target": "es2017",
         "module": "commonjs",
         "moduleResolution": "node",
+        "esModuleInterop": true,
         "pretty": true,
         "sourceMap": true,
         "noEmitOnError": true,
@@ -15,6 +16,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strictNullChecks": true,
-        "strictFunctionTypes": true
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true
     }
 }

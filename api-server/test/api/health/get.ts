@@ -1,7 +1,7 @@
 import { Express } from "express";
 import { sign } from "jsonwebtoken";
 import { SinonStub, stub } from "sinon";
-import request = require("supertest");
+import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";

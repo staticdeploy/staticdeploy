@@ -1,4 +1,4 @@
-import Sequelize = require("sequelize");
+import Sequelize from "sequelize";
 
 export default function toPojo(
     modelInstance: Sequelize.Instance<any> | null

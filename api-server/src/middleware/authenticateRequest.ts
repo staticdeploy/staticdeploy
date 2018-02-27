@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import jwt = require("express-jwt");
+import jwt from "express-jwt";
 
 export default function authenticateRequest(jwtSecret: Buffer): RequestHandler {
     const jwtMiddleware = jwt({

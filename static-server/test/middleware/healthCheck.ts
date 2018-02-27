@@ -1,5 +1,5 @@
-import express = require("express");
-import request = require("supertest");
+import express from "express";
+import request from "supertest";
 
 import healthCheck from "middleware/healthCheck";
 

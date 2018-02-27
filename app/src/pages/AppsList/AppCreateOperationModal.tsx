@@ -15,10 +15,10 @@ interface IProps {
 }
 
 export default class AppCreateOperationModal extends React.Component<IProps> {
-    form: IAppFormInstance | null;
+    form!: IAppFormInstance;
     createApp = () => {
-        if (!this.form!.isValid()) {
-            this.form!.submit();
+        if (!this.form.isValid()) {
+            this.form.submit();
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
@@ -42,7 +42,7 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
                     </span>
                 )}
             >
-                <AppForm ref={form => (this.form = form)} />
+                <AppForm ref={form => (this.form = form!)} />
             </OperationModal>
         );
     }

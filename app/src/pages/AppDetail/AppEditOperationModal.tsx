@@ -18,10 +18,10 @@ interface IProps {
 }
 
 export default class AppEditOperationModal extends React.Component<IProps> {
-    form: IAppFormInstance | null;
+    form!: IAppFormInstance;
     editApp = () => {
-        if (!this.form!.isValid()) {
-            this.form!.submit();
+        if (!this.form.isValid()) {
+            this.form.submit();
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
@@ -51,7 +51,7 @@ export default class AppEditOperationModal extends React.Component<IProps> {
             >
                 <AppForm
                     initialValues={this.props.app}
-                    ref={form => (this.form = form)}
+                    ref={form => (this.form = form!)}
                 />
             </OperationModal>
         );

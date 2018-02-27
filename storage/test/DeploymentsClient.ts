@@ -2,9 +2,9 @@ import { expect } from "chai";
 import { createTree, destroyTree, IDefinition } from "create-fs-tree";
 import { pathExists, removeSync } from "fs-extra";
 import { readFile, readFileSync } from "mz/fs";
-import os = require("os");
-import path = require("path");
-import tar = require("tar");
+import os from "os";
+import path from "path";
+import tar from "tar";
 
 import * as errors from "../src/utils/errors";
 import { eq } from "../src/utils/sequelizeOperators";

@@ -1,4 +1,4 @@
-import bunyan = require("bunyan");
+import bunyan from "bunyan";
 
 import * as config from "config";
 

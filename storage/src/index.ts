@@ -1,5 +1,5 @@
 import { mkdirp } from "fs-extra";
-import Sequelize = require("sequelize");
+import Sequelize from "sequelize";
 
 import AppsClient from "./AppsClient";
 import DeploymentsClient from "./DeploymentsClient";

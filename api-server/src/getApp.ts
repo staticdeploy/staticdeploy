@@ -1,6 +1,6 @@
-import bunyanMiddleware = require("bunyan-middleware");
-import convexpress = require("convexpress");
-import express = require("express");
+import bunyanMiddleware from "bunyan-middleware";
+import convexpress from "convexpress";
+import express from "express";
 import { healthRoute } from "express-healthchecker";
 
 import * as config from "config";

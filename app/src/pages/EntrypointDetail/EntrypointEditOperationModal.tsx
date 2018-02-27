@@ -19,10 +19,10 @@ interface IProps {
 export default class EntrypointEditOperationModal extends React.Component<
     IProps
 > {
-    form: IEntrypointFormInstance | null;
+    form!: IEntrypointFormInstance;
     editEntrypoint = () => {
-        if (!this.form!.isValid()) {
-            this.form!.submit();
+        if (!this.form.isValid()) {
+            this.form.submit();
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
@@ -54,7 +54,7 @@ export default class EntrypointEditOperationModal extends React.Component<
                             .fallbackResource,
                         configuration: this.props.entrypoint.configuration
                     }}
-                    ref={form => (this.form = form)}
+                    ref={form => (this.form = form!)}
                 />
             </OperationModal>
         );

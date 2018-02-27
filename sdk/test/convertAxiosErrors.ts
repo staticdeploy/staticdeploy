@@ -1,15 +1,11 @@
 import Axios from "axios";
-import chai = require("chai");
 import { expect } from "chai";
-import chaiAsPromised = require("chai-as-promised");
-import nock = require("nock");
+import nock from "nock";
 import { stub } from "sinon";
 
 import convertAxiosErrors, {
     StaticdeployClientError
 } from "../src/convertAxiosErrors";
-
-chai.use(chaiAsPromised);
 
 const baseUrl = "http://localhost";
 const axios = Axios.create({ baseURL: baseUrl });

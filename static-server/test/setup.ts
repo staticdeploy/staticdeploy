@@ -1,14 +1,14 @@
 import { IConfiguration } from "@staticdeploy/storage";
-import chai = require("chai");
-import chaiFuzzy = require("chai-fuzzy");
+import chai from "chai";
+import chaiFuzzy from "chai-fuzzy";
 import { createTree, destroyTree, IDefinition } from "create-fs-tree";
-import express = require("express");
+import express from "express";
 import { removeSync } from "fs-extra";
 import { readFileSync } from "mz/fs";
-import os = require("os");
-import path = require("path");
-import request = require("supertest");
-import tar = require("tar");
+import os from "os";
+import path from "path";
+import request from "supertest";
+import tar from "tar";
 
 import getApp from "getApp";
 import storage from "services/storage";

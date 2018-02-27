@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import get = require("lodash/get");
+import get from "lodash/get";
 
 export class StaticdeployClientError extends Error {
     public originalError: Error;

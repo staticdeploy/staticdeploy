@@ -1,9 +1,9 @@
-import chai = require("chai");
-import chaiAsPromised = require("chai-as-promised");
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { emptyDir, mkdirp, remove, removeSync } from "fs-extra";
-import os = require("os");
-import path = require("path");
-import Sequelize = require("sequelize");
+import os from "os";
+import path from "path";
+import Sequelize from "sequelize";
 
 import StorageClient from "../src";
 import migrate from "../src/migrate";

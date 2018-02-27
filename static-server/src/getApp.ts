@@ -1,5 +1,5 @@
-import bunyanMiddleware = require("bunyan-middleware");
-import express = require("express");
+import bunyanMiddleware from "bunyan-middleware";
+import express from "express";
 
 import * as config from "config";
 import storageHC from "healthChecks/storage";

@@ -4,8 +4,8 @@ import { createTree, destroyTree } from "create-fs-tree";
 import { mkdirp, pathExists, readFile, remove, writeFile } from "fs-extra";
 import { tmpdir } from "os";
 import { join } from "path";
-import sinon = require("sinon");
-import tar = require("tar");
+import sinon from "sinon";
+import tar from "tar";
 
 import deploy from "../../src/commands/deploy";
 

@@ -3,7 +3,7 @@ import { randomBytes } from "crypto";
 import { existsSync, readFileSync, removeSync, statSync } from "fs-extra";
 import { tmpdir } from "os";
 import { join, resolve } from "path";
-import tar = require("tar");
+import tar from "tar";
 import { CommandModule } from "yargs";
 
 import * as apiConfig from "../apiConfig";

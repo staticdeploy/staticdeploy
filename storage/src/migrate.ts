@@ -1,6 +1,6 @@
 import { join } from "path";
 import { Sequelize } from "sequelize";
-import Umzug = require("umzug");
+import Umzug from "umzug";
 
 export default async function migrate(sequelize: Sequelize) {
     const umzug = new Umzug({

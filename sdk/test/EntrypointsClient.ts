@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { expect } from "chai";
-import nock = require("nock");
+import nock from "nock";
 
 import EntrypointsClient from "../src/EntrypointsClient";
 

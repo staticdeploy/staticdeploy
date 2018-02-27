@@ -1,4 +1,4 @@
-import Sequelize = require("sequelize");
+import Sequelize from "sequelize";
 
 import getAppModel, { AppModel } from "./App";
 import getDeploymentModel, { DeploymentModel } from "./Deployment";

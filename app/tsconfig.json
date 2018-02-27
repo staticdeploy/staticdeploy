@@ -30,7 +30,6 @@
         ],
         "jsx": "react",
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
         "suppressImplicitAnyIndexErrors": true
     }
 }
