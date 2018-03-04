@@ -22,10 +22,10 @@ RUN yarn install && \
     rm -r storage/tsconfig.json storage/src && \
     rm -r api-server/tsconfig.json api-server/src
 
-# Configure listening port and other environment variables
-ENV NODE_ENV production
+# Configure listening port
 ENV PORT 80
 EXPOSE 80
 
 # Set start command
-CMD [ "yarn", "start", "@staticdeploy/api-server" ]
+WORKDIR /workspace/api-server
+CMD [ "yarn", "start" ]

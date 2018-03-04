@@ -22,10 +22,10 @@ RUN yarn install && \
     rm -r storage/tsconfig.json storage/src && \
     rm -r static-server/tsconfig.json static-server/src
 
-# Configure listening port and other environment variables
-ENV NODE_ENV production
+# Configure listening port
 ENV PORT 80
 EXPOSE 80
 
 # Set start command
-CMD [ "yarn", "start", "@staticdeploy/static-server" ]
+WORKDIR /workspace/static-server
+CMD [ "yarn", "start" ]
