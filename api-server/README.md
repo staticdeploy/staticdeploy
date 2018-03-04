@@ -30,9 +30,12 @@ The following environment variables can be used to configure the server:
 
 * `JWT_SECRET`: jwt secret (not base64 encoded), defaults to `secret`
 
-> Database configurtations
+> Storage configurtations
 
-* `DATABASE_URL`: database connection string, defaults to `sqlite://:memory:`
+* `STORAGE_DATABASE_URL`: database connection string, defaults to
+  `sqlite://:memory:`
+* `STORAGE_DEPLOYMENTS_PATH`: filesystem path where to store deployments,
+  defaults to `${tmpdir()}/staticdeploy/deployments`
 
 ## Contributing
 

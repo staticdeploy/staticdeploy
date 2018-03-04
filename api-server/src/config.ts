@@ -2,9 +2,11 @@ import env from "@mondora/env";
 import { LogLevelString } from "bunyan";
 import { tmpdir } from "os";
 
+const pkg = require("../package.json");
+
 // General service configurations
-export const APP_NAME = "staticeploy-api-server";
-export const APP_VERSION = require("../package.json").version;
+export const APP_NAME = pkg.name;
+export const APP_VERSION = pkg.version;
 export const NODE_ENV = env("NODE_ENV", { default: "development" });
 export const LOG_LEVEL = env("LOG_LEVEL", {
     default: "info"
@@ -20,12 +22,10 @@ export const JWT_SECRET = env("JWT_SECRET", {
     parse: Buffer.from
 });
 
-// Database configurations
-export const DATABASE_URL = env("DATABASE_URL", {
+// Storage configurations
+export const STORAGE_DATABASE_URL = env("STORAGE_DATABASE_URL", {
     default: "sqlite://:memory:"
 });
-
-// Filesystem storage configurations
-export const DEPLOYMENTS_PATH = env("DEPLOYMENTS_PATH", {
+export const STORAGE_DEPLOYMENTS_PATH = env("STORAGE_DEPLOYMENTS_PATH", {
     default: `${tmpdir()}/staticdeploy/deployments`
 });
