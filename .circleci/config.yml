@@ -27,17 +27,20 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-        name: Login to Docker Hub
-        command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          name: Install dependencies (commands below need lerna)
+          command: yarn install
       - run:
-        name: Set $DOCKER_TAG
-        command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
+          name: Login to Docker Hub
+          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - run:
-        name: Build docker image
-        command: yarn docker:build
+          name: Set $DOCKER_TAG
+          command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
       - run:
-        name: Push docker image
-        command: yarn docker:push
+          name: Build docker image
+          command: yarn docker:build
+      - run:
+          name: Push docker image
+          command: yarn docker:push
 
 workflows:
   version: 2
