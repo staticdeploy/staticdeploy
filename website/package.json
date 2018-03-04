@@ -1,0 +1,34 @@
+{
+  "name": "@staticdeploy/website",
+  "description": "staticdeploy website",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "dev": "docusaurus-start",
+    "prettier": "prettier 'core/**/*.js' 'pages/**/*.js' 'blog/**/*.md' 'docs/**/*.md'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:eslint": "eslint 'core/**/*.js' 'pages/**/*.js'",
+    "lint": "yarn lint:prettier && yarn lint:eslint",
+    "compile": "rimraf build && docusaurus-build"
+  },
+  "dependencies": {
+    "docusaurus": "^1.0.7"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.18.2",
+    "eslint-plugin-react": "^7.7.0",
+    "prettier": "^1.11.1",
+    "rimraf": "^2.6.2"
+  }
+}

@@ -9,9 +9,9 @@ Deploy and configure your static apps with ease.
 
 **[Server side]**
 
+* [storage](./storage)
 * [api-server](./api-server)
 * [static-server](./static-server)
-* [storage](./storage)
 
 **[Client side]**
 
@@ -21,7 +21,7 @@ Deploy and configure your static apps with ease.
 
 **[Documentation]**
 
-* [docs](./docs)
+* [website](./website)
 
 ## Contributing
 

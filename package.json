@@ -7,10 +7,10 @@
     "api-server",
     "app",
     "cli",
-    "docs",
     "sdk",
     "storage",
-    "static-server"
+    "static-server",
+    "website"
   ],
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",

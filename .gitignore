@@ -1,7 +1,6 @@
 # Output directories
 lib
 build
-_book
 
 # Nyc (test coverage) files
 coverage

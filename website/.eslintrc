@@ -1,0 +1,5 @@
+{
+    "parser": "babel-eslint",
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "env": { "commonjs": true }
+}
