@@ -29,6 +29,8 @@
     "test": "lerna run test --stream --concurrency 1",
     "coverage": "nyc --all yarn test",
     "publish-coverage": "codecov",
+    "docker:build": "lerna run docker:build --stream --concurrency 1",
+    "docker:push": "lerna run docker:push --stream --concurrency 1",
     "lerna": "lerna"
   },
   "devDependencies": {

@@ -20,9 +20,30 @@ jobs:
       - run:
           name: Publish code coverage report
           command: yarn publish-coverage
+  docker-build-push:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+        name: Login to Docker Hub
+        command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run:
+        name: Set $DOCKER_TAG
+        command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
+      - run:
+        name: Build docker image
+        command: yarn docker:build
+      - run:
+        name: Push docker image
+        command: yarn docker:push
 
 workflows:
   version: 2
-  test:
+  test-and-docker:
     jobs:
       - test
+      - docker-build-push:
+          requires:
+            - test
