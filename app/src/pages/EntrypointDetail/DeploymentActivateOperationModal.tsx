@@ -23,7 +23,7 @@ export default class DeploymentActivateOperationModal extends React.Component<
         staticdeploy.entrypoints.update(this.props.entrypoint.id, {
             activeDeploymentId: this.props.deployment.id
         });
-    refetchEntrypoint = () => this.props.refetch;
+    refetchEntrypoint = () => this.props.refetch();
     render() {
         const { deployment, entrypoint } = this.props;
         return (
