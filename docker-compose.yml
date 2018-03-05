@@ -1,0 +1,47 @@
+version: "3"
+services:
+  app:
+    image: staticdeploy/app:$DOCKER_TAG
+    labels:
+      - traefik.backend=app
+      - traefik.frontend.priority=100
+      - traefik.frontend.rule=Host:$HOSTNAME;PathPrefix:/
+    environment:
+      - APP_CONFIG_API_URL=//$HOSTNAME/api
+  api-server:
+    image: staticdeploy/api-server:$DOCKER_TAG
+    labels:
+      - traefik.backend=api-server
+      - traefik.frontend.priority=200
+      - traefik.frontend.rule=Host:$HOSTNAME;PathPrefixStrip:/api
+    environment:
+      - HOSTNAME=$HOSTNAME
+      - JWT_SECRET=$JWT_SECRET
+      - STORAGE_DATABASE_URL=sqlite:///storage/db.sqlite
+      - STORAGE_DEPLOYMENTS_PATH=/storage/deployments
+    volumes:
+      - storage:/storage
+  static-server:
+    image: staticdeploy/static-server:$DOCKER_TAG
+    labels:
+      - traefik.backend=static-server
+      - traefik.frontend.priority=0
+      - traefik.frontend.rule=HostRegexp:{host:.*}
+      - traefik.frontend.passHostHeader=true
+    environment:
+      - STORAGE_DATABASE_URL=sqlite:///storage/db.sqlite
+      - STORAGE_DEPLOYMENTS_PATH=/storage/deployments
+    volumes:
+      - storage:/storage
+  traefik:
+    image: traefik
+    command: >-
+      -c /dev/null --web
+      --docker --docker.domain=$HOSTNAME --docker.watch
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  storage: {}
