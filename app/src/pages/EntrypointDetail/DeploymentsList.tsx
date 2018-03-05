@@ -51,7 +51,7 @@ export default class DeploymentsList extends React.PureComponent<IProps> {
                 deployment={deployment}
                 entrypoint={this.props.entrypoint}
                 trigger={trigger}
-                refetch={this.props.refetch}
+                refetchEntrypointDetail={this.props.refetch}
             />
         );
     }

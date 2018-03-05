@@ -32,7 +32,7 @@ class EntrypointDetail extends React.Component<Props> {
             <EntrypointEditOperationModal
                 key="EntrypointEditOperationModal"
                 entrypoint={this.props.result.entrypoint}
-                refetch={this.props.refetch}
+                refetchEntrypointDetail={this.props.refetch}
                 trigger={<ODItem icon="edit" label="Edit entrypoint" />}
             />,
             <EntrypointDeleteOperationModal

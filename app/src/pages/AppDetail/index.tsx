@@ -1,4 +1,5 @@
 import { IApp, IEntrypoint } from "@staticdeploy/sdk";
+import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -17,6 +18,7 @@ const EntrypointsLinksList = LinksList as new () => LinksList<IEntrypoint>;
 
 interface IUrlParams {
     appId: string;
+    entrypointId?: string;
 }
 interface IResult {
     app: IApp;
@@ -36,7 +38,7 @@ class AppDetail extends React.Component<Props> {
                 app={app}
                 history={history}
                 location={location}
-                refetch={refetch}
+                refetchAppDetail={refetch}
                 trigger={<ODItem icon="edit" label="Edit app" />}
             />,
             <AppDeleteOperationModal
@@ -50,6 +52,7 @@ class AppDetail extends React.Component<Props> {
                 app={app}
                 history={history}
                 trigger={<ODItem icon="plus" label="Create entrypoint" />}
+                refetchAppDetail={refetch}
             />
         ];
     }
@@ -84,8 +87,17 @@ export default withData({
         ]);
         return { app, entrypoints };
     },
+    // Refetch when:
     shouldRefetch: (oldProps, newProps) =>
-        oldProps.match.params.appId !== newProps.match.params.appId,
+        // - the app to show changed
+        oldProps.match.params.appId !== newProps.match.params.appId ||
+        // - the user was on the entrypoint detail page, and switched to the app
+        //   detail page. This happens when an entrypoint is deleted, in which
+        //   case we want to refetch the app data. It also happens in other
+        //   circumstances, for instance when the user clicks on the app link in
+        //   the apps list, but we're ok refetching even then
+        (!isNil(oldProps.match.params.entrypointId) &&
+            isNil(newProps.match.params.entrypointId)),
     spinnerSize: "large",
     spinnerTip: "Fetching app details...",
     Component: AppDetail

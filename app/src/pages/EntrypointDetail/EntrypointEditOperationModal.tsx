@@ -13,7 +13,7 @@ class OperationModal extends BaseOperationModal<IEntrypoint> {}
 interface IProps {
     entrypoint: IEntrypoint;
     trigger: React.ReactNode;
-    refetch: () => void;
+    refetchEntrypointDetail: () => void;
 }
 
 export default class EntrypointEditOperationModal extends React.Component<
@@ -31,7 +31,7 @@ export default class EntrypointEditOperationModal extends React.Component<
             values
         );
     };
-    refetchEntrypoint = () => this.props.refetch();
+    refetchEntrypointDetail = () => this.props.refetchEntrypointDetail();
     render() {
         return (
             <OperationModal
@@ -44,7 +44,7 @@ export default class EntrypointEditOperationModal extends React.Component<
                 operation={this.editEntrypoint}
                 trigger={this.props.trigger}
                 startOperationButtonText="Save"
-                onAfterSuccessClose={this.refetchEntrypoint}
+                onAfterSuccessClose={this.refetchEntrypointDetail}
                 successMessage="Entrypoint saved"
             >
                 <EntrypointForm

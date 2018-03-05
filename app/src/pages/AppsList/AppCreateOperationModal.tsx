@@ -12,6 +12,7 @@ class OperationModal extends BaseOperationModal<IApp> {}
 interface IProps {
     history: History;
     trigger: React.ReactNode;
+    refetchAppsList: () => void;
 }
 
 export default class AppCreateOperationModal extends React.Component<IProps> {
@@ -24,7 +25,10 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
         const values = this.form!.getValues();
         return staticdeploy.apps.create(values);
     };
-    goToAppDetail = (app: IApp) => this.props.history.push(`/apps/${app.id}`);
+    refetchAppsListAndGoToAppDetail = (app: IApp) => {
+        this.props.refetchAppsList();
+        this.props.history.push(`/apps/${app.id}`);
+    };
     render() {
         return (
             <OperationModal
@@ -32,7 +36,7 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
                 operation={this.createApp}
                 trigger={this.props.trigger}
                 startOperationButtonText="Create"
-                onAfterSuccessClose={this.goToAppDetail}
+                onAfterSuccessClose={this.refetchAppsListAndGoToAppDetail}
                 successMessage={createdApp => (
                     <span>
                         {"Created app "}

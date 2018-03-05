@@ -13,7 +13,7 @@ interface IProps {
     entrypoint: IEntrypoint;
     deployment: IDeployment;
     trigger: React.ReactNode;
-    refetch: () => void;
+    refetchEntrypointDetail: () => void;
 }
 
 export default class DeploymentActivateOperationModal extends React.Component<
@@ -23,7 +23,7 @@ export default class DeploymentActivateOperationModal extends React.Component<
         staticdeploy.entrypoints.update(this.props.entrypoint.id, {
             activeDeploymentId: this.props.deployment.id
         });
-    refetchEntrypoint = () => this.props.refetch();
+    refetchEntrypointDetail = () => this.props.refetchEntrypointDetail();
     render() {
         const { deployment, entrypoint } = this.props;
         return (
@@ -32,7 +32,7 @@ export default class DeploymentActivateOperationModal extends React.Component<
                 operation={this.activateDeployment}
                 trigger={this.props.trigger}
                 startOperationButtonText="Set as active"
-                onAfterSuccessClose={this.refetchEntrypoint}
+                onAfterSuccessClose={this.refetchEntrypointDetail}
                 successMessage="Deployment set as active"
             >
                 <TextFieldRO

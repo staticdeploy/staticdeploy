@@ -12,10 +12,17 @@ export default class Apps extends React.Component {
         return (
             <Row gutter={32}>
                 <Col span={6}>
-                    <Route path="/apps" component={AppsList} />
+                    <Route path="/apps/:appId?" component={AppsList} />
                 </Col>
                 <Col span={8}>
-                    <Route path="/apps/:appId" component={AppDetail} />
+                    <Route
+                        // The optional entrypoints parameter only matches the
+                        // "entrypoints" path segment, but it's necessary to
+                        // specify it so we can access the entrypointId
+                        // parameter in the component
+                        path="/apps/:appId/:entrypoints?/:entrypointId?"
+                        component={AppDetail}
+                    />
                 </Col>
                 <Col span={10}>
                     <Route

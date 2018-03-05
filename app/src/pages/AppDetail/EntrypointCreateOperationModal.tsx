@@ -15,6 +15,7 @@ interface IProps {
     app: IApp;
     history: History;
     trigger: React.ReactNode;
+    refetchAppDetail: () => void;
 }
 
 export default class EntrypointCreateOperationModal extends React.Component<
@@ -34,10 +35,12 @@ export default class EntrypointCreateOperationModal extends React.Component<
             configuration: values.configuration || undefined
         });
     };
-    goToEntrypointDetail = (entrypoint: IEntrypoint) =>
+    refetchAppDetailAndGoToEntrypointDetail = (entrypoint: IEntrypoint) => {
+        this.props.refetchAppDetail();
         this.props.history.push(
             `/apps/${this.props.app.id}/entrypoints/${entrypoint.id}`
         );
+    };
     render() {
         return (
             <OperationModal
@@ -45,7 +48,9 @@ export default class EntrypointCreateOperationModal extends React.Component<
                 operation={this.createEntrypoint}
                 trigger={this.props.trigger}
                 startOperationButtonText="Create"
-                onAfterSuccessClose={this.goToEntrypointDetail}
+                onAfterSuccessClose={
+                    this.refetchAppDetailAndGoToEntrypointDetail
+                }
                 successMessage={createdEntrypoint => (
                     <span>
                         {"Created entrypoint "}
