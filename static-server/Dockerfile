@@ -11,7 +11,8 @@ COPY storage/src ./storage/src/
 COPY static-server/package.json static-server/tsconfig.json ./static-server/
 COPY static-server/src ./static-server/src/
 
-# Install dependencies
+# Install dependencies. Don't use --frozen-lockfile since some subprojets were
+# excluded, causing changes to yarn.lock on install
 RUN yarn install && \
     # Compile code
     yarn compile && \

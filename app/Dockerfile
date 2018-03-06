@@ -16,7 +16,8 @@ COPY app/src ./app/src/
 COPY app/typings ./app/typings/
 COPY app/webpack ./app/webpack/
 
-# Install dependencies
+# Install dependencies. Don't use --frozen-lockfile since some subprojets were
+# excluded, causing changes to yarn.lock on install
 RUN yarn install && \
     # Compile code
     yarn compile

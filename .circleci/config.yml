@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: yarn install
+          command: yarn install --frozen-lockfile
       - run:
           name: Compile modules
           command: yarn compile
@@ -28,7 +28,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Install dependencies (commands below need lerna)
-          command: yarn install
+          command: yarn install --frozen-lockfile
       - run:
           name: Login to Docker Hub
           command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD

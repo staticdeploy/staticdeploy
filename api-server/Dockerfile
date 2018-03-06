@@ -11,7 +11,8 @@ COPY storage/src ./storage/src/
 COPY api-server/package.json api-server/tsconfig.json ./api-server/
 COPY api-server/src ./api-server/src/
 
-# Install dependencies
+# Install dependencies. Don't use --frozen-lockfile since some subprojets were
+# excluded, causing changes to yarn.lock on install
 RUN yarn install && \
     # Compile code
     yarn compile && \
