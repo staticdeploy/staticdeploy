@@ -1,0 +1,20 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <title>Demo static app</title>
+    <script id="app-config"></script>
+</head>
+
+<body>
+    Hello world!
+    <br />
+    <pre id="show-app-config"></pre>
+    <script>
+        document.getElementById("show-app-config").innerHTML =
+            JSON.stringify(window.APP_CONFIG, null, 4);
+    </script>
+</body>
+
+</html>

@@ -1,11 +1,8 @@
 {
     "docs": {
-        "Quickstart": [
-            "quickstart.setting-up-with-docker-compose",
-            "quickstart.publishing-an-app"
-        ],
-        "Guides": [],
-        "Reference": ["reference.concepts", "reference.architecture"],
-        "ADR": []
+        "Getting started": [
+            "getting-started.overview",
+            "getting-started.quickstart"
+        ]
     }
 }

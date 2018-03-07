@@ -1,5 +1,7 @@
 {
     "parser": "babel-eslint",
     "extends": ["eslint:recommended", "plugin:react/recommended"],
-    "env": { "commonjs": true }
+    "env": { "commonjs": true },
+    "globals": { "process": true },
+    "rules": { "react/prop-types": false }
 }

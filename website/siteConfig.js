@@ -1,12 +1,12 @@
 module.exports = {
-    title: "staticdeploy",
-    tagline: "Deploy and configure your static apps with ease",
+    title: "StaticDeploy",
+    tagline: "Deploy and Configure Your Static Apps with Ease",
     url: "https://staticdeploy.io",
     baseUrl: "/",
     projectName: "staticdeploy",
     customDocsPath: "website/docs",
     headerLinks: [
-        { label: "Docs", doc: "quickstart.setting-up-with-docker-compose" },
+        { label: "Docs", doc: "getting-started.overview" },
         {
             label: "GitHub",
             href: "https://github.com/staticdeploy/staticdeploy"

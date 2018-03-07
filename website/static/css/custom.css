@@ -1,3 +1,13 @@
 .navPusher {
     height: initial;
 }
+
+code {
+    font-size: 16px;
+    padding: 2px;
+    margin: 0px 2px;
+}
+
+.homeContainer .button {
+    width: 120px;
+}
