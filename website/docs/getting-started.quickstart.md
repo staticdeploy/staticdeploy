@@ -18,11 +18,14 @@ title: Quickstart
   docker-compose up -d
   ```
 
-* visit http://localhost and log into the app using the following token:
+* visit [local.staticdeploy.io](http://local.staticdeploy.io) and log into the
+  admin console using the following token:
 
   ```sh
-  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyQGV4YW1wbGUuY29tIn0.c47HKO1uUeFRhMuo-MVcXkePYyh9H3ewelA5faCvcm0
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.t-IDcSemACt8x4iTMCda8Yhe3iZaWbvV5XKSTbuAn0M
   ```
+
+  (note: `local.staticdeploy.io` points to `127.0.0.1`)
 
 ## Publish a static app
 
@@ -32,32 +35,38 @@ title: Quickstart
   npm install --global @staticdeploy/cli
   ```
 
-* deploy the demo static app in `docs/static/demo-static-app`:
+* configure the cli using environment variables:
+
+  ```sh
+  export STATICDEPLOY_API_URL=http://local.staticdeploy.io/api
+  export STATICDEPLOY_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.t-IDcSemACt8x4iTMCda8Yhe3iZaWbvV5XKSTbuAn0M
+  ```
+
+* create a bundle for the demo static app in `website/demo-static-app`:
+
+  ```sh
+  staticdeploy create-bundle \
+    --from website/demo-static-app
+    --name demo-static-app \
+    --tag master \
+    --description "version 1.0.0" \
+  ```
+
+* deploy the bundle to `demo-static-app.staticdeploy.io`:
 
   ```sh
   staticdeploy deploy \
-    # Address of the server to deploy to
-    --apiUrl http://localhost/api \
-    # Auth token
-    --apiToken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyQGV4YW1wbGUuY29tIn0.c47HKO1uUeFRhMuo-MVcXkePYyh9H3ewelA5faCvcm0 \
-    # App to link the deployment to (will be created if it doens't exist)
     --app demo-static-app \
-    # Url at which the deployment will be served
-    --entrypoint hello.world/ \
-    # Short description of the deployment, could be for instance the last commit message
-    --description "First deployment" \
-    # Folder to deploy
-    --target docs/static/demo-static-app
+    --entrypoint demo-static-app.staticdeploy.io/ \
+    --bundle demo-static-app:master
   ```
 
-* check out the deployment on the StaticDeploy app at http://localhost. You may
-  modify the app / entrypoint configuration
+* visit
+  [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io)
+  (note: `demo-static-app.staticdeploy.io` points to `127.0.0.1`)
 
-* edit your `/etc/hosts` to point `hello.world` to `localhost`:
-
-  ```sh
-  # ... content of /etc/hosts
-  localhost hello.world
-  ```
-
-* visit http://hello.world
+* check out the deployment on the admin console at
+  [local.staticdeploy.io](http://local.staticdeploy.io). Try modifying the
+  entrypoint configuration and see how
+  [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io)
+  changes

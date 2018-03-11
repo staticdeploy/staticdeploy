@@ -1,8 +1,14 @@
 {
     "docs": {
         "Getting started": [
+            "getting-started.quickstart",
             "getting-started.overview",
-            "getting-started.quickstart"
+            "getting-started.configuration",
+            "getting-started.cicd-workflows"
+        ],
+        "Reference": [
+            "reference.entities",
+            "reference.architecture"
         ]
     }
 }

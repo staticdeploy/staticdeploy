@@ -1,6 +1,6 @@
 module.exports = {
     title: "StaticDeploy",
-    tagline: "Deploy and Configure Your Static Apps with Ease",
+    tagline: "Deploy and Configure Static Apps with Ease",
     url: "https://staticdeploy.io",
     baseUrl: "/",
     projectName: "staticdeploy",

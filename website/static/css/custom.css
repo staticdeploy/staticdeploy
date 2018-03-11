@@ -11,3 +11,14 @@ code {
 .homeContainer .button {
     width: 120px;
 }
+
+.splitter {
+    display: flex;
+    justify-content: space-between;
+}
+.splitter .left {
+    width: calc(50% - 16px);
+}
+.splitter .right {
+    width: calc(50% - 16px);
+}
