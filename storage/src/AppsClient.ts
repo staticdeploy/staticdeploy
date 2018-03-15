@@ -1,4 +1,3 @@
-import EntrypointsClient from "./EntrypointsClient";
 import { IModels } from "./models";
 import IApp from "./types/IApp";
 import IConfiguration from "./types/IConfiguration";
@@ -9,14 +8,11 @@ import toPojo from "./utils/toPojo";
 
 export default class AppsClient {
     private App: IModels["App"];
-    private entrypointsClient: EntrypointsClient;
+    private Entrypoint: IModels["Entrypoint"];
 
-    constructor(options: {
-        entrypointsClient: EntrypointsClient;
-        models: IModels;
-    }) {
-        this.entrypointsClient = options.entrypointsClient;
+    constructor(options: { models: IModels }) {
         this.App = options.models.App;
+        this.Entrypoint = options.models.Entrypoint;
     }
 
     async findOneById(id: string): Promise<IApp | null> {
@@ -48,11 +44,13 @@ export default class AppsClient {
             throw new errors.ConflictingAppError(partial.name);
         }
 
+        // Create the app
         const app = await this.App.create({
             id: generateId(),
             name: partial.name,
             defaultConfiguration: partial.defaultConfiguration || {}
         });
+
         return toPojo(app);
     }
 
@@ -63,8 +61,9 @@ export default class AppsClient {
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
-        // Ensure the app exists
         const app = await this.App.findById(id);
+
+        // Ensure the app exists
         if (!app) {
             throw new errors.AppNotFoundError(id);
         }
@@ -79,25 +78,24 @@ export default class AppsClient {
             }
         }
 
+        // Update the app
         await app.update(patch);
+
         return toPojo(app);
     }
 
     async delete(id: string): Promise<void> {
-        // Ensure the app exists
         const app = await this.App.findById(id);
+
+        // Ensure the app exists
         if (!app) {
             throw new errors.AppNotFoundError(id);
         }
 
         // Delete linked entrypoints
-        const linkedEntrypoints = await this.entrypointsClient.findManyByAppId(
-            id
-        );
-        for (const entrypoint of linkedEntrypoints) {
-            await this.entrypointsClient.delete(entrypoint.id);
-        }
+        await this.Entrypoint.destroy({ where: { appId: eq(id) } });
 
+        // Delete the app
         await app.destroy();
     }
 }

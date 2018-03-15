@@ -1,7 +1,6 @@
 import { isAbsolute, normalize } from "path";
 import { isFQDN } from "validator";
 
-import DeploymentsClient from "./DeploymentsClient";
 import { IModels } from "./models";
 import IConfiguration from "./types/IConfiguration";
 import IEntrypoint from "./types/IEntrypoint";
@@ -41,25 +40,19 @@ export default class EntrypointsClient {
             /\/$/.test(path)
         );
     }
-
     static validateUrlMatcher(urlMatcher: string): void {
         if (!EntrypointsClient.isUrlMatcherValid(urlMatcher)) {
             throw new errors.UrlMatcherNotValidError(urlMatcher);
         }
     }
 
-    private deploymentsClient: DeploymentsClient;
     private App: IModels["App"];
-    private Deployment: IModels["Deployment"];
+    private Bundle: IModels["Bundle"];
     private Entrypoint: IModels["Entrypoint"];
 
-    constructor(options: {
-        deploymentsClient: DeploymentsClient;
-        models: IModels;
-    }) {
-        this.deploymentsClient = options.deploymentsClient;
+    constructor(options: { models: IModels }) {
         this.App = options.models.App;
-        this.Deployment = options.models.Deployment;
+        this.Bundle = options.models.Bundle;
         this.Entrypoint = options.models.Entrypoint;
     }
 
@@ -94,14 +87,22 @@ export default class EntrypointsClient {
 
     async create(partial: {
         appId: string;
+        bundleId?: string;
         urlMatcher: string;
-        fallbackResource?: string;
         configuration?: IConfiguration;
     }): Promise<IEntrypoint> {
         // Ensure the linked app exists
         const linkedApp = await this.App.findById(partial.appId);
         if (!linkedApp) {
             throw new errors.AppNotFoundError(partial.appId);
+        }
+
+        // Ensure the linked bundle exists
+        if (partial.bundleId) {
+            const linkedBundle = await this.Bundle.findById(partial.bundleId);
+            if (!linkedBundle) {
+                throw new errors.BundleNotFoundError(partial.bundleId);
+            }
         }
 
         // Validate the urlMatcher
@@ -115,14 +116,15 @@ export default class EntrypointsClient {
             throw new errors.ConflictingEntrypointError(partial.urlMatcher);
         }
 
+        // Create the entrypoint
         const entrypoint = await this.Entrypoint.create({
             id: generateId(),
             appId: partial.appId,
+            bundleId: partial.bundleId || null,
             urlMatcher: partial.urlMatcher,
-            fallbackResource: partial.fallbackResource || "/index.html",
-            configuration: partial.configuration || null,
-            activeDeploymentId: null
+            configuration: partial.configuration || null
         });
+
         return toPojo(entrypoint);
     }
 
@@ -130,14 +132,14 @@ export default class EntrypointsClient {
         id: string,
         patch: {
             appId?: string;
+            bundleId?: string;
             urlMatcher?: string;
-            fallbackResource?: string;
             configuration?: IConfiguration | null;
-            activeDeploymentId?: string | null;
         }
     ): Promise<IEntrypoint> {
-        // Ensure the entrypoint exists
         const entrypoint = await this.Entrypoint.findById(id);
+
+        // Ensure the entrypoint exists
         if (!entrypoint) {
             throw new errors.EntrypointNotFoundError(id);
         }
@@ -150,15 +152,11 @@ export default class EntrypointsClient {
             }
         }
 
-        // Ensure the linked deployment exists
-        if (patch.activeDeploymentId) {
-            const linkedDeployment = await this.Deployment.findById(
-                patch.activeDeploymentId
-            );
-            if (!linkedDeployment) {
-                throw new errors.DeploymentNotFoundError(
-                    patch.activeDeploymentId
-                );
+        // Ensure the linked bundle exists
+        if (patch.bundleId) {
+            const linkedBundle = await this.Bundle.findById(patch.bundleId);
+            if (!linkedBundle) {
+                throw new errors.BundleNotFoundError(patch.bundleId);
             }
         }
 
@@ -180,25 +178,21 @@ export default class EntrypointsClient {
             }
         }
 
+        // Update the entrypoint
         await entrypoint.update(patch);
+
         return toPojo(entrypoint);
     }
 
     async delete(id: string): Promise<void> {
-        // Ensure the entrypoint exists
         const entrypoint = await this.Entrypoint.findById(id);
+
+        // Ensure the entrypoint exists
         if (!entrypoint) {
             throw new errors.EntrypointNotFoundError(id);
         }
 
-        // Delete linked deployments
-        const linkedDeployments = await this.deploymentsClient.findManyByEntrypointId(
-            id
-        );
-        for (const deployment of linkedDeployments) {
-            await this.deploymentsClient.delete(deployment.id);
-        }
-
+        // Delete the entrypoint
         await entrypoint.destroy();
     }
 }

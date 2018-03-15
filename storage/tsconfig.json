@@ -13,6 +13,7 @@
             "@types/chai-as-promised",
             "@types/fs-extra",
             "@types/lodash",
+            "@types/md5",
             "@types/mime",
             "@types/mocha",
             "@types/mz",

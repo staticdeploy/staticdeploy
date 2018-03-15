@@ -12,14 +12,14 @@ describe("EntrypointsClient.findOneById", () => {
             entrypoints: [{ id: "1", appId: "1", urlMatcher: "1.com/" }]
         });
     });
-    it("if an entrypoint by the specified id exists, returns it as a pojo", async () => {
+    it("if an entrypoint with the specified id doesn't exist, returns null", async () => {
+        const entrypoint = await storageClient.entrypoints.findOneById("2");
+        expect(entrypoint).to.equal(null);
+    });
+    it("returns the found entrypoint as a pojo", async () => {
         const entrypoint = await storageClient.entrypoints.findOneById("1");
         expect(entrypoint).to.have.property("id", "1");
         expect(entrypoint).to.have.property("urlMatcher", "1.com/");
-    });
-    it("if an entrypoint by the specified id doesn't exist, returns null", async () => {
-        const entrypoint = await storageClient.entrypoints.findOneById("2");
-        expect(entrypoint).to.equal(null);
     });
 });
 
@@ -30,7 +30,13 @@ describe("EntrypointsClient.findOneByIdOrUrlMatcher", () => {
             entrypoints: [{ id: "1", appId: "1", urlMatcher: "2.com/" }]
         });
     });
-    it("if an entrypoint by the specified id or urlMatcher exists, returns it as a pojo", async () => {
+    it("if an entrypoint with the specified id or urlMatcher doesn't exist, returns null", async () => {
+        const entrypoint = await storageClient.entrypoints.findOneByIdOrUrlMatcher(
+            "3"
+        );
+        expect(entrypoint).to.equal(null);
+    });
+    it("returns the found entrypoint as a pojo", async () => {
         const entrypointById = await storageClient.entrypoints.findOneByIdOrUrlMatcher(
             "1"
         );
@@ -41,12 +47,6 @@ describe("EntrypointsClient.findOneByIdOrUrlMatcher", () => {
         );
         expect(entrypointByUrlMatcher).to.have.property("id", "1");
         expect(entrypointByUrlMatcher).to.have.property("urlMatcher", "2.com/");
-    });
-    it("if an entrypoint by the specified id or urlMatcher doesn't exist, returns null", async () => {
-        const entrypoint = await storageClient.entrypoints.findOneByIdOrUrlMatcher(
-            "3"
-        );
-        expect(entrypoint).to.equal(null);
     });
 });
 
@@ -119,6 +119,19 @@ describe("EntrypointsClient.create", () => {
             "No app found with id = 2"
         );
     });
+    it("throws a BundleNotFoundError if the entrypoint links to a non-existing bundle", async () => {
+        const createPromise = storageClient.entrypoints.create({
+            appId: "1",
+            bundleId: "1",
+            urlMatcher: "1.com/"
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.BundleNotFoundError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "No bundle found with id = 1"
+        );
+    });
     it("throws a ConflictingEntrypointError if an entrypoint with the same urlMatcher exists", async () => {
         const createPromise = storageClient.entrypoints.create({
             appId: "1",
@@ -181,15 +194,15 @@ describe("EntrypointsClient.update", () => {
             "No app found with id = 2"
         );
     });
-    it("throws a DeploymentNotFoundError if the entrypoint links to a non-existing deployment", async () => {
+    it("throws a BundleNotFoundError if the entrypoint links to a non-existing bundle", async () => {
         const updatePromise = storageClient.entrypoints.update("1", {
-            activeDeploymentId: "1"
+            bundleId: "1"
         });
         await expect(updatePromise).to.be.rejectedWith(
-            errors.DeploymentNotFoundError
+            errors.BundleNotFoundError
         );
         await expect(updatePromise).to.be.rejectedWith(
-            "No deployment found with id = 1"
+            "No bundle found with id = 1"
         );
     });
     it("throws an UrlMatcherNotValidError if the urlMatcher is not valid", async () => {
@@ -231,8 +244,7 @@ describe("EntrypointsClient.delete", () => {
     beforeEach(async () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }],
-            entrypoints: [{ id: "1", urlMatcher: "1", appId: "1" }],
-            deployments: [{ id: "1", entrypointId: "1" }]
+            entrypoints: [{ id: "1", urlMatcher: "1", appId: "1" }]
         });
     });
     it("throws an EntrypointNotFoundError if no entrypoint with the specified id exists", async () => {
@@ -243,13 +255,6 @@ describe("EntrypointsClient.delete", () => {
         await expect(deletePromise).to.be.rejectedWith(
             "No entrypoint found with id = 2"
         );
-    });
-    it("deletes all linked deployments", async () => {
-        await storageClient.entrypoints.delete("1");
-        const deploymentInstances = await models.Deployment.findAll({
-            where: { entrypointId: eq("1") }
-        });
-        expect(deploymentInstances).to.have.length(0);
     });
     it("deletes the entrypoint", async () => {
         await storageClient.entrypoints.delete("1");

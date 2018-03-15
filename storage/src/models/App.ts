@@ -7,6 +7,8 @@ export type AppModel = Sequelize.Model<
     Partial<IApp>
 >;
 
+export const APPS_TABLE = "apps";
+
 export default (sequelize: Sequelize.Sequelize): AppModel =>
     sequelize.define(
         "app",
@@ -17,5 +19,5 @@ export default (sequelize: Sequelize.Sequelize): AppModel =>
             createdAt: { type: Sequelize.DATE },
             updatedAt: { type: Sequelize.DATE }
         },
-        { tableName: "apps" }
+        { tableName: APPS_TABLE }
     );

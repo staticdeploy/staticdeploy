@@ -10,14 +10,14 @@ describe("AppsClient.findOneById", () => {
             apps: [{ id: "1", name: "1" }]
         });
     });
-    it("if an app by the specified id exists, returns it as a pojo", async () => {
+    it("if an app with the specified id doesn't exist, returns null", async () => {
+        const app = await storageClient.apps.findOneById("2");
+        expect(app).to.equal(null);
+    });
+    it("returns the found app as a pojo", async () => {
         const app = await storageClient.apps.findOneById("1");
         expect(app).to.have.property("id", "1");
         expect(app).to.have.property("name", "1");
-    });
-    it("if an app by the specified id doesn't exist, returns null", async () => {
-        const app = await storageClient.apps.findOneById("2");
-        expect(app).to.equal(null);
     });
 });
 
@@ -27,17 +27,17 @@ describe("AppsClient.findOneByIdOrName", () => {
             apps: [{ id: "1", name: "2" }]
         });
     });
-    it("if an app by the specified id or name exists, returns it as a pojo", async () => {
+    it("if an app with the specified id or name doesn't exist, returns null", async () => {
+        const app = await storageClient.apps.findOneByIdOrName("3");
+        expect(app).to.equal(null);
+    });
+    it("returns the found app as a pojo", async () => {
         const appById = await storageClient.apps.findOneByIdOrName("1");
         expect(appById).to.have.property("id", "1");
         expect(appById).to.have.property("name", "2");
         const appByName = await storageClient.apps.findOneByIdOrName("2");
         expect(appByName).to.have.property("id", "1");
         expect(appByName).to.have.property("name", "2");
-    });
-    it("if an app by the specified id or name doesn't exist, returns null", async () => {
-        const app = await storageClient.apps.findOneByIdOrName("3");
-        expect(app).to.equal(null);
     });
 });
 

@@ -11,15 +11,26 @@ import getModels, { IModels } from "../src/models";
 
 chai.use(chaiAsPromised);
 
-const databasePath = path.join(os.tmpdir(), "db.sqlite");
+export const baseTestsPath = path.join(
+    os.tmpdir(),
+    "staticdeploy-storage-tests"
+);
+const databasePath = path.join(baseTestsPath, "db.sqlite");
 const databaseUrl = `sqlite://${databasePath}`;
-export const deploymentsPath = path.join(os.tmpdir(), "deployments");
+export const bundlesPath = path.join(baseTestsPath, "bundles");
 
+// Ideally, we would remove and re-create the database file on each fixture
+// insertion. However, doing so casues sequelize to lose the database connection
+// and to throw SequelizeDatabaseError-s. It would be too bothersome to also
+// re-create the Sequelize instance (and the StorageClient) on each fixture
+// insertion, so we just remove the database file once here at the beginning of
+// the test run, and we delete all objects in it on each fixture insertion. That
+// is still enough to ensure us a clean database on each test run.
 removeSync(databasePath);
 
 export const storageClient = new StorageClient({
     databaseUrl,
-    deploymentsPath
+    bundlesPath
 });
 
 const sequelize = new Sequelize(databaseUrl, {
@@ -30,25 +41,39 @@ export const models: IModels = getModels(sequelize);
 
 export interface IData {
     apps?: { id: string; name: string }[];
-    entrypoints?: { id: string; urlMatcher: string; appId: string }[];
-    deployments?: { id: string; entrypointId: string }[];
+    entrypoints?: {
+        id: string;
+        urlMatcher: string;
+        appId: string;
+        bundleId?: string;
+    }[];
+    bundles?: { id: string; name: string; tag: string; createdAt?: Date }[];
 }
 
 export async function insertFixtures(data: IData) {
-    const { App, Deployment, Entrypoint } = models;
+    const { App, Bundle, Entrypoint } = models;
 
     // Setup and/or reset database
     await migrate(sequelize);
-    await emptyDir(deploymentsPath);
-    await Deployment.destroy({ where: {} });
+    await emptyDir(bundlesPath);
     await Entrypoint.destroy({ where: {} });
     await App.destroy({ where: {} });
+    await Bundle.destroy({ where: {} });
 
     // Setup and/or reset filesystem
-    await remove(deploymentsPath);
-    await mkdirp(deploymentsPath);
+    await remove(bundlesPath);
+    await mkdirp(bundlesPath);
 
     // Insert provided database fixtures
+    for (const bundle of data.bundles || []) {
+        await Bundle.create({
+            ...bundle,
+            description: "description",
+            hash: "hash",
+            assets: []
+        });
+        await mkdirp(path.join(bundlesPath, bundle.id));
+    }
     for (const app of data.apps || []) {
         await App.create({
             ...app,
@@ -57,17 +82,9 @@ export async function insertFixtures(data: IData) {
     }
     for (const entrypoint of data.entrypoints || []) {
         await Entrypoint.create({
-            ...entrypoint,
-            fallbackResource: "index.html",
-            activeDeploymentId: null,
-            configuration: null
+            bundleId: null,
+            configuration: null,
+            ...entrypoint
         });
-    }
-    for (const deployment of data.deployments || []) {
-        await Deployment.create({
-            ...deployment,
-            description: null
-        });
-        await mkdirp(path.join(deploymentsPath, deployment.id));
     }
 }
