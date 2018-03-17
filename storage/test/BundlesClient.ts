@@ -6,6 +6,7 @@ import { readFile, readFileSync } from "mz/fs";
 import path from "path";
 import tar from "tar";
 
+import BundlesClient from "../src/BundlesClient";
 import * as errors from "../src/utils/errors";
 import { eq } from "../src/utils/sequelizeOperators";
 import {
@@ -96,17 +97,42 @@ describe("BundlesClient.findAll", () => {
 
 describe("BundlesClient.create", () => {
     beforeEach(async () => {
-        await insertFixtures({ bundles: [] });
+        await insertFixtures({});
+    });
+    it("throws a NameOrTagNotValidError if the passed in name is not valid", async () => {
+        const createPromise = storageClient.bundles.create({
+            name: "*",
+            tag: "1",
+            description: "1",
+            content: targzOf({ file: "file" })
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.NameOrTagNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "* is not a valid name for a bundle"
+        );
+    });
+    it("throws a NameOrTagNotValidError if the passed in tag is not valid", async () => {
+        const createPromise = storageClient.bundles.create({
+            name: "1",
+            tag: "*",
+            description: "1",
+            content: targzOf({ file: "file" })
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.NameOrTagNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "* is not a valid tag for a bundle"
+        );
     });
     it("creates a bundle", async () => {
         await storageClient.bundles.create({
             name: "1",
             tag: "1",
             description: "1",
-            content: targzOf({
-                "index.html": "index.html",
-                "index.js": "index.js"
-            })
+            content: targzOf({ file: "file" })
         });
         const bundleInstance = await models.Bundle.findOne({
             where: { name: eq("1") }
@@ -118,10 +144,7 @@ describe("BundlesClient.create", () => {
             name: "1",
             tag: "1",
             description: "1",
-            content: targzOf({
-                "index.html": "index.html",
-                "index.js": "index.js"
-            })
+            content: targzOf({ file: "file" })
         });
         const bundleInstance = await models.Bundle.findOne({
             where: { name: eq("1") }
@@ -221,7 +244,7 @@ describe("BundlesClient.delete", () => {
 
 describe("BundlesClient.getBundleAssetContent", () => {
     beforeEach(async () => {
-        await insertFixtures({ bundles: [] });
+        await insertFixtures({});
     });
     it("throws a BundleNotFoundError if no bundle with the specified id exists", async () => {
         const getPromise = storageClient.bundles.getBundleAssetContent(
@@ -265,5 +288,92 @@ describe("BundlesClient.getBundleAssetContent", () => {
             "/file"
         );
         expect(content).to.deep.equal(Buffer.from("file"));
+    });
+});
+
+describe("BundlesClient.isNameOrTagValid", () => {
+    describe("returns true when the passed-in name or tag is valid", () => {
+        [
+            "letters",
+            "letters_and_underscores",
+            "letters-and-dashes",
+            "letters.and.dots",
+            "letters/and/slashes",
+            "letters0and0numbers",
+            "0123456789",
+            "combination0_./-",
+            // Possible names of git branches and tags
+            "master",
+            "feature/some-feature",
+            "v1.0.0",
+            "1.0.0-beta1"
+        ].forEach(nameOrTag => {
+            it(`case: ${nameOrTag}`, () => {
+                expect(BundlesClient.isNameOrTagValid(nameOrTag)).to.equal(
+                    true
+                );
+            });
+        });
+    });
+    describe("returns false when the passed-in name or tag is not valid", () => {
+        [
+            "with-colon:",
+            "with-unsupported-chars*",
+            "with-spaces ",
+            "with-backslashes\\"
+        ].forEach(nameOrTag => {
+            it(`case: ${nameOrTag}`, () => {
+                expect(BundlesClient.isNameOrTagValid(nameOrTag)).to.equal(
+                    false
+                );
+            });
+        });
+    });
+});
+
+describe("BundlesClient.isNameTagCombinationValid", () => {
+    describe("returns true when the passed-in name:tag combination is valid", () => {
+        [
+            "name:tag",
+            "name_name:tag/tag",
+            "name/name:v1.0.0",
+            "name.name/name:tag_.tag"
+        ].forEach(nameTagCombination => {
+            it(`case: ${nameTagCombination}`, () => {
+                expect(
+                    BundlesClient.isNameTagCombinationValid(nameTagCombination)
+                ).to.equal(true);
+            });
+        });
+    });
+    describe("returns false when the passed-in name:tag combination is not valid", () => {
+        [
+            "no-colon",
+            "no-tag:",
+            ":no-name",
+            "invalid-name*:tag",
+            "invalid-tag:taag*"
+        ].forEach(nameTagCombination => {
+            it(`case: ${nameTagCombination}`, () => {
+                expect(
+                    BundlesClient.isNameTagCombinationValid(nameTagCombination)
+                ).to.equal(false);
+            });
+        });
+    });
+});
+
+describe("BundlesClient.splitNameTagCombination", () => {
+    it("throws a NameTagCombinationNotValidError when passed in a non valid name:tag combination", () => {
+        const troublemaker = () =>
+            BundlesClient.splitNameTagCombination("non-valid");
+        expect(troublemaker).to.throw(errors.NameTagCombinationNotValidError);
+        expect(troublemaker).to.throw(
+            "non-valid is not a valid name:tag combination for a bundle"
+        );
+    });
+    it("returns a [name, tag] tuple from the combination", () => {
+        const tuple = BundlesClient.splitNameTagCombination("name:tag");
+        expect(tuple).to.deep.equal(["name", "tag"]);
     });
 });

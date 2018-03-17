@@ -5,29 +5,29 @@ import storage from "services/storage";
 
 interface IRequest extends Request {
     params: {
-        deploymentId: string;
+        bundleId: string;
     };
 }
 
 export default convroute({
-    path: "/deployments/:deploymentId",
+    path: "/bundles/:bundleId",
     method: "delete",
-    description: "Delete deployment",
-    tags: ["deployments"],
+    description: "Delete bundle",
+    tags: ["bundles"],
     parameters: [
         {
-            name: "deploymentId",
+            name: "bundleId",
             in: "path",
             required: true,
             type: "string"
         }
     ],
     responses: {
-        "204": { description: "Deployment deleted, returns nothing" },
-        "404": { description: "Deployment not found" }
+        "204": { description: "Bundle deleted, returns nothing" },
+        "404": { description: "Bundle not found" }
     },
     handler: async (req: IRequest, res) => {
-        await storage.deployments.delete(req.params.deploymentId);
+        await storage.bundles.delete(req.params.bundleId);
         res.status(204).send();
     }
 });

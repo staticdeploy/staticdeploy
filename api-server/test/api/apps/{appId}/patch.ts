@@ -25,12 +25,14 @@ describe("api PATCH /apps/:appId", () => {
             .patch(`/apps/${appId}`)
             .send({ name: "3_" })
             .set("Authorization", `Bearer ${token}`)
-            .expect(400);
+            .expect(400)
+            .expect(/Validation failed/);
         await request(server)
             .patch(`/apps/${appId}`)
             .send({ defaultConfiguration: { key: {} } })
             .set("Authorization", `Bearer ${token}`)
-            .expect(400);
+            .expect(400)
+            .expect(/Validation failed/);
     });
 
     it("404 on app not found", () => {
@@ -38,7 +40,8 @@ describe("api PATCH /apps/:appId", () => {
             .patch("/apps/non-existing")
             .send({})
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No app found with id = non-existing" });
     });
 
     it("409 on existing app != selected app with name == newName", () => {
@@ -47,7 +50,8 @@ describe("api PATCH /apps/:appId", () => {
             .patch(`/apps/${appId}`)
             .send({ name: "1" })
             .set("Authorization", `Bearer ${token}`)
-            .expect(409);
+            .expect(409)
+            .expect({ message: "An app with name = 1 already exists" });
     });
 
     it("no 409 on no existing app != selected app with name = newName", () => {

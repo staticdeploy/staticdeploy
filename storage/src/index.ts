@@ -10,6 +10,7 @@ import IHealthCheckResult from "./types/IHealthCheckResult";
 
 export { default as IApp } from "./types/IApp";
 export { default as IAsset } from "./types/IAsset";
+export { default as IBundle } from "./types/IBundle";
 export { default as IConfiguration } from "./types/IConfiguration";
 export { default as IEntrypoint } from "./types/IEntrypoint";
 

@@ -1,3 +1,4 @@
+import { AppNotFoundError } from "@staticdeploy/storage";
 import { Request } from "express";
 
 import convroute from "common/convroute";
@@ -27,15 +28,11 @@ export default convroute({
         "404": { description: "App not found" }
     },
     handler: async (req: IRequest, res) => {
-        const { appId } = req.params;
-        const app = await storage.apps.findOneById(appId);
+        const app = await storage.apps.findOneById(req.params.appId);
 
         // Ensure the app exists
         if (!app) {
-            res.status(404).send({
-                message: `No app found with id = ${appId}`
-            });
-            return;
+            throw new AppNotFoundError(req.params.appId, "id");
         }
 
         res.status(200).send(app);

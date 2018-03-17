@@ -36,8 +36,8 @@
     "mime": "^2.2.0",
     "mz": "^2.7.0",
     "recursive-readdir": "^2.2.2",
-    "sequelize": "^4.36.0",
-    "sqlite3": "^3.1.13",
+    "sequelize": "^4.37.1",
+    "sqlite3": "^4.0.0",
     "tar": "^4.4.0",
     "umzug": "^2.1.0",
     "validator": "^9.4.1"
@@ -46,7 +46,7 @@
     "@types/chai": "^4.1.2",
     "@types/chai-as-promised": "^7.1.0",
     "@types/fs-extra": "^5.0.1",
-    "@types/lodash": "^4.14.104",
+    "@types/lodash": "^4.14.105",
     "@types/md5": "^2.1.32",
     "@types/mime": "^2.0.0",
     "@types/mocha": "^2.2.48",
@@ -63,7 +63,7 @@
     "rimraf": "^2.6.2",
     "ts-node": "^5.0.1",
     "tslint": "^5.9.1",
-    "tslint-config-prettier": "^1.9.0",
+    "tslint-config-prettier": "^1.10.0",
     "typescript": "^2.7.2"
   }
 }

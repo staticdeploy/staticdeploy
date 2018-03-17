@@ -11,9 +11,8 @@ interface IRequest extends Request {
     };
     body: {
         appId?: IEntrypoint["appId"];
+        bundleId?: IEntrypoint["bundleId"];
         urlMatcher?: IEntrypoint["urlMatcher"];
-        fallbackResource?: IEntrypoint["fallbackResource"];
-        activeDeploymentId?: IEntrypoint["activeDeploymentId"];
         configuration?: IEntrypoint["configuration"];
     };
 }
@@ -24,14 +23,11 @@ const bodySchema = {
         appId: {
             type: "string"
         },
+        bundleId: {
+            $oneOf: [{ type: "string" }, { type: "null" }]
+        },
         urlMatcher: {
             type: "string"
-        },
-        fallbackResource: {
-            type: "string"
-        },
-        activeDeploymentId: {
-            $oneOf: [{ type: "string" }, { type: "null" }]
         },
         configuration: {
             $oneOf: [schemas.configuration, { type: "null" }]
@@ -63,8 +59,7 @@ export default convroute({
         "200": { description: "Entrypoint updated, returns the entrypoint" },
         "400": { description: "Patch validation failed" },
         "404": {
-            description:
-                "Entrypoint, linked app, or linked deployment not found"
+            description: "Entrypoint, linked app, or linked bundle not found"
         },
         "409": { description: "Entrypoint with same urlMatcher already exists" }
     },

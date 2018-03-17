@@ -24,7 +24,8 @@ describe("api DELETE /apps/:appId", () => {
         return request(server)
             .delete("/apps/non-existing")
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No app found with id = non-existing" });
     });
 
     it("204 on app deleted, deletes the app", async () => {

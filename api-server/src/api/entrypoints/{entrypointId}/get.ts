@@ -1,3 +1,4 @@
+import { EntrypointNotFoundError } from "@staticdeploy/storage";
 import { Request } from "express";
 
 import convroute from "common/convroute";
@@ -27,15 +28,13 @@ export default convroute({
         "404": { description: "Entrypoint not found" }
     },
     handler: async (req: IRequest, res) => {
-        const { entrypointId } = req.params;
-        const entrypoint = await storage.entrypoints.findOneById(entrypointId);
+        const entrypoint = await storage.entrypoints.findOneById(
+            req.params.entrypointId
+        );
 
         // Ensure the entrypoint exists
         if (!entrypoint) {
-            res.status(404).send({
-                message: `No entrypoint found with id = ${entrypointId}`
-            });
-            return;
+            throw new EntrypointNotFoundError(req.params.entrypointId, "id");
         }
 
         res.status(200).send(entrypoint);

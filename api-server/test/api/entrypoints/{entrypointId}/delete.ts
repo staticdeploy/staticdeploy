@@ -17,8 +17,7 @@ describe("api DELETE /entrypoints/:entrypointId", () => {
         server = await getApp();
         ids = await insertFixtures({
             apps: [{ name: "0" }],
-            entrypoints: [{ appId: "$0", urlMatcher: "0.com/" }],
-            deployments: [{ entrypointId: "$0" }]
+            entrypoints: [{ appId: 0, urlMatcher: "0.com/" }]
         });
     });
 
@@ -26,7 +25,8 @@ describe("api DELETE /entrypoints/:entrypointId", () => {
         return request(server)
             .delete("/entrypoints/non-existing")
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No entrypoint found with id = non-existing" });
     });
 
     it("204 on entrypoint deleted, deletes the entrypoint", async () => {

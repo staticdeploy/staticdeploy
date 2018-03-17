@@ -1,4 +1,4 @@
-import { IConfiguration, IEntrypoint } from "@staticdeploy/storage";
+import { IEntrypoint } from "@staticdeploy/storage";
 import { Request } from "express";
 
 import convroute from "common/convroute";
@@ -8,9 +8,9 @@ import storage from "services/storage";
 interface IRequest extends Request {
     body: {
         appId: IEntrypoint["appId"];
+        bundleId?: IEntrypoint["bundleId"];
         urlMatcher: IEntrypoint["urlMatcher"];
-        fallbackResource?: IEntrypoint["fallbackResource"];
-        configuration?: IConfiguration;
+        configuration?: IEntrypoint["configuration"];
     };
 }
 
@@ -20,13 +20,15 @@ const bodySchema = {
         appId: {
             type: "string"
         },
+        bundleId: {
+            $oneOf: [{ type: "string" }, { type: "null" }]
+        },
         urlMatcher: {
             type: "string"
         },
-        fallbackResource: {
-            type: "string"
-        },
-        configuration: schemas.configuration
+        configuration: {
+            $oneOf: [schemas.configuration, { type: "null" }]
+        }
     },
     required: ["appId", "urlMatcher"],
     additionalProperties: false
@@ -48,7 +50,7 @@ export default convroute({
     responses: {
         "201": { description: "Entrypoint created, returns the entrypoint" },
         "400": { description: "Body validation failed" },
-        "404": { description: "Linked app not found" },
+        "404": { description: "Linked app or bundle not found" },
         "409": { description: "Entrypoint with same urlMatcher already exists" }
     },
     handler: async (req: IRequest, res) => {

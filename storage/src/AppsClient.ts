@@ -65,7 +65,7 @@ export default class AppsClient {
 
         // Ensure the app exists
         if (!app) {
-            throw new errors.AppNotFoundError(id);
+            throw new errors.AppNotFoundError(id, "id");
         }
 
         // Ensure no app with the same name exists
@@ -89,7 +89,7 @@ export default class AppsClient {
 
         // Ensure the app exists
         if (!app) {
-            throw new errors.AppNotFoundError(id);
+            throw new errors.AppNotFoundError(id, "id");
         }
 
         // Delete linked entrypoints

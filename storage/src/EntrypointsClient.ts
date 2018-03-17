@@ -87,21 +87,21 @@ export default class EntrypointsClient {
 
     async create(partial: {
         appId: string;
-        bundleId?: string;
+        bundleId?: string | null;
         urlMatcher: string;
-        configuration?: IConfiguration;
+        configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
         // Ensure the linked app exists
         const linkedApp = await this.App.findById(partial.appId);
         if (!linkedApp) {
-            throw new errors.AppNotFoundError(partial.appId);
+            throw new errors.AppNotFoundError(partial.appId, "id");
         }
 
         // Ensure the linked bundle exists
         if (partial.bundleId) {
             const linkedBundle = await this.Bundle.findById(partial.bundleId);
             if (!linkedBundle) {
-                throw new errors.BundleNotFoundError(partial.bundleId);
+                throw new errors.BundleNotFoundError(partial.bundleId, "id");
             }
         }
 
@@ -132,7 +132,7 @@ export default class EntrypointsClient {
         id: string,
         patch: {
             appId?: string;
-            bundleId?: string;
+            bundleId?: string | null;
             urlMatcher?: string;
             configuration?: IConfiguration | null;
         }
@@ -141,14 +141,14 @@ export default class EntrypointsClient {
 
         // Ensure the entrypoint exists
         if (!entrypoint) {
-            throw new errors.EntrypointNotFoundError(id);
+            throw new errors.EntrypointNotFoundError(id, "id");
         }
 
         // Ensure the linked app exists
         if (patch.appId) {
             const linkedApp = await this.App.findById(patch.appId);
             if (!linkedApp) {
-                throw new errors.AppNotFoundError(patch.appId);
+                throw new errors.AppNotFoundError(patch.appId, "id");
             }
         }
 
@@ -156,7 +156,7 @@ export default class EntrypointsClient {
         if (patch.bundleId) {
             const linkedBundle = await this.Bundle.findById(patch.bundleId);
             if (!linkedBundle) {
-                throw new errors.BundleNotFoundError(patch.bundleId);
+                throw new errors.BundleNotFoundError(patch.bundleId, "id");
             }
         }
 
@@ -189,7 +189,7 @@ export default class EntrypointsClient {
 
         // Ensure the entrypoint exists
         if (!entrypoint) {
-            throw new errors.EntrypointNotFoundError(id);
+            throw new errors.EntrypointNotFoundError(id, "id");
         }
 
         // Delete the entrypoint

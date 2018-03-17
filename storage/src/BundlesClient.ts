@@ -102,6 +102,11 @@ export default class BundlesClient {
         description: string;
         content: Buffer;
     }): Promise<IBundle> {
+        // Validate name and tag
+        BundlesClient.validateNameOrTag(partial.name, "name");
+        BundlesClient.validateNameOrTag(partial.tag, "tag");
+
+        // Generate an id for the bundle
         const id = generateId();
 
         // Unpack the bundle content to the filesystem
@@ -111,6 +116,8 @@ export default class BundlesClient {
         await mkdir(baseBundlePath);
         await mkdir(rootPath);
         await writeFile(targzPath, partial.content);
+        // If the content Buffer is not a valid archive, tar.extract doesn't
+        // throw any error, and just doesn't extract anything
         await tar.extract({ cwd: rootPath, file: targzPath });
 
         // Build the assets list
@@ -138,7 +145,7 @@ export default class BundlesClient {
 
         // Ensure the bundle exists
         if (!bundle) {
-            throw new errors.BundleNotFoundError(id);
+            throw new errors.BundleNotFoundError(id, "id");
         }
 
         // Ensure the bundle is not used by any entrypoint
@@ -162,7 +169,7 @@ export default class BundlesClient {
         // Ensure the bundle exists
         const bundle = await this.Bundle.findById(id);
         if (!bundle) {
-            throw new errors.BundleNotFoundError(id);
+            throw new errors.BundleNotFoundError(id, "id");
         }
 
         const baseBundlePath = this.getBaseBundlePath(id);

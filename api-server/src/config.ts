@@ -26,6 +26,6 @@ export const JWT_SECRET = env("JWT_SECRET", {
 export const STORAGE_DATABASE_URL = env("STORAGE_DATABASE_URL", {
     default: "sqlite://:memory:"
 });
-export const STORAGE_DEPLOYMENTS_PATH = env("STORAGE_DEPLOYMENTS_PATH", {
-    default: `${tmpdir()}/staticdeploy/deployments`
+export const STORAGE_BUNDLES_PATH = env("STORAGE_BUNDLES_PATH", {
+    default: `${tmpdir()}/staticdeploy/bundles`
 });

@@ -1,4 +1,4 @@
-import { IApp } from "@staticdeploy/storage";
+import { AppNotFoundError } from "@staticdeploy/storage";
 import { Request } from "express";
 
 import convroute from "common/convroute";
@@ -21,18 +21,13 @@ export default convroute({
         "404": { description: "Filter app not found" }
     },
     handler: async (req: IRequest, res) => {
-        const { appIdOrName } = req.query;
-        let filterApp: IApp | null = null;
+        const filterApp = req.query.appIdOrName
+            ? await storage.apps.findOneByIdOrName(req.query.appIdOrName)
+            : null;
 
         // Ensure the filter app exists
-        if (appIdOrName) {
-            filterApp = await storage.apps.findOneByIdOrName(appIdOrName);
-            if (!filterApp) {
-                res.status(404).send({
-                    message: `No app found with id or name = ${appIdOrName}`
-                });
-                return;
-            }
+        if (req.query.appIdOrName && !filterApp) {
+            throw new AppNotFoundError(req.query.appIdOrName, "id or name");
         }
 
         const entrypoints = await (filterApp

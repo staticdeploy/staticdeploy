@@ -1,7 +1,7 @@
 // App errors
 export class AppNotFoundError extends Error {
-    constructor(id: string) {
-        super(`No app found with id = ${id}`);
+    constructor(searchValue: string, searchProperty: string) {
+        super(`No app found with ${searchProperty} = ${searchValue}`);
     }
 }
 export class ConflictingAppError extends Error {
@@ -12,8 +12,8 @@ export class ConflictingAppError extends Error {
 
 // Bundle errors
 export class BundleNotFoundError extends Error {
-    constructor(id: string) {
-        super(`No bundle found with id = ${id}`);
+    constructor(searchValue: string, searchProperty: string) {
+        super(`No bundle found with ${searchProperty} = ${searchValue}`);
     }
 }
 export class BundleAssetNotFoundError extends Error {
@@ -44,8 +44,8 @@ export class NameTagCombinationNotValidError extends Error {
 
 // Entrypoint errors
 export class EntrypointNotFoundError extends Error {
-    constructor(id: string) {
-        super(`No entrypoint found with id = ${id}`);
+    constructor(searchValue: string, searchProperty: string) {
+        super(`No entrypoint found with ${searchProperty} = ${searchValue}`);
     }
 }
 export class ConflictingEntrypointError extends Error {
