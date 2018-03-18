@@ -1,6 +1,3 @@
-import { isAbsolute, normalize } from "path";
-import { isFQDN } from "validator";
-
 import { IModels } from "./models";
 import IConfiguration from "./types/IConfiguration";
 import IEntrypoint from "./types/IEntrypoint";
@@ -8,44 +5,9 @@ import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import { eq, or } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
+import * as validators from "./utils/validators";
 
 export default class EntrypointsClient {
-    /*
-    *   A valid urlMatcher has the shape domain + path, where domain is a
-    *   fully-qualified domain name, and path an absolute and normalized path
-    *   ending with a /.
-    *
-    *   Example of valid urlMatchers:
-    *   - domain.com/
-    *   - domain.com/path/
-    *   - subdomain.domain.com/path/subpath/
-    *
-    *   Example of invalid urlMatchers:
-    *   - http://domain.com/
-    *   - domain.com
-    *   - domain.com/path
-    */
-    static isUrlMatcherValid(urlMatcher: string): boolean {
-        const indexOfFirstSlash = urlMatcher.indexOf("/");
-        // Must contain at least a / to be valid
-        if (indexOfFirstSlash === -1) {
-            return false;
-        }
-        const domain = urlMatcher.slice(0, indexOfFirstSlash);
-        const path = urlMatcher.slice(indexOfFirstSlash);
-        return (
-            isFQDN(domain) &&
-            isAbsolute(path) &&
-            normalize(path) === path &&
-            /\/$/.test(path)
-        );
-    }
-    static validateUrlMatcher(urlMatcher: string): void {
-        if (!EntrypointsClient.isUrlMatcherValid(urlMatcher)) {
-            throw new errors.UrlMatcherNotValidError(urlMatcher);
-        }
-    }
-
     private App: IModels["App"];
     private Bundle: IModels["Bundle"];
     private Entrypoint: IModels["Entrypoint"];
@@ -91,6 +53,15 @@ export default class EntrypointsClient {
         urlMatcher: string;
         configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
+        // Validate the urlMatcher and the configuration
+        validators.validateEntrypointUrlMatcher(partial.urlMatcher);
+        if (partial.configuration) {
+            validators.validateConfiguration(
+                partial.configuration,
+                "configuration"
+            );
+        }
+
         // Ensure the linked app exists
         const linkedApp = await this.App.findById(partial.appId);
         if (!linkedApp) {
@@ -104,9 +75,6 @@ export default class EntrypointsClient {
                 throw new errors.BundleNotFoundError(partial.bundleId, "id");
             }
         }
-
-        // Validate the urlMatcher
-        EntrypointsClient.validateUrlMatcher(partial.urlMatcher);
 
         // Ensure no entrypoint with the same urlMatcher exists
         const conflictingEntrypoint = await this.Entrypoint.findOne({
@@ -137,6 +105,17 @@ export default class EntrypointsClient {
             configuration?: IConfiguration | null;
         }
     ): Promise<IEntrypoint> {
+        // Validate the urlMatcher and the configuration
+        if (patch.urlMatcher) {
+            validators.validateEntrypointUrlMatcher(patch.urlMatcher);
+        }
+        if (patch.configuration) {
+            validators.validateConfiguration(
+                patch.configuration,
+                "configuration"
+            );
+        }
+
         const entrypoint = await this.Entrypoint.findById(id);
 
         // Ensure the entrypoint exists
@@ -158,11 +137,6 @@ export default class EntrypointsClient {
             if (!linkedBundle) {
                 throw new errors.BundleNotFoundError(patch.bundleId, "id");
             }
-        }
-
-        // Validate the urlMatcher
-        if (patch.urlMatcher) {
-            EntrypointsClient.validateUrlMatcher(patch.urlMatcher);
         }
 
         // Ensure no entrypoint with the same urlMatcher exists

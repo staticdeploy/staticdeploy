@@ -61,6 +61,27 @@ describe("AppsClient.create", () => {
             apps: [{ id: "2", name: "2" }]
         });
     });
+    it("throws an AppNameNotValidError if the supplied name is not valid", async () => {
+        const createPromise = storageClient.apps.create({ name: "*" });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.AppNameNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "* is not a valid name for an app"
+        );
+    });
+    it("throws a ConfigurationNotValidError if the supplied defaultConfiguration is not valid", async () => {
+        const createPromise = storageClient.apps.create({
+            name: "0",
+            defaultConfiguration: "not-valid" as any
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.ConfigurationNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "defaultConfiguration is not a valid configuration object"
+        );
+    });
     it("throws a ConflictingAppError if an app with the same name exists", async () => {
         const createPromise = storageClient.apps.create({ name: "2" });
         await expect(createPromise).to.be.rejectedWith(
@@ -91,6 +112,26 @@ describe("AppsClient.update", () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }, { id: "2", name: "2" }]
         });
+    });
+    it("throws an AppNameNotValidError if the supplied name is not valid", async () => {
+        const updatePromise = storageClient.apps.update("1", { name: "*" });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.AppNameNotValidError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "* is not a valid name for an app"
+        );
+    });
+    it("throws a ConfigurationNotValidError if the supplied defaultConfiguration is not valid", async () => {
+        const updatePromise = storageClient.apps.update("1", {
+            defaultConfiguration: "not-valid" as any
+        });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.ConfigurationNotValidError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "defaultConfiguration is not a valid configuration object"
+        );
     });
     it("throws an AppNotFoundError if no app with the specified id exists", async () => {
         const updatePromise = storageClient.apps.update("3", {});

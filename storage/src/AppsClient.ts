@@ -5,6 +5,7 @@ import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import { eq, or } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
+import * as validators from "./utils/validators";
 
 export default class AppsClient {
     private App: IModels["App"];
@@ -36,6 +37,15 @@ export default class AppsClient {
         name: string;
         defaultConfiguration?: IConfiguration;
     }): Promise<IApp> {
+        // Validate name and defaultConfiguration
+        validators.validateAppName(partial.name);
+        if (partial.defaultConfiguration) {
+            validators.validateConfiguration(
+                partial.defaultConfiguration,
+                "defaultConfiguration"
+            );
+        }
+
         // Ensure no app with the same name exists
         const conflictingApp = await this.App.findOne({
             where: { name: eq(partial.name) }
@@ -61,6 +71,17 @@ export default class AppsClient {
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
+        // Validate name and defaultConfiguration
+        if (patch.name) {
+            validators.validateAppName(patch.name);
+        }
+        if (patch.defaultConfiguration) {
+            validators.validateConfiguration(
+                patch.defaultConfiguration,
+                "defaultConfiguration"
+            );
+        }
+
         const app = await this.App.findById(id);
 
         // Ensure the app exists

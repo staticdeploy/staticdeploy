@@ -14,49 +14,13 @@ import generateId from "./utils/generateId";
 import removePrefix from "./utils/removePrefix";
 import { eq } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
+import * as validators from "./utils/validators";
 
 export default class BundlesClient {
-    /*
-    *   Name and tag string have the same validation rules:
-    *   - 0 < length < 256
-    *   - only characters allowed are letters, numbers, underscores, dashes
-    *     dots and slashes
-    */
-    static isNameOrTagValid(nameOrTag: string): boolean {
-        return /^[\w\-\.\/]{1,255}$/.test(nameOrTag);
-    }
-    static validateNameOrTag(nameOrTag: string, type: "name" | "tag"): void {
-        if (!BundlesClient.isNameOrTagValid(nameOrTag)) {
-            throw new errors.NameOrTagNotValidError(nameOrTag, type);
-        }
-    }
-
-    /*
-    *   A name:tag combination is a string joining name and tag with a colon
-    *   character (:)
-    */
-    static isNameTagCombinationValid(nameTagCombination: string): boolean {
-        const segments = nameTagCombination.split(":");
-        if (segments.length !== 2) {
-            return false;
-        }
-        const [name, tag] = segments;
-        return (
-            BundlesClient.isNameOrTagValid(name) &&
-            BundlesClient.isNameOrTagValid(tag)
-        );
-    }
-    static validateNameTagCombination(nameTagCombination: string): void {
-        if (!BundlesClient.isNameTagCombinationValid(nameTagCombination)) {
-            throw new errors.NameTagCombinationNotValidError(
-                nameTagCombination
-            );
-        }
-    }
     static splitNameTagCombination(
         nameTagCombination: string
     ): [string, string] {
-        BundlesClient.validateNameTagCombination(nameTagCombination);
+        validators.validateBundleNameTagCombination(nameTagCombination);
         return nameTagCombination.split(":") as [string, string];
     }
 
@@ -103,8 +67,8 @@ export default class BundlesClient {
         content: Buffer;
     }): Promise<IBundle> {
         // Validate name and tag
-        BundlesClient.validateNameOrTag(partial.name, "name");
-        BundlesClient.validateNameOrTag(partial.tag, "tag");
+        validators.validateBundleNameOrTag(partial.name, "name");
+        validators.validateBundleNameOrTag(partial.tag, "tag");
 
         // Generate an id for the bundle
         const id = generateId();

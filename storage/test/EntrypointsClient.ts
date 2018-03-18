@@ -1,6 +1,5 @@
 import { expect } from "chai";
 
-import EntrypointsClient from "../src/EntrypointsClient";
 import * as errors from "../src/utils/errors";
 import { eq } from "../src/utils/sequelizeOperators";
 import { insertFixtures, models, storageClient } from "./setup";
@@ -103,10 +102,23 @@ describe("EntrypointsClient.create", () => {
             urlMatcher: "1"
         });
         await expect(createPromise).to.be.rejectedWith(
-            errors.UrlMatcherNotValidError
+            errors.EntrypointUrlMatcherNotValidError
         );
         await expect(createPromise).to.be.rejectedWith(
             "1 is not a valid urlMatcher"
+        );
+    });
+    it("throws a ConfigurationNotValidError if the configuration is not valid", async () => {
+        const createPromise = storageClient.entrypoints.create({
+            appId: "1",
+            urlMatcher: "1.com/",
+            configuration: "not-valid" as any
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.ConfigurationNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "configuration is not a valid configuration object"
         );
     });
     it("throws an AppNotFoundError if the entrypoint links to a non-existing app", async () => {
@@ -210,10 +222,21 @@ describe("EntrypointsClient.update", () => {
             urlMatcher: "1"
         });
         await expect(updatePromise).to.be.rejectedWith(
-            errors.UrlMatcherNotValidError
+            errors.EntrypointUrlMatcherNotValidError
         );
         await expect(updatePromise).to.be.rejectedWith(
             "1 is not a valid urlMatcher"
+        );
+    });
+    it("throws a ConfigurationNotValidError if the configuration is not valid", async () => {
+        const updatePromise = storageClient.entrypoints.update("1", {
+            configuration: "not-valid" as any
+        });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.ConfigurationNotValidError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "configuration is not a valid configuration object"
         );
     });
     it("throws a ConflictingEntrypointError if an entrypoint with the same urlMatcher exists", async () => {
@@ -260,35 +283,5 @@ describe("EntrypointsClient.delete", () => {
         await storageClient.entrypoints.delete("1");
         const entrypointInstance = await models.Entrypoint.findById("1");
         expect(entrypointInstance).to.equal(null);
-    });
-});
-
-describe("EntrypointsClient.isUrlMatcherValid", () => {
-    describe("returns true when the passed-in urlMatcher is valid", () => {
-        [
-            "domain.com/",
-            "domain.com/path/",
-            "subdomain.domain.com/path/subpath/"
-        ].forEach(urlMatcher => {
-            it(`case: ${urlMatcher}`, () => {
-                expect(
-                    EntrypointsClient.isUrlMatcherValid(urlMatcher)
-                ).to.equal(true);
-            });
-        });
-    });
-    describe("returns false when the passed-in urlMatcher is not valid", () => {
-        [
-            "http://domain.com/",
-            "domain.com",
-            "domain.com/path",
-            "domain.com/path/../subpath/"
-        ].forEach(urlMatcher => {
-            it(`case: ${urlMatcher}`, () => {
-                expect(
-                    EntrypointsClient.isUrlMatcherValid(urlMatcher)
-                ).to.equal(false);
-            });
-        });
     });
 });

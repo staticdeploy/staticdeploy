@@ -1,4 +1,16 @@
+// Configuration errors
+export class ConfigurationNotValidError extends Error {
+    constructor(configurationProperty: string) {
+        super(`${configurationProperty} is not a valid configuration object`);
+    }
+}
+
 // App errors
+export class AppNameNotValidError extends Error {
+    constructor(name: string) {
+        super(`${name} is not a valid name for an app`);
+    }
+}
 export class AppNotFoundError extends Error {
     constructor(searchValue: string, searchProperty: string) {
         super(`No app found with ${searchProperty} = ${searchValue}`);
@@ -29,12 +41,12 @@ export class BundleInUseError extends Error {
         );
     }
 }
-export class NameOrTagNotValidError extends Error {
+export class BundleNameOrTagNotValidError extends Error {
     constructor(nameOrTag: string, type: "name" | "tag") {
         super(`${nameOrTag} is not a valid ${type} for a bundle`);
     }
 }
-export class NameTagCombinationNotValidError extends Error {
+export class BundleNameTagCombinationNotValidError extends Error {
     constructor(nameTagCombination: string) {
         super(
             `${nameTagCombination} is not a valid name:tag combination for a bundle`
@@ -53,7 +65,7 @@ export class ConflictingEntrypointError extends Error {
         super(`An entrypoint with urlMatcher = ${urlMatcher} already exists`);
     }
 }
-export class UrlMatcherNotValidError extends Error {
+export class EntrypointUrlMatcherNotValidError extends Error {
     constructor(urlMatcher: string) {
         super(`${urlMatcher} is not a valid urlMatcher for an entrypoint`);
     }

@@ -107,7 +107,7 @@ describe("BundlesClient.create", () => {
             content: targzOf({ file: "file" })
         });
         await expect(createPromise).to.be.rejectedWith(
-            errors.NameOrTagNotValidError
+            errors.BundleNameOrTagNotValidError
         );
         await expect(createPromise).to.be.rejectedWith(
             "* is not a valid name for a bundle"
@@ -121,7 +121,7 @@ describe("BundlesClient.create", () => {
             content: targzOf({ file: "file" })
         });
         await expect(createPromise).to.be.rejectedWith(
-            errors.NameOrTagNotValidError
+            errors.BundleNameOrTagNotValidError
         );
         await expect(createPromise).to.be.rejectedWith(
             "* is not a valid tag for a bundle"
@@ -291,83 +291,13 @@ describe("BundlesClient.getBundleAssetContent", () => {
     });
 });
 
-describe("BundlesClient.isNameOrTagValid", () => {
-    describe("returns true when the passed-in name or tag is valid", () => {
-        [
-            "letters",
-            "letters_and_underscores",
-            "letters-and-dashes",
-            "letters.and.dots",
-            "letters/and/slashes",
-            "letters0and0numbers",
-            "0123456789",
-            "combination0_./-",
-            // Possible names of git branches and tags
-            "master",
-            "feature/some-feature",
-            "v1.0.0",
-            "1.0.0-beta1"
-        ].forEach(nameOrTag => {
-            it(`case: ${nameOrTag}`, () => {
-                expect(BundlesClient.isNameOrTagValid(nameOrTag)).to.equal(
-                    true
-                );
-            });
-        });
-    });
-    describe("returns false when the passed-in name or tag is not valid", () => {
-        [
-            "with-colon:",
-            "with-unsupported-chars*",
-            "with-spaces ",
-            "with-backslashes\\"
-        ].forEach(nameOrTag => {
-            it(`case: ${nameOrTag}`, () => {
-                expect(BundlesClient.isNameOrTagValid(nameOrTag)).to.equal(
-                    false
-                );
-            });
-        });
-    });
-});
-
-describe("BundlesClient.isNameTagCombinationValid", () => {
-    describe("returns true when the passed-in name:tag combination is valid", () => {
-        [
-            "name:tag",
-            "name_name:tag/tag",
-            "name/name:v1.0.0",
-            "name.name/name:tag_.tag"
-        ].forEach(nameTagCombination => {
-            it(`case: ${nameTagCombination}`, () => {
-                expect(
-                    BundlesClient.isNameTagCombinationValid(nameTagCombination)
-                ).to.equal(true);
-            });
-        });
-    });
-    describe("returns false when the passed-in name:tag combination is not valid", () => {
-        [
-            "no-colon",
-            "no-tag:",
-            ":no-name",
-            "invalid-name*:tag",
-            "invalid-tag:taag*"
-        ].forEach(nameTagCombination => {
-            it(`case: ${nameTagCombination}`, () => {
-                expect(
-                    BundlesClient.isNameTagCombinationValid(nameTagCombination)
-                ).to.equal(false);
-            });
-        });
-    });
-});
-
 describe("BundlesClient.splitNameTagCombination", () => {
     it("throws a NameTagCombinationNotValidError when passed in a non valid name:tag combination", () => {
         const troublemaker = () =>
             BundlesClient.splitNameTagCombination("non-valid");
-        expect(troublemaker).to.throw(errors.NameTagCombinationNotValidError);
+        expect(troublemaker).to.throw(
+            errors.BundleNameTagCombinationNotValidError
+        );
         expect(troublemaker).to.throw(
             "non-valid is not a valid name:tag combination for a bundle"
         );
