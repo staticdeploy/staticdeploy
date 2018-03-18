@@ -23,16 +23,19 @@ describe("api PATCH /apps/:appId", () => {
         const appId = ids.apps[0];
         await request(server)
             .patch(`/apps/${appId}`)
-            .send({ name: "3_" })
+            .send({ name: "*" })
             .set("Authorization", `Bearer ${token}`)
             .expect(400)
-            .expect(/Validation failed/);
+            .expect({ message: "* is not a valid name for an app" });
         await request(server)
             .patch(`/apps/${appId}`)
             .send({ defaultConfiguration: { key: {} } })
             .set("Authorization", `Bearer ${token}`)
             .expect(400)
-            .expect(/Validation failed/);
+            .expect({
+                message:
+                    "defaultConfiguration is not a valid configuration object"
+            });
     });
 
     it("404 on app not found", () => {

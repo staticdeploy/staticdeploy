@@ -28,7 +28,7 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
         const entrypointId = ids.entrypoints[0];
         await request(server)
             .patch(`/entrypoints/${entrypointId}`)
-            .send({ defaultConfiguration: { key: {} } })
+            .send({ "non-accepted-prop": "value" })
             .set("Authorization", `Bearer ${token}`)
             .expect(400)
             .expect(/Validation failed/);

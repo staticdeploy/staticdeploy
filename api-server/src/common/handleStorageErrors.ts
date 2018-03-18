@@ -8,9 +8,11 @@ export default (
         await (handler as any)(req, res);
     } catch (err) {
         if (
-            err instanceof storage.UrlMatcherNotValidError ||
-            err instanceof storage.NameOrTagNotValidError ||
-            err instanceof storage.NameTagCombinationNotValidError
+            err instanceof storage.ConfigurationNotValidError ||
+            err instanceof storage.AppNameNotValidError ||
+            err instanceof storage.EntrypointUrlMatcherNotValidError ||
+            err instanceof storage.BundleNameOrTagNotValidError ||
+            err instanceof storage.BundleNameTagCombinationNotValidError
         ) {
             res.status(400).send({ message: err.message });
         } else if (

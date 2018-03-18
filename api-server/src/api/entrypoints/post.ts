@@ -2,7 +2,6 @@ import { IEntrypoint } from "@staticdeploy/storage";
 import { Request } from "express";
 
 import convroute from "common/convroute";
-import * as schemas from "common/schemas";
 import storage from "services/storage";
 
 interface IRequest extends Request {
@@ -27,7 +26,7 @@ const bodySchema = {
             type: "string"
         },
         configuration: {
-            $oneOf: [schemas.configuration, { type: "null" }]
+            $oneOf: [{ type: "object" }, { type: "null" }]
         }
     },
     required: ["appId", "urlMatcher"],
