@@ -21,28 +21,28 @@ describe("staticRoute routing", () => {
         ]
     });
 
-    test("404 when the matching entrypoint has no linked deployment", {
+    test("404 when the matching entrypoint has no linked bundle", {
         entrypoints: [{ urlMatcher: "domain.com/" }],
         testCases: [
             {
                 requestedUrl: "domain.com/asset",
                 expectedStatusCode: 404,
-                expectedBody: "No active deployment found for entrypoint domain.com/"
+                expectedBody: "No bundle deployed for entrypoint domain.com/"
             }
         ]
     });
-    test("404 when the fallback resource is not found", {
+
+    test("404 when the fallback resource /index.html is not found", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {}
+                bundleContent: {}
             }
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/asset",
-                expectedStatusCode: 404,
-                expectedBody: "No asset found at /index.html"
+                expectedStatusCode: 404
             }
         ]
     });
@@ -54,21 +54,21 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     path: "domain.com/ + /path",
                     pathAsset: "domain.com/ + /pathAsset"
                 }
             },
             {
                 urlMatcher: "domain.com/path/",
-                deploymentContent: {
+                bundleContent: {
                     subpath: "domain.com/path/ + /subpath",
                     subpathAsset: "domain.com/path/ + /subpathAsset"
                 }
             },
             {
                 urlMatcher: "domain.com/path/subpath/",
-                deploymentContent: {}
+                bundleContent: {}
             }
         ],
         testCases: [
@@ -94,18 +94,19 @@ describe("staticRoute routing", () => {
             }
         ]
     });
+
     test("redirects to the canonical path", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     asset: "domain.com/ + /asset",
                     nested: { asset: "domain.com/ + /nested/asset" }
                 }
             },
             {
                 urlMatcher: "domain.com/path/",
-                deploymentContent: {
+                bundleContent: {
                     asset: "domain.com/path/ + /asset",
                     nested: { asset: "domain.com/path/ + /nested/asset" }
                 }
@@ -164,20 +165,20 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     path: { asset: "domain.com/ + /path/asset" }
                 }
             },
             {
                 urlMatcher: "domain.com/path/",
-                deploymentContent: {
+                bundleContent: {
                     asset: "domain.com/path/ + /asset",
                     subpath: { asset: "domain.com/path/ + /subpath/asset" }
                 }
             },
             {
                 urlMatcher: "domain.com/path/subpath/",
-                deploymentContent: {
+                bundleContent: {
                     asset: "domain.com/path/subpath/ + /asset"
                 }
             }
@@ -200,7 +201,7 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     asset: "domain.com/ + /asset",
                     nested: { asset: "domain.com/ + /nested/asset" }
                 }
@@ -224,7 +225,7 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     "index.html": htmlWith("domain.com/ + /index.html"),
                     "a.html": htmlWith("domain.com/ + /a.html"),
                     "asset.html": htmlWith("domain.com/ + /asset.html"),
@@ -264,7 +265,7 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     "asset.html": htmlWith("domain.com/ + /asset.html"),
                     nested: { "asset.html": htmlWith("domain.com/ + /nested/asset.html") }
                 }
@@ -288,7 +289,7 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     "index.html": htmlWith("domain.com/ + /index.html"),
                     nested: { "index.html": htmlWith("domain.com/ + /nested/index.html") }
                 }
@@ -317,7 +318,7 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     "nested.html": htmlWith("domain.com/ + /nested.html"),
                     nested: { "index.html": htmlWith("domain.com/ + /nested/index.html") },
                     "n.html": htmlWith("domain.com/ + /n.html"),
@@ -367,7 +368,7 @@ describe("staticRoute routing", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     "index.html": htmlWith("domain.com/ + /index.html")
                 }
             }

@@ -1,8 +1,8 @@
 import StorageClient from "@staticdeploy/storage";
 
-import { STORAGE_DATABASE_URL, STORAGE_DEPLOYMENTS_PATH } from "config";
+import { STORAGE_BUNDLES_PATH, STORAGE_DATABASE_URL } from "config";
 
 export default new StorageClient({
     databaseUrl: STORAGE_DATABASE_URL,
-    deploymentsPath: STORAGE_DEPLOYMENTS_PATH
+    bundlesPath: STORAGE_BUNDLES_PATH
 });
