@@ -24,11 +24,6 @@ class EntrypointForm extends React.PureComponent<
                     placeholder="sub.example.com/path/"
                     inlineError={true}
                 />
-                <TextField
-                    label="Fallback resource"
-                    name="fallbackResource"
-                    inlineError={true}
-                />
                 <ConfigurationField
                     label="Default configuration"
                     name="configuration"
@@ -46,14 +41,12 @@ export default reduxForm<IExternalFormValues, IInternalFormValues>({
     validate: validate,
     toInternal: (initialValues = {}) => ({
         urlMatcher: initialValues.urlMatcher || "",
-        fallbackResource: initialValues.fallbackResource || "/index.html",
         configuration: toKVPairs(initialValues.configuration || {})
     }),
     toExternal: values => ({
         urlMatcher: values.urlMatcher,
-        fallbackResource: values.fallbackResource || "/index.html",
         configuration: !isEmpty(values.configuration)
             ? fromKVPairs(values.configuration)
-            : undefined
+            : null
     })
 })(EntrypointForm);

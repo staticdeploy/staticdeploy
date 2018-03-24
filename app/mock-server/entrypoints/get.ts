@@ -5,11 +5,9 @@ import { range } from "lodash";
 const entrypoints = range(10).map(() => ({
     id: faker.random.alphaNumeric(8),
     appId: faker.random.alphaNumeric(8),
+    bundleId: Math.random() > 0.5 ? faker.random.alphaNumeric(8) : null,
     urlMatcher: `${faker.internet.domainName()}/${faker.hacker.noun()}/`,
-    fallbackResource: "index.html",
     configuration: Math.random() > 0.5 ? { KEY: "VALUE" } : null,
-    activeDeploymentId:
-        Math.random() > 0.5 ? faker.random.alphaNumeric(8) : null,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past()
 }));

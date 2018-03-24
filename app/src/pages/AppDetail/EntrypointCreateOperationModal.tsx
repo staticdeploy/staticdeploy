@@ -31,7 +31,6 @@ export default class EntrypointCreateOperationModal extends React.Component<
         return staticdeploy.entrypoints.create({
             appId: this.props.app.id,
             urlMatcher: values.urlMatcher,
-            fallbackResource: values.fallbackResource,
             configuration: values.configuration || undefined
         });
     };

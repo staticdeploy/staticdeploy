@@ -1,4 +1,4 @@
-import { IApp, IDeployment, IEntrypoint } from "@staticdeploy/sdk";
+import { IApp, IBundle, IEntrypoint } from "@staticdeploy/sdk";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -8,7 +8,6 @@ import { withData } from "../../components/DataFetcher";
 import ODItem from "../../components/OperationsDropdown/Item";
 import Page from "../../components/Page";
 import TextFieldRO from "../../components/TextFieldRO";
-import DeploymentsList from "./DeploymentsList";
 import EntrypointDeleteOperationModal from "./EntrypointDeleteOperationModal";
 import EntrypointEditOperationModal from "./EntrypointEditOperationModal";
 
@@ -19,7 +18,7 @@ interface IUrlParams {
 interface IResult {
     app: IApp;
     entrypoint: IEntrypoint;
-    deployments: IDeployment[];
+    bundle: IBundle | null;
 }
 type Props = {
     result: IResult;
@@ -44,7 +43,7 @@ class EntrypointDetail extends React.Component<Props> {
         ];
     }
     render() {
-        const { app, entrypoint, deployments } = this.props.result;
+        const { app, entrypoint, bundle } = this.props.result;
         return (
             <Page title="Entrypoint detail" actions={this.getActions()}>
                 <TextFieldRO title="App" value={app.name} />
@@ -53,8 +52,12 @@ class EntrypointDetail extends React.Component<Props> {
                     value={entrypoint.urlMatcher}
                 />
                 <TextFieldRO
-                    title="Fallback resource"
-                    value={entrypoint.fallbackResource}
+                    title="Deployed bundle"
+                    value={
+                        bundle
+                            ? `${bundle.name}:${bundle.tag} (${bundle.id})`
+                            : "No bundle deployed"
+                    }
                 />
                 <ConfigurationFieldRO
                     title={
@@ -66,12 +69,6 @@ class EntrypointDetail extends React.Component<Props> {
                         entrypoint.configuration || app.defaultConfiguration
                     }
                 />
-                <DeploymentsList
-                    title="Deployments"
-                    entrypoint={entrypoint}
-                    deployments={deployments}
-                    refetch={this.props.refetch}
-                />
             </Page>
         );
     }
@@ -80,14 +77,14 @@ class EntrypointDetail extends React.Component<Props> {
 export default withData({
     fetchData: async props => {
         const { appId, entrypointId } = props.match.params;
-        const [app, entrypoint, deployments] = await Promise.all([
+        const [app, entrypoint] = await Promise.all([
             staticdeploy.apps.getOne(appId),
-            staticdeploy.entrypoints.getOne(entrypointId),
-            staticdeploy.deployments.getAll({
-                entrypointIdOrUrlMatcher: entrypointId
-            })
+            staticdeploy.entrypoints.getOne(entrypointId)
         ]);
-        return { app, entrypoint, deployments };
+        const bundle = entrypoint.bundleId
+            ? await staticdeploy.bundles.getOne(entrypoint.bundleId)
+            : null;
+        return { app, entrypoint, bundle };
     },
     shouldRefetch: (oldProps, newProps) =>
         oldProps.match.params.appId !== newProps.match.params.appId ||

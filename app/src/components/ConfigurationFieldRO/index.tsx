@@ -1,7 +1,7 @@
 import { IConfiguration } from "@staticdeploy/sdk";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
-import * as React from "react";
+import React from "react";
 
 import { IKVPair, toKVPairs } from "../../common/configurationUtils";
 import "./index.css";
