@@ -1,4 +1,4 @@
-# staticdeploy-api-server
+# @staticdeploy/api-server
 
 staticdeploy api server.
 

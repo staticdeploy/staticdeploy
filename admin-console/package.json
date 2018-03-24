@@ -1,6 +1,6 @@
 {
-  "name": "@staticdeploy/app",
-  "description": "staticdeploy app",
+  "name": "@staticdeploy/admin-console",
+  "description": "staticdeploy admin console",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",

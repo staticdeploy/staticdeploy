@@ -1,4 +1,4 @@
-# staticdeploy-static-server
+# @staticdeploy/static-server
 
 staticdeploy static server.
 
