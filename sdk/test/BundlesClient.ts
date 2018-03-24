@@ -37,6 +37,30 @@ describe("BundlesClient", () => {
         });
     });
 
+    describe("getOne", () => {
+        it("requests GET /bundle/:bundleId", async () => {
+            const scope = nock(baseUrl)
+                .get("/bundles/id")
+                .reply(200);
+            await staticdeployClient.bundles.getOne("id");
+            scope.done();
+        });
+        it("returns the bundle with the specified id", async () => {
+            nock(baseUrl)
+                .get("/bundles/id")
+                .reply(200, {});
+            const bundle = await staticdeployClient.bundles.getOne("id");
+            expect(bundle).to.deep.equal({});
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .get("/bundles/id")
+                .reply(200, { createdAt: unixEpochISO });
+            const bundle = await staticdeployClient.bundles.getOne("id");
+            expect(bundle).to.deep.equal({ createdAt: unixEpoch });
+        });
+    });
+
     describe("create", () => {
         it("requests POST /bundles", async () => {
             const scope = nock(baseUrl)

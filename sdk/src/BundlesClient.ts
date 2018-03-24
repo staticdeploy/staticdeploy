@@ -11,6 +11,11 @@ export default class BundlesClient {
         return result.data.map(parseDates);
     }
 
+    async getOne(id: string): Promise<IBundle> {
+        const result = await this.axios.get(`/bundles/${id}`);
+        return parseDates(result.data);
+    }
+
     async create(bundle: {
         name: string;
         tag: string;
