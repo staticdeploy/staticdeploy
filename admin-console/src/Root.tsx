@@ -6,7 +6,9 @@ import authTokenService from "./common/authTokenService";
 import LoginMask from "./components/LoginMask";
 import Logo from "./components/Logo";
 import LogoutButton from "./components/LogoutButton";
+import SiderNav from "./components/SiderNav";
 import Apps from "./pages/Apps";
+import Bundles from "./pages/Bundles";
 import "./Root.css";
 
 export default class Root extends React.Component {
@@ -24,6 +26,7 @@ export default class Root extends React.Component {
                         <div className="c-Root-logo-container">
                             <Logo />
                         </div>
+                        <SiderNav />
                         <div className="c-Root-logout-button-container">
                             <LogoutButton authTokenService={authTokenService} />
                         </div>
@@ -35,6 +38,7 @@ export default class Root extends React.Component {
                             render={() => <Redirect to="/apps" />}
                         />
                         <Route path="/apps" component={Apps} />
+                        <Route path="/bundles" component={Bundles} />
                     </Layout.Content>
                 </Layout>
             </LoginMask>

@@ -9,7 +9,7 @@ interface IItem {
 }
 
 interface IProps<Item extends IItem> {
-    title: React.ReactNode;
+    title?: React.ReactNode;
     items: Item[];
     getDescription: (item: Item) => React.ReactNode;
     getHref: (item: Item) => string;
@@ -18,6 +18,9 @@ interface IProps<Item extends IItem> {
 export default class LinksList<Item extends IItem> extends React.PureComponent<
     IProps<Item>
 > {
+    renderTitle() {
+        return this.props.title ? <h4>{this.props.title}</h4> : null;
+    }
     renderLinks = (item: Item) => {
         const href = this.props.getHref(item);
         return (
@@ -32,7 +35,7 @@ export default class LinksList<Item extends IItem> extends React.PureComponent<
     render() {
         return (
             <div className="c-LinksList">
-                <h4>{this.props.title}</h4>
+                {this.renderTitle()}
                 {this.props.items.map(this.renderLinks)}
             </div>
         );

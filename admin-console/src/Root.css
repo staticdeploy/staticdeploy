@@ -15,6 +15,14 @@
     height: 64px;
 }
 
+.c-Root .c-SiderNav {
+    width: 64px;
+}
+
+.c-Root .c-SiderNav .ant-menu-item {
+    padding: 0px 24px !important;
+}
+
 .c-Root-logout-button-container {
     position: absolute;
     bottom: 0px;

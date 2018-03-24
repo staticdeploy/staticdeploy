@@ -1,7 +1,8 @@
 .c-Page-header {
+    height: 21px;
+    margin-bottom: 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 32px;
     color: var(--grey-7);
 }
