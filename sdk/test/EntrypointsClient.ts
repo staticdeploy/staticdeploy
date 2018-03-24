@@ -1,12 +1,10 @@
-import Axios from "axios";
 import { expect } from "chai";
 import nock from "nock";
 
-import EntrypointsClient from "../src/EntrypointsClient";
+import StaticdeployClient from "../src";
 
 const baseUrl = "http://localhost";
-const axios = Axios.create({ baseURL: baseUrl });
-const entrypointsClient = new EntrypointsClient(axios);
+const staticdeployClient = new StaticdeployClient({ apiUrl: baseUrl });
 const unixEpoch = new Date(0);
 const unixEpochISO = unixEpoch.toISOString();
 
@@ -20,21 +18,23 @@ describe("EntrypointsClient", () => {
             const scope = nock(baseUrl)
                 .get("/entrypoints")
                 .reply(200, []);
-            await entrypointsClient.getAll();
+            await staticdeployClient.entrypoints.getAll();
             scope.done();
         });
         it("optionally sets a filter on the request with querystrig parameter ?appIdOrName", async () => {
             const scope = nock(baseUrl)
                 .get("/entrypoints?appIdOrName=value")
                 .reply(200, []);
-            await entrypointsClient.getAll({ appIdOrName: "value" });
+            await staticdeployClient.entrypoints.getAll({
+                appIdOrName: "value"
+            });
             scope.done();
         });
         it("returns a list of entrypoints", async () => {
             nock(baseUrl)
                 .get("/entrypoints")
                 .reply(200, []);
-            const entrypoints = await entrypointsClient.getAll();
+            const entrypoints = await staticdeployClient.entrypoints.getAll();
             expect(entrypoints).to.deep.equal([]);
         });
         it("inflates dates", async () => {
@@ -43,7 +43,7 @@ describe("EntrypointsClient", () => {
                 .reply(200, [
                     { createdAt: unixEpochISO, updatedAt: unixEpochISO }
                 ]);
-            const entrypoints = await entrypointsClient.getAll();
+            const entrypoints = await staticdeployClient.entrypoints.getAll();
             expect(entrypoints).to.deep.equal([
                 { createdAt: unixEpoch, updatedAt: unixEpoch }
             ]);
@@ -55,14 +55,16 @@ describe("EntrypointsClient", () => {
             const scope = nock(baseUrl)
                 .get("/entrypoints/id")
                 .reply(200);
-            await entrypointsClient.getOne("id");
+            await staticdeployClient.entrypoints.getOne("id");
             scope.done();
         });
         it("returns the entrypoint with the specified id", async () => {
             nock(baseUrl)
                 .get("/entrypoints/id")
                 .reply(200, {});
-            const entrypoint = await entrypointsClient.getOne("id");
+            const entrypoint = await staticdeployClient.entrypoints.getOne(
+                "id"
+            );
             expect(entrypoint).to.deep.equal({});
         });
         it("inflates dates", async () => {
@@ -72,7 +74,9 @@ describe("EntrypointsClient", () => {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
                 });
-            const entrypoint = await entrypointsClient.getOne("id");
+            const entrypoint = await staticdeployClient.entrypoints.getOne(
+                "id"
+            );
             expect(entrypoint).to.deep.equal({
                 createdAt: unixEpoch,
                 updatedAt: unixEpoch
@@ -88,7 +92,7 @@ describe("EntrypointsClient", () => {
                     urlMatcher: "urlMatcher"
                 })
                 .reply(201);
-            await entrypointsClient.create({
+            await staticdeployClient.entrypoints.create({
                 appId: "appId",
                 urlMatcher: "urlMatcher"
             });
@@ -101,7 +105,7 @@ describe("EntrypointsClient", () => {
                     urlMatcher: "urlMatcher"
                 })
                 .reply(201, {});
-            const entrypoint = await entrypointsClient.create({
+            const entrypoint = await staticdeployClient.entrypoints.create({
                 appId: "appId",
                 urlMatcher: "urlMatcher"
             });
@@ -117,7 +121,7 @@ describe("EntrypointsClient", () => {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
                 });
-            const entrypoint = await entrypointsClient.create({
+            const entrypoint = await staticdeployClient.entrypoints.create({
                 appId: "appId",
                 urlMatcher: "urlMatcher"
             });
@@ -133,7 +137,7 @@ describe("EntrypointsClient", () => {
             const scope = nock(baseUrl)
                 .delete("/entrypoints/id")
                 .reply(204);
-            await entrypointsClient.delete("id");
+            await staticdeployClient.entrypoints.delete("id");
             scope.done();
         });
     });
@@ -143,16 +147,21 @@ describe("EntrypointsClient", () => {
             const scope = nock(baseUrl)
                 .patch("/entrypoints/id", { appId: "newAppId" })
                 .reply(200);
-            await entrypointsClient.update("id", { appId: "newAppId" });
+            await staticdeployClient.entrypoints.update("id", {
+                appId: "newAppId"
+            });
             scope.done();
         });
         it("returns the updated entrypoint", async () => {
             nock(baseUrl)
                 .patch("/entrypoints/id", { appId: "newAppId" })
                 .reply(200, {});
-            const entrypoint = await entrypointsClient.update("id", {
-                appId: "newAppId"
-            });
+            const entrypoint = await staticdeployClient.entrypoints.update(
+                "id",
+                {
+                    appId: "newAppId"
+                }
+            );
             expect(entrypoint).to.deep.equal({});
         });
         it("inflates dates", async () => {
@@ -162,9 +171,12 @@ describe("EntrypointsClient", () => {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
                 });
-            const entrypoint = await entrypointsClient.update("id", {
-                appId: "newAppId"
-            });
+            const entrypoint = await staticdeployClient.entrypoints.update(
+                "id",
+                {
+                    appId: "newAppId"
+                }
+            );
             expect(entrypoint).to.deep.equal({
                 createdAt: unixEpoch,
                 updatedAt: unixEpoch
