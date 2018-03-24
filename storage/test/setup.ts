@@ -1,6 +1,6 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { emptyDir, mkdirp, remove, removeSync } from "fs-extra";
+import { emptyDir, mkdirp, mkdirpSync, remove, removeSync } from "fs-extra";
 import os from "os";
 import path from "path";
 import Sequelize from "sequelize";
@@ -15,10 +15,9 @@ export const baseTestsPath = path.join(
     os.tmpdir(),
     "staticdeploy-storage-tests"
 );
-const databasePath = path.join(baseTestsPath, "db.sqlite");
-const databaseUrl = `sqlite://${databasePath}`;
-export const bundlesPath = path.join(baseTestsPath, "bundles");
+mkdirpSync(baseTestsPath);
 
+const databasePath = path.join(baseTestsPath, "db.sqlite");
 // Ideally, we would remove and re-create the database file on each fixture
 // insertion. However, doing so casues sequelize to lose the database connection
 // and to throw SequelizeDatabaseError-s. It would be too bothersome to also
@@ -27,6 +26,9 @@ export const bundlesPath = path.join(baseTestsPath, "bundles");
 // the test run, and we delete all objects in it on each fixture insertion. That
 // is still enough to ensure us a clean database on each test run.
 removeSync(databasePath);
+const databaseUrl = `sqlite://${databasePath}`;
+
+export const bundlesPath = path.join(baseTestsPath, "bundles");
 
 export const storageClient = new StorageClient({
     databaseUrl,
