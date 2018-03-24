@@ -1,17 +1,17 @@
 import Sequelize from "sequelize";
 
 import getAppModel, { AppModel } from "./App";
-import getDeploymentModel, { DeploymentModel } from "./Deployment";
+import getBundleModel, { BundleModel } from "./Bundle";
 import getEntrypointModel, { EntrypointModel } from "./Entrypoint";
 
 export interface IModels {
     App: AppModel;
-    Deployment: DeploymentModel;
+    Bundle: BundleModel;
     Entrypoint: EntrypointModel;
 }
 
 export default (sequelize: Sequelize.Sequelize): IModels => ({
     App: getAppModel(sequelize),
-    Deployment: getDeploymentModel(sequelize),
+    Bundle: getBundleModel(sequelize),
     Entrypoint: getEntrypointModel(sequelize)
 });

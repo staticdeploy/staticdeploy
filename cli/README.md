@@ -1,4 +1,4 @@
-# staticdeploy-cli
+# @staticdeploy/cli
 
 CLI tool for staticdeploy.
 

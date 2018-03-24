@@ -1,4 +1,3 @@
-import EntrypointsClient from "./EntrypointsClient";
 import { IModels } from "./models";
 import IApp from "./types/IApp";
 import IConfiguration from "./types/IConfiguration";
@@ -6,17 +5,15 @@ import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import { eq, or } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
+import * as validators from "./utils/validators";
 
 export default class AppsClient {
     private App: IModels["App"];
-    private entrypointsClient: EntrypointsClient;
+    private Entrypoint: IModels["Entrypoint"];
 
-    constructor(options: {
-        entrypointsClient: EntrypointsClient;
-        models: IModels;
-    }) {
-        this.entrypointsClient = options.entrypointsClient;
+    constructor(options: { models: IModels }) {
         this.App = options.models.App;
+        this.Entrypoint = options.models.Entrypoint;
     }
 
     async findOneById(id: string): Promise<IApp | null> {
@@ -40,6 +37,15 @@ export default class AppsClient {
         name: string;
         defaultConfiguration?: IConfiguration;
     }): Promise<IApp> {
+        // Validate name and defaultConfiguration
+        validators.validateAppName(partial.name);
+        if (partial.defaultConfiguration) {
+            validators.validateConfiguration(
+                partial.defaultConfiguration,
+                "defaultConfiguration"
+            );
+        }
+
         // Ensure no app with the same name exists
         const conflictingApp = await this.App.findOne({
             where: { name: eq(partial.name) }
@@ -48,11 +54,13 @@ export default class AppsClient {
             throw new errors.ConflictingAppError(partial.name);
         }
 
+        // Create the app
         const app = await this.App.create({
             id: generateId(),
             name: partial.name,
             defaultConfiguration: partial.defaultConfiguration || {}
         });
+
         return toPojo(app);
     }
 
@@ -63,10 +71,22 @@ export default class AppsClient {
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
-        // Ensure the app exists
+        // Validate name and defaultConfiguration
+        if (patch.name) {
+            validators.validateAppName(patch.name);
+        }
+        if (patch.defaultConfiguration) {
+            validators.validateConfiguration(
+                patch.defaultConfiguration,
+                "defaultConfiguration"
+            );
+        }
+
         const app = await this.App.findById(id);
+
+        // Ensure the app exists
         if (!app) {
-            throw new errors.AppNotFoundError(id);
+            throw new errors.AppNotFoundError(id, "id");
         }
 
         // Ensure no app with the same name exists
@@ -79,25 +99,24 @@ export default class AppsClient {
             }
         }
 
+        // Update the app
         await app.update(patch);
+
         return toPojo(app);
     }
 
     async delete(id: string): Promise<void> {
-        // Ensure the app exists
         const app = await this.App.findById(id);
+
+        // Ensure the app exists
         if (!app) {
-            throw new errors.AppNotFoundError(id);
+            throw new errors.AppNotFoundError(id, "id");
         }
 
         // Delete linked entrypoints
-        const linkedEntrypoints = await this.entrypointsClient.findManyByAppId(
-            id
-        );
-        for (const entrypoint of linkedEntrypoints) {
-            await this.entrypointsClient.delete(entrypoint.id);
-        }
+        await this.Entrypoint.destroy({ where: { appId: eq(id) } });
 
+        // Delete the app
         await app.destroy();
     }
 }

@@ -1,4 +1,4 @@
-# staticdeploy-api-server
+# @staticdeploy/api-server
 
 staticdeploy api server.
 
@@ -34,8 +34,8 @@ The following environment variables can be used to configure the server:
 
 * `STORAGE_DATABASE_URL`: database connection string, defaults to
   `sqlite://:memory:`
-* `STORAGE_DEPLOYMENTS_PATH`: filesystem path where to store deployments,
-  defaults to `${tmpdir()}/staticdeploy/deployments`
+* `STORAGE_BUNDLES_PATH`: filesystem path where to store bundles, defaults to
+  `${tmpdir()}/staticdeploy/bundles`
 
 ## Contributing
 

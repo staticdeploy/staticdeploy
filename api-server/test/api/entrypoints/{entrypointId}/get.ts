@@ -17,7 +17,7 @@ describe("api GET /entrypoints/:entrypointId", () => {
         server = await getApp();
         ids = await insertFixtures({
             apps: [{ name: "0" }],
-            entrypoints: [{ appId: "$0", urlMatcher: "0.com/" }]
+            entrypoints: [{ appId: 0, urlMatcher: "0.com/" }]
         });
     });
 
@@ -25,7 +25,8 @@ describe("api GET /entrypoints/:entrypointId", () => {
         return request(server)
             .get("/entrypoints/non-existing")
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No entrypoint found with id = non-existing" });
     });
 
     it("200 and returns the entrypoint", async () => {

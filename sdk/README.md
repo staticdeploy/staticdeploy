@@ -1,4 +1,4 @@
-# staticdeploy-sdk
+# @staticdeploy/sdk
 
 staticdeploy sdk for nodejs and the browser.
 
@@ -14,8 +14,8 @@ yarn add @staticdeploy/sdk
 import StaticdeployClient from "@staticdeploy/sdk";
 
 const client = new StaticdeployClient({
-    apiUrl: process.env.STATICDEPLOY_API_URL,
-    apiToken: process.env.STATICDEPLOY_API_TOKEN
+  apiUrl: process.env.STATICDEPLOY_API_URL,
+  apiToken: process.env.STATICDEPLOY_API_TOKEN
 });
 
 /* In some async function... */

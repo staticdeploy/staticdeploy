@@ -17,7 +17,7 @@ describe("api POST /entrypoints", () => {
         server = await getApp();
         ids = await insertFixtures({
             apps: [{ name: "0" }],
-            entrypoints: [{ appId: "$0", urlMatcher: "0.com/" }]
+            entrypoints: [{ appId: 0, urlMatcher: "0.com/" }]
         });
     });
 
@@ -26,7 +26,8 @@ describe("api POST /entrypoints", () => {
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
             .send({})
-            .expect(400);
+            .expect(400)
+            .expect(/Validation failed/);
     });
 
     it("400 on invalid urlMatcher", () => {
@@ -35,7 +36,9 @@ describe("api POST /entrypoints", () => {
             .set("Authorization", `Bearer ${token}`)
             .send({ appId: ids.apps[0], urlMatcher: "1" })
             .expect(400)
-            .expect({ message: "1 is not a valid urlMatcher" });
+            .expect({
+                message: "1 is not a valid urlMatcher for an entrypoint"
+            });
     });
 
     it("404 on non-existing linked app", () => {
@@ -43,7 +46,21 @@ describe("api POST /entrypoints", () => {
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
             .send({ appId: "non-existing", urlMatcher: "1.com/" })
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No app found with id = non-existing" });
+    });
+
+    it("404 on non-existing linked bundle", () => {
+        return request(server)
+            .post("/entrypoints")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                appId: ids.apps[0],
+                bundleId: "non-existing",
+                urlMatcher: "1.com/"
+            })
+            .expect(404)
+            .expect({ message: "No bundle found with id = non-existing" });
     });
 
     it("409 on existing entrypoint with the same urlMatcher", () => {
@@ -51,7 +68,10 @@ describe("api POST /entrypoints", () => {
             .post("/entrypoints")
             .set("Authorization", `Bearer ${token}`)
             .send({ appId: ids.apps[0], urlMatcher: "0.com/" })
-            .expect(409);
+            .expect(409)
+            .expect({
+                message: "An entrypoint with urlMatcher = 0.com/ already exists"
+            });
     });
 
     it("201 on entrypoint created, creates and returns the entrypoint", async () => {

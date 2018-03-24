@@ -10,14 +10,14 @@ describe("AppsClient.findOneById", () => {
             apps: [{ id: "1", name: "1" }]
         });
     });
-    it("if an app by the specified id exists, returns it as a pojo", async () => {
+    it("if an app with the specified id doesn't exist, returns null", async () => {
+        const app = await storageClient.apps.findOneById("2");
+        expect(app).to.equal(null);
+    });
+    it("returns the found app as a pojo", async () => {
         const app = await storageClient.apps.findOneById("1");
         expect(app).to.have.property("id", "1");
         expect(app).to.have.property("name", "1");
-    });
-    it("if an app by the specified id doesn't exist, returns null", async () => {
-        const app = await storageClient.apps.findOneById("2");
-        expect(app).to.equal(null);
     });
 });
 
@@ -27,17 +27,17 @@ describe("AppsClient.findOneByIdOrName", () => {
             apps: [{ id: "1", name: "2" }]
         });
     });
-    it("if an app by the specified id or name exists, returns it as a pojo", async () => {
+    it("if an app with the specified id or name doesn't exist, returns null", async () => {
+        const app = await storageClient.apps.findOneByIdOrName("3");
+        expect(app).to.equal(null);
+    });
+    it("returns the found app as a pojo", async () => {
         const appById = await storageClient.apps.findOneByIdOrName("1");
         expect(appById).to.have.property("id", "1");
         expect(appById).to.have.property("name", "2");
         const appByName = await storageClient.apps.findOneByIdOrName("2");
         expect(appByName).to.have.property("id", "1");
         expect(appByName).to.have.property("name", "2");
-    });
-    it("if an app by the specified id or name doesn't exist, returns null", async () => {
-        const app = await storageClient.apps.findOneByIdOrName("3");
-        expect(app).to.equal(null);
     });
 });
 
@@ -60,6 +60,27 @@ describe("AppsClient.create", () => {
         await insertFixtures({
             apps: [{ id: "2", name: "2" }]
         });
+    });
+    it("throws an AppNameNotValidError if the supplied name is not valid", async () => {
+        const createPromise = storageClient.apps.create({ name: "*" });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.AppNameNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "* is not a valid name for an app"
+        );
+    });
+    it("throws a ConfigurationNotValidError if the supplied defaultConfiguration is not valid", async () => {
+        const createPromise = storageClient.apps.create({
+            name: "0",
+            defaultConfiguration: "not-valid" as any
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.ConfigurationNotValidError
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "defaultConfiguration is not a valid configuration object"
+        );
     });
     it("throws a ConflictingAppError if an app with the same name exists", async () => {
         const createPromise = storageClient.apps.create({ name: "2" });
@@ -91,6 +112,26 @@ describe("AppsClient.update", () => {
         await insertFixtures({
             apps: [{ id: "1", name: "1" }, { id: "2", name: "2" }]
         });
+    });
+    it("throws an AppNameNotValidError if the supplied name is not valid", async () => {
+        const updatePromise = storageClient.apps.update("1", { name: "*" });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.AppNameNotValidError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "* is not a valid name for an app"
+        );
+    });
+    it("throws a ConfigurationNotValidError if the supplied defaultConfiguration is not valid", async () => {
+        const updatePromise = storageClient.apps.update("1", {
+            defaultConfiguration: "not-valid" as any
+        });
+        await expect(updatePromise).to.be.rejectedWith(
+            errors.ConfigurationNotValidError
+        );
+        await expect(updatePromise).to.be.rejectedWith(
+            "defaultConfiguration is not a valid configuration object"
+        );
     });
     it("throws an AppNotFoundError if no app with the specified id exists", async () => {
         const updatePromise = storageClient.apps.update("3", {});

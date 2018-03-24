@@ -1,7 +1,3 @@
-import { isAbsolute, normalize } from "path";
-import { isFQDN } from "validator";
-
-import DeploymentsClient from "./DeploymentsClient";
 import { IModels } from "./models";
 import IConfiguration from "./types/IConfiguration";
 import IEntrypoint from "./types/IEntrypoint";
@@ -9,57 +5,16 @@ import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import { eq, or } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
+import * as validators from "./utils/validators";
 
 export default class EntrypointsClient {
-    /*
-    *   A valid urlMatcher has the shape domain + path, where domain is a
-    *   fully-qualified domain name, and path an absolute and normalized path
-    *   ending with a /.
-    *
-    *   Example of valid urlMatchers:
-    *   - domain.com/
-    *   - domain.com/path/
-    *   - subdomain.domain.com/path/subpath/
-    *
-    *   Example of invalid urlMatchers:
-    *   - http://domain.com/
-    *   - domain.com
-    *   - domain.com/path
-    */
-    static isUrlMatcherValid(urlMatcher: string): boolean {
-        const indexOfFirstSlash = urlMatcher.indexOf("/");
-        // Must contain at least a / to be valid
-        if (indexOfFirstSlash === -1) {
-            return false;
-        }
-        const domain = urlMatcher.slice(0, indexOfFirstSlash);
-        const path = urlMatcher.slice(indexOfFirstSlash);
-        return (
-            isFQDN(domain) &&
-            isAbsolute(path) &&
-            normalize(path) === path &&
-            /\/$/.test(path)
-        );
-    }
-
-    static validateUrlMatcher(urlMatcher: string): void {
-        if (!EntrypointsClient.isUrlMatcherValid(urlMatcher)) {
-            throw new errors.UrlMatcherNotValidError(urlMatcher);
-        }
-    }
-
-    private deploymentsClient: DeploymentsClient;
     private App: IModels["App"];
-    private Deployment: IModels["Deployment"];
+    private Bundle: IModels["Bundle"];
     private Entrypoint: IModels["Entrypoint"];
 
-    constructor(options: {
-        deploymentsClient: DeploymentsClient;
-        models: IModels;
-    }) {
-        this.deploymentsClient = options.deploymentsClient;
+    constructor(options: { models: IModels }) {
         this.App = options.models.App;
-        this.Deployment = options.models.Deployment;
+        this.Bundle = options.models.Bundle;
         this.Entrypoint = options.models.Entrypoint;
     }
 
@@ -94,18 +49,32 @@ export default class EntrypointsClient {
 
     async create(partial: {
         appId: string;
+        bundleId?: string | null;
         urlMatcher: string;
-        fallbackResource?: string;
-        configuration?: IConfiguration;
+        configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
+        // Validate the urlMatcher and the configuration
+        validators.validateEntrypointUrlMatcher(partial.urlMatcher);
+        if (partial.configuration) {
+            validators.validateConfiguration(
+                partial.configuration,
+                "configuration"
+            );
+        }
+
         // Ensure the linked app exists
         const linkedApp = await this.App.findById(partial.appId);
         if (!linkedApp) {
-            throw new errors.AppNotFoundError(partial.appId);
+            throw new errors.AppNotFoundError(partial.appId, "id");
         }
 
-        // Validate the urlMatcher
-        EntrypointsClient.validateUrlMatcher(partial.urlMatcher);
+        // Ensure the linked bundle exists
+        if (partial.bundleId) {
+            const linkedBundle = await this.Bundle.findById(partial.bundleId);
+            if (!linkedBundle) {
+                throw new errors.BundleNotFoundError(partial.bundleId, "id");
+            }
+        }
 
         // Ensure no entrypoint with the same urlMatcher exists
         const conflictingEntrypoint = await this.Entrypoint.findOne({
@@ -115,14 +84,15 @@ export default class EntrypointsClient {
             throw new errors.ConflictingEntrypointError(partial.urlMatcher);
         }
 
+        // Create the entrypoint
         const entrypoint = await this.Entrypoint.create({
             id: generateId(),
             appId: partial.appId,
+            bundleId: partial.bundleId || null,
             urlMatcher: partial.urlMatcher,
-            fallbackResource: partial.fallbackResource || "/index.html",
-            configuration: partial.configuration || null,
-            activeDeploymentId: null
+            configuration: partial.configuration || null
         });
+
         return toPojo(entrypoint);
     }
 
@@ -130,41 +100,43 @@ export default class EntrypointsClient {
         id: string,
         patch: {
             appId?: string;
+            bundleId?: string | null;
             urlMatcher?: string;
-            fallbackResource?: string;
             configuration?: IConfiguration | null;
-            activeDeploymentId?: string | null;
         }
     ): Promise<IEntrypoint> {
-        // Ensure the entrypoint exists
+        // Validate the urlMatcher and the configuration
+        if (patch.urlMatcher) {
+            validators.validateEntrypointUrlMatcher(patch.urlMatcher);
+        }
+        if (patch.configuration) {
+            validators.validateConfiguration(
+                patch.configuration,
+                "configuration"
+            );
+        }
+
         const entrypoint = await this.Entrypoint.findById(id);
+
+        // Ensure the entrypoint exists
         if (!entrypoint) {
-            throw new errors.EntrypointNotFoundError(id);
+            throw new errors.EntrypointNotFoundError(id, "id");
         }
 
         // Ensure the linked app exists
         if (patch.appId) {
             const linkedApp = await this.App.findById(patch.appId);
             if (!linkedApp) {
-                throw new errors.AppNotFoundError(patch.appId);
+                throw new errors.AppNotFoundError(patch.appId, "id");
             }
         }
 
-        // Ensure the linked deployment exists
-        if (patch.activeDeploymentId) {
-            const linkedDeployment = await this.Deployment.findById(
-                patch.activeDeploymentId
-            );
-            if (!linkedDeployment) {
-                throw new errors.DeploymentNotFoundError(
-                    patch.activeDeploymentId
-                );
+        // Ensure the linked bundle exists
+        if (patch.bundleId) {
+            const linkedBundle = await this.Bundle.findById(patch.bundleId);
+            if (!linkedBundle) {
+                throw new errors.BundleNotFoundError(patch.bundleId, "id");
             }
-        }
-
-        // Validate the urlMatcher
-        if (patch.urlMatcher) {
-            EntrypointsClient.validateUrlMatcher(patch.urlMatcher);
         }
 
         // Ensure no entrypoint with the same urlMatcher exists
@@ -180,25 +152,21 @@ export default class EntrypointsClient {
             }
         }
 
+        // Update the entrypoint
         await entrypoint.update(patch);
+
         return toPojo(entrypoint);
     }
 
     async delete(id: string): Promise<void> {
-        // Ensure the entrypoint exists
         const entrypoint = await this.Entrypoint.findById(id);
+
+        // Ensure the entrypoint exists
         if (!entrypoint) {
-            throw new errors.EntrypointNotFoundError(id);
+            throw new errors.EntrypointNotFoundError(id, "id");
         }
 
-        // Delete linked deployments
-        const linkedDeployments = await this.deploymentsClient.findManyByEntrypointId(
-            id
-        );
-        for (const deployment of linkedDeployments) {
-            await this.deploymentsClient.delete(deployment.id);
-        }
-
+        // Delete the entrypoint
         await entrypoint.destroy();
     }
 }

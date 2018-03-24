@@ -2,7 +2,7 @@ import { mkdirp } from "fs-extra";
 import Sequelize from "sequelize";
 
 import AppsClient from "./AppsClient";
-import DeploymentsClient from "./DeploymentsClient";
+import BundlesClient from "./BundlesClient";
 import EntrypointsClient from "./EntrypointsClient";
 import migrate from "./migrate";
 import getModels from "./models";
@@ -10,48 +10,47 @@ import IHealthCheckResult from "./types/IHealthCheckResult";
 
 export { default as IApp } from "./types/IApp";
 export { default as IAsset } from "./types/IAsset";
+export { default as IBundle } from "./types/IBundle";
 export { default as IConfiguration } from "./types/IConfiguration";
-export { default as IDeployment } from "./types/IDeployment";
 export { default as IEntrypoint } from "./types/IEntrypoint";
 
+export { default as AppsClient } from "./AppsClient";
+export { default as BundlesClient } from "./BundlesClient";
+export { default as EntrypointsClient } from "./EntrypointsClient";
+
 export * from "./utils/errors";
+export * from "./utils/validators";
 
 export default class StorageClient {
     apps: AppsClient;
-    deployments: DeploymentsClient;
+    bundles: BundlesClient;
     entrypoints: EntrypointsClient;
 
-    private deploymentsPath: string;
+    private bundlesPath: string;
     private sequelize: Sequelize.Sequelize;
 
-    constructor(options: { databaseUrl: string; deploymentsPath: string }) {
-        this.deploymentsPath = options.deploymentsPath;
+    constructor(options: { databaseUrl: string; bundlesPath: string }) {
+        this.bundlesPath = options.bundlesPath;
 
         // Instantiate sequelize
         this.sequelize = new Sequelize(options.databaseUrl, {
             logging: false,
             operatorsAliases: false
         });
+        const models = getModels(this.sequelize);
 
         // Instantiate storage clients
-        const models = getModels(this.sequelize);
-        this.deployments = new DeploymentsClient({
-            deploymentsPath: options.deploymentsPath,
-            models: models
+        this.apps = new AppsClient({ models: models });
+        this.bundles = new BundlesClient({
+            models: models,
+            bundlesPath: this.bundlesPath
         });
-        this.entrypoints = new EntrypointsClient({
-            deploymentsClient: this.deployments,
-            models: models
-        });
-        this.apps = new AppsClient({
-            entrypointsClient: this.entrypoints,
-            models: models
-        });
+        this.entrypoints = new EntrypointsClient({ models: models });
     }
 
     async setup() {
         await migrate(this.sequelize);
-        await mkdirp(this.deploymentsPath);
+        await mkdirp(this.bundlesPath);
     }
 
     async checkHealth(): Promise<IHealthCheckResult> {

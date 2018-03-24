@@ -24,7 +24,8 @@ describe("api POST /apps", () => {
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
             .send({})
-            .expect(400);
+            .expect(400)
+            .expect(/Validation failed/);
     });
 
     it("409 on existing app with the same name", () => {
@@ -32,7 +33,8 @@ describe("api POST /apps", () => {
             .post("/apps")
             .set("Authorization", `Bearer ${token}`)
             .send({ name: "0" })
-            .expect(409);
+            .expect(409)
+            .expect({ message: "An app with name = 0 already exists" });
     });
 
     it("201 on app created, creates and returns the app", async () => {

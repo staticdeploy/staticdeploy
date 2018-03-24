@@ -17,7 +17,7 @@ Deploy and configure your static apps with ease.
 
 * [sdk](./sdk)
 * [cli](./cli)
-* [app](./app)
+* [admin-console](./admin-console)
 
 **[Documentation]**
 

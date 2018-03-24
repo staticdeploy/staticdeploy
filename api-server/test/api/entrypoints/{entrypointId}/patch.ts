@@ -18,8 +18,8 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
         ids = await insertFixtures({
             apps: [{ name: "0" }],
             entrypoints: [
-                { appId: "$0", urlMatcher: "0.com/" },
-                { appId: "$0", urlMatcher: "1.com/" }
+                { appId: 0, urlMatcher: "0.com/" },
+                { appId: 0, urlMatcher: "1.com/" }
             ]
         });
     });
@@ -28,9 +28,10 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
         const entrypointId = ids.entrypoints[0];
         await request(server)
             .patch(`/entrypoints/${entrypointId}`)
-            .send({ defaultConfiguration: { key: {} } })
+            .send({ "non-accepted-prop": "value" })
             .set("Authorization", `Bearer ${token}`)
-            .expect(400);
+            .expect(400)
+            .expect(/Validation failed/);
     });
 
     it("400 on invalid urlMatcher", async () => {
@@ -40,7 +41,9 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
             .send({ urlMatcher: "2" })
             .set("Authorization", `Bearer ${token}`)
             .expect(400)
-            .expect({ message: "2 is not a valid urlMatcher" });
+            .expect({
+                message: "2 is not a valid urlMatcher for an entrypoint"
+            });
     });
 
     it("404 on entrypoint not found", () => {
@@ -48,7 +51,8 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
             .patch("/entrypoints/non-existing")
             .send({})
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No entrypoint found with id = non-existing" });
     });
 
     it("404 on linked app not found", () => {
@@ -57,16 +61,18 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
             .patch(`/entrypoints/${entrypointId}`)
             .send({ appId: "non-existing" })
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No app found with id = non-existing" });
     });
 
-    it("404 on linked deployment not found", () => {
+    it("404 on linked bundle not found", () => {
         const entrypointId = ids.entrypoints[0];
         return request(server)
             .patch(`/entrypoints/${entrypointId}`)
-            .send({ activeDeploymentId: "non-existing" })
+            .send({ bundleId: "non-existing" })
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No bundle found with id = non-existing" });
     });
 
     it("409 on existing entrypoint != selected entrypoint with urlMatcher == newUrlMatcher", () => {
@@ -75,7 +81,10 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
             .patch(`/entrypoints/${entrypointId}`)
             .send({ urlMatcher: "1.com/" })
             .set("Authorization", `Bearer ${token}`)
-            .expect(409);
+            .expect(409)
+            .expect({
+                message: "An entrypoint with urlMatcher = 1.com/ already exists"
+            });
     });
 
     it("no 409 on no existing entrypoint != selected entrypoint with urlMatcher = newUrlMatcher", () => {

@@ -5,7 +5,7 @@
   "private": true,
   "workspaces": [
     "api-server",
-    "app",
+    "admin-console",
     "cli",
     "sdk",
     "storage",
@@ -34,9 +34,9 @@
     "lerna": "lerna"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.1.0",
-    "@commitlint/config-conventional": "^6.1.0",
-    "@commitlint/config-lerna-scopes": "^6.1.0",
+    "@commitlint/cli": "^6.1.3",
+    "@commitlint/config-conventional": "^6.1.3",
+    "@commitlint/config-lerna-scopes": "^6.1.3",
     "codecov": "^3.0.0",
     "husky": "^0.14.3",
     "lerna": "^2.8.0",

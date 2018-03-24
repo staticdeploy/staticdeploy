@@ -1,0 +1,22 @@
+.c-BundlesList {
+    margin-bottom: 16px;
+}
+
+.c-BundlesList-header {
+    font-weight: 500;
+}
+
+.c-BundlesList-header,
+.c-BundlesList-item {
+    border-style: solid;
+    border-color: var(--grey-4);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 8px;
+}
+
+.c-BundlesList-item-description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

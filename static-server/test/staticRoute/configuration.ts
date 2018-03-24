@@ -19,7 +19,7 @@ describe("staticRoute configuration injection", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                deploymentContent: {
+                bundleContent: {
                     asset: htmlWithConfig
                 }
             }
@@ -38,7 +38,7 @@ describe("staticRoute configuration injection", () => {
             {
                 urlMatcher: "domain.com/",
                 defaultConfiguration: { KEY: "DEFAULT_VALUE" },
-                deploymentContent: {
+                bundleContent: {
                     "asset.html": htmlWithConfig
                 }
             }
@@ -63,7 +63,7 @@ describe("staticRoute configuration injection", () => {
                 urlMatcher: "domain.com/",
                 configuration: { KEY: "VALUE" },
                 defaultConfiguration: { KEY: "DEFAULT_VALUE" },
-                deploymentContent: {
+                bundleContent: {
                     "asset.html": htmlWithConfig,
                     nested: {
                         "index.html": htmlWithConfig

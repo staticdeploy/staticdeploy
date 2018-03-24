@@ -23,7 +23,8 @@ describe("api GET /apps/:appId", () => {
         return request(server)
             .get("/apps/non-existing")
             .set("Authorization", `Bearer ${token}`)
-            .expect(404);
+            .expect(404)
+            .expect({ message: "No app found with id = non-existing" });
     });
 
     it("200 and returns the app", async () => {

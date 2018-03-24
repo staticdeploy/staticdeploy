@@ -22,11 +22,11 @@
     "compile": "rimraf build && docusaurus-build"
   },
   "dependencies": {
-    "docusaurus": "^1.0.7"
+    "docusaurus": "^1.0.9"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
-    "eslint": "^4.18.2",
+    "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.7.0",
     "prettier": "^1.11.1",
     "rimraf": "^2.6.2",

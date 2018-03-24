@@ -18,9 +18,9 @@ export default class EntrypointsClient {
 
     async create(entrypoint: {
         appId: string;
+        bundleId?: string | null;
         urlMatcher: string;
-        fallbackResource?: string;
-        configuration?: IConfiguration;
+        configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
         const result = await this.axios.post("/entrypoints", entrypoint);
         return parseDates(result.data);
@@ -34,10 +34,9 @@ export default class EntrypointsClient {
         id: string,
         patch: {
             appId?: string;
+            bundleId?: string | null;
             urlMatcher?: string;
-            fallbackResource?: string;
             configuration?: IConfiguration | null;
-            activeDeploymentId?: string | null;
         }
     ): Promise<IEntrypoint> {
         const result = await this.axios.patch(`/entrypoints/${id}`, patch);

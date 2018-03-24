@@ -18,17 +18,17 @@ chai.use(chaiFuzzy);
 interface IData {
     apps?: { name: string; defaultConfiguration?: IConfiguration }[];
     entrypoints?: {
-        appId: string;
+        appId: string | number;
         urlMatcher: string;
         configuration?: IConfiguration;
     }[];
-    deployments?: { entrypointId: string; content: Buffer }[];
+    bundles?: { content: Buffer }[];
 }
 
 interface IIds {
     apps: string[];
-    deployments: string[];
     entrypoints: string[];
+    bundles: string[];
 }
 
 async function insertFixtures(data: IData): Promise<IIds> {
@@ -41,8 +41,8 @@ async function insertFixtures(data: IData): Promise<IIds> {
 
     const ids: IIds = {
         apps: [],
-        deployments: [],
-        entrypoints: []
+        entrypoints: [],
+        bundles: []
     };
     // Insert provided database fixtures
     for (const app of data.apps || []) {
@@ -53,19 +53,18 @@ async function insertFixtures(data: IData): Promise<IIds> {
         const { appId } = entrypoint;
         const { id } = await storage.entrypoints.create({
             ...entrypoint,
-            appId: /^\$/.test(appId) ? ids.apps[parseInt(appId.slice(1), 10)] : appId
+            appId: typeof appId === "number" ? ids.apps[appId] : appId
         });
         ids.entrypoints.push(id);
     }
-    for (const deployment of data.deployments || []) {
-        const { entrypointId } = deployment;
-        const { id } = await storage.deployments.create({
-            entrypointId: /^\$/.test(entrypointId)
-                ? ids.entrypoints[parseInt(entrypointId.slice(1), 10)]
-                : entrypointId,
-            content: deployment.content
+    for (const bundle of data.bundles || []) {
+        const { id } = await storage.bundles.create({
+            name: "name",
+            tag: "tag",
+            description: "description",
+            content: bundle.content
         });
-        ids.deployments.push(id);
+        ids.bundles.push(id);
     }
     return ids;
 }
@@ -85,7 +84,7 @@ export interface ITestDefinition {
     only?: boolean;
     entrypoints: {
         urlMatcher: string;
-        deploymentContent?: IDefinition;
+        bundleContent?: IDefinition;
         configuration?: IConfiguration;
         defaultConfiguration?: IConfiguration;
     }[];
@@ -111,20 +110,17 @@ export function test(description: string, testDefinition: ITestDefinition) {
                     defaultConfiguration: entrypoint.defaultConfiguration
                 })),
                 entrypoints: entrypoints.map((entrypoint, index) => ({
-                    appId: `$${index}`,
+                    appId: index,
                     urlMatcher: entrypoint.urlMatcher,
                     configuration: entrypoint.configuration
                 })),
-                deployments: entrypoints
-                    .filter(entrypoint => entrypoint.deploymentContent)
-                    .map((entrypoint, index) => ({
-                        entrypointId: `$${index}`,
-                        content: targzOf(entrypoint.deploymentContent!)
-                    }))
+                bundles: entrypoints.filter(entrypoint => entrypoint.bundleContent).map(entrypoint => ({
+                    content: targzOf(entrypoint.bundleContent!)
+                }))
             });
             for (let i = 0; i < ids.entrypoints.length; i++) {
                 await storage.entrypoints.update(ids.entrypoints[i], {
-                    activeDeploymentId: ids.deployments[i]
+                    bundleId: ids.bundles[i]
                 });
             }
         });
