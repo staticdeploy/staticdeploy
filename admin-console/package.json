@@ -24,8 +24,8 @@
     "dev": "npm-run-all -p dev:*",
     "compile": "NODE_ENV=production webpack --config webpack/prod.js",
     "build": "yarn compile",
-    "docker:build": "docker build -f ./Dockerfile -t staticdeploy/app:$DOCKER_TAG ../",
-    "docker:push": "docker push staticdeploy/app:$DOCKER_TAG"
+    "docker:build": "docker build -f ./Dockerfile -t staticdeploy/admin-console:$DOCKER_TAG ../",
+    "docker:push": "docker push staticdeploy/admin-console:$DOCKER_TAG"
   },
   "dependencies": {
     "@staticdeploy/sdk": "^0.0.0",

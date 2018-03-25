@@ -1,9 +1,9 @@
 version: "3"
 services:
-  app:
-    image: staticdeploy/app:$DOCKER_TAG
+  admin-console:
+    image: staticdeploy/admin-console:$DOCKER_TAG
     labels:
-      - traefik.backend=app
+      - traefik.backend=admin-console
       - traefik.frontend.priority=100
       - traefik.frontend.rule=Host:$HOSTNAME;PathPrefix:/
     environment:
