@@ -46,10 +46,10 @@ title: Quickstart
 
   ```sh
   staticdeploy create-bundle \
-    --from website/demo-static-app
+    --from website/demo-static-app \
     --name demo-static-app \
     --tag master \
-    --description "version 1.0.0" \
+    --description "version 1.0.0"
   ```
 
 * deploy the bundle to `demo-static-app.staticdeploy.io`:

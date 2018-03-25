@@ -18,7 +18,7 @@ services:
       - HOSTNAME=$HOSTNAME
       - JWT_SECRET=$JWT_SECRET
       - STORAGE_DATABASE_URL=sqlite:///storage/db.sqlite
-      - STORAGE_DEPLOYMENTS_PATH=/storage/deployments
+      - STORAGE_BUNDLES_PATH=/storage/bundles
     volumes:
       - storage:/storage
   static-server:
@@ -30,7 +30,7 @@ services:
       - traefik.frontend.passHostHeader=true
     environment:
       - STORAGE_DATABASE_URL=sqlite:///storage/db.sqlite
-      - STORAGE_DEPLOYMENTS_PATH=/storage/deployments
+      - STORAGE_BUNDLES_PATH=/storage/bundles
     volumes:
       - storage:/storage
   traefik:
