@@ -2,9 +2,7 @@
   "name": "@staticdeploy/sdk",
   "description": "staticdeploy sdk",
   "version": "0.0.0",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "files": [
