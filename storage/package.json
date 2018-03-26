@@ -21,7 +21,6 @@
   },
   "scripts": {
     "compile": "rimraf lib && tsc",
-    "prepublishOnly": "yarn compile",
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",
