@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/static-server",
   "description": "staticdeploy static server",
-  "version": "0.1.0",
+  "version": "0.1.1-0",
   "private": true,
   "main": "build/server.js",
   "license": "MIT",
@@ -28,7 +28,7 @@
   "dependencies": {
     "@mondora/env": "^1.0.4",
     "@staticdeploy/app-config": "^2.0.0",
-    "@staticdeploy/storage": "^0.1.0",
+    "@staticdeploy/storage": "^0.1.1-0",
     "bunyan": "^1.8.12",
     "bunyan-middleware": "^0.8.0",
     "express": "^4.16.3",
