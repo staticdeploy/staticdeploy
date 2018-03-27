@@ -53,7 +53,7 @@ yarn lerna add dependency-subproject --scope=dependant-subproject
 
 ## Releasing
 
-To release a new version of StaticDeploy, simply run:
+To release a new version of StaticDeploy, run:
 
 ```sh
 yarn release
@@ -66,7 +66,12 @@ This will prompt you for the version number to use, which must be in the format
 * update the versions in the top level `package.json` and in `lerna.json`
 * commit the changes
 * tag the commit as `vX.X.X`
-* push everything to the default remote
 
-From there, the CI server (CircleCI) will continue, running tests on the tag,
+Then, push everything to the default remote:
+
+```sh
+git push --tags origin master
+```
+
+The CI server (CircleCI) will pick up from here, running tests on the tag,
 compiling the code and publishing public modules to npm.
