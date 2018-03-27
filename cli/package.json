@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/cli",
   "description": "CLI tool for staticdeploy",
-  "version": "0.0.0",
+  "version": "0.1.0-0",
   "publishConfig": {
     "access": "public"
   },
@@ -32,7 +32,7 @@
     "test": "TS_NODE_TYPE_CHECK=true NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/sdk": "^0.0.0",
+    "@staticdeploy/sdk": "^0.1.0-0",
     "fs-extra": "^5.0.0",
     "tar": "^4.4.1",
     "yargs": "^11.0.0"
