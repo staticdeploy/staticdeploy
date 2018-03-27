@@ -33,7 +33,9 @@ jobs:
           command: yarn compile --scope=@staticdeploy/website
       - run:
           name: Install staticdeploy cli
-          command: yarn global add @staticdeploy/cli
+          command: |
+            yarn global add @staticdeploy/cli
+            echo 'export PATH=$PATH:$(yarn global bin)' >> $BASH_ENV
       - run:
           name: Set $BUNDLE_TAG
           command: echo 'export BUNDLE_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
