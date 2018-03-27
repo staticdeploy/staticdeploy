@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  qa:
     docker:
       - image: circleci/node
     steps:
@@ -61,23 +61,23 @@ jobs:
 
 workflows:
   version: 2
-  test-and-docker:
+  qa-docker-npm:
     jobs:
-      - test:
+      - qa:
           # Run for all branches and all tags
           filters:
             tags:
               only: /.*/
       - docker-build-push:
           requires:
-            - test
+            - qa
           # Run for all branches and all tags
           filters:
             tags:
               only: /.*/
       - npm-publish:
           requires:
-            - test
+            - qa
           # Run only for tags starting with a v, don't run for branches
           filters:
             tags:
