@@ -43,7 +43,7 @@ jobs:
           name: Create website bundle
           command: |
             staticdeploy create-bundle \
-              --from website/build/staticdeploy
+              --from website/build/staticdeploy \
               --name staticdeploy.io \
               --tag $BUNDLE_TAG \
               --description "Commit $CIRCLE_SHA1"
