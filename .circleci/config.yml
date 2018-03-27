@@ -57,7 +57,7 @@ jobs:
           command: yarn compile
       - run:
           name: Publish npm modules
-          command: yarn lerna publish --yes --skip-git --repo-version ${CIRCLE_TAG#v}
+          command: yarn lerna publish --yes --force-publish=* --skip-git --repo-version ${CIRCLE_TAG#v}
 
 workflows:
   version: 2
