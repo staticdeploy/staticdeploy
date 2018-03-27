@@ -19,7 +19,7 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:eslint": "eslint 'core/**/*.js' 'pages/**/*.js'",
     "lint": "yarn lint:prettier && yarn lint:eslint",
-    "compile": "rimraf build && docusaurus-build"
+    "compile": "rimraf build && NODE_ENV=production docusaurus-build"
   },
   "dependencies": {
     "docusaurus": "^1.0.9"

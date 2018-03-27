@@ -2,7 +2,7 @@ module.exports = {
     title: "StaticDeploy",
     tagline: "Deploy and Configure Static Apps with Ease",
     url: "https://staticdeploy.io",
-    baseUrl: "/",
+    baseUrl: process.env.NODE_ENV === "production" ? "./" : "/",
     projectName: "staticdeploy",
     customDocsPath: "website/docs",
     headerLinks: [
@@ -18,7 +18,6 @@ module.exports = {
         primaryColor: "#2E8555",
         secondaryColor: "#205C3B"
     },
-    stylesheets: ["css/custom.css"],
     copyright: `Copyright © ${new Date().getFullYear()} Paolo Scanferla`,
     highlight: {
         theme: "default"
