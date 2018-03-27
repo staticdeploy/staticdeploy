@@ -31,6 +31,7 @@
     "publish-coverage": "codecov",
     "docker:build": "lerna run docker:build --stream --concurrency 1",
     "docker:push": "lerna run docker:push --stream --concurrency 1",
+    "release": "lerna publish --skip-npm",
     "lerna": "lerna"
   },
   "devDependencies": {

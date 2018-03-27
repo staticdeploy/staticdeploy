@@ -1,6 +1,6 @@
 # @staticdeploy/admin-console
 
-staticdeploy admin console.
+StaticDeploy admin console.
 
 ## Contributing
 

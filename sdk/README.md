@@ -1,6 +1,6 @@
 # @staticdeploy/sdk
 
-staticdeploy sdk for nodejs and the browser.
+StaticDeploy sdk for nodejs and the browser.
 
 ## Install
 

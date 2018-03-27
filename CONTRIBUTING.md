@@ -50,3 +50,23 @@ yarn lerna add dependency-subproject --scope=dependant-subproject
 * commit messages MUST be formatted using the
   [conventional commits commit message guidelines](https://conventionalcommits.org/)
   (committing will fail otherwise).
+
+## Releasing
+
+To release a new version of StaticDeploy, simply run:
+
+```sh
+yarn release
+```
+
+This will prompt you for the version number to use, which must be in the format
+`X.X.X` (eg `1.0.0`). The command will then:
+
+* update all versions of all sub-packages
+* update the versions in the top level `package.json` and in `lerna.json`
+* commit the changes
+* tag the commit as `vX.X.X`
+* push everything to the default remote
+
+From there, the CI server (CircleCI) will continue, running tests on the tag,
+compiling the code and publishing public modules to npm.

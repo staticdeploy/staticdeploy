@@ -41,12 +41,46 @@ jobs:
       - run:
           name: Push docker image
           command: yarn docker:push
+  npm-publish:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies (commands below need lerna)
+          command: yarn install --frozen-lockfile
+      - run:
+          name: Login to npm
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: Compile modules
+          command: yarn compile
+      - run:
+          name: Publish npm modules
+          command: yarn lerna publish --yes --skip-git --repo-version ${CIRCLE_TAG#v}
 
 workflows:
   version: 2
   test-and-docker:
     jobs:
-      - test
+      - test:
+          # Run for all branches and all tags
+          filters:
+            tags:
+              only: /.*/
       - docker-build-push:
           requires:
             - test
+          # Run for all branches and all tags
+          filters:
+            tags:
+              only: /.*/
+      - npm-publish:
+          requires:
+            - test
+          # Run only for tags starting with a v, don't run for branches
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

@@ -1,6 +1,6 @@
 # @staticdeploy/api-server
 
-staticdeploy api server.
+StaticDeploy api server.
 
 ## Run
 

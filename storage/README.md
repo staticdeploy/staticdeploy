@@ -1,3 +1,3 @@
 # @staticdeploy/storage
 
-staticdeploy storage module.
+StaticDeploy storage module.

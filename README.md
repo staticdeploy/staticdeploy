@@ -1,7 +1,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/staticdeploy/staticdeploy.svg)](https://circleci.com/gh/staticdeploy/staticdeploy)
 [![codecov](https://codecov.io/gh/staticdeploy/staticdeploy/branch/master/graph/badge.svg)](https://codecov.io/gh/staticdeploy/staticdeploy)
 
-# staticdeploy
+# StaticDeploy
 
 Deploy and configure your static apps with ease.
 
