@@ -4,6 +4,7 @@ const stripIndent = require("strip-indent");
 // The following file is injected by docusaurus during the build, see
 // https://docusaurus.io/docs/en/api-pages.html#page-require-paths for details
 const { Container, GridBlock } = require("../../core/CompLibrary.js");
+const withBaseUrl = require(`${process.cwd()}/core/withBaseUrl.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 
 const Button = props => (
@@ -26,7 +27,11 @@ const HomeSplash = () => (
                     <div className="section promoSection">
                         <div className="promoRow">
                             <div className="pluginRowBlock">
-                                <Button href="/docs/getting-started.quickstart.html">
+                                <Button
+                                    href={withBaseUrl(
+                                        "/docs/getting-started.quickstart.html"
+                                    )}
+                                >
                                     {"get started"}
                                 </Button>
                                 <Button href="https://github.com/staticdeploy/staticdeploy">
@@ -50,7 +55,7 @@ const Index = () => (
                     align="center"
                     contents={[
                         {
-                            image: "/images/home.deployments.svg",
+                            image: withBaseUrl("/images/home.deployments.svg"),
                             imageAlign: "top",
                             title: "Flexible Deployments",
                             content: stripIndent(`
@@ -60,7 +65,9 @@ const Index = () => (
                             `)
                         },
                         {
-                            image: "/images/home.configuration.svg",
+                            image: withBaseUrl(
+                                "/images/home.configuration.svg"
+                            ),
                             imageAlign: "top",
                             title: "Runtime Configuration",
                             content: stripIndent(`
@@ -70,7 +77,7 @@ const Index = () => (
                             `)
                         },
                         {
-                            image: "/images/home.routing.svg",
+                            image: withBaseUrl("/images/home.routing.svg"),
                             imageAlign: "top",
                             title: "Smart Routing",
                             content: stripIndent(`
