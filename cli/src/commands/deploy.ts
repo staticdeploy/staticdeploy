@@ -2,6 +2,8 @@ import StaticdeployClient from "@staticdeploy/sdk";
 import { CommandModule } from "yargs";
 
 import * as apiConfig from "../apiConfig";
+import handleCommandHandlerErrors from "../handleCommandHandlerErrors";
+import log from "../log";
 
 interface IArgv extends apiConfig.IApiConfig {
     app: string;
@@ -30,7 +32,7 @@ const command: CommandModule = {
             demandOption: true
         }
     },
-    handler: async (argv: IArgv) => {
+    handler: handleCommandHandlerErrors(async (argv: IArgv) => {
         const client = new StaticdeployClient({
             apiUrl: argv.apiUrl,
             apiToken: argv.apiToken
@@ -40,6 +42,9 @@ const command: CommandModule = {
             entrypointUrlMatcher: argv.entrypoint,
             bundleNameTagCombination: argv.bundle
         });
-    }
+        log.success(
+            `bundle ${argv.bundle} deployed to entrypoint ${argv.entrypoint}`
+        );
+    })
 };
 export default command;

@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@staticdeploy/sdk": "^0.1.1",
+    "chalk": "^2.3.2",
     "fs-extra": "^5.0.0",
     "tar": "^4.4.1",
     "yargs": "^11.0.0"

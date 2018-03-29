@@ -7,6 +7,8 @@ import tar from "tar";
 import { CommandModule } from "yargs";
 
 import * as apiConfig from "../apiConfig";
+import handleCommandHandlerErrors from "../handleCommandHandlerErrors";
+import log from "../log";
 
 function targzOfDir(path: string): Buffer {
     const randomString = randomBytes(8).toString("hex");
@@ -60,7 +62,7 @@ const command: CommandModule = {
             demandOption: true
         }
     },
-    handler: async (argv: IArgv) => {
+    handler: handleCommandHandlerErrors(async (argv: IArgv) => {
         if (!existsSync(argv.from) || !statSync(argv.from).isDirectory()) {
             throw new Error(`No directory found at ${argv.from}`);
         }
@@ -74,6 +76,7 @@ const command: CommandModule = {
             tag: argv.tag,
             description: argv.description
         });
-    }
+        log.success(`created bundle ${argv.name}:${argv.tag}`);
+    })
 };
 export default command;
