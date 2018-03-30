@@ -6,6 +6,7 @@ import BundlesClient from "./BundlesClient";
 import EntrypointsClient from "./EntrypointsClient";
 import migrate from "./migrate";
 import getModels from "./models";
+import OperationLogsClient from "./OperationLogsClient";
 import IHealthCheckResult from "./types/IHealthCheckResult";
 
 export { default as IApp } from "./types/IApp";
@@ -25,6 +26,7 @@ export default class StorageClient {
     apps: AppsClient;
     bundles: BundlesClient;
     entrypoints: EntrypointsClient;
+    operationLogs: OperationLogsClient;
 
     private bundlesPath: string;
     private sequelize: Sequelize.Sequelize;
@@ -41,11 +43,12 @@ export default class StorageClient {
 
         // Instantiate storage clients
         this.apps = new AppsClient({ models: models });
+        this.entrypoints = new EntrypointsClient({ models: models });
         this.bundles = new BundlesClient({
             models: models,
             bundlesPath: this.bundlesPath
         });
-        this.entrypoints = new EntrypointsClient({ models: models });
+        this.operationLogs = new OperationLogsClient({ models: models });
     }
 
     async setup() {

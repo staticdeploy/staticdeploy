@@ -11,7 +11,7 @@ export default async function migrate(sequelize: Sequelize) {
         migrations: {
             params: [sequelize.getQueryInterface()],
             path: join(__dirname, "./migrations"),
-            pattern: /\.migration\.(js|ts)$/
+            pattern: /\.(js|ts)$/
         },
         logging: false
     });
