@@ -2,7 +2,7 @@ version: 2
 jobs:
   qa:
     docker:
-      - image: circleci/node
+      - image: circleci/node:8
     steps:
       - checkout
       - run:
@@ -22,7 +22,7 @@ jobs:
           command: yarn publish-coverage
   publish-website:
     docker:
-      - image: circleci/node
+      - image: circleci/node:8
     steps:
       - checkout
       - run:
@@ -56,7 +56,7 @@ jobs:
               --bundle staticdeploy.io:$BUNDLE_TAG
   docker-build-push:
     docker:
-      - image: circleci/node
+      - image: circleci/node:8
     steps:
       - checkout
       - setup_remote_docker
@@ -77,7 +77,7 @@ jobs:
           command: yarn docker:push
   npm-publish:
     docker:
-      - image: circleci/node
+      - image: circleci/node:8
     steps:
       - checkout
       - run:
