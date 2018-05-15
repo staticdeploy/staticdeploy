@@ -4,12 +4,14 @@ import AppsClient from "./AppsClient";
 import BundlesClient from "./BundlesClient";
 import convertAxiosErrors from "./convertAxiosErrors";
 import EntrypointsClient from "./EntrypointsClient";
+import OperationLogsClient from "./OperationLogsClient";
 
 export {
     IApp,
     IBundle,
     IConfiguration,
-    IEntrypoint
+    IEntrypoint,
+    IOperationLog
 } from "@staticdeploy/storage";
 export { StaticdeployClientError } from "./convertAxiosErrors";
 
@@ -17,6 +19,7 @@ export default class StaticdeployClient {
     public apps: AppsClient;
     public bundles: BundlesClient;
     public entrypoints: EntrypointsClient;
+    public operationLogs: OperationLogsClient;
     private axios: AxiosInstance;
 
     constructor(config: { apiUrl: string; apiToken?: string }) {
@@ -31,6 +34,7 @@ export default class StaticdeployClient {
         this.apps = new AppsClient(this.axios);
         this.bundles = new BundlesClient(this.axios);
         this.entrypoints = new EntrypointsClient(this.axios);
+        this.operationLogs = new OperationLogsClient(this.axios);
     }
 
     setApiToken(apiToken: string | null): void {

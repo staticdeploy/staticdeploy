@@ -8,5 +8,8 @@ export default function parseDates(obj: any) {
     if (obj && obj.deletedAt) {
         obj.deletedAt = new Date(obj.deletedAt);
     }
+    if (obj && obj.performedAt) {
+        obj.performedAt = new Date(obj.performedAt);
+    }
     return obj;
 }
