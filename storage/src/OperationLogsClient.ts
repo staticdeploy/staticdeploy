@@ -1,5 +1,6 @@
 import { IModels } from "./models";
 import IOperationLog from "./types/IOperationLog";
+import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import toPojo from "./utils/toPojo";
 
@@ -29,5 +30,17 @@ export default class OperationLogsClient {
         });
 
         return toPojo(operationLog);
+    }
+
+    async delete(id: string): Promise<void> {
+        const operationLog = await this.OperationLog.findById(id);
+
+        // Ensure the operation log exists
+        if (!operationLog) {
+            throw new errors.OperationLogNotFoundError(id);
+        }
+
+        // Delete the operation log
+        await operationLog.destroy();
     }
 }

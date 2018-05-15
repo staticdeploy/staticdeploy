@@ -14,6 +14,7 @@ export { default as IAsset } from "./types/IAsset";
 export { default as IBundle } from "./types/IBundle";
 export { default as IConfiguration } from "./types/IConfiguration";
 export { default as IEntrypoint } from "./types/IEntrypoint";
+export { default as IOperationLog } from "./types/IOperationLog";
 
 export { default as AppsClient } from "./AppsClient";
 export { default as BundlesClient } from "./BundlesClient";

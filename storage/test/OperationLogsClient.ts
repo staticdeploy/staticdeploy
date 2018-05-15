@@ -1,5 +1,6 @@
 import { expect } from "chai";
 
+import * as errors from "../src/utils/errors";
 import { eq } from "../src/utils/sequelizeOperators";
 import { insertFixtures, models, storageClient } from "./setup";
 
@@ -39,5 +40,25 @@ describe("OperationLogsClient.create", () => {
             where: { operation: eq("1") }
         });
         expect(operationLog).to.deep.equal(operationLogInstance!.get());
+    });
+});
+
+describe("OperationLogsClient.delete", () => {
+    beforeEach(async () => {
+        await insertFixtures({ operationLogs: [{ id: "1" }] });
+    });
+    it("throws an OperationLogNotFoundError if no operation log with the specified id exists", async () => {
+        const deletePromise = storageClient.operationLogs.delete("2");
+        await expect(deletePromise).to.be.rejectedWith(
+            errors.OperationLogNotFoundError
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            "No operation log found with id = 2"
+        );
+    });
+    it("deletes the operation log", async () => {
+        await storageClient.operationLogs.delete("1");
+        const operationLogInstance = await models.OperationLog.findById("1");
+        expect(operationLogInstance).to.equal(null);
     });
 });
