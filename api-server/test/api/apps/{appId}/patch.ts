@@ -5,6 +5,8 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
+import storage from "services/storage";
 import { IIds, insertFixtures } from "../../../setup";
 
 describe("api PATCH /apps/:appId", () => {
@@ -75,5 +77,20 @@ describe("api PATCH /apps/:appId", () => {
             .expect(200);
         expect(response.body).to.have.property("id", appId);
         expect(response.body).to.have.property("name", "2");
+    });
+
+    it("on app updated, saves an operation log for the update", async () => {
+        const appId = ids.apps[0];
+        await request(server)
+            .patch(`/apps/${appId}`)
+            .send({ name: "2" })
+            .set("Authorization", `Bearer ${token}`)
+            .expect(200);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.updateApp
+        );
     });
 });

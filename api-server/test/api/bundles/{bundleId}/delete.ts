@@ -5,6 +5,7 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 import { IIds, insertFixtures } from "../../../setup";
 
@@ -50,5 +51,19 @@ describe("api DELETE /bundles/:bundleId", () => {
             .expect(204);
         const bundle = await storage.bundles.findOneById(bundleId);
         expect(bundle).to.equal(null);
+    });
+
+    it("on bundle deleted, saves an operation log for the deletion", async () => {
+        const bundleId = ids.bundles[1];
+        await request(server)
+            .delete(`/bundles/${bundleId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .expect(204);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.deleteBundle
+        );
     });
 });

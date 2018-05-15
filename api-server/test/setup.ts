@@ -13,17 +13,20 @@ export interface IData {
         urlMatcher: string;
     }[];
     bundles?: { name: string; tag: string }[];
+    operationLogs?: {}[];
 }
 
 export interface IIds {
     apps: string[];
     entrypoints: string[];
     bundles: string[];
+    operationLogs: string[];
 }
 
 export async function insertFixtures(data: IData): Promise<IIds> {
     // Setup and/or reset database
     await storage.setup();
+    // Deleting all apps results in all entrypoints being deleted as well
     const apps = await storage.apps.findAll();
     for (const app of apps) {
         await storage.apps.delete(app.id);
@@ -32,11 +35,16 @@ export async function insertFixtures(data: IData): Promise<IIds> {
     for (const bundle of bundles) {
         await storage.bundles.delete(bundle.id);
     }
+    const operationLogs = await storage.operationLogs.findAll();
+    for (const operationLog of operationLogs) {
+        await storage.operationLogs.delete(operationLog.id);
+    }
 
     const ids: IIds = {
         apps: [],
         entrypoints: [],
-        bundles: []
+        bundles: [],
+        operationLogs: []
     };
 
     // Insert provided database fixtures
@@ -61,6 +69,15 @@ export async function insertFixtures(data: IData): Promise<IIds> {
                 typeof bundleId === "number" ? ids.bundles[bundleId] : bundleId
         });
         ids.entrypoints.push(id);
+    }
+    for (const operationLog of data.operationLogs || []) {
+        const { id } = await storage.operationLogs.create({
+            operation: "operation",
+            parameters: {},
+            performedBy: "performedBy",
+            ...operationLog
+        });
+        ids.operationLogs.push(id);
     }
 
     return ids;

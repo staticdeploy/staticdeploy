@@ -1,10 +1,11 @@
 import { IApp } from "@staticdeploy/storage";
-import { Request } from "express";
 
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     params: {
         appId: string;
     };
@@ -49,7 +50,13 @@ export default convroute({
         "409": { description: "App with same name already exists" }
     },
     handler: async (req: IRequest, res) => {
-        const app = await storage.apps.update(req.params.appId, req.body);
-        res.status(200).send(app);
+        // Retrieve the old app for the operation log
+        const oldApp = await storage.apps.findOneById(req.params.appId);
+
+        const newApp = await storage.apps.update(req.params.appId, req.body);
+
+        await req.logOperation(Operation.updateApp, { oldApp, newApp });
+
+        res.status(200).send(newApp);
     }
 });

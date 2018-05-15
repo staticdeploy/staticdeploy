@@ -1,10 +1,11 @@
 import { IEntrypoint } from "@staticdeploy/storage";
-import { Request } from "express";
 
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     params: {
         entrypointId: string;
     };
@@ -63,10 +64,21 @@ export default convroute({
         "409": { description: "Entrypoint with same urlMatcher already exists" }
     },
     handler: async (req: IRequest, res) => {
-        const entrypoint = await storage.entrypoints.update(
+        // Retrieve the old entrypoint for the operation log
+        const oldEntrypoint = await storage.entrypoints.findOneById(
+            req.params.entrypointId
+        );
+
+        const newEntrypoint = await storage.entrypoints.update(
             req.params.entrypointId,
             req.body
         );
-        res.status(200).send(entrypoint);
+
+        await req.logOperation(Operation.updateEntrypoint, {
+            oldEntrypoint,
+            newEntrypoint
+        });
+
+        res.status(200).send(newEntrypoint);
     }
 });

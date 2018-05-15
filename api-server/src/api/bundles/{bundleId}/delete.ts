@@ -1,9 +1,9 @@
-import { Request } from "express";
-
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     params: {
         bundleId: string;
     };
@@ -27,7 +27,15 @@ export default convroute({
         "404": { description: "Bundle not found" }
     },
     handler: async (req: IRequest, res) => {
+        // Retrieve deleted bundle for the operation log
+        const deletedBundle = await storage.bundles.findOneById(
+            req.params.bundleId
+        );
+
         await storage.bundles.delete(req.params.bundleId);
+
+        await req.logOperation(Operation.deleteBundle, { deletedBundle });
+
         res.status(204).send();
     }
 });

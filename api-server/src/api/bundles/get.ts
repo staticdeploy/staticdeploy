@@ -11,6 +11,7 @@ export default convroute({
     },
     handler: async (_req, res) => {
         const bundles = await storage.bundles.findAll();
+
         res.status(200).send(bundles);
     }
 });

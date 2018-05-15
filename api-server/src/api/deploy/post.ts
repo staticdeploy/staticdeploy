@@ -2,12 +2,13 @@ import {
     BundleNotFoundError,
     validateEntrypointUrlMatcher
 } from "@staticdeploy/storage";
-import { Request } from "express";
 
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     body: {
         appName: string;
         entrypointUrlMatcher: string;
@@ -91,25 +92,38 @@ export default convroute({
             // operations in a transaction, but the storage module doesn't allow
             // us to do that)
             validateEntrypointUrlMatcher(req.body.entrypointUrlMatcher);
+
             app = await storage.apps.create({
                 name: req.body.appName,
                 defaultConfiguration: {}
             });
+
+            await req.logOperation(Operation.createApp, { createdApp: app });
         }
 
-        // Create the entrypoint if it doesn't exist, else update it
-        if (!existingEntrypoint) {
-            await storage.entrypoints.create({
+        // Create the entrypoint if it doesn't exist
+        let entrypoint = existingEntrypoint;
+        if (!entrypoint) {
+            entrypoint = await storage.entrypoints.create({
                 appId: app.id,
-                bundleId: bundle.id,
                 urlMatcher: req.body.entrypointUrlMatcher,
                 configuration: null
             });
-        } else {
-            await storage.entrypoints.update(existingEntrypoint.id, {
-                bundleId: bundle.id
+
+            await req.logOperation(Operation.createEntrypoint, {
+                createdEntrypoint: entrypoint
             });
         }
+
+        // Update the entrypoint to point it to the supplied bundle
+        const newEntrypoint = await storage.entrypoints.update(entrypoint.id, {
+            bundleId: bundle.id
+        });
+
+        await req.logOperation(Operation.updateEntrypoint, {
+            oldEntrypoint: entrypoint,
+            newEntrypoint: newEntrypoint
+        });
 
         res.status(204).send();
     }

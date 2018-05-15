@@ -5,6 +5,7 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 import { IIds, insertFixtures } from "../../../setup";
 
@@ -105,5 +106,20 @@ describe("api PATCH /entrypoints/:entrypointId", () => {
             .expect(200);
         const entrypoint = await storage.entrypoints.findOneById(entrypointId);
         expect(response.body).to.be.jsonOf(entrypoint);
+    });
+
+    it("on entrypoint updated, saves an operation log for the update", async () => {
+        const entrypointId = ids.entrypoints[0];
+        await request(server)
+            .patch(`/entrypoints/${entrypointId}`)
+            .send({ urlMatcher: "2.com/" })
+            .set("Authorization", `Bearer ${token}`)
+            .expect(200);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.updateEntrypoint
+        );
     });
 });

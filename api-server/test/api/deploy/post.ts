@@ -5,6 +5,7 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 import { insertFixtures } from "../../setup";
 
@@ -158,5 +159,65 @@ describe("api POST /deploy", () => {
             "0.com/"
         );
         expect(entrypoint!.bundleId).to.equal(bundle!.id);
+    });
+
+    it("on deploy succeeded, with app and entrypoint created, saves an operation log for the creations, and one for updating the entrypoint", async () => {
+        await request(server)
+            .post("/deploy")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                appName: "1",
+                entrypointUrlMatcher: "1.com/",
+                bundleNameTagCombination: "0:0"
+            })
+            .expect(204);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(3);
+        expect(
+            operationLogs.map(operationLog => operationLog.operation).sort()
+        ).to.deep.equal(
+            [
+                Operation.createApp,
+                Operation.createEntrypoint,
+                Operation.updateEntrypoint
+            ].sort()
+        );
+    });
+
+    it("on deploy succeeded, with entrypoint created, saves an operation log for the creation, and one for updating the entrypoint", async () => {
+        await request(server)
+            .post("/deploy")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                appName: "0",
+                entrypointUrlMatcher: "1.com/",
+                bundleNameTagCombination: "0:0"
+            })
+            .expect(204);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(2);
+        expect(
+            operationLogs.map(operationLog => operationLog.operation).sort()
+        ).to.deep.equal(
+            [Operation.createEntrypoint, Operation.updateEntrypoint].sort()
+        );
+    });
+
+    it("on deploy succeeded, with no app or entrypoint created, saves an operation for updating the entrypoint", async () => {
+        await request(server)
+            .post("/deploy")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                appName: "0",
+                entrypointUrlMatcher: "0.com/",
+                bundleNameTagCombination: "0:0"
+            })
+            .expect(204);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.updateEntrypoint
+        );
     });
 });
