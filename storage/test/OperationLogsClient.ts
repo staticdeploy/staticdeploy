@@ -4,6 +4,20 @@ import * as errors from "../src/utils/errors";
 import { eq } from "../src/utils/sequelizeOperators";
 import { insertFixtures, models, storageClient } from "./setup";
 
+describe("OperationLogsClient.findOneById", () => {
+    beforeEach(async () => {
+        await insertFixtures({ operationLogs: [{ id: "1" }] });
+    });
+    it("if an operation log with the specified id doesn't exist, returns null", async () => {
+        const operationLog = await storageClient.operationLogs.findOneById("2");
+        expect(operationLog).to.equal(null);
+    });
+    it("returns the found operation log as a pojo", async () => {
+        const operationLog = await storageClient.operationLogs.findOneById("1");
+        expect(operationLog).to.have.property("id", "1");
+    });
+});
+
 describe("OperationLogsClient.findAll", () => {
     beforeEach(async () => {
         await insertFixtures({ operationLogs: [{ id: "1" }] });

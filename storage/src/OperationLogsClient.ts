@@ -11,6 +11,11 @@ export default class OperationLogsClient {
         this.OperationLog = options.models.OperationLog;
     }
 
+    async findOneById(id: string): Promise<IOperationLog | null> {
+        const operationLog = await this.OperationLog.findById(id);
+        return toPojo(operationLog);
+    }
+
     async findAll(): Promise<IOperationLog[]> {
         const operationLogs = await this.OperationLog.findAll();
         return operationLogs.map(toPojo);
