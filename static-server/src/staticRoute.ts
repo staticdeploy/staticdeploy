@@ -64,6 +64,15 @@ export default async (req: Request, res: Response) => {
         res.redirect(301, appendSlash(req.path));
         return;
     }
+
+    // If a redirect for the entrypoint is specified, redirect to it with a 302.
+    // We don't use a 301 because the redirectTo property can be dinamically
+    // changed by the staticdeploy admins
+    if (matchingEntrypoint.redirectTo) {
+        res.redirect(302, matchingEntrypoint.redirectTo);
+        return;
+    }
+
     if (!matchingEntrypoint.bundleId) {
         res
             .status(404)
