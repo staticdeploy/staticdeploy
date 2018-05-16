@@ -1,3 +1,10 @@
+## 0.3.0 (May 16, 2018)
+
+Features:
+
+* entrypoint redirects: now an entrypoint can specify either a bundle to serve
+  or an url to redirect (302) to
+
 ## 0.2.0 (May 16, 2018)
 
 Features:
