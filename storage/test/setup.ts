@@ -43,17 +43,18 @@ export const models: IModels = getModels(sequelize);
 
 export interface IData {
     apps?: { id: string; name: string }[];
+    bundles?: { id: string; name: string; tag: string; createdAt?: Date }[];
     entrypoints?: {
         id: string;
         urlMatcher: string;
         appId: string;
         bundleId?: string;
     }[];
-    bundles?: { id: string; name: string; tag: string; createdAt?: Date }[];
+    operationLogs?: { id: string }[];
 }
 
 export async function insertFixtures(data: IData) {
-    const { App, Bundle, Entrypoint } = models;
+    const { App, Bundle, Entrypoint, OperationLog } = models;
 
     // Setup and/or reset database
     await migrate(sequelize);
@@ -61,6 +62,7 @@ export async function insertFixtures(data: IData) {
     await Entrypoint.destroy({ where: {} });
     await App.destroy({ where: {} });
     await Bundle.destroy({ where: {} });
+    await OperationLog.destroy({ where: {} });
 
     // Setup and/or reset filesystem
     await remove(bundlesPath);
@@ -87,6 +89,14 @@ export async function insertFixtures(data: IData) {
             bundleId: null,
             configuration: null,
             ...entrypoint
+        });
+    }
+    for (const operationLog of data.operationLogs || []) {
+        await OperationLog.create({
+            operation: "operation",
+            parameters: {},
+            performedBy: "performedBy",
+            ...operationLog
         });
     }
 }

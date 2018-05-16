@@ -11,6 +11,7 @@ export default convroute({
     },
     handler: async (_req, res) => {
         const apps = await storage.apps.findAll();
+
         res.status(200).send(apps);
     }
 });

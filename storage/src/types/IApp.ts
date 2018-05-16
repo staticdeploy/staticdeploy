@@ -6,4 +6,4 @@ export default interface IApp {
     defaultConfiguration: IConfiguration;
     createdAt: Date;
     updatedAt: Date;
-};
+}

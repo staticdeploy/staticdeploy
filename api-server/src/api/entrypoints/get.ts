@@ -1,10 +1,10 @@
 import { AppNotFoundError } from "@staticdeploy/storage";
-import { Request } from "express";
 
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     query: {
         appIdOrName?: string;
     };
@@ -33,6 +33,7 @@ export default convroute({
         const entrypoints = await (filterApp
             ? storage.entrypoints.findManyByAppId(filterApp.id)
             : storage.entrypoints.findAll());
+
         res.status(200).send(entrypoints);
     }
 });

@@ -5,6 +5,7 @@ import { healthRoute } from "express-healthchecker";
 
 import * as config from "config";
 import storageHC from "healthChecks/storage";
+import attachLogOperation from "middleware/attachLogOperation";
 import authenticateRequest from "middleware/authenticateRequest";
 import logger from "services/logger";
 import storage from "services/storage";
@@ -41,6 +42,7 @@ export default async function getApp(): Promise<express.Express> {
             })
         )
         .use(authenticateRequest(config.JWT_SECRET))
+        .use(attachLogOperation())
         .loadFrom(`${__dirname}/api/**/*.@(ts|js)`);
 
     // Return express app

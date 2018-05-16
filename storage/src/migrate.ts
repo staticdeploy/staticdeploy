@@ -11,7 +11,10 @@ export default async function migrate(sequelize: Sequelize) {
         migrations: {
             params: [sequelize.getQueryInterface()],
             path: join(__dirname, "./migrations"),
-            pattern: /\.migration\.(js|ts)$/
+            // Migration source files are named DD.ts, where D is a digit. When
+            // they're compiled, they become DD.js. We want to only load those
+            // files, and not other files such as *.d.ts ones
+            pattern: /^\d{2}\.(js|ts)$/
         },
         logging: false
     });

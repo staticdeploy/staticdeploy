@@ -5,6 +5,7 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 import { IIds, insertFixtures } from "../../../setup";
 
@@ -37,5 +38,19 @@ describe("api DELETE /entrypoints/:entrypointId", () => {
             .expect(204);
         const entrypoint = await storage.entrypoints.findOneById(entrypointId);
         expect(entrypoint).to.equal(null);
+    });
+
+    it("on entrypoint deleted, saves an operation log for the deletion", async () => {
+        const entrypointId = ids.entrypoints[0];
+        await request(server)
+            .delete(`/entrypoints/${entrypointId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .expect(204);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.deleteEntrypoint
+        );
     });
 });

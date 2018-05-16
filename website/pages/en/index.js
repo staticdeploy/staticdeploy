@@ -82,7 +82,7 @@ const Index = () => (
                             title: "Smart Routing",
                             content: stripIndent(`
                                 Was it **/static** or **./static**? Or should I
-                                add the base url? Don't worry, StaticDeploy
+                                add the base url? Don't worry, StaticDeploy's
                                 smart routing algorithm will find your content
                             `)
                         }

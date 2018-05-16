@@ -8,4 +8,4 @@ export default interface IBundle {
     hash: string;
     assets: IAsset[];
     createdAt: Date;
-};
+}

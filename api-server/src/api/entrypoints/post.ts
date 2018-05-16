@@ -1,10 +1,11 @@
 import { IEntrypoint } from "@staticdeploy/storage";
-import { Request } from "express";
 
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     body: {
         appId: IEntrypoint["appId"];
         bundleId?: IEntrypoint["bundleId"];
@@ -53,7 +54,12 @@ export default convroute({
         "409": { description: "Entrypoint with same urlMatcher already exists" }
     },
     handler: async (req: IRequest, res) => {
-        const entrypoint = await storage.entrypoints.create(req.body);
-        res.status(201).send(entrypoint);
+        const createdEntrypoint = await storage.entrypoints.create(req.body);
+
+        await req.logOperation(Operation.createEntrypoint, {
+            createdEntrypoint
+        });
+
+        res.status(201).send(createdEntrypoint);
     }
 });

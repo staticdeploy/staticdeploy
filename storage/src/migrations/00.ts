@@ -3,6 +3,7 @@ import Sequelize from "sequelize";
 import { APPS_TABLE } from "../models/App";
 import { BUNDLES_TABLE } from "../models/Bundle";
 import { ENTRYPOINTS_TABLE } from "../models/Entrypoint";
+import { OPERATION_LOGS_TABLE } from "../models/OperationLog";
 
 export const up = async (q: Sequelize.QueryInterface) => {
     await q.createTable(BUNDLES_TABLE, {
@@ -89,6 +90,29 @@ export const up = async (q: Sequelize.QueryInterface) => {
             allowNull: false
         },
         updatedAt: {
+            type: Sequelize.DATE,
+            allowNull: false
+        }
+    });
+
+    await q.createTable(OPERATION_LOGS_TABLE, {
+        id: {
+            type: Sequelize.STRING,
+            primaryKey: true
+        },
+        operation: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        parameters: {
+            type: Sequelize.JSON,
+            allowNull: false
+        },
+        performedBy: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        performedAt: {
             type: Sequelize.DATE,
             allowNull: false
         }

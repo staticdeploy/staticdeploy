@@ -5,6 +5,7 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 import { IIds, insertFixtures } from "../../setup";
 
@@ -84,5 +85,19 @@ describe("api POST /entrypoints", () => {
             "1.com/"
         );
         expect(response.body).to.be.jsonOf(entrypoint);
+    });
+
+    it("on entrypoint created, saves an operation log for the creation", async () => {
+        await request(server)
+            .post("/entrypoints")
+            .set("Authorization", `Bearer ${token}`)
+            .send({ appId: ids.apps[0], urlMatcher: "1.com/" })
+            .expect(201);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.createEntrypoint
+        );
     });
 });

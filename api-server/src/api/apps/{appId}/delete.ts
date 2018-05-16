@@ -1,9 +1,9 @@
-import { Request } from "express";
-
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     params: {
         appId: string;
     };
@@ -27,7 +27,19 @@ export default convroute({
         "404": { description: "App not found" }
     },
     handler: async (req: IRequest, res) => {
+        // Retrieve deleted app and linked entrypoints for the operation log
+        const deletedApp = await storage.apps.findOneById(req.params.appId);
+        const deletedEntrypoints = await storage.entrypoints.findManyByAppId(
+            req.params.appId
+        );
+
         await storage.apps.delete(req.params.appId);
+
+        await req.logOperation(Operation.deleteApp, {
+            deletedApp,
+            deletedEntrypoints
+        });
+
         res.status(204).send();
     }
 });

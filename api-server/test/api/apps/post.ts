@@ -5,6 +5,7 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 import { insertFixtures } from "../../setup";
 
@@ -45,5 +46,19 @@ describe("api POST /apps", () => {
             .expect(201);
         const app = await storage.apps.findOneByIdOrName("1");
         expect(response.body).to.be.jsonOf(app);
+    });
+
+    it("on app created, saves an operation log for the creation", async () => {
+        await request(server)
+            .post("/apps")
+            .set("Authorization", `Bearer ${token}`)
+            .send({ name: "1" })
+            .expect(201);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.createApp
+        );
     });
 });

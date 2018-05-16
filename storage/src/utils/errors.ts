@@ -70,3 +70,10 @@ export class EntrypointUrlMatcherNotValidError extends Error {
         super(`${urlMatcher} is not a valid urlMatcher for an entrypoint`);
     }
 }
+
+// Operation log errors
+export class OperationLogNotFoundError extends Error {
+    constructor(id: string) {
+        super(`No operation log found with id = ${id}`);
+    }
+}

@@ -28,6 +28,12 @@ export default class SiderNav extends React.Component {
                         <span>{"Bundles"}</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="/operationLogs">
+                    <Link to="/operationLogs">
+                        <Icon type="profile" />
+                        <span>{"Operation logs"}</span>
+                    </Link>
+                </Menu.Item>
             </Menu>
         );
     }

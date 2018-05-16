@@ -19,7 +19,8 @@ export default (
             err instanceof storage.AppNotFoundError ||
             err instanceof storage.BundleNotFoundError ||
             err instanceof storage.BundleAssetNotFoundError ||
-            err instanceof storage.EntrypointNotFoundError
+            err instanceof storage.EntrypointNotFoundError ||
+            err instanceof storage.OperationLogNotFoundError
         ) {
             res.status(404).send({ message: err.message });
         } else if (

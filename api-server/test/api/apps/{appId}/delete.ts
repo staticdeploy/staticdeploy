@@ -5,6 +5,7 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 import { IIds, insertFixtures } from "../../../setup";
 
@@ -35,5 +36,19 @@ describe("api DELETE /apps/:appId", () => {
             .set("Authorization", `Bearer ${token}`)
             .expect(204);
         expect(await storage.apps.findOneById(appId)).to.equal(null);
+    });
+
+    it("on app deleted, saves an operation log for the deletion", async () => {
+        const appId = ids.apps[0];
+        await request(server)
+            .delete(`/apps/${appId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .expect(204);
+        const operationLogs = await storage.operationLogs.findAll();
+        expect(operationLogs).to.have.length(1);
+        expect(operationLogs[0]).to.have.property(
+            "operation",
+            Operation.deleteApp
+        );
     });
 });

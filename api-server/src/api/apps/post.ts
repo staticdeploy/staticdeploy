@@ -1,10 +1,11 @@
 import { IApp } from "@staticdeploy/storage";
-import { Request } from "express";
 
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     body: {
         name: IApp["name"];
         defaultConfiguration?: IApp["defaultConfiguration"];
@@ -40,7 +41,10 @@ export default convroute({
         "409": { description: "App with same name already exists" }
     },
     handler: async (req: IRequest, res) => {
-        const app = await storage.apps.create(req.body);
-        res.status(201).send(app);
+        const createdApp = await storage.apps.create(req.body);
+
+        await req.logOperation(Operation.createApp, { createdApp });
+
+        res.status(201).send(createdApp);
     }
 });

@@ -1,10 +1,11 @@
 import { IBundle } from "@staticdeploy/storage";
-import { Request } from "express";
 
 import convroute from "common/convroute";
+import IBaseRequest from "common/IBaseRequest";
+import { Operation } from "services/operations";
 import storage from "services/storage";
 
-interface IRequest extends Request {
+interface IRequest extends IBaseRequest {
     body: {
         name: IBundle["name"];
         tag: IBundle["tag"];
@@ -55,15 +56,15 @@ export default convroute({
     handler: async (req: IRequest, res) => {
         const partial = req.body;
 
-        // Create the bundle
-        const bundle = await storage.bundles.create({
+        const createdBundle = await storage.bundles.create({
             name: partial.name,
             tag: partial.tag,
             description: partial.description,
             content: Buffer.from(partial.content, "base64")
         });
 
-        // Respond to the client
-        res.status(201).send(bundle);
+        await req.logOperation(Operation.createBundle, { createdBundle });
+
+        res.status(201).send(createdBundle);
     }
 });
