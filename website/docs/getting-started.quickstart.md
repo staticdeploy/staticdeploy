@@ -22,7 +22,7 @@ title: Quickstart
   admin console using the following token:
 
   ```sh
-  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.t-IDcSemACt8x4iTMCda8Yhe3iZaWbvV5XKSTbuAn0M
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbi1jb25zb2xlLXVzZXIifQ.yGQzbu3CAIGuxnEhEAKrqv9W8cXuBiCnPIwN_kmmzlQ
   ```
 
   (note: `local.staticdeploy.io` points to `127.0.0.1`)
@@ -39,7 +39,7 @@ title: Quickstart
 
   ```sh
   export STATICDEPLOY_API_URL=http://local.staticdeploy.io/api
-  export STATICDEPLOY_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.t-IDcSemACt8x4iTMCda8Yhe3iZaWbvV5XKSTbuAn0M
+  export STATICDEPLOY_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGktdXNlciJ9.5Afzq7hN9GoLzlKCJwxGpi1RnQeCSF705vRxuqXPZkU
   ```
 
 * create a bundle for the demo static app in `website/demo-static-app`:
