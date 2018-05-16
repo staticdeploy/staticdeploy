@@ -30,6 +30,10 @@ Entrypoints can be created manually from StaticDeploy's admin console, or
 automatically when deploying a bundle with the `deploy` command of the
 StaticDeploy cli.
 
+Entrypoints may also specify a `redirectTo`. If a `redirectTo` is specified, for
+that entrypoint the StaticDeploy's backend doesn't serve a static bundle, but
+instead issues a 302 with the `redirectTo` as `Location`.
+
 ### Apps
 
 Apps are groups of entrypoints. Apps define a default configuration to be used
@@ -37,3 +41,11 @@ for entrypoints which don't define one.
 
 Apps can be created manually from StaticDeploy's admin console, or automatically
 when deploying a bundle with the `deploy` command of the StaticDeploy cli.
+
+### Operation Logs
+
+Operation logs are immutable records of the write operations performed by the
+administrators of a StaticDeploy instance. Each time one of the entities above
+is created, updated, or deleted, an operation log is written specifying the
+operation that was performed, the user who performed it, the time at which it
+was performed, and additional information that details exactly what was done.
