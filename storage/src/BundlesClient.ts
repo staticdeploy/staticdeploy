@@ -142,7 +142,7 @@ export default class BundlesClient {
         const assetPath = join(rootPath, normalizedPath);
 
         // Ensure the asset exists
-        if (!await pathExists(assetPath)) {
+        if (!(await pathExists(assetPath))) {
             throw new errors.BundleAssetNotFoundError(id, path);
         }
 

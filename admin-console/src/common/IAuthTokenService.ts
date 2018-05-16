@@ -10,4 +10,4 @@ export default interface IAuthTokenService {
     onStatusChange(fn: (status: IStatus) => void): void;
     offStatusChange(fn: (status: IStatus) => void): void;
     setAuthToken(authToken: string | null): void;
-};
+}

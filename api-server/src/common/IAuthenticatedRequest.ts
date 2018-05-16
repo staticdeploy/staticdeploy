@@ -4,4 +4,4 @@ export default interface IAuthenticatedRequest extends Request {
     user: {
         sub: string;
     };
-};
+}

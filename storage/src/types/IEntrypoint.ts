@@ -8,4 +8,4 @@ export default interface IEntrypoint {
     configuration: IConfiguration | null;
     createdAt: Date;
     updatedAt: Date;
-};
+}

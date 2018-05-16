@@ -82,9 +82,9 @@ describe("DataFetcher", () => {
             status: FetchStatus.FAILED,
             error: new Error("Error message")
         });
-        const description = shallow(
-            dataFetcher.find(Alert).prop("description")
-        );
+        const description = shallow(dataFetcher
+            .find(Alert)
+            .prop("description") as any);
         props.fetchData.reset();
         description
             .find("a")
@@ -103,9 +103,9 @@ describe("DataFetcher", () => {
             status: FetchStatus.FAILED,
             error: new Error("Error message")
         });
-        const description = shallow(
-            dataFetcher.find(Alert).prop("description")
-        );
+        const description = shallow(dataFetcher
+            .find(Alert)
+            .prop("description") as any);
         expect(window.location.reload).to.have.callCount(0);
         description
             .find("a")

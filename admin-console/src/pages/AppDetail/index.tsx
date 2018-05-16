@@ -31,7 +31,12 @@ type Props = {
 
 class AppDetail extends React.Component<Props> {
     getActions() {
-        const { history, location, refetch, result: { app } } = this.props;
+        const {
+            history,
+            location,
+            refetch,
+            result: { app }
+        } = this.props;
         return [
             <AppEditOperationModal
                 key="AppEditOperationModal"

@@ -5,4 +5,4 @@ export default interface IOperationLog {
     parameters: { [key: string]: any };
     performedBy: string;
     performedAt: Date;
-};
+}

@@ -8,4 +8,4 @@ export default interface IBaseRequest extends IAuthenticatedRequest {
         operation: Operation,
         parameters: IOperationLog["parameters"]
     ) => Promise<void>;
-};
+}
