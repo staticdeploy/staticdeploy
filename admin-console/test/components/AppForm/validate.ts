@@ -8,11 +8,11 @@ describe("AppForm validation function", () => {
             const errors = validate({});
             expect(errors).to.have.property("name", "Required");
         });
-        it("requires name to only contain letters, numbers and hyphens", () => {
-            const errors = validate({ name: "_" });
+        it("requires name to only contain letters, numbers, underscores, dashes, dots, and slashes", () => {
+            const errors = validate({ name: "#" });
             expect(errors).to.have.property(
                 "name",
-                "Can only contain letters, numbers and hyphens"
+                "Can only contain letters, numbers, underscores, dashes, dots, and slashes"
             );
         });
     });

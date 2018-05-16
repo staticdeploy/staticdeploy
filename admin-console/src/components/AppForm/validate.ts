@@ -7,8 +7,9 @@ export default function validate(values: Partial<IInternalFormValues>) {
     // Validate name
     if (!values.name) {
         errors.name = "Required";
-    } else if (!/^[a-zA-Z0-9-]+$/.test(values.name)) {
-        errors.name = "Can only contain letters, numbers and hyphens";
+    } else if (!/^[\w-\.\/]{1,255}$/.test(values.name)) {
+        errors.name =
+            "Can only contain letters, numbers, underscores, dashes, dots, and slashes";
     }
 
     // Validate defaultConfiguration
