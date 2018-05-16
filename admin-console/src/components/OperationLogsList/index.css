@@ -1,0 +1,50 @@
+/* Give space below */
+.c-OperationLogsList {
+    margin-bottom: 16px;
+}
+
+/* Make header bold */
+.c-OperationLogsList-header {
+    font-weight: 500;
+}
+
+/* Add borders to make it look like a table */
+.c-OperationLogsList-header,
+.c-OperationLogsList-item {
+    border-style: solid;
+    border-color: var(--grey-4);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 8px;
+}
+
+/* Align to center, make text inside tag uppercase */
+.c-OperationLogsList-item-operation {
+    text-transform: uppercase;
+    text-align: center;
+}
+/* Make all tags the same width */
+.c-OperationLogsList-item-operation .ant-tag {
+    width: 180px;
+}
+/* Color tags differently depending on operation */
+.c-OperationLogsList-item-operation .apps-create,
+.c-OperationLogsList-item-operation .entrypoints-create,
+.c-OperationLogsList-item-operation .bundles-create {
+    color: var(--green-6);
+    background: var(--green-1);
+    border-color: var(--green-3);
+}
+.c-OperationLogsList-item-operation .apps-update,
+.c-OperationLogsList-item-operation .entrypoints-update {
+    color: var(--blue-6);
+    background: var(--blue-1);
+    border-color: var(--blue-3);
+}
+.c-OperationLogsList-item-operation .apps-delete,
+.c-OperationLogsList-item-operation .entrypoints-delete,
+.c-OperationLogsList-item-operation .bundles-delete {
+    color: var(--red-6);
+    background: var(--red-1);
+    border-color: var(--red-3);
+}
