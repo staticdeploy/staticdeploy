@@ -5,6 +5,18 @@ import { isFQDN } from "validator";
 import * as errors from "./errors";
 
 /*
+*   Regexp that matches strings containing only:
+*   - alphanumeric characters from the basic Latin alphabet
+*   - underscores, dashes, dots, and slashes
+*
+*   Strings only containing these basic characters are:
+*   - unambiguous to read (with a monospaced font)
+*   - easy to type in a shell
+*   - easy to display in a url
+*/
+const basicCharsRegexp = /^[\w-\.\/]{1,255}$/;
+
+/*
 *   A valid configuration object is a (string, string) dictionary
 */
 export function isConfigurationValid(configuration: any) {
@@ -22,10 +34,10 @@ export function validateConfiguration(
 /*
 *   An app name is valid when:
 *   - has 0 < length < 256
-*   - contains only letters, numbers, underscores, and dashes
+*   - contains only characters from the basicChars subset specified above
 */
 export function isAppNameValid(name: string) {
-    return /^[\w-]{1,255}$/.test(name);
+    return basicCharsRegexp.test(name);
 }
 export function validateAppName(name: string) {
     if (!isAppNameValid(name)) {
@@ -72,11 +84,10 @@ export function validateEntrypointUrlMatcher(urlMatcher: string): void {
 /*
 *   Bundle name and tag strings have the same validation rules:
 *   - 0 < length < 256
-*   - allowed characters are letters, numbers, underscores, dashes, dots, and
-*     slashes
+*   - allowed characters are the ones from the basicChars subset specified above
 */
 export function isBundleNameOrTagValid(nameOrTag: string): boolean {
-    return /^[\w-\.\/]{1,255}$/.test(nameOrTag);
+    return basicCharsRegexp.test(nameOrTag);
 }
 export function validateBundleNameOrTag(
     nameOrTag: string,
