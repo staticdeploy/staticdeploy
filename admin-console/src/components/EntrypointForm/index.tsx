@@ -24,6 +24,12 @@ class EntrypointForm extends React.PureComponent<
                     placeholder="sub.example.com/path/"
                     inlineError={true}
                 />
+                <TextField
+                    label="Redirect to"
+                    name="redirectTo"
+                    placeholder="https://example.com/"
+                    inlineError={true}
+                />
                 <ConfigurationField
                     label="Default configuration"
                     name="configuration"
@@ -40,10 +46,12 @@ export default reduxForm<IExternalFormValues, IInternalFormValues>({
     form: "EntrypointForm",
     validate: validate,
     toInternal: (initialValues = {}) => ({
+        redirectTo: initialValues.redirectTo || "",
         urlMatcher: initialValues.urlMatcher || "",
         configuration: toKVPairs(initialValues.configuration || {})
     }),
     toExternal: values => ({
+        redirectTo: values.redirectTo || null,
         urlMatcher: values.urlMatcher,
         configuration: !isEmpty(values.configuration)
             ? fromKVPairs(values.configuration)

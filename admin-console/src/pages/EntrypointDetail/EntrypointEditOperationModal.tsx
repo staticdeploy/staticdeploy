@@ -50,6 +50,7 @@ export default class EntrypointEditOperationModal extends React.Component<
                 <EntrypointForm
                     initialValues={{
                         urlMatcher: this.props.entrypoint.urlMatcher,
+                        redirectTo: this.props.entrypoint.redirectTo,
                         configuration: this.props.entrypoint.configuration
                     }}
                     ref={form => (this.form = form!)}
