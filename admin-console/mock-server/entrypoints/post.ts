@@ -7,6 +7,7 @@ export default ((req, res) => {
         ...req.body,
         id: faker.random.alphaNumeric(8),
         bundleId: null,
+        redirectTo: null,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     });

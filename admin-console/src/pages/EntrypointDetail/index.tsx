@@ -59,6 +59,10 @@ class EntrypointDetail extends React.Component<Props> {
                             : "No bundle deployed"
                     }
                 />
+                <TextFieldRO
+                    title="Redirects to"
+                    value={entrypoint.redirectTo || "No redirect configured"}
+                />
                 <ConfigurationFieldRO
                     title={
                         entrypoint.configuration

@@ -159,6 +159,25 @@ describe("staticRoute routing", () => {
     });
 
     /*
+    *   302-s
+    */
+    test("redirects to the entrypoint's redirectTo when specified", {
+        entrypoints: [
+            {
+                urlMatcher: "domain.com/",
+                redirectTo: "https://redirect.location"
+            }
+        ],
+        testCases: [
+            {
+                requestedUrl: "domain.com/",
+                expectedStatusCode: 302,
+                expectedLocation: "https://redirect.location"
+            }
+        ]
+    });
+
+    /*
     *   200-s
     */
     test("gives precedence to longer-matching entrypoints", {

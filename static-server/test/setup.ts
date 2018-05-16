@@ -20,6 +20,7 @@ interface IData {
     entrypoints?: {
         appId: string | number;
         urlMatcher: string;
+        redirectTo?: string;
         configuration?: IConfiguration;
     }[];
     bundles?: { content: Buffer }[];
@@ -85,6 +86,7 @@ export interface ITestDefinition {
     entrypoints: {
         urlMatcher: string;
         bundleContent?: IDefinition;
+        redirectTo?: string;
         configuration?: IConfiguration;
         defaultConfiguration?: IConfiguration;
     }[];
@@ -112,6 +114,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 entrypoints: entrypoints.map((entrypoint, index) => ({
                     appId: index,
                     urlMatcher: entrypoint.urlMatcher,
+                    redirectTo: entrypoint.redirectTo,
                     configuration: entrypoint.configuration
                 })),
                 bundles: entrypoints.filter(entrypoint => entrypoint.bundleContent).map(entrypoint => ({

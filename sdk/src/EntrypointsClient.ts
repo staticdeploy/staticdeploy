@@ -19,6 +19,7 @@ export default class EntrypointsClient {
     async create(entrypoint: {
         appId: string;
         bundleId?: string | null;
+        redirectTo?: string | null;
         urlMatcher: string;
         configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
@@ -35,6 +36,7 @@ export default class EntrypointsClient {
         patch: {
             appId?: string;
             bundleId?: string | null;
+            redirectTo?: string | null;
             urlMatcher?: string;
             configuration?: IConfiguration | null;
         }

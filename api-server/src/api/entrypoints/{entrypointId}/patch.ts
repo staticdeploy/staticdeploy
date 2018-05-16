@@ -12,6 +12,7 @@ interface IRequest extends IBaseRequest {
     body: {
         appId?: IEntrypoint["appId"];
         bundleId?: IEntrypoint["bundleId"];
+        redirectTo?: IEntrypoint["redirectTo"];
         urlMatcher?: IEntrypoint["urlMatcher"];
         configuration?: IEntrypoint["configuration"];
     };
@@ -24,6 +25,9 @@ const bodySchema = {
             type: "string"
         },
         bundleId: {
+            $oneOf: [{ type: "string" }, { type: "null" }]
+        },
+        redirectTo: {
             $oneOf: [{ type: "string" }, { type: "null" }]
         },
         urlMatcher: {
