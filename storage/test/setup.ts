@@ -87,6 +87,7 @@ export async function insertFixtures(data: IData) {
     for (const entrypoint of data.entrypoints || []) {
         await Entrypoint.create({
             bundleId: null,
+            redirectTo: null,
             configuration: null,
             ...entrypoint
         });

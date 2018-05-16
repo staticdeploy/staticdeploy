@@ -16,6 +16,7 @@ export default (sequelize: Sequelize.Sequelize): EntrypointModel =>
             id: { type: Sequelize.STRING, primaryKey: true },
             appId: { type: Sequelize.STRING },
             bundleId: { type: Sequelize.STRING },
+            redirectTo: { type: Sequelize.STRING },
             urlMatcher: { type: Sequelize.STRING },
             configuration: { type: Sequelize.JSON },
             createdAt: { type: Sequelize.DATE },
