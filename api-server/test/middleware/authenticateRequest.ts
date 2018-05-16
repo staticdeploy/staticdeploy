@@ -44,6 +44,15 @@ describe("middleware authenticateRequest", () => {
             .expect({ message: "jwt expired" });
     });
 
+    it("401 on jwt with no sub", () => {
+        const token = sign({}, JWT_SECRET);
+        return request(server)
+            .get("/")
+            .set("Authorization", `Bearer ${token}`)
+            .expect(401)
+            .expect({ message: "JWT must specify a subject (sub)" });
+    });
+
     it("no 401 on valid token", () => {
         const token = sign({ sub: "sub" }, JWT_SECRET);
         return request(server)

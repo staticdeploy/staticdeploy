@@ -10,6 +10,10 @@ export default function authenticateRequest(jwtSecret: Buffer): RequestHandler {
         jwtMiddleware(req, res, err => {
             if (err) {
                 res.status(401).send({ message: err.message });
+            } else if (!req.user.sub) {
+                res.status(401).send({
+                    message: "JWT must specify a subject (sub)"
+                });
             } else {
                 next();
             }
