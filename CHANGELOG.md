@@ -1,3 +1,9 @@
+## 0.4.0 (May 16, 2018)
+
+Features:
+
+* allow more characters (dots and slashes) to be used in apps names
+
 ## 0.3.0 (May 16, 2018)
 
 Features:
