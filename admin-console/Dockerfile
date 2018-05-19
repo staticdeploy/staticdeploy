@@ -6,8 +6,8 @@ WORKDIR /workspace
 
 # Copy files
 COPY package.json lerna.json yarn.lock tsconfig.json ./
-COPY storage/package.json storage/tsconfig.json ./storage/
-COPY storage/src ./storage/src/
+COPY common-types/package.json common-types/tsconfig.json ./common-types/
+COPY common-types/src ./common-types/src/
 COPY sdk/package.json sdk/tsconfig.json ./sdk/
 COPY sdk/src ./sdk/src/
 COPY admin-console/package.json admin-console/tsconfig.json ./admin-console/
