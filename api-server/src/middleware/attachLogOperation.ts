@@ -1,4 +1,4 @@
-import { IOperationLog } from "@staticdeploy/storage";
+import { IOperationLog } from "@staticdeploy/common-types";
 import { RequestHandler } from "express";
 
 import IBaseRequest from "common/IBaseRequest";

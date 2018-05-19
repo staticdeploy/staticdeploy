@@ -1,6 +1,6 @@
+import { IApp, IConfiguration } from "@staticdeploy/common-types";
+
 import { IModels } from "./models";
-import IApp from "./types/IApp";
-import IConfiguration from "./types/IConfiguration";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import { eq, or } from "./utils/sequelizeOperators";

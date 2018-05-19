@@ -1,4 +1,4 @@
-import { IApp } from "@staticdeploy/storage";
+import { IApp } from "@staticdeploy/common-types";
 
 import convroute from "common/convroute";
 import IBaseRequest from "common/IBaseRequest";

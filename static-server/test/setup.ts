@@ -1,4 +1,4 @@
-import { IConfiguration } from "@staticdeploy/storage";
+import { IConfiguration } from "@staticdeploy/common-types";
 import chai from "chai";
 import chaiFuzzy from "chai-fuzzy";
 import { createTree, destroyTree, IDefinition } from "create-fs-tree";

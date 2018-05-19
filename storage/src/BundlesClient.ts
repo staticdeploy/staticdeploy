@@ -1,3 +1,4 @@
+import { IBundle } from "@staticdeploy/common-types";
 import { pathExists, remove } from "fs-extra";
 import { isEmpty } from "lodash";
 import md5 from "md5";
@@ -8,7 +9,6 @@ import recursiveReaddir from "recursive-readdir";
 import tar from "tar";
 
 import { IModels } from "./models";
-import IBundle from "./types/IBundle";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import removePrefix from "./utils/removePrefix";

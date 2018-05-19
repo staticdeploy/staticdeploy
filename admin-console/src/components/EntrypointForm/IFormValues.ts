@@ -1,4 +1,4 @@
-import { IConfiguration } from "@staticdeploy/sdk";
+import { IConfiguration } from "@staticdeploy/common-types";
 
 import { IKVPair } from "../../common/configurationUtils";
 

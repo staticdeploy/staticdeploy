@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/sdk";
+import { IBundle } from "@staticdeploy/common-types";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";

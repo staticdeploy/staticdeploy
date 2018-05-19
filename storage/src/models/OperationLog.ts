@@ -1,6 +1,5 @@
+import { IOperationLog } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
-
-import IOperationLog from "../types/IOperationLog";
 
 export type OperationLogModel = Sequelize.Model<
     Sequelize.Instance<Partial<IOperationLog>>,

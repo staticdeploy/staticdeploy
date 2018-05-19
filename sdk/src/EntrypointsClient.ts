@@ -1,4 +1,4 @@
-import { IConfiguration, IEntrypoint } from "@staticdeploy/storage";
+import { IConfiguration, IEntrypoint } from "@staticdeploy/common-types";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";

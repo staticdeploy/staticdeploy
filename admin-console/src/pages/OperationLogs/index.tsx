@@ -1,4 +1,4 @@
-import { IOperationLog } from "@staticdeploy/sdk";
+import { IOperationLog } from "@staticdeploy/common-types";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import React from "react";

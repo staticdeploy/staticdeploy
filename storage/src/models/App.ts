@@ -1,6 +1,5 @@
+import { IApp } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
-
-import IApp from "../types/IApp";
 
 export type AppModel = Sequelize.Model<
     Sequelize.Instance<Partial<IApp>>,

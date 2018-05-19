@@ -1,4 +1,4 @@
-import { IOperationLog } from "@staticdeploy/storage";
+import { IOperationLog } from "@staticdeploy/common-types";
 
 import IAuthenticatedRequest from "common/IAuthenticatedRequest";
 import storage from "services/storage";

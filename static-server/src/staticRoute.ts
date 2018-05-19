@@ -1,8 +1,6 @@
 import { configureHtml } from "@staticdeploy/app-config";
-import {
-    BundleAssetNotFoundError,
-    IConfiguration
-} from "@staticdeploy/storage";
+import { IConfiguration } from "@staticdeploy/common-types";
+import { BundleAssetNotFoundError } from "@staticdeploy/storage";
 import { Request, Response } from "express";
 import _ from "lodash";
 import { endsWith, maxBy, startsWith } from "lodash";

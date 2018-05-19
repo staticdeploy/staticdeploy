@@ -6,13 +6,6 @@ import convertAxiosErrors from "./convertAxiosErrors";
 import EntrypointsClient from "./EntrypointsClient";
 import OperationLogsClient from "./OperationLogsClient";
 
-export {
-    IApp,
-    IBundle,
-    IConfiguration,
-    IEntrypoint,
-    IOperationLog
-} from "@staticdeploy/storage";
 export { StaticdeployClientError } from "./convertAxiosErrors";
 
 export default class StaticdeployClient {

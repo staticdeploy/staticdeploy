@@ -1,4 +1,4 @@
-import { IConfiguration } from "@staticdeploy/sdk";
+import { IConfiguration } from "@staticdeploy/common-types";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import React from "react";

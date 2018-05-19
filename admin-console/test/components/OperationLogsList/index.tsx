@@ -1,4 +1,4 @@
-import { IOperationLog } from "@staticdeploy/sdk";
+import { IOperationLog } from "@staticdeploy/common-types";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";

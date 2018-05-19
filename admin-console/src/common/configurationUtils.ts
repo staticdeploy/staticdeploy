@@ -1,4 +1,4 @@
-import { IConfiguration } from "@staticdeploy/sdk";
+import { IConfiguration } from "@staticdeploy/common-types";
 import set from "lodash/set";
 
 export interface IKVPair {

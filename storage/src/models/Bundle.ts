@@ -1,6 +1,5 @@
+import { IBundle } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
-
-import IBundle from "../types/IBundle";
 
 export type BundleModel = Sequelize.Model<
     Sequelize.Instance<Partial<IBundle>>,

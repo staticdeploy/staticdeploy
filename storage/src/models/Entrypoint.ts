@@ -1,6 +1,5 @@
+import { IEntrypoint } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
-
-import IEntrypoint from "../types/IEntrypoint";
 
 export type EntrypointModel = Sequelize.Model<
     Sequelize.Instance<Partial<IEntrypoint>>,

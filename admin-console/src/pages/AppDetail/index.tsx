@@ -1,4 +1,4 @@
-import { IApp, IEntrypoint } from "@staticdeploy/sdk";
+import { IApp, IEntrypoint } from "@staticdeploy/common-types";
 import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";

@@ -1,6 +1,6 @@
+import { IConfiguration, IEntrypoint } from "@staticdeploy/common-types";
+
 import { IModels } from "./models";
-import IConfiguration from "./types/IConfiguration";
-import IEntrypoint from "./types/IEntrypoint";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import { eq, or } from "./utils/sequelizeOperators";

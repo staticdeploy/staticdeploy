@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/sdk";
+import { IBundle } from "@staticdeploy/common-types";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import uniqBy from "lodash/uniqBy";

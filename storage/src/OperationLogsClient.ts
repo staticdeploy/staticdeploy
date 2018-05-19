@@ -1,5 +1,6 @@
+import { IOperationLog } from "@staticdeploy/common-types";
+
 import { IModels } from "./models";
-import IOperationLog from "./types/IOperationLog";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import toPojo from "./utils/toPojo";

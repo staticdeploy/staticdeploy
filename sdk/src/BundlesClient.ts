@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/storage";
+import { IBundle } from "@staticdeploy/common-types";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";
