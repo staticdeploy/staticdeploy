@@ -1,3 +1,14 @@
+## 0.5.0 (May 19, 2018)
+
+Features:
+
+* add logo
+* improve theme for docs website
+
+Fixes:
+
+* fix label in admin-console entrypoint edit / create form
+
 ## 0.4.0 (May 16, 2018)
 
 Features:
