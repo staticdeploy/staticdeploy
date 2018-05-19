@@ -31,7 +31,7 @@ class EntrypointForm extends React.PureComponent<
                     inlineError={true}
                 />
                 <ConfigurationField
-                    label="Default configuration"
+                    label="Configuration"
                     name="configuration"
                 />
             </form>
