@@ -38,7 +38,7 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif)$/,
                 loader: require.resolve("url-loader"),
-                options: { limit: 8192 }
+                options: { limit: 16384 }
             },
             {
                 test: /\.css$/,
