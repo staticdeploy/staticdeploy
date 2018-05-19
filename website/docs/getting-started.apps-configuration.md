@@ -1,6 +1,6 @@
 ---
-id: getting-started.configuration
-title: Configuration
+id: getting-started.apps-configuration
+title: Apps configuration
 ---
 
 StaticDeploy allows to configure static applications at runtime, i.e. when

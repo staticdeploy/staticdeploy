@@ -97,7 +97,7 @@ Served html:
 </div>
 </div>
 
-The [configuration page](/docs/getting-started.configuration.html) of the
+The [configuration page](/docs/getting-started.apps-configuration.html) of the
 documentation goes in more details about how configuration works.
 
 ### Multiple versions

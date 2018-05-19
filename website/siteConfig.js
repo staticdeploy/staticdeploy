@@ -15,11 +15,13 @@ module.exports = {
     headerIcon: "images/logo.png",
     favicon: "images/favicon.png",
     colors: {
-        primaryColor: "#2E8555",
-        secondaryColor: "#205C3B"
+        primaryColor: "#4a90e2",
+        secondaryColor: "#33639d"
     },
     copyright: `Copyright © ${new Date().getFullYear()} Paolo Scanferla`,
     highlight: {
         theme: "default"
-    }
+    },
+    gaTrackingId: "UA-119541902-1",
+    gaGtag: true
 };
