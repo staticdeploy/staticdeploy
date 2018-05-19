@@ -1,3 +1,9 @@
+## 0.6.0 (May 19, 2018)
+
+Features:
+
+* reduce CLI installation size, speeding up installation
+
 ## 0.5.0 (May 19, 2018)
 
 Features:
