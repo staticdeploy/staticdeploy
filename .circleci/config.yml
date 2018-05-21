@@ -60,7 +60,7 @@ jobs:
             if [ $BUNDLE_TAG = "master" ]; then \
               staticdeploy deploy \
                 --app staticdeploy.io \
-                --entrypoint staticdeploy.io/_/$BUNDLE_TAG/ \
+                --entrypoint staticdeploy.io/ \
                 --bundle staticdeploy.io:$BUNDLE_TAG \
             ; fi
   docker-build-push:
