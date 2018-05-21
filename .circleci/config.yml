@@ -48,12 +48,21 @@ jobs:
               --tag $BUNDLE_TAG \
               --description "Commit $CIRCLE_SHA1"
       - run:
-          name: Deploy website bundle
+          name: Deploy website bundle to staticdeploy.io/_/branchOrTag/
           command: |
             staticdeploy deploy \
               --app staticdeploy.io \
-              --entrypoint staticdeploy.io/$BUNDLE_TAG/ \
+              --entrypoint staticdeploy.io/_/$BUNDLE_TAG/ \
               --bundle staticdeploy.io:$BUNDLE_TAG
+      - run:
+          name: If on master, also deploy website bundle to staticdeploy.io/
+          command: |
+            if [ $BUNDLE_TAG = "master" ]; then \
+              staticdeploy deploy \
+                --app staticdeploy.io \
+                --entrypoint staticdeploy.io/_/$BUNDLE_TAG/ \
+                --bundle staticdeploy.io:$BUNDLE_TAG \
+            ; fi
   docker-build-push:
     docker:
       - image: circleci/node:8
