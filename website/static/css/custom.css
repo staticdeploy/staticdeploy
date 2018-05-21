@@ -1,17 +1,16 @@
-.navPusher {
-    height: initial;
-}
-
+/* Make inline code fit better withsorrounding text (height, spacing) */
 code {
     font-size: 16px;
     padding: 2px;
     margin: 0px 2px;
 }
 
+/* Make all buttons on the home page the same width */
 .homeContainer .button {
     width: 120px;
 }
 
+/* Splits a section of an article in two columns */
 .splitter {
     display: flex;
     justify-content: space-between;
@@ -21,4 +20,12 @@ code {
 }
 .splitter .right {
     width: calc(50% - 16px);
+}
+
+/* Decrease page title size and distantiate a bit from the text underneath */
+.postHeader h1 {
+    font-size: 230% !important;
+}
+.postHeader {
+    margin-bottom: 16px;
 }

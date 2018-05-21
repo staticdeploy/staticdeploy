@@ -6,6 +6,10 @@
             "getting-started.apps-configuration",
             "getting-started.cicd-workflows"
         ],
+        "Guides": [
+            "guides.deploying-staticdeploy-with-docker-compose",
+            "guides.deploying-static-apps"
+        ],
         "Reference": [
             "reference.entities",
             "reference.architecture"
