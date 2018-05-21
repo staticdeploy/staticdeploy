@@ -29,3 +29,11 @@ code {
 .postHeader {
     margin-bottom: 16px;
 }
+
+/* Make blockquotes yellow (instead of red) */
+blockquote {
+    /* background-color: #7ed3211a;
+    border-left-color: #7ed32132; */
+    background-color: #fecb4d32;
+    border-left-color: #fecb4d64;
+}
