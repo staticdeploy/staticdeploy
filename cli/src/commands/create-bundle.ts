@@ -28,7 +28,7 @@ interface IArgv extends apiConfig.IApiConfig {
 
 const command: CommandModule = {
     command: "create-bundle",
-    describe: "Creates and pushes a bundle from",
+    describe: "Creates a bundle and uploads it to the StaticDeploy server",
     builder: {
         ...apiConfig.builder,
         from: {

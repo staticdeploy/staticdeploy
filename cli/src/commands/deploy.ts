@@ -27,7 +27,7 @@ const command: CommandModule = {
             demandOption: true
         },
         bundle: {
-            describe: "name:tag combinatino of the bundle to deploy",
+            describe: "name:tag combination of the bundle to deploy",
             type: "string",
             demandOption: true
         }
