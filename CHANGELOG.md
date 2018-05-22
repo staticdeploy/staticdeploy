@@ -1,3 +1,10 @@
+## 0.6.1 (May 22, 2018)
+
+Fixes:
+
+* fix descriptions for CLI commands and options
+* fix html title in admin console
+
 ## 0.6.0 (May 19, 2018)
 
 Features:
