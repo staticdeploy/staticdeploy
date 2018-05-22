@@ -36,9 +36,8 @@ prefixed by `STATICDEPLOY_`. Eg:
 ```sh
 export STATICDEPLOY_API_URL=...
 export STATICDEPLOY_API_TOKEN=...
-``
+```
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
-```
