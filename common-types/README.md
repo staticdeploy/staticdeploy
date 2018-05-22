@@ -1,3 +1,7 @@
 # @staticdeploy/common-types
 
-StaticDeploy common TypeScript types.
+TypeScript types for StaticDeploy's entities.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).

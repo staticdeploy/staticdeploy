@@ -1,6 +1,6 @@
 {
   "name": "@staticdeploy/sdk",
-  "description": "staticdeploy sdk",
+  "description": "Browser and nodejs sdk for the StaticDeploy API",
   "version": "0.6.0",
   "publishConfig": {
     "access": "public"

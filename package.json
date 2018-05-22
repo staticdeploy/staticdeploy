@@ -1,6 +1,6 @@
 {
   "name": "@staticdeploy/staticdeploy",
-  "description": "staticdeploy project",
+  "description": "An open-source platform for deploying static apps",
   "version": "0.0.0",
   "private": true,
   "workspaces": [

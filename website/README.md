@@ -1,6 +1,7 @@
 # @staticdeploy/website
 
-StaticDeploy website. Includes a landing page and the technical documentation.
+StaticDeploy landing page and documentation. Deployed with StaticDeploy at
+[staticdeploy.io](https://staticdeploy.io).
 
 ## Contributing
 

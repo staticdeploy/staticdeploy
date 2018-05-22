@@ -1,6 +1,6 @@
 {
   "name": "@staticdeploy/cli",
-  "description": "CLI tool for staticdeploy",
+  "description": "CLI tool for StaticDeploy",
   "version": "0.6.0",
   "publishConfig": {
     "access": "public"

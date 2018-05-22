@@ -1,11 +1,13 @@
 # @staticdeploy/static-server
 
-StaticDeploy static server.
+This service is the main business service of StaticDeploy, responsible for
+serving and configuring the static content of bundles deployed on StaticDeploy
+to end users requesting it.
 
 ## Run
 
-To run the service, first compile the source code with `yarn compile`, then run
-it with `yarn start`.
+The service is distributed as a Docker image (`staticdeploy/static-server`) that
+can be run without modifications on docker-compose, ECS, Kubernetes, etc.
 
 You can check the health status of the service via `GET /health`: the server
 will return a `200` if the service is in a healthy status, a `503` otherwise.
@@ -30,8 +32,8 @@ The following environment variables can be used to configure the server:
 
 * `STORAGE_DATABASE_URL`: storage database connection string, defaults to
   `sqlite://:memory:`
-* `STORAGE_DEPLOYMENTS_PATH`: storage deployments path, defaults to
-  `${tmpdir()}/staticdeploy/deployments`
+* `STORAGE_BUNDLES_PATH`: storage deployments path, defaults to
+  `${tmpdir()}/staticdeploy/static-server/bundles`
 
 ## Contributing
 

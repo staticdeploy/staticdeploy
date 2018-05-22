@@ -1,6 +1,6 @@
 {
   "name": "@staticdeploy/common-types",
-  "description": "staticdeploy common TypeScript types",
+  "description": "staticdeploy common types",
   "version": "0.6.0",
   "publishConfig": {
     "access": "public"

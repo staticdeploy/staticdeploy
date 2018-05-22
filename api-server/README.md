@@ -1,11 +1,14 @@
 # @staticdeploy/api-server
 
-StaticDeploy api server.
+This service implements the StaticDeploy API, through which admin users can
+manage StaticDeploy's entities (bundles, apps, entrypoints, and operation logs).
+
+Clients of this API are StaticDeploy's **admin-console** and **cli**.
 
 ## Run
 
-To run the service, first compile the source code with `yarn compile`, then run
-it with `yarn start`.
+The service is distributed as a Docker image (`staticdeploy/api-server`) that
+can be run without modifications on docker-compose, ECS, Kubernetes, etc.
 
 You can check the health status of the service via `GET /health`: the server
 will return a `200` if the service is in a healthy status, a `503` otherwise.
@@ -35,7 +38,7 @@ The following environment variables can be used to configure the server:
 * `STORAGE_DATABASE_URL`: database connection string, defaults to
   `sqlite://:memory:`
 * `STORAGE_BUNDLES_PATH`: filesystem path where to store bundles, defaults to
-  `${tmpdir()}/staticdeploy/bundles`
+  `${tmpdir()}/staticdeploy/api-server/bundles`
 
 ## Contributing
 

@@ -11,10 +11,7 @@ import getModels, { IModels } from "../src/models";
 
 chai.use(chaiAsPromised);
 
-export const baseTestsPath = path.join(
-    os.tmpdir(),
-    "staticdeploy-storage-tests"
-);
+export const baseTestsPath = path.join(os.tmpdir(), "staticdeploy/storage");
 mkdirpSync(baseTestsPath);
 
 const databasePath = path.join(baseTestsPath, "db.sqlite");
