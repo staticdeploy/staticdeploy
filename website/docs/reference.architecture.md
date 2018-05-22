@@ -33,5 +33,5 @@ The **storage** layer is comprised of two parts:
 * a relational database, used to store StaticDeploy's entities
 * a file storage, used to store the static content of bundles
 
-Currently StaticDeploy only supports [sqlite](https://www.sqlite.org/index.html)
-as the relational database, and the local filesystem as the file storage.
+Currently StaticDeploy only supports [sqlite](https://www.sqlite.org/) as the
+relational database, and the local filesystem as the file storage.

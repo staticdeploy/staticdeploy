@@ -3,7 +3,7 @@ id: getting-started.overview
 title: Overview
 ---
 
-StaticDeploy is an open source platform for deploying and configuring static web
+StaticDeploy is an open-source platform for deploying and configuring static web
 applications and websites. We can think about it as a
 [Kubernetes](https://kubernetes.io) for static content.
 

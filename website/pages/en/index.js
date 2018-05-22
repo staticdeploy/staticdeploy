@@ -20,6 +20,7 @@ const HomeSplash = () => (
         <div className="homeSplashFade">
             <div className="wrapper homeWrapper">
                 <div className="inner">
+                    <img src="/images/logo.png" width="100px" />
                     <h2 className="projectTitle">
                         {siteConfig.title}
                         <small>{siteConfig.tagline}</small>
@@ -46,51 +47,52 @@ const HomeSplash = () => (
     </div>
 );
 
-const Index = () => (
+const MainFeaturesRow = () => (
+    <Container padding={["bottom", "top"]}>
+        <GridBlock
+            align="center"
+            contents={[
+                {
+                    image: withBaseUrl("/images/home.deployments.svg"),
+                    imageAlign: "top",
+                    title: "Flexible Deployments",
+                    content: stripIndent(`
+                        Show people what you're working on! Deploy every branch,
+                        tag, or even commit of your app, using the url scheme
+                        that best fits your needs
+                    `)
+                },
+                {
+                    image: withBaseUrl("/images/home.configuration.svg"),
+                    imageAlign: "top",
+                    title: "Runtime Configuration",
+                    content: stripIndent(`
+                        Configuration at build time be gone! Define your app's
+                        configuration in the StaticDeploy admin console, and have it injected
+                        into your bundles at runtime
+                    `)
+                },
+                {
+                    image: withBaseUrl("/images/home.routing.svg"),
+                    imageAlign: "top",
+                    title: "Smart Routing",
+                    content: stripIndent(`
+                        Was it **/static** or **./static**? Or should I add the
+                        base url? Don't worry, StaticDeploy's smart routing
+                        algorithm will find your content
+                    `)
+                }
+            ]}
+            layout="threeColumn"
+        />
+    </Container>
+);
+
+module.exports = () => (
     <div>
         <HomeSplash />
         <div className="mainContainer">
-            <Container padding={["bottom", "top"]}>
-                <GridBlock
-                    align="center"
-                    contents={[
-                        {
-                            image: withBaseUrl("/images/home.deployments.svg"),
-                            imageAlign: "top",
-                            title: "Flexible Deployments",
-                            content: stripIndent(`
-                                Show people what you're working on! Deploy every
-                                branch, tag, or even commit of your app, using
-                                the url scheme that best fits your needs
-                            `)
-                        },
-                        {
-                            image: withBaseUrl(
-                                "/images/home.configuration.svg"
-                            ),
-                            imageAlign: "top",
-                            title: "Runtime Configuration",
-                            content: stripIndent(`
-                                Configuration at build time be gone! Define your
-                                app's configuration in the StaticDeploy UI, and
-                                have it injected into your bundles at runtime
-                            `)
-                        },
-                        {
-                            image: withBaseUrl("/images/home.routing.svg"),
-                            imageAlign: "top",
-                            title: "Smart Routing",
-                            content: stripIndent(`
-                                Was it **/static** or **./static**? Or should I
-                                add the base url? Don't worry, StaticDeploy's
-                                smart routing algorithm will find your content
-                            `)
-                        }
-                    ]}
-                    layout="fourColumn"
-                />
-            </Container>
+            <MainFeaturesRow />
         </div>
     </div>
 );
-module.exports = Index;

@@ -1,6 +1,6 @@
 module.exports = {
     title: "StaticDeploy",
-    tagline: "Deploy and Configure Static Apps with Ease",
+    tagline: "An Open-Source Platform for Deploying Static Apps",
     url: "https://staticdeploy.io",
     baseUrl: process.env.NODE_ENV === "production" ? "./" : "/",
     projectName: "staticdeploy",
@@ -12,7 +12,7 @@ module.exports = {
             href: "https://github.com/staticdeploy/staticdeploy"
         }
     ],
-    headerIcon: "images/logo.png",
+    headerIcon: "images/top-bar-logo.png",
     favicon: "images/favicon.png",
     colors: {
         primaryColor: "#4a90e2",
