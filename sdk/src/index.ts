@@ -18,7 +18,9 @@ export default class StaticdeployClient {
     constructor(config: { apiUrl: string; apiToken?: string }) {
         this.axios = Axios.create({
             baseURL: config.apiUrl,
-            withCredentials: true
+            withCredentials: true,
+            // Increase max request (and response) body length to 100MB
+            maxContentLength: 100 * 1024 * 1024
         });
         convertAxiosErrors(this.axios);
         if (config.apiToken) {
