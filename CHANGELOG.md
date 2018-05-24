@@ -1,3 +1,9 @@
+## 0.6.2 (May 24, 2018)
+
+Fixes:
+
+* increase CLI request body limit (fixes issue #11)
+
 ## 0.6.1 (May 22, 2018)
 
 Fixes:
