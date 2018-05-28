@@ -1,46 +1,84 @@
+import { S3 } from "aws-sdk";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { emptyDir, mkdirp, mkdirpSync, remove, removeSync } from "fs-extra";
+import { createTree, destroyTree, IDefinition } from "create-fs-tree";
+import { mkdirpSync, readFileSync, removeSync } from "fs-extra";
+import { Server } from "http";
 import os from "os";
 import path from "path";
-import Sequelize from "sequelize";
+import S3rver from "s3rver";
+import tar from "tar";
+import { v4 } from "uuid";
 
 import StorageClient from "../src";
-import migrate from "../src/migrate";
-import getModels, { IModels } from "../src/models";
+import { IModels } from "../src/models";
 
 chai.use(chaiAsPromised);
 
-export const baseTestsPath = path.join(os.tmpdir(), "staticdeploy/storage");
-mkdirpSync(baseTestsPath);
+const tempTestDirPath = path.join(os.tmpdir(), "staticdeploy/storage");
+mkdirpSync(tempTestDirPath);
 
-const databasePath = path.join(baseTestsPath, "db.sqlite");
-// Ideally, we would remove and re-create the database file on each fixture
-// insertion. However, doing so casues sequelize to lose the database connection
-// and to throw SequelizeDatabaseError-s. It would be too bothersome to also
-// re-create the Sequelize instance (and the StorageClient) on each fixture
-// insertion, so we just remove the database file once here at the beginning of
-// the test run, and we delete all objects in it on each fixture insertion. That
-// is still enough to ensure us a clean database on each test run.
-removeSync(databasePath);
-const databaseUrl = `sqlite://${databasePath}`;
+// If a database url is provided, use that. Otherwise, set up a local sqlite
+// database and test against that
+let databaseUrl;
+if (process.env.TEST_DATABASE_URL) {
+    databaseUrl = process.env.TEST_DATABASE_URL;
+} else {
+    const databasePath = path.join(tempTestDirPath, "db.sqlite");
+    databaseUrl = `sqlite://${databasePath}`;
+}
 
-export const bundlesPath = path.join(baseTestsPath, "bundles");
+// If an S3 config is provided, use that. Otherwise, set up a local S3 mock and
+// test against that
+let s3Config;
+if (process.env.TEST_S3_BUCKET) {
+    s3Config = {
+        bucket: process.env.TEST_S3_BUCKET,
+        endpoint: process.env.TEST_S3_ENDPOINT!,
+        accessKeyId: process.env.TEST_S3_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.TEST_S3_SECRET_ACCESS_KEY!
+    };
+} else {
+    const s3rver = new S3rver({
+        directory: path.join(tempTestDirPath, "s3"),
+        silent: true
+    });
+    let s3rverServer: Server;
+    // Ensure s3rver is running before running tests
+    before(done => {
+        s3rverServer = s3rver.run(done);
+    });
+    // Close s3rver after, so that we don't get EADDRINUSE errors when testing
+    // locally with --watch
+    after(done => {
+        s3rverServer.close(done);
+    });
+    s3Config = {
+        bucket: "staticdeploy",
+        endpoint: "http://localhost:4578",
+        accessKeyId: "accessKeyId",
+        secretAccessKey: "secretAccessKey"
+    };
+}
 
-export const storageClient = new StorageClient({
-    databaseUrl,
-    bundlesPath
-});
+// Setup storage client. Export it as it's used in tests to perform operations
+export const storageClient = new StorageClient({ databaseUrl, s3Config });
 
-const sequelize = new Sequelize(databaseUrl, {
-    logging: false,
-    operatorsAliases: false
-});
-export const models: IModels = getModels(sequelize);
+// Export storage client's db models, S3 client, and S3 bucket name. They will
+// be used in tests for verifying the state of the database and of S3
+export const models: IModels = (storageClient as any).models;
+export const s3Client: S3 = (storageClient as any).s3Client;
+export const s3Bucket: string = (storageClient as any).s3Bucket;
 
+// Function to insert fixtures into the database and S3
 export interface IData {
     apps?: { id: string; name: string }[];
-    bundles?: { id: string; name: string; tag: string; createdAt?: Date }[];
+    bundles?: {
+        id: string;
+        name: string;
+        tag: string;
+        createdAt?: Date;
+    }[];
     entrypoints?: {
         id: string;
         urlMatcher: string;
@@ -49,31 +87,49 @@ export interface IData {
     }[];
     operationLogs?: { id: string }[];
 }
-
 export async function insertFixtures(data: IData) {
     const { App, Bundle, Entrypoint, OperationLog } = models;
 
-    // Setup and/or reset database
-    await migrate(sequelize);
-    await emptyDir(bundlesPath);
+    // Setup storage client (safe to run on each fixtures insertion, as it's an
+    // idempotent function)
+    await storageClient.setup();
+
+    // Empty the database
     await Entrypoint.destroy({ where: {} });
     await App.destroy({ where: {} });
     await Bundle.destroy({ where: {} });
     await OperationLog.destroy({ where: {} });
 
-    // Setup and/or reset filesystem
-    await remove(bundlesPath);
-    await mkdirp(bundlesPath);
+    // Empty the S3 bucket
+    const objects = await s3Client.listObjects({ Bucket: s3Bucket }).promise();
+    await s3Client
+        .deleteObjects({
+            Bucket: s3Bucket,
+            Delete: {
+                Objects: objects.Contents!.map(obj => ({ Key: obj.Key! }))
+            }
+        })
+        .promise();
 
     // Insert provided database fixtures
     for (const bundle of data.bundles || []) {
         await Bundle.create({
-            ...bundle,
+            id: bundle.id,
+            name: bundle.name,
+            tag: bundle.tag,
+            createdAt: bundle.createdAt,
             description: "description",
             hash: "hash",
-            assets: []
+            assets: [{ path: "/file", mimeType: "application/octet-stream" }]
         });
-        await mkdirp(path.join(bundlesPath, bundle.id));
+        // Add a dummy file on S3
+        await s3Client
+            .putObject({
+                Bucket: s3Bucket,
+                Key: `${bundle.id}/file`,
+                Body: "file"
+            })
+            .promise();
     }
     for (const app of data.apps || []) {
         await App.create({
@@ -97,4 +153,17 @@ export async function insertFixtures(data: IData) {
             ...operationLog
         });
     }
+}
+
+// Makes a targz buffer from a create-fs-tree filesystem definition
+export function targzOf(definition: IDefinition): Buffer {
+    const targzId = v4();
+    const contentPath = path.join(tempTestDirPath, targzId);
+    const contentTargzPath = path.join(tempTestDirPath, `${targzId}.tar.gz`);
+    createTree(contentPath, definition);
+    tar.create({ cwd: contentPath, file: contentTargzPath, sync: true }, ["."]);
+    destroyTree(contentPath);
+    const contentTargz = readFileSync(contentTargzPath);
+    removeSync(contentTargzPath);
+    return contentTargz;
 }

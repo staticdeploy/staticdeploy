@@ -1,32 +1,18 @@
+import { IBundle } from "@staticdeploy/common-types";
 import { expect } from "chai";
-import { createTree, destroyTree, IDefinition } from "create-fs-tree";
-import { pathExists, removeSync } from "fs-extra";
 import { sortBy } from "lodash";
-import { readFile, readFileSync } from "mz/fs";
-import path from "path";
-import tar from "tar";
 
 import BundlesClient from "../src/BundlesClient";
 import * as errors from "../src/utils/errors";
 import { eq } from "../src/utils/sequelizeOperators";
 import {
-    baseTestsPath,
-    bundlesPath,
     insertFixtures,
     models,
-    storageClient
+    s3Bucket,
+    s3Client,
+    storageClient,
+    targzOf
 } from "./setup";
-
-function targzOf(definition: IDefinition): Buffer {
-    const contentPath = path.join(baseTestsPath, "content");
-    const contentTargzPath = path.join(baseTestsPath, "content.tar.gz");
-    createTree(contentPath, definition);
-    tar.create({ cwd: contentPath, file: contentTargzPath, sync: true }, ["."]);
-    destroyTree(contentPath);
-    const contentTargz = readFileSync(contentTargzPath);
-    removeSync(contentTargzPath);
-    return contentTargz;
-}
 
 describe("BundlesClient.findOneById", () => {
     beforeEach(async () => {
@@ -151,7 +137,7 @@ describe("BundlesClient.create", () => {
         });
         expect(bundle).to.deep.equal(bundleInstance!.get());
     });
-    it("unpacks and saves the bundle content to the filesystem", async () => {
+    it("unpacks and saves the bundle content to S3", async () => {
         const bundle = await storageClient.bundles.create({
             name: "1",
             tag: "1",
@@ -161,24 +147,22 @@ describe("BundlesClient.create", () => {
                 "index.js": "index.js"
             })
         });
-        // Base folder
-        const bundlePath = path.join(bundlesPath, bundle.id);
-        expect(await pathExists(bundlePath)).to.equal(true);
-        // Targz content
-        expect(
-            await pathExists(path.join(bundlePath, "content.tar.gz"))
-        ).to.equal(true);
-        // Root folder
-        expect(await pathExists(path.join(bundlePath, "root"))).to.equal(true);
-        // Files
-        const indexHtmlPath = path.join(bundlePath, "root/index.html");
-        expect(await pathExists(indexHtmlPath)).to.equal(true);
-        expect(await readFile(indexHtmlPath, "utf8")).to.equal("index.html");
-        const indexJsPath = path.join(bundlePath, "root/index.js");
-        expect(await pathExists(indexJsPath)).to.equal(true);
-        expect(await readFile(indexJsPath, "utf8")).to.equal("index.js");
+        const indexHtmlObject = await s3Client
+            .getObject({
+                Bucket: s3Bucket,
+                Key: `${bundle.id}/index.html`
+            })
+            .promise();
+        expect(indexHtmlObject.Body!.toString()).to.equal("index.html");
+        const indexJsObject = await s3Client
+            .getObject({
+                Bucket: s3Bucket,
+                Key: `${bundle.id}/index.js`
+            })
+            .promise();
+        expect(indexJsObject.Body!.toString()).to.equal("index.js");
     });
-    it("builds the bundle's property assets from files in the bundle's content", async () => {
+    it("builds the bundle's assets property from files in the bundle's content", async () => {
         const bundle = await storageClient.bundles.create({
             name: "1",
             tag: "1",
@@ -230,10 +214,12 @@ describe("BundlesClient.delete", () => {
             "Can't delete bundle with id = 1 as it's being used by entrypoints with ids = 1"
         );
     });
-    it("deletes the bundle files", async () => {
+    it("deletes the bundle files from S3", async () => {
         await storageClient.bundles.delete("2");
-        const filesExist = await pathExists(path.join(bundlesPath, "2"));
-        expect(filesExist).to.equal(false);
+        const objects = await s3Client
+            .listObjects({ Bucket: s3Bucket, Prefix: "2" })
+            .promise();
+        expect(objects.Contents).to.deep.equal([]);
     });
     it("deletes the bundle", async () => {
         await storageClient.bundles.delete("2");
@@ -243,26 +229,27 @@ describe("BundlesClient.delete", () => {
 });
 
 describe("BundlesClient.getBundleAssetContent", () => {
-    beforeEach(async () => {
+    let bundle: IBundle;
+    before(async () => {
         await insertFixtures({});
-    });
-    it("throws a BundleNotFoundError if no bundle with the specified id exists", async () => {
-        const getPromise = storageClient.bundles.getBundleAssetContent(
-            "1",
-            "/index.html"
-        );
-        await expect(getPromise).to.be.rejectedWith(errors.BundleNotFoundError);
-        await expect(getPromise).to.be.rejectedWith(
-            "No bundle found with id = 1"
-        );
-    });
-    it("throws a BundleAssetNotFoundError if no asset at the specified path exists", async () => {
-        const bundle = await storageClient.bundles.create({
+        bundle = await storageClient.bundles.create({
             name: "1",
             tag: "1",
             description: "1",
             content: targzOf({ file: "file" })
         });
+    });
+    it("throws a BundleNotFoundError if no bundle with the specified id exists", async () => {
+        const getPromise = storageClient.bundles.getBundleAssetContent(
+            "non-existing",
+            "/index.html"
+        );
+        await expect(getPromise).to.be.rejectedWith(errors.BundleNotFoundError);
+        await expect(getPromise).to.be.rejectedWith(
+            "No bundle found with id = non-existing"
+        );
+    });
+    it("throws a BundleAssetNotFoundError if no asset with the specified path exists", async () => {
         const getPromise = storageClient.bundles.getBundleAssetContent(
             bundle.id,
             "/non-existing"
@@ -277,12 +264,6 @@ describe("BundlesClient.getBundleAssetContent", () => {
         );
     });
     it("returns the content of the asset", async () => {
-        const bundle = await storageClient.bundles.create({
-            name: "1",
-            tag: "1",
-            description: "1",
-            content: targzOf({ file: "file" })
-        });
         const content = await storageClient.bundles.getBundleAssetContent(
             bundle.id,
             "/file"
