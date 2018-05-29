@@ -1,10 +1,10 @@
 import { IBundle } from "@staticdeploy/common-types";
 import { S3 } from "aws-sdk";
-import { remove } from "fs-extra";
+import { mkdirp, remove } from "fs-extra";
 import { isEmpty } from "lodash";
 import md5 from "md5";
 import { getType } from "mime";
-import { mkdir, readFile, writeFile } from "mz/fs";
+import { readFile, writeFile } from "mz/fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import recursiveReaddir from "recursive-readdir";
@@ -19,6 +19,8 @@ import { eq } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
 import * as validators from "./utils/validators";
 
+// Directory on the filesystem where bundles' targz-s are unpacked before their
+// files are uploaded to S3
 const baseUnpackingDirPath = join(tmpdir(), "staticdeploy/storage");
 
 export default class BundlesClient {
@@ -82,10 +84,10 @@ export default class BundlesClient {
 
         // Unpack the bundle content to a temporary directory on the filesystem
         const unpackingDirPath = join(baseUnpackingDirPath, id);
+        await mkdirp(unpackingDirPath);
         const targzPath = join(unpackingDirPath, "content.tar.gz");
         const rootPath = join(unpackingDirPath, "root");
-        await mkdir(unpackingDirPath);
-        await mkdir(rootPath);
+        await mkdirp(rootPath);
         await writeFile(targzPath, partial.content);
         // If the content Buffer is not a valid archive, tar.extract doesn't
         // throw any error, and just doesn't extract anything
