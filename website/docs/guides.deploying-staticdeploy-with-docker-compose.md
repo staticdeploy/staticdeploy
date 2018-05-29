@@ -6,14 +6,14 @@ title: Deploying StaticDeploy with docker-compose
 In this guide we will set up the StaticDeploy platform on a VM using
 docker-compose. For this we will need:
 
-* a VM with recent versions of docker and docker-compose installed, allowing
+- a VM with recent versions of docker and docker-compose installed, allowing
   inbound traffic on ports 80 and 443
-* a domain name `staticdeploy.$MY_DOMAIN` pointing to the IP address of the VM
+- a domain name `staticdeploy.$MY_DOMAIN` pointing to the IP address of the VM
 
 At the end of the guide we will have:
 
-* the StaticDeploy admin console deployed at `https://staticdeploy.$MY_DOMAIN/`
-* the StaticDeploy api server deployed at `https://staticdeploy.$MY_DOMAIN/api/`
+- the StaticDeploy admin console deployed at `https://staticdeploy.$MY_DOMAIN/`
+- the StaticDeploy api server deployed at `https://staticdeploy.$MY_DOMAIN/api/`
 
 ## The docker compose template
 
@@ -88,12 +88,12 @@ to obtain SSL/TLS certificates for the services.
 The template needs 4 configuration options, that can be passed to docker-compose
 via environment variables, or by setting them in a `.env` file:
 
-* `DOCKER_TAG`: the tag of the containers we wish to deploy. This would
+- `DOCKER_TAG`: the tag of the containers we wish to deploy. This would
   typically be a specific StaticDeploy version
-* `JWT_SECRET`: the secret used to sign/verify authentication tokens
-* `HOSTNAME`: the domain for our StaticDeploy deployment
+- `JWT_SECRET`: the secret used to sign/verify authentication tokens
+- `HOSTNAME`: the domain for our StaticDeploy deployment
   (`staticdeploy.$MY_DOMAIN`)
-* `LE_EMAIL`: the email used to retrieve SSL/TLS certificates from
+- `LE_EMAIL`: the email used to retrieve SSL/TLS certificates from
   [Let's Encrypt](https://letsencrypt.org/) for the domain above
 
 ## Running the template

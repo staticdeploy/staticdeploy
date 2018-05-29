@@ -18,8 +18,8 @@ StaticDeploy backend.
 Entrypoints are the urls at which the StaticDeploy backend serves the static
 content of bundles. Each entrypoint is characterized by two properties:
 
-* `bundleId`: the id of the bundle to serve
-* `urlMatcher`: a domain + path combination against which incoming requests are
+- `bundleId`: the id of the bundle to serve
+- `urlMatcher`: a domain + path combination against which incoming requests are
   matched to determine wether or not they should be served the static content of
   the entrypoint's bundle
 

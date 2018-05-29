@@ -1,7 +1,7 @@
 ## System requirements
 
-* [nodejs >= 8](https://nodejs.org/en/)
-* [yarn](https://yarnpkg.org) (used for managing dependencies)
+- [nodejs >= 8](https://nodejs.org/en/)
+- [yarn](https://yarnpkg.org) (used for managing dependencies)
 
 ## Setup
 
@@ -10,11 +10,11 @@ install packages.
 
 From the project's root directory, you can run the following npm scripts:
 
-* `yarn lint`: runs each subproject's code linters
-* `yarn test`: runs each subproject's tests
-* `yarn coverage`: runs each subproject's tests, calculates global code coverage
-* `yarn compile`: compiles each subproject's code
-* `yarn lerna ...`: runs lerna with the supplied command line options
+- `yarn lint`: runs each subproject's code linters
+- `yarn test`: runs each subproject's tests
+- `yarn coverage`: runs each subproject's tests, calculates global code coverage
+- `yarn compile`: compiles each subproject's code
+- `yarn lerna ...`: runs lerna with the supplied command line options
 
 Each subproject defines its own npm scripts, which you can run from the
 subproject's directory. Refer to the subproject's **CONTRIBUTING.md** file for
@@ -43,11 +43,11 @@ yarn lerna add dependency-subproject --scope=dependant-subproject
 
 ## Conventions
 
-* [prettier](https://github.com/prettier/prettier) is used to enforce code
+- [prettier](https://github.com/prettier/prettier) is used to enforce code
   formatting. Installing the prettier extension for your editor of choice is
   **highly recommended**
 
-* commit messages MUST be formatted using the
+- commit messages MUST be formatted using the
   [conventional commits commit message guidelines](https://conventionalcommits.org/)
   (committing will fail otherwise).
 
@@ -62,10 +62,10 @@ yarn release
 This will prompt you for the version number to use, which must be in the format
 `X.X.X` (eg `1.0.0`). The command will then:
 
-* update all versions of all sub-packages
-* update the versions in the top level `package.json` and in `lerna.json`
-* commit the changes
-* tag the commit as `vX.X.X`
+- update all versions of all sub-packages
+- update the versions in the top level `package.json` and in `lerna.json`
+- commit the changes
+- tag the commit as `vX.X.X`
 
 Then, push everything to the default remote:
 

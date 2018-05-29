@@ -9,10 +9,10 @@ applications and websites. We can think about it as a
 
 StaticDeploy was created with two objectives in mind:
 
-* make it easy to configure a static app at runtime, as opposed to injecting the
+- make it easy to configure a static app at runtime, as opposed to injecting the
   configuration into its static build
 
-* make it easy to deploy multiple "versions" of a static app, specifically a
+- make it easy to deploy multiple "versions" of a static app, specifically a
   version for each branch / pull request, so that frontend developers can show
   their work-in-progress and get early feedback from their clients
 
@@ -36,8 +36,8 @@ StaticDeploy backend.
 Entrypoints are the urls at which the StaticDeploy backend serves the static
 content of bundles. Each entrypoint is characterized by two properties:
 
-* `bundleId`: the id of the bundle to serve
-* `urlMatcher`: a domain + path combination against which incoming requests are
+- `bundleId`: the id of the bundle to serve
+- `urlMatcher`: a domain + path combination against which incoming requests are
   matched to determine wether or not they should be served the static content of
   the entrypoint's bundle
 

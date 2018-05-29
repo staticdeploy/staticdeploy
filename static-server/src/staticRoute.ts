@@ -72,13 +72,9 @@ export default async (req: Request, res: Response) => {
     }
 
     if (!matchingEntrypoint.bundleId) {
-        res
-            .status(404)
-            .send(
-                `No bundle deployed for entrypoint ${
-                    matchingEntrypoint.urlMatcher
-                }`
-            );
+        res.status(404).send(
+            `No bundle deployed for entrypoint ${matchingEntrypoint.urlMatcher}`
+        );
         return;
     }
 
@@ -152,8 +148,7 @@ export default async (req: Request, res: Response) => {
     }
 
     // Serve the matching asset
-    res
-        .type(matchingAsset.mimeType)
+    res.type(matchingAsset.mimeType)
         .status(200)
         .send(content);
 };
