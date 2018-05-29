@@ -101,7 +101,7 @@ export default class BundlesClient {
         }));
 
         // Upload files to S3
-        concurrentForEach(assets, async asset => {
+        await concurrentForEach(assets, async asset => {
             const assetContent = await readFile(join(rootPath, asset.path));
             await this.s3Client
                 .putObject({

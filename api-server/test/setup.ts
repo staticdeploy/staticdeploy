@@ -66,7 +66,7 @@ export async function insertFixtures(data: IData): Promise<IIds> {
         operationLogs: []
     };
 
-    // Insert provided database fixtures
+    // Insert provided storage fixtures
     for (const bundle of data.bundles || []) {
         const { id } = await storage.bundles.create({
             ...bundle,

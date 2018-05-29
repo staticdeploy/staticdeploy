@@ -1,6 +1,5 @@
 import env from "@mondora/env";
 import { LogLevelString } from "bunyan";
-import { tmpdir } from "os";
 
 const pkg = require("../package.json");
 
@@ -16,9 +15,18 @@ export const HEALTH_ROUTE_HOSTNAME = env("HEALTH_ROUTE_HOSTNAME");
 export const HEALTH_ROUTE_ACCESS_TOKEN = env("HEALTH_ROUTE_ACCESS_TOKEN");
 
 // Storage configurations
-export const STORAGE_DATABASE_URL = env("STORAGE_DATABASE_URL", {
+export const DATABASE_URL = env("DATABASE_URL", {
     default: "sqlite://:memory:"
 });
-export const STORAGE_BUNDLES_PATH = env("STORAGE_BUNDLES_PATH", {
-    default: `${tmpdir()}/staticdeploy/static-server/bundles`
+export const S3_BUCKET = env("S3_BUCKET", {
+    default: "staticdeploy"
+});
+export const S3_ENDPOINT = env("S3_ENDPOINT", {
+    default: "http://localhost:4578"
+});
+export const S3_ACCESS_KEY_ID = env("S3_ACCESS_KEY_ID", {
+    default: "accessKeyId"
+});
+export const S3_SECRET_ACCESS_KEY = env("S3_SECRET_ACCESS_KEY", {
+    default: "secretAccessKey"
 });

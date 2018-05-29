@@ -11,12 +11,17 @@
         "types": [
             "@types/bunyan",
             "@types/chai",
+            "@types/chai-fuzzy",
             "@types/cheerio",
+            "@types/fs-extra",
             "@types/express",
             "@types/lodash",
             "@types/mocha",
+            "@types/mz",
+            "@types/s3rver",
             "@types/supertest",
-            "@types/tar"
+            "@types/tar",
+            "@types/uuid"
         ],
         "baseUrl": "src",
         "outDir": "build",

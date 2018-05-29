@@ -30,10 +30,14 @@ The following environment variables can be used to configure the server:
 
 > Storage configurtations
 
-* `STORAGE_DATABASE_URL`: storage database connection string, defaults to
-  `sqlite://:memory:`
-* `STORAGE_BUNDLES_PATH`: storage deployments path, defaults to
-  `${tmpdir()}/staticdeploy/static-server/bundles`
+* `DATABASE_URL`: database connection string. Supported databases are
+  [sqlite](https://www.sqlite.org/) and
+  [postgresql](https://www.postgresql.org/)
+* `S3_BUCKET`: name of the S3 bucket to use for storing static content, defaults
+  to `staticdeploy`
+* `S3_ENDPOINT`: endpoint of the S3 server
+* `S3_ACCESS_KEY_ID`: access key id for the S3 server
+* `S3_SECRET_ACCESS_KEY`: secret access key for the S3 server
 
 ## Contributing
 
