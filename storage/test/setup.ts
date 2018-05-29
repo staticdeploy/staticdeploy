@@ -4,8 +4,8 @@ import chaiAsPromised from "chai-as-promised";
 import { createTree, destroyTree, IDefinition } from "create-fs-tree";
 import { mkdirpSync, readFileSync, removeSync } from "fs-extra";
 import { Server } from "http";
-import os from "os";
-import path from "path";
+import { tmpdir } from "os";
+import { join } from "path";
 import S3rver from "s3rver";
 import tar from "tar";
 import { v4 } from "uuid";
@@ -15,7 +15,8 @@ import { IModels } from "../src/models";
 
 chai.use(chaiAsPromised);
 
-const tempTestDirPath = path.join(os.tmpdir(), "staticdeploy/storage");
+// Base test directory
+const tempTestDirPath = join(tmpdir(), "/staticdeploy/storage");
 mkdirpSync(tempTestDirPath);
 
 // If a database url is provided, use that. Otherwise, set up a local sqlite
@@ -24,7 +25,7 @@ let databaseUrl;
 if (process.env.TEST_DATABASE_URL) {
     databaseUrl = process.env.TEST_DATABASE_URL;
 } else {
-    const databasePath = path.join(tempTestDirPath, "db.sqlite");
+    const databasePath = join(tempTestDirPath, "db.sqlite");
     databaseUrl = `sqlite://${databasePath}`;
 }
 
@@ -40,7 +41,7 @@ if (process.env.TEST_S3_BUCKET) {
     };
 } else {
     const s3rver = new S3rver({
-        directory: path.join(tempTestDirPath, "s3"),
+        directory: join(tempTestDirPath, "/s3"),
         silent: true
     });
     let s3rverServer: Server;
@@ -48,8 +49,8 @@ if (process.env.TEST_S3_BUCKET) {
     before(done => {
         s3rverServer = s3rver.run(done);
     });
-    // Close s3rver after, so that we don't get EADDRINUSE errors when testing
-    // locally with --watch
+    // Close s3rver after tests, so that we don't get EADDRINUSE errors when
+    // testing locally with --watch
     after(done => {
         s3rverServer.close(done);
     });
@@ -158,8 +159,8 @@ export async function insertFixtures(data: IData) {
 // Makes a targz buffer from a create-fs-tree filesystem definition
 export function targzOf(definition: IDefinition): Buffer {
     const targzId = v4();
-    const contentPath = path.join(tempTestDirPath, targzId);
-    const contentTargzPath = path.join(tempTestDirPath, `${targzId}.tar.gz`);
+    const contentPath = join(tempTestDirPath, targzId);
+    const contentTargzPath = join(tempTestDirPath, `${targzId}.tar.gz`);
     createTree(contentPath, definition);
     tar.create({ cwd: contentPath, file: contentTargzPath, sync: true }, ["."]);
     destroyTree(contentPath);

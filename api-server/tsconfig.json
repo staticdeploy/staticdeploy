@@ -17,6 +17,7 @@
             "@types/jsonwebtoken",
             "@types/lodash",
             "@types/mocha",
+            "@types/s3rver",
             "@types/sinon",
             "@types/supertest"
         ],

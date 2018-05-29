@@ -1,10 +1,31 @@
 import chai from "chai";
 import chaiFuzzy from "chai-fuzzy";
+import { Server } from "http";
+import { tmpdir } from "os";
+import { join } from "path";
+import S3rver from "s3rver";
 
 import storage from "services/storage";
 
 chai.use(chaiFuzzy);
 
+// Start the S3 mock
+const s3rver = new S3rver({
+    directory: join(tmpdir(), "staticdeploy/api-server/s3"),
+    silent: true
+});
+let s3rverServer: Server;
+// Ensure s3rver is running before running tests
+before(done => {
+    s3rverServer = s3rver.run(done);
+});
+// Close s3rver after tests, so that we don't get EADDRINUSE errors when testing
+// locally with --watch
+after(done => {
+    s3rverServer.close(done);
+});
+
+// Function to insert fixtures into staticdeploy's storage
 export interface IData {
     apps?: { name: string }[];
     entrypoints?: {
@@ -15,16 +36,14 @@ export interface IData {
     bundles?: { name: string; tag: string }[];
     operationLogs?: {}[];
 }
-
 export interface IIds {
     apps: string[];
     entrypoints: string[];
     bundles: string[];
     operationLogs: string[];
 }
-
 export async function insertFixtures(data: IData): Promise<IIds> {
-    // Setup and/or reset database
+    // Setup and reset staticdeploy's storage
     await storage.setup();
     // Deleting all apps results in all entrypoints being deleted as well
     const apps = await storage.apps.findAll();
