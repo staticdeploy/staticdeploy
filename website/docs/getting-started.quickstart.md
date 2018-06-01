@@ -25,7 +25,7 @@ title: Quickstart
   docker-compose up -d
   ```
 
-- visit [local.staticdeploy.io](http://local.staticdeploy.io) and log into the
+- visit [local.staticdeploy.io](http://local.staticdeploy.io/) and log into the
   admin console using the following token:
 
   ```sh
@@ -69,11 +69,11 @@ title: Quickstart
   ```
 
 - visit
-  [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io)
+  [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io/)
   (note: `demo-static-app.staticdeploy.io` points to `127.0.0.1`)
 
 - check out the deployment on the admin console at
-  [local.staticdeploy.io](http://local.staticdeploy.io). Try modifying the
+  [local.staticdeploy.io](http://local.staticdeploy.io/). Try modifying the
   entrypoint configuration and see how
-  [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io)
+  [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io/)
   changes

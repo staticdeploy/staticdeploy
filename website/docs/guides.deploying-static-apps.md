@@ -3,7 +3,7 @@ id: guides.deploying-static-apps
 title: Deploying static apps
 ---
 
-[Having set up the StaticDeploy platform](/docs/guides.deploying-staticdeploy-with-docker-compose.html),
+[Having set up the StaticDeploy platform](/docs/guides.deploying-staticdeploy-with-docker.html),
 we can now deploy our static apps on it.
 
 ## Setting up the cli

@@ -7,7 +7,7 @@
             "getting-started.cicd-workflows"
         ],
         "Guides": [
-            "guides.deploying-staticdeploy-with-docker-compose",
+            "guides.deploying-staticdeploy-with-docker",
             "guides.deploying-static-apps"
         ],
         "Reference": [
