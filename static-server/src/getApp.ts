@@ -1,17 +1,25 @@
 import bunyanMiddleware from "bunyan-middleware";
 import express from "express";
 
-import * as config from "config";
+import getStaticRoute from "getStaticRoute";
 import storageHC from "healthChecks/storage";
 import healthCheck from "middleware/healthCheck";
 import logger from "services/logger";
 import storage from "services/storage";
-import staticRoute from "staticRoute";
 
-export default async function getApp(): Promise<express.Express> {
+export default async function getApp(
+    config: typeof import("config")
+): Promise<express.Express> {
     // Init storage
     await storage.setup();
-    return express()
+
+    const app = express();
+
+    // When present, use X-Forwarded-* headers to determine request properties
+    // like the originally requested hostname
+    app.set("trust proxy", true);
+
+    return app
         .use(bunyanMiddleware({ logger }))
         .use(
             healthCheck({
@@ -20,5 +28,5 @@ export default async function getApp(): Promise<express.Express> {
                 hostname: config.HEALTH_ROUTE_HOSTNAME
             })
         )
-        .get(/.*/, staticRoute);
+        .get(/.*/, getStaticRoute({ hostnameHeader: config.HOSTNAME_HEADER }));
 }

@@ -13,12 +13,24 @@ import removePrefix from "common/removePrefix";
 import toAbsolute from "common/toAbsolute";
 import storage from "services/storage";
 
-// TODO: consider splitting into smaller functions
+interface IStaticRouteOptions {
+    hostnameHeader?: string;
+}
+
 // TODO: pretty 404 pages
-// TODO: fallback resource
-export default async (req: Request, res: Response) => {
+export default (options: IStaticRouteOptions) => async (
+    req: Request,
+    res: Response
+) => {
+    // Get the hostname of the request
+    const hostnameHeader =
+        options.hostnameHeader && options.hostnameHeader.toLowerCase();
+    const hostname = hostnameHeader
+        ? (req.headers[hostnameHeader] as string) || req.hostname
+        : req.hostname;
+
     // Find the matching entrypoint
-    const url = join(req.hostname, req.path);
+    const url = join(hostname, req.path);
     const entrypoints = await storage.entrypoints.findAll();
     const matchingEntrypoint = _(entrypoints)
         .filter(
