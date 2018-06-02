@@ -17,23 +17,29 @@ export const HEALTH_ROUTE_ACCESS_TOKEN = env("HEALTH_ROUTE_ACCESS_TOKEN");
 
 // Auth configurations
 export const JWT_SECRET = env("JWT_SECRET", {
-    default: "secret",
+    required: true,
+    nonProductionDefault: "secret",
     parse: Buffer.from
 });
 
 // Storage configurations
 export const DATABASE_URL = env("DATABASE_URL", {
-    default: "sqlite://:memory:"
+    required: true,
+    nonProductionDefault: "sqlite://:memory:"
 });
 export const S3_BUCKET = env("S3_BUCKET", {
-    default: "staticdeploy"
+    required: true,
+    nonProductionDefault: "staticdeploy"
 });
 export const S3_ENDPOINT = env("S3_ENDPOINT", {
-    default: "http://localhost:4578"
+    required: true,
+    nonProductionDefault: "http://localhost:4578"
 });
 export const S3_ACCESS_KEY_ID = env("S3_ACCESS_KEY_ID", {
-    default: "accessKeyId"
+    required: true,
+    nonProductionDefault: "accessKeyId"
 });
 export const S3_SECRET_ACCESS_KEY = env("S3_SECRET_ACCESS_KEY", {
-    default: "secretAccessKey"
+    required: true,
+    nonProductionDefault: "secretAccessKey"
 });

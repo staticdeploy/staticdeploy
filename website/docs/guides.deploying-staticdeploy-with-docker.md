@@ -71,10 +71,6 @@ The services take the following configuration options:
     (needed since the server is serving static content on many entrypoints, and
     needs the host + path combination to figure out what to serve)
 
-> Warning: some configuration options have default values used for development,
-> so the services might run even if we don't configure all options, but using a
-> different configuration from the one we might expect
-
 ### Monitoring
 
 We can get the health status of the **api-server** and the **static-server**
