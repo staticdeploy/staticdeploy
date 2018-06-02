@@ -1,3 +1,16 @@
+## 0.7.0 (June 2, 2018)
+
+Breaking changes:
+
+- using the local filesystem to store static content is no longer supported
+
+Features:
+
+- also support postgresql as SQL database
+- use S3 (and API-compatible object storage services) for storing static files
+- add `HOSTNAME_HEADERS` option to configure how requests for static content are
+  routed
+
 ## 0.6.2 (May 24, 2018)
 
 Fixes:
