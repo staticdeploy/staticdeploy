@@ -5,6 +5,7 @@ import { createTree, destroyTree, IDefinition } from "create-fs-tree";
 import express from "express";
 import { mkdirpSync, removeSync } from "fs-extra";
 import { Server } from "http";
+import { forEach, map } from "lodash";
 import { readFileSync } from "mz/fs";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -13,6 +14,7 @@ import request from "supertest";
 import tar from "tar";
 import { v4 } from "uuid";
 
+import * as config from "config";
 import getApp from "getApp";
 import storage from "services/storage";
 
@@ -115,6 +117,8 @@ function targzOf(definition: IDefinition): Buffer {
     return contentTargz;
 }
 
+export const customHostnameHeader = "custom-hostname-header";
+
 // Register mocha tests from a test definition. A test definition corresponds to
 // a mocha 'describe' block. Each test case of a test definition correspond to a
 // mocha 'it' block
@@ -130,6 +134,9 @@ export interface ITestDefinition {
     testCases: {
         only?: boolean;
         requestedUrl: string;
+        requestHeaders?: {
+            [name: string]: string;
+        };
         expectedStatusCode: number;
         expectedBody?: string | ((body: string) => any);
         expectedLocation?: string;
@@ -146,7 +153,10 @@ export function test(description: string, testDefinition: ITestDefinition) {
 
         before(async () => {
             // Get the app to run tests against
-            server = await getApp();
+            server = await getApp({
+                ...config,
+                HOSTNAME_HEADER: customHostnameHeader
+            });
 
             // Insert storage fixtures derived from entrypoints in the test
             // definition
@@ -185,7 +195,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
         });
 
         testCases.forEach(testCase => {
-            const { requestedUrl, expectedStatusCode, expectedBody, expectedLocation } = testCase;
+            const { requestedUrl, requestHeaders, expectedStatusCode, expectedBody, expectedLocation } = testCase;
 
             const firstSlash = requestedUrl.indexOf("/");
             // Property requestedDomain is needed for making the test request
@@ -196,23 +206,36 @@ export function test(description: string, testDefinition: ITestDefinition) {
             // Get properties needed for the test description
             const andCorrectBody = expectedBody ? " and correct body" : "";
             const andCorrectLocation = expectedLocation ? " and correct location" : "";
+            const stringifiedRequestHeaders = requestHeaders
+                ? map(requestHeaders, (value, name) => `${name}: ${value}`).join(", ")
+                : "";
+            const withHeaders = requestHeaders ? ` with headers ${stringifiedRequestHeaders}` : "";
 
             // Support only running one test case
             const itFn = testCase.only ? it.only : it;
 
             itFn(
-                `case: ${expectedStatusCode}${andCorrectBody}${andCorrectLocation} when requesting ${requestedUrl}`,
+                `case: ${expectedStatusCode}${andCorrectBody}${andCorrectLocation} when requesting ${requestedUrl}${withHeaders}`,
                 () => {
-                    // Make test request and make the required assertions
+                    // Make test request
                     let t = request(server)
                         .get(requestedPath)
-                        .set("Host", requestedDomain)
-                        .expect(expectedStatusCode);
+                        .set("Host", requestedDomain);
 
+                    // Set request headers (they might override the Host header)
+                    forEach(requestHeaders, (value, name) => {
+                        t.set(name, value);
+                    });
+
+                    // Verify the response status code
+                    t.expect(expectedStatusCode);
+
+                    // If specified, verify the response Location header
                     if (expectedLocation) {
                         t = t.expect("Location", expectedLocation);
                     }
 
+                    // Verify the response body
                     if (expectedBody) {
                         t = t.expect((res: request.Response) => {
                             const body = res.text || (res.body && res.body.toString());

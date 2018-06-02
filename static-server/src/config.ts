@@ -14,6 +14,9 @@ export const PORT = env("PORT", { default: "3000" });
 export const HEALTH_ROUTE_HOSTNAME = env("HEALTH_ROUTE_HOSTNAME");
 export const HEALTH_ROUTE_ACCESS_TOKEN = env("HEALTH_ROUTE_ACCESS_TOKEN");
 
+// Routing configuration
+export const HOSTNAME_HEADER = env("HOSTNAME_HEADER");
+
 // Storage configurations
 export const DATABASE_URL = env("DATABASE_URL", {
     required: true,

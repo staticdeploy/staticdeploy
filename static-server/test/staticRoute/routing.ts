@@ -1,6 +1,6 @@
 import { escape } from "lodash";
 
-import { test } from "../setup";
+import { customHostnameHeader, test } from "../setup";
 
 function htmlWith(body: string): string {
     return `<html><head></head><body>${escape(body)}</body></html>`;
@@ -383,7 +383,7 @@ describe("staticRoute routing", () => {
         ]
     });
 
-    test("serves the fallback resource when no asset matches", {
+    test("serves the fallback resource index.html when no asset matches", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
@@ -400,4 +400,68 @@ describe("staticRoute routing", () => {
             }
         ]
     });
+
+    test(
+        "uses the hostname taken from the specified HOSTNAME_HEADER header, the X-Forwarded-Host header or the Host header (in that priority order)",
+        {
+            entrypoints: [
+                {
+                    urlMatcher: "host.com/",
+                    bundleContent: {
+                        "index.html": htmlWith("host.com/ + /index.html")
+                    }
+                },
+                {
+                    urlMatcher: "x-forwarded-host.com/",
+                    bundleContent: {
+                        "index.html": htmlWith("x-forwarded-host.com/ + /index.html")
+                    }
+                },
+                {
+                    urlMatcher: "custom.com/",
+                    bundleContent: {
+                        "index.html": htmlWith("custom.com/ + /index.html")
+                    }
+                }
+            ],
+            testCases: [
+                {
+                    requestedUrl: "host-from-url-expected-to-be-overridden.com/",
+                    requestHeaders: {
+                        Host: "host.com",
+                        "X-Forwarded-Host": "x-forwarded-host.com",
+                        [customHostnameHeader]: "custom.com"
+                    },
+                    expectedStatusCode: 200,
+                    expectedBody: htmlWith("custom.com/ + /index.html")
+                },
+                {
+                    requestedUrl: "host-from-url-expected-to-be-overridden.com/",
+                    requestHeaders: {
+                        Host: "host.com",
+                        "X-Forwarded-Host": "x-forwarded-host.com"
+                    },
+                    expectedStatusCode: 200,
+                    expectedBody: htmlWith("x-forwarded-host.com/ + /index.html")
+                },
+                {
+                    requestedUrl: "host-from-url-expected-to-be-overridden.com/",
+                    requestHeaders: {
+                        Host: "host.com",
+                        [customHostnameHeader]: "custom.com"
+                    },
+                    expectedStatusCode: 200,
+                    expectedBody: htmlWith("custom.com/ + /index.html")
+                },
+                {
+                    requestedUrl: "host-from-url-expected-to-be-overridden.com/",
+                    requestHeaders: {
+                        Host: "host.com"
+                    },
+                    expectedStatusCode: 200,
+                    expectedBody: htmlWith("host.com/ + /index.html")
+                }
+            ]
+        }
+    );
 });

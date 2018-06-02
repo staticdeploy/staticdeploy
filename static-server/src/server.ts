@@ -8,7 +8,7 @@ logger.debug("Server config", { config });
 
 (async () => {
     try {
-        const app = await getApp();
+        const app = await getApp(config);
         createServer()
             .on("request", app)
             .listen(config.PORT, () => {
