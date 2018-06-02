@@ -29,7 +29,7 @@ and [SQLite](https://www.sqlite.org/). As for the object storage,
 [Amazon S3](https://aws.amazon.com/s3/) can of course be used, as well as any
 other API-compatible service like [Minio](https://minio.io/) (which can also act
 as gateway for non-compatible services like
-[Azure Blob Storage](https://azure.microsoft.com/en-us/services/blob-storage/)).
+[Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)).
 
 ## Running the docker images
 
@@ -48,7 +48,7 @@ The services take the following configuration options:
 
   - `JWT_SECRET`: jwt secret (non base64-encoded) used to verify jwt auth tokens
   - `DATABASE_URL`: connection string for the SQL database (eg
-    `postgres://username:passwrord@example.com/database`)
+    `postgres://username:password@example.com/database`)
   - `S3_BUCKET`: name of the S3 bucket to use for storing static content
   - `S3_ENDPOINT`: endpoint of the S3 server
   - `S3_ACCESS_KEY_ID`: access key id for the S3 server
@@ -61,7 +61,7 @@ The services take the following configuration options:
 - **static-server**
 
   - `DATABASE_URL`: connection string for the SQL database (eg
-    `postgres://username:passwrord@example.com/database`)
+    `postgres://username:password@example.com/database`)
   - `S3_BUCKET`: name of the S3 bucket to use for storing static content
   - `S3_ENDPOINT`: endpoint of the S3 server (eg ``)
   - `S3_ACCESS_KEY_ID`: access key id for the S3 server
@@ -76,7 +76,7 @@ The services take the following configuration options:
 We can get the health status of the **api-server** and the **static-server**
 with a `GET /health`, with the caveat that for the **static-server** we must
 make the request with a `Host` header matching the configured
-`HEALTH_ROUTE_HOSTNAME`. The health route responds with a 200 when teh services
+`HEALTH_ROUTE_HOSTNAME`. The health route responds with a 200 when the services
 are healthy, and with a 503 when the services are unhealthy.
 
 For the **admin-console**, a `GET /` can be used to determine the health status.

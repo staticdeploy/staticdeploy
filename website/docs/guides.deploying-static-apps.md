@@ -8,23 +8,25 @@ we can now deploy our static apps on it.
 
 ## Setting up the cli
 
-In order to do so, we'll need to install the StaticDeploy **cli**:
+Apps are deployed using the StaticDeploy **cli**, which we can install from npm:
 
 ```sh
-npm i -g @staticdeploy/cli
+npm install --global @staticdeploy/cli
+# Or if you prefer yarn
+yarn global add @staticdeploy/cli
 ```
 
-We need to provide the **cli** the address of the StaticDeploy **api-server**,
+We need to provide the **cli** the address of our StaticDeploy **api-server**,
 as well as a valid authentication token for making requests to the API. We can
 do so by setting two environment variables:
 
 ```sh
-export STATICDEPLOY_API_URL=staticdeploy.$MY_DOMAIN/api/
+export STATICDEPLOY_API_URL=https://staticdeploy.$MY_DOMAIN/api/
 export STATICDEPLOY_API_TOKEN=my-jwt-auth-token
 ```
 
-> Note: `staticdeploy.$MY_DOMAIN` indicates the domain at which we've deployed
-> the StaticDeploy platform.
+> Note: we're assuming we have an **api-server** listening at
+> `https://staticdeploy.$MY_DOMAIN/api/`
 
 ## Deploying a static app
 
@@ -43,8 +45,8 @@ staticdeploy create-bundle \
   --description "First bundle"
 ```
 
-The command will package the static app and upload it to the StaticDeploy
-server, where it can now be deployed.
+The command will package the static app into a tar.gz archive and upload it to
+the StaticDeploy server, where it can now be deployed.
 
 We can do so using the `deploy` command of the cli. The command takes three
 arguments:
