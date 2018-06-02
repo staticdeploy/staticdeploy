@@ -66,6 +66,10 @@ The services take the following configuration options:
   - `S3_ENDPOINT`: endpoint of the S3 server (eg ``)
   - `S3_ACCESS_KEY_ID`: access key id for the S3 server
   - `S3_SECRET_ACCESS_KEY`: secret access key for the S3 server
+  - `HOSTNAME_HEADER` _(optional)_: the header from which to retrieve the
+    hostname of requests. By default `Host` - or `X-Forwarded-Host` if present -
+    are used, but some proxies use other headers (for instance Azure's Verizon
+    CDN uses `X-Host`)
   - `HEALTH_ROUTE_HOSTNAME` _(optional)_: values of the `Host` header which
     makes the server respond with the health status to a `GET /health` request
     (needed since the server is serving static content on many entrypoints, and

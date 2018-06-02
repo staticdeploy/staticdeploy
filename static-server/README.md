@@ -21,12 +21,20 @@ The following environment variables can be used to configure the server:
 
 > General service configurations
 
-- `NODE_ENV` (defaults to `development`)
-- `LOG_LEVEL` (defaults to `info`)
-- `PORT` (defaults to `3000`): network port to attach to
-- `HEALTH_ROUTE_HOSTNAME`: hostname to make health-check requests to
-- `HEALTH_ROUTE_ACCESS_TOKEN`: token that allows getting the detailed health
-  status of the service
+- `NODE_ENV` _(optional, defaults to `development`)_
+- `LOG_LEVEL` _(optional, defaults to `info`)_
+- `PORT` _(optional, defaults to `3000`)_: network port to attach to
+- `HEALTH_ROUTE_HOSTNAME` _(optional)_: hostname to make health-check requests
+  to
+- `HEALTH_ROUTE_ACCESS_TOKEN` _(optional)_: token that allows getting the
+  detailed health status of the service
+
+> Routing configuration
+
+- `HOSTNAME_HEADER` _(optional)_: the header from which to retrieve the hostname
+  of requests. By default `Host` - or `X-Forwarded-Host` if present - are used,
+  but some proxies use other headers (for instance Azure's Verizon CDN uses
+  `X-Host`)
 
 > Storage configurtations
 
