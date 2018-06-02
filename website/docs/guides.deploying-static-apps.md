@@ -3,7 +3,7 @@ id: guides.deploying-static-apps
 title: Deploying static apps
 ---
 
-[Having set up the StaticDeploy platform](/docs/guides.deploying-staticdeploy-with-docker-compose.html),
+[Having set up the StaticDeploy platform](/docs/guides.deploying-staticdeploy-with-docker.html),
 we can now deploy our static apps on it.
 
 ## Setting up the cli
@@ -49,9 +49,9 @@ server, where it can now be deployed.
 We can do so using the `deploy` command of the cli. The command takes three
 arguments:
 
-* a name for the app we want to deploy
-* an entrypoint (i.e. a URL) where we want to deploy our app
-* the name of the bundle that we wish to deploy to that entrypoint
+- a name for the app we want to deploy
+- an entrypoint (i.e. a URL) where we want to deploy our app
+- the name of the bundle that we wish to deploy to that entrypoint
 
 ```sh
 staticdeploy deploy \

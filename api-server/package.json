@@ -26,7 +26,7 @@
     "docker:push": "docker push staticdeploy/api-server:$DOCKER_TAG"
   },
   "dependencies": {
-    "@mondora/env": "^1.0.4",
+    "@mondora/env": "^1.1.2",
     "@staticdeploy/common-types": "^0.6.2",
     "@staticdeploy/storage": "^0.6.2",
     "bunyan": "^1.8.12",
@@ -44,22 +44,24 @@
     "@types/express-jwt": "^0.0.40",
     "@types/jsonwebtoken": "^7.2.7",
     "@types/lodash": "^4.14.109",
-    "@types/mocha": "^5.2.0",
-    "@types/sinon": "^4.3.3",
+    "@types/mocha": "^5.2.1",
+    "@types/s3rver": "^0.0.30",
+    "@types/sinon": "^5.0.1",
     "@types/supertest": "^2.0.4",
     "chai": "^4.1.2",
     "chai-fuzzy": "^1.6.1",
-    "jsonwebtoken": "^8.2.1",
+    "jsonwebtoken": "^8.2.2",
     "lodash": "^4.17.10",
     "mocha": "^5.2.0",
-    "nyc": "^11.8.0",
-    "prettier": "^1.12.1",
+    "nyc": "^12.0.1",
+    "prettier": "^1.13.4",
     "rimraf": "^2.6.2",
-    "sinon": "^5.0.7",
+    "s3rver": "^2.2.4",
+    "sinon": "^5.0.10",
     "supertest": "^3.1.0",
-    "ts-node": "^6.0.3",
+    "ts-node": "^6.0.5",
     "tslint": "^5.10.0",
-    "tslint-config-prettier": "^1.12.0",
-    "typescript": "^2.8.3"
+    "tslint-config-prettier": "^1.13.0",
+    "typescript": "^2.9.1"
   }
 }

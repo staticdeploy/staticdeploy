@@ -22,23 +22,27 @@ The following environment variables can be used to configure the server:
 
 > General service configurations
 
-* `NODE_ENV` (defaults to `development`)
-* `LOG_LEVEL` (defaults to `info`)
-* `HOSTNAME` (defaults to `localhost`)
-* `PORT` (defaults to `3000`): network port to attach to
-* `HEALTH_ROUTE_ACCESS_TOKEN`: the token that allows getting the detailed health
+- `NODE_ENV` (defaults to `development`)
+- `LOG_LEVEL` (defaults to `info`)
+- `HOSTNAME` (defaults to `localhost`)
+- `PORT` (defaults to `3000`): network port to attach to
+- `HEALTH_ROUTE_ACCESS_TOKEN`: the token that allows getting the detailed health
   status of the service
 
 > Auth configurations
 
-* `JWT_SECRET`: jwt secret (not base64 encoded), defaults to `secret`
+- `JWT_SECRET`: jwt secret (not base64 encoded), defaults to `secret`
 
 > Storage configurtations
 
-* `STORAGE_DATABASE_URL`: database connection string, defaults to
-  `sqlite://:memory:`
-* `STORAGE_BUNDLES_PATH`: filesystem path where to store bundles, defaults to
-  `${tmpdir()}/staticdeploy/api-server/bundles`
+- `DATABASE_URL`: database connection string. Supported databases are
+  [sqlite](https://www.sqlite.org/) and
+  [postgresql](https://www.postgresql.org/)
+- `S3_BUCKET`: name of the S3 bucket to use for storing static content, defaults
+  to `staticdeploy`
+- `S3_ENDPOINT`: endpoint of the S3 server
+- `S3_ACCESS_KEY_ID`: access key id for the S3 server
+- `S3_SECRET_ACCESS_KEY`: secret access key for the S3 server
 
 ## Contributing
 

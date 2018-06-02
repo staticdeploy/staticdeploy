@@ -26,7 +26,7 @@ staticdeploy create-bundle \
 
 Then, we could choose to:
 
-* automatically deploy each branch to `$BRANCH.example-app.com/`:
+- automatically deploy each branch to `$BRANCH.example-app.com/`:
 
   ```sh
   staticdeploy deploy
@@ -35,7 +35,7 @@ Then, we could choose to:
     --bundle example-app:$BRANCH
   ```
 
-* automatically deploy git tags to `example-app.com/$TAG/` (can be useful for
+- automatically deploy git tags to `example-app.com/$TAG/` (can be useful for
   versioning documentation websites):
 
   ```sh
@@ -45,7 +45,7 @@ Then, we could choose to:
     --bundle example-app:$TAG
   ```
 
-* automatically deploy `master` to the production environment:
+- automatically deploy `master` to the production environment:
 
   ```sh
   staticdeploy deploy

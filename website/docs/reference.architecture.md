@@ -12,26 +12,28 @@ platform:
 
 On the server side, we have:
 
-* the **api-server**, which exposes an API to manage StaticDeploy's entities
+- the **api-server**, which exposes an API to manage StaticDeploy's entities
   like bundles and entrypoints. Clients of this service are the
   **admin-console** and **cli**
-* the **static-server**, the service responsible for serving the bundles at the
+- the **static-server**, the service responsible for serving the bundles at the
   configured entrypoints. Clients of this service are the users which request
   the deployed websites (optionally via a CDN)
 
 On the client side, we have:
 
-* the **admin-console**, which allows us to graphically manage StaticDeploy's
+- the **admin-console**, which allows us to graphically manage StaticDeploy's
   entities. The **admin-console** communicates with the **api-server**
-* the **cli**, which we can use to create and deploy bundles. The **cli** also
+- the **cli**, which we can use to create and deploy bundles. The **cli** also
   communicates with the **api-server**
-* end users requesting websites we've deployed. End users direct requests to the
+- end users requesting websites we've deployed. End users direct requests to the
   **static-server**
 
 The **storage** layer is comprised of two parts:
 
-* a relational database, used to store StaticDeploy's entities
-* a file storage, used to store the static content of bundles
+- a relational database, used to store StaticDeploy's entities
+- a file storage service, used to store the static content of bundles
 
-Currently StaticDeploy only supports [sqlite](https://www.sqlite.org/) as the
-relational database, and the local filesystem as the file storage.
+StaticDeploy currently supports [PostgreSQL](https://www.postgresql.org/) and
+[SQLite](https://www.sqlite.org/) as relational databases, and
+[Amazon S3](https://aws.amazon.com/s3/) (and API-compatible servers like
+[Minio](https://minio.io)) as file storage service.

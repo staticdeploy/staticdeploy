@@ -1,5 +1,45 @@
+# Note: this docker-compose configuration is only intended to be used for
+# StaticDeploy's quickstart tutorial, and is not suitable for production use
+
 version: "3"
 services:
+
+  # Minio is an object storage server implementing the S3 API
+  minio:
+    image: minio/minio
+    environment:
+      - MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY
+      - MINIO_SECRET_KEY=$MINIO_SECRET_KEY
+    command: server /minioData
+    volumes:
+      - minioConfig:/root/.minio
+      - minioData:/minioData
+
+  # api-server implements the API to manage StaticDeploy's entities. In this
+  # configuration it uses a sqlite database for storing entities, and the minio
+  # server above for storing static content. The service responds on
+  # http://$HOSTNAME/api/*
+  api-server:
+    image: staticdeploy/api-server:$DOCKER_TAG
+    depends_on:
+      - minio
+    labels:
+      - traefik.backend=api-server
+      - traefik.frontend.priority=200
+      - traefik.frontend.rule=Host:$HOSTNAME;PathPrefixStrip:/api
+    environment:
+      - HOSTNAME=$HOSTNAME
+      - JWT_SECRET=$JWT_SECRET
+      - DATABASE_URL=sqlite:///sqlite/db.sqlite
+      - S3_BUCKET=$MINIO_BUCKET
+      - S3_ENDPOINT=http://minio:9000
+      - S3_ACCESS_KEY_ID=$MINIO_ACCESS_KEY
+      - S3_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY
+    volumes:
+      - sqlite:/sqlite
+
+  # admin-console serves a web GUI for interacting with the StaticDeploy API.
+  # The console is served at http://$HOSTNAME/
   admin-console:
     image: staticdeploy/admin-console:$DOCKER_TAG
     labels:
@@ -8,40 +48,43 @@ services:
       - traefik.frontend.rule=Host:$HOSTNAME;PathPrefix:/
     environment:
       - APP_CONFIG_API_URL=//$HOSTNAME/api
-  api-server:
-    image: staticdeploy/api-server:$DOCKER_TAG
-    labels:
-      - traefik.backend=api-server
-      - traefik.frontend.priority=200
-      - traefik.frontend.rule=Host:$HOSTNAME;PathPrefixStrip:/api
-    environment:
-      - HOSTNAME=$HOSTNAME
-      - JWT_SECRET=$JWT_SECRET
-      - STORAGE_DATABASE_URL=sqlite:///storage/db.sqlite
-      - STORAGE_BUNDLES_PATH=/storage/bundles
-    volumes:
-      - storage:/storage
+
+  # static-server is responsible for serving and configuring static content to
+  # end users. In this configuration it reads entities from the same sqlite
+  # database used by the api-server, and reads static content from the minio
+  # server. It responds to all requests not matching http://$HOSTNAME/*
   static-server:
     image: staticdeploy/static-server:$DOCKER_TAG
+    depends_on:
+      - minio
     labels:
       - traefik.backend=static-server
       - traefik.frontend.priority=0
       - traefik.frontend.rule=HostRegexp:{host:.*}
       - traefik.frontend.passHostHeader=true
     environment:
-      - STORAGE_DATABASE_URL=sqlite:///storage/db.sqlite
-      - STORAGE_BUNDLES_PATH=/storage/bundles
+      - DATABASE_URL=sqlite:///sqlite/db.sqlite
+      - S3_BUCKET=$MINIO_BUCKET
+      - S3_ENDPOINT=http://minio:9000
+      - S3_ACCESS_KEY_ID=$MINIO_ACCESS_KEY
+      - S3_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY
     volumes:
-      - storage:/storage
+      - sqlite:/sqlite
+
+  # Traefik is a reverse proxy, catching all requests on port 80 and routing
+  # them to the appropriate service based on routing rules configured in the
+  # services' labels
   traefik:
     image: traefik
     command: >-
-      -c /dev/null --web
+      -c /dev/null
       --docker --docker.domain=$HOSTNAME --docker.watch
     ports:
       - 80:80
-      - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
-  storage: {}
+  sqlite: {}
+  minioConfig: {}
+  minioData: {}

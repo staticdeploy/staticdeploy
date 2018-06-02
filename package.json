@@ -36,12 +36,13 @@
     "lerna": "lerna"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.2.0",
-    "@commitlint/config-conventional": "^6.1.3",
-    "@commitlint/config-lerna-scopes": "^6.1.3",
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.0",
+    "@commitlint/config-lerna-scopes": "^7.0.0",
     "codecov": "^3.0.2",
     "husky": "^0.14.3",
     "lerna": "^2.11.0",
-    "nyc": "^11.8.0"
+    "nyc": "^12.0.1",
+    "prettier": "^1.13.4"
   }
 }

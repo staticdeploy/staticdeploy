@@ -13,7 +13,7 @@ be run without modifications on docker-compose, ECS, Kubernetes, etc.
 
 The following environment variables can be used to configure the app:
 
-* `APP_CONFIG_API_URL`: the base URL of the **api-server**
+- `APP_CONFIG_API_URL`: the base URL of the **api-server**
 
 ## Contributing
 

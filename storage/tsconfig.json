@@ -9,6 +9,7 @@
         // packages, and we need to manually specify the required ones
         // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
         "types": [
+            "@types/bluebird",
             "@types/chai",
             "@types/chai-as-promised",
             "@types/fs-extra",
@@ -18,8 +19,10 @@
             "@types/mocha",
             "@types/mz",
             "@types/recursive-readdir",
+            "@types/s3rver",
             "@types/tar",
             "@types/umzug",
+            "@types/uuid",
             "@types/validator"
         ],
         "outDir": "lib",
