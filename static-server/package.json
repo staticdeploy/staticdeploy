@@ -26,7 +26,7 @@
     "docker:push": "docker push staticdeploy/static-server:$DOCKER_TAG"
   },
   "dependencies": {
-    "@mondora/env": "^1.0.4",
+    "@mondora/env": "^1.1.2",
     "@staticdeploy/app-config": "^2.0.0",
     "@staticdeploy/common-types": "^0.6.2",
     "@staticdeploy/storage": "^0.6.2",
@@ -43,9 +43,9 @@
     "@types/express": "^4.11.1",
     "@types/fs-extra": "^5.0.2",
     "@types/lodash": "^4.14.109",
-    "@types/mocha": "^5.2.0",
+    "@types/mocha": "^5.2.1",
     "@types/mz": "^0.0.32",
-    "@types/s3rver": "^0.0.28",
+    "@types/s3rver": "^0.0.30",
     "@types/supertest": "^2.0.4",
     "@types/tar": "^4.0.0",
     "@types/uuid": "^3.4.3",
@@ -57,8 +57,8 @@
     "lodash": "^4.17.10",
     "mocha": "^5.2.0",
     "mz": "^2.7.0",
-    "nyc": "^11.8.0",
-    "prettier": "^1.13.2",
+    "nyc": "^12.0.1",
+    "prettier": "^1.13.4",
     "rimraf": "^2.6.2",
     "s3rver": "^2.2.4",
     "supertest": "^3.1.0",
@@ -66,7 +66,7 @@
     "ts-node": "^6.0.5",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
-    "typescript": "^2.8.3",
+    "typescript": "^2.9.1",
     "uuid": "^3.2.1",
     "vm2": "^3.6.0"
   }

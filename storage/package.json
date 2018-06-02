@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@staticdeploy/common-types": "^0.6.2",
-    "aws-sdk": "^2.248.1",
+    "aws-sdk": "^2.250.1",
     "bluebird": "^3.5.1",
     "fs-extra": "^6.0.1",
     "lodash": "^4.17.10",
@@ -54,10 +54,10 @@
     "@types/lodash": "^4.14.109",
     "@types/md5": "^2.1.32",
     "@types/mime": "^2.0.0",
-    "@types/mocha": "^5.2.0",
+    "@types/mocha": "^5.2.1",
     "@types/mz": "^0.0.32",
     "@types/recursive-readdir": "^2.2.0",
-    "@types/s3rver": "^0.0.28",
+    "@types/s3rver": "^0.0.30",
     "@types/tar": "^4.0.0",
     "@types/umzug": "^2.1.1",
     "@types/uuid": "^3.4.3",
@@ -66,13 +66,13 @@
     "chai-as-promised": "^7.1.1",
     "create-fs-tree": "^1.0.0",
     "mocha": "^5.2.0",
-    "prettier": "^1.13.2",
+    "prettier": "^1.13.4",
     "rimraf": "^2.6.2",
     "s3rver": "^2.2.4",
     "ts-node": "^6.0.5",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
-    "typescript": "^2.8.3",
+    "typescript": "^2.9.1",
     "uuid": "^3.2.1"
   }
 }
