@@ -22,8 +22,8 @@ mkdirpSync(tempTestDirPath);
 // If a database url is provided, use that. Otherwise, set up a local sqlite
 // database and test against that
 let databaseUrl;
-if (process.env.TEST_DATABASE_URL) {
-    databaseUrl = process.env.TEST_DATABASE_URL;
+if (process.env.DATABASE_URL) {
+    databaseUrl = process.env.DATABASE_URL;
 } else {
     const databasePath = join(tempTestDirPath, "db.sqlite");
     databaseUrl = `sqlite://${databasePath}`;
@@ -32,12 +32,12 @@ if (process.env.TEST_DATABASE_URL) {
 // If an S3 config is provided, use that. Otherwise, set up a local S3 mock and
 // test against that
 let s3Config;
-if (process.env.TEST_S3_BUCKET) {
+if (process.env.S3_BUCKET) {
     s3Config = {
-        bucket: process.env.TEST_S3_BUCKET,
-        endpoint: process.env.TEST_S3_ENDPOINT!,
-        accessKeyId: process.env.TEST_S3_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.TEST_S3_SECRET_ACCESS_KEY!
+        bucket: process.env.S3_BUCKET,
+        endpoint: process.env.S3_ENDPOINT!,
+        accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!
     };
 } else {
     const s3rver = new S3rver({
