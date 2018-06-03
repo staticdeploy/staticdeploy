@@ -20,6 +20,15 @@ export class NotFoundError extends Error {
 function getTitle(notFoundError: NotFoundError) {
     switch (notFoundError.code) {
         case NotFoundErrorCode.noEntrypointFound:
+            return "No entrypoint found";
+        case NotFoundErrorCode.noBundleDeployed:
+            return "No bundle deployed";
+    }
+}
+
+function getMessage(notFoundError: NotFoundError) {
+    switch (notFoundError.code) {
+        case NotFoundErrorCode.noEntrypointFound:
             return `No entrypoint found matching url <br /><b>${
                 notFoundError.details.requestedUrl
             }</b>`;
@@ -27,15 +36,6 @@ function getTitle(notFoundError: NotFoundError) {
             return `No bundle deployed for entrypoint <br /><b>${
                 notFoundError.details.matchingEntrypoint
             }</b>`;
-    }
-}
-
-function getMessage(notFoundError: NotFoundError) {
-    switch (notFoundError.code) {
-        case NotFoundErrorCode.noEntrypointFound:
-            return "No entrypoint found";
-        case NotFoundErrorCode.noBundleDeployed:
-            return "No bundle deployed";
     }
 }
 
