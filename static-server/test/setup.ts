@@ -139,6 +139,9 @@ export interface ITestDefinition {
         };
         expectedStatusCode: number;
         expectedBody?: string | ((body: string) => any);
+        expectedHeaders?: {
+            [name: string]: string | RegExp;
+        };
         expectedLocation?: string;
     }[];
 }
@@ -195,7 +198,14 @@ export function test(description: string, testDefinition: ITestDefinition) {
         });
 
         testCases.forEach(testCase => {
-            const { requestedUrl, requestHeaders, expectedStatusCode, expectedBody, expectedLocation } = testCase;
+            const {
+                requestedUrl,
+                requestHeaders,
+                expectedStatusCode,
+                expectedBody,
+                expectedHeaders,
+                expectedLocation
+            } = testCase;
 
             const firstSlash = requestedUrl.indexOf("/");
             // Property requestedDomain is needed for making the test request
@@ -204,8 +214,9 @@ export function test(description: string, testDefinition: ITestDefinition) {
             const requestedPath = requestedUrl.slice(firstSlash);
 
             // Get properties needed for the test description
-            const andCorrectBody = expectedBody ? " and correct body" : "";
+            const andCorrectHeaders = expectedHeaders ? " and correct headers" : "";
             const andCorrectLocation = expectedLocation ? " and correct location" : "";
+            const andCorrectBody = expectedBody ? " and correct body" : "";
             const stringifiedRequestHeaders = requestHeaders
                 ? map(requestHeaders, (value, name) => `${name}: ${value}`).join(", ")
                 : "";
@@ -215,7 +226,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
             const itFn = testCase.only ? it.only : it;
 
             itFn(
-                `case: ${expectedStatusCode}${andCorrectBody}${andCorrectLocation} when requesting ${requestedUrl}${withHeaders}`,
+                `case: ${expectedStatusCode}${andCorrectHeaders}${andCorrectLocation}${andCorrectBody} when requesting ${requestedUrl}${withHeaders}`,
                 () => {
                     // Make test request
                     let t = request(server)
@@ -229,6 +240,17 @@ export function test(description: string, testDefinition: ITestDefinition) {
 
                     // Verify the response status code
                     t.expect(expectedStatusCode);
+
+                    // Verify the response headers
+                    if (expectedHeaders) {
+                        forEach(expectedHeaders, (value, name) => {
+                            // Even though there are a (string, string) and a
+                            // (string, RegExp) overload for the expect
+                            // function, TypeScript complains if we call it with
+                            // (string, string | RegExp), hence they any casting
+                            t.expect(name, value as any);
+                        });
+                    }
 
                     // If specified, verify the response Location header
                     if (expectedLocation) {

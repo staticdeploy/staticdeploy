@@ -11,13 +11,16 @@ import appendIndexDotHtml from "common/appendIndexDotHtml";
 import appendSlash from "common/appendSlash";
 import removePrefix from "common/removePrefix";
 import toAbsolute from "common/toAbsolute";
+import getNotFoundPage, {
+    NotFoundError,
+    NotFoundErrorCode
+} from "getNotFoundPage";
 import storage from "services/storage";
 
 interface IStaticRouteOptions {
     hostnameHeader?: string;
 }
 
-// TODO: pretty 404 pages
 export default (options: IStaticRouteOptions) => async (
     req: Request,
     res: Response
@@ -41,7 +44,13 @@ export default (options: IStaticRouteOptions) => async (
         .sortBy("urlMatcher.length")
         .last();
     if (!matchingEntrypoint) {
-        res.status(404).send(`No entrypoint found matching url ${url}`);
+        const notFoundError = new NotFoundError(
+            NotFoundErrorCode.noEntrypointFound,
+            { requestedUrl: url }
+        );
+        res.type("html")
+            .status(404)
+            .send(getNotFoundPage(notFoundError));
         return;
     }
     if (!startsWith(url, matchingEntrypoint.urlMatcher)) {
@@ -84,9 +93,13 @@ export default (options: IStaticRouteOptions) => async (
     }
 
     if (!matchingEntrypoint.bundleId) {
-        res.status(404).send(
-            `No bundle deployed for entrypoint ${matchingEntrypoint.urlMatcher}`
+        const notFoundError = new NotFoundError(
+            NotFoundErrorCode.noBundleDeployed,
+            { matchingEntrypoint: matchingEntrypoint.urlMatcher }
         );
+        res.type("html")
+            .status(404)
+            .send(getNotFoundPage(notFoundError));
         return;
     }
 
