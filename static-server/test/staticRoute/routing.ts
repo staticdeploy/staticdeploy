@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { escape } from "lodash";
 
 import { customHostnameHeader, test } from "../setup";
@@ -16,7 +17,13 @@ describe("staticRoute routing", () => {
             {
                 requestedUrl: "domain.com/asset",
                 expectedStatusCode: 404,
-                expectedBody: "No entrypoint found matching url domain.com/asset"
+                expectedHeaders: {
+                    "content-type": /html/
+                },
+                expectedBody: body => {
+                    expect(body).to.match(/No entrypoint found/);
+                    expect(body).to.match(/domain.com\/asset/);
+                }
             }
         ]
     });
@@ -27,7 +34,13 @@ describe("staticRoute routing", () => {
             {
                 requestedUrl: "domain.com/asset",
                 expectedStatusCode: 404,
-                expectedBody: "No bundle deployed for entrypoint domain.com/"
+                expectedHeaders: {
+                    "content-type": /html/
+                },
+                expectedBody: body => {
+                    expect(body).to.match(/No bundle deployed/);
+                    expect(body).to.match(/domain.com\//);
+                }
             }
         ]
     });
