@@ -1,14 +1,13 @@
 import { configureHtml } from "@staticdeploy/app-config";
-import { IConfiguration } from "@staticdeploy/common-types";
-import { BundleAssetNotFoundError } from "@staticdeploy/storage";
+import { IAsset, IBundle, IConfiguration } from "@staticdeploy/common-types";
 import { Request, Response } from "express";
 import _ from "lodash";
-import { endsWith, maxBy, startsWith } from "lodash";
+import { find, startsWith } from "lodash";
 import { join } from "path";
 
-import appendDotHtml from "common/appendDotHtml";
-import appendIndexDotHtml from "common/appendIndexDotHtml";
-import appendSlash from "common/appendSlash";
+import addTrailingSlash from "common/addTrailingSlash";
+import findMatchingAsset from "common/findMatchingAsset";
+import isCanonicalPath from "common/isCanonicalPath";
 import removePrefix from "common/removePrefix";
 import toAbsolute from "common/toAbsolute";
 import getNotFoundPage, {
@@ -39,7 +38,7 @@ export default (options: IStaticRouteOptions) => async (
         .filter(
             entrypoint =>
                 startsWith(url, entrypoint.urlMatcher) ||
-                startsWith(appendSlash(url), entrypoint.urlMatcher)
+                startsWith(addTrailingSlash(url), entrypoint.urlMatcher)
         )
         .sortBy("urlMatcher.length")
         .last();
@@ -80,7 +79,7 @@ export default (options: IStaticRouteOptions) => async (
         *   - option 2 makes the behaviour inconsistent, making it depend on
         *     which entrypoints are configured
         */
-        res.redirect(301, appendSlash(req.path));
+        res.redirect(301, addTrailingSlash(req.path));
         return;
     }
 
@@ -92,6 +91,8 @@ export default (options: IStaticRouteOptions) => async (
         return;
     }
 
+    // 404 if the matching entrypoint has no deployed bundle (and doesn't
+    // specify a redirect, as tested just above)
     if (!matchingEntrypoint.bundleId) {
         const notFoundError = new NotFoundError(
             NotFoundErrorCode.noBundleDeployed,
@@ -108,50 +109,31 @@ export default (options: IStaticRouteOptions) => async (
         matchingEntrypoint.urlMatcher.indexOf("/")
     );
     const requestedPath = toAbsolute(removePrefix(req.path, urlMatcherPath));
-    const linkedBundle = await storage.bundles.findOneById(
+    const linkedBundle = (await storage.bundles.findOneById(
         matchingEntrypoint.bundleId
+    )) as IBundle;
+    const fallbackAsset = find(linkedBundle.assets, {
+        path: linkedBundle.fallbackAssetPath
+    }) as IAsset;
+    const matchingAsset = findMatchingAsset(
+        requestedPath,
+        linkedBundle.assets,
+        fallbackAsset
     );
-    const matchingAssets = linkedBundle!.assets.filter(
-        ({ path }) =>
-            path !== "/index.html" &&
-            (endsWith(requestedPath, path) ||
-                endsWith(appendIndexDotHtml(requestedPath), path) ||
-                endsWith(appendDotHtml(requestedPath), path))
-    );
-    const matchingAsset = maxBy(matchingAssets, "path.length") || {
-        path: "/index.html",
-        mimeType: "text/html"
-    };
 
     // When the requested path is not the canonical remote path, redirect to the
     // canonical remote path
-    if (
-        matchingAsset.path !== "/index.html" &&
-        matchingAsset.path !== requestedPath &&
-        matchingAsset.path !== appendIndexDotHtml(requestedPath) &&
-        matchingAsset.path !== appendDotHtml(requestedPath)
-    ) {
+    if (!isCanonicalPath(requestedPath, matchingAsset, fallbackAsset)) {
         const canonicalRemotePath = join(urlMatcherPath, matchingAsset.path);
         res.redirect(301, canonicalRemotePath);
         return;
     }
 
     // Get the matching asset content
-    let content;
-    try {
-        content = await storage.bundles.getBundleAssetContent(
-            matchingEntrypoint.bundleId,
-            matchingAsset.path
-        );
-    } catch (err) {
-        // This should only throw when matchingAssetPath === /index.html, but
-        // the linked bundle doesn't have an /index.html asset
-        if (err instanceof BundleAssetNotFoundError) {
-            res.status(404).send();
-            return;
-        }
-        throw err;
-    }
+    let content = await storage.bundles.getBundleAssetContent(
+        matchingEntrypoint.bundleId,
+        matchingAsset.path
+    );
 
     // Configure the content
     if (matchingAsset.mimeType === "text/html") {
