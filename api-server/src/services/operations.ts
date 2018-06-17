@@ -1,6 +1,6 @@
 import { IOperationLog } from "@staticdeploy/common-types";
 
-import IAuthenticatedRequest from "common/IAuthenticatedRequest";
+import IBaseRequest from "common/IBaseRequest";
 import storage from "services/storage";
 
 export enum Operation {
@@ -20,7 +20,7 @@ export enum Operation {
 }
 
 export async function logOperation(
-    req: IAuthenticatedRequest,
+    req: IBaseRequest,
     operation: Operation,
     parameters: IOperationLog["parameters"]
 ) {
