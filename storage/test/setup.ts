@@ -13,6 +13,7 @@ import { v4 } from "uuid";
 import StorageClient from "../src";
 import { IModels } from "../src/models";
 
+// Setup chai plugins
 chai.use(chaiAsPromised);
 
 // Base test directory
@@ -121,7 +122,8 @@ export async function insertFixtures(data: IData) {
             createdAt: bundle.createdAt,
             description: "description",
             hash: "hash",
-            assets: [{ path: "/file", mimeType: "application/octet-stream" }]
+            assets: [{ path: "/file", mimeType: "application/octet-stream" }],
+            fallbackAssetPath: "/file"
         });
         // Add a dummy file on S3
         await s3Client

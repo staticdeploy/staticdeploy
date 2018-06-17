@@ -90,7 +90,8 @@ describe("BundlesClient.create", () => {
             name: "*",
             tag: "1",
             description: "1",
-            content: targzOf({ file: "file" })
+            content: targzOf({ file: "file" }),
+            fallbackAssetPath: "/file"
         });
         await expect(createPromise).to.be.rejectedWith(
             errors.BundleNameOrTagNotValidError
@@ -104,7 +105,8 @@ describe("BundlesClient.create", () => {
             name: "1",
             tag: "*",
             description: "1",
-            content: targzOf({ file: "file" })
+            content: targzOf({ file: "file" }),
+            fallbackAssetPath: "/file"
         });
         await expect(createPromise).to.be.rejectedWith(
             errors.BundleNameOrTagNotValidError
@@ -113,12 +115,28 @@ describe("BundlesClient.create", () => {
             "* is not a valid tag for a bundle"
         );
     });
+    it("throws a BundleFallbackAssetNotFound if the passed in fallbackAssetPath doesn't have a corresponding asset", async () => {
+        const createPromise = storageClient.bundles.create({
+            name: "1",
+            tag: "1",
+            description: "1",
+            content: targzOf({ file: "file" }),
+            fallbackAssetPath: "/non-existing"
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            errors.BundleFallbackAssetNotFound
+        );
+        await expect(createPromise).to.be.rejectedWith(
+            "Asset /non-existing not found in bundle, cannot be set as fallback asset"
+        );
+    });
     it("creates a bundle", async () => {
         await storageClient.bundles.create({
             name: "1",
             tag: "1",
             description: "1",
-            content: targzOf({ file: "file" })
+            content: targzOf({ file: "file" }),
+            fallbackAssetPath: "/file"
         });
         const bundleInstance = await models.Bundle.findOne({
             where: { name: eq("1") }
@@ -130,7 +148,8 @@ describe("BundlesClient.create", () => {
             name: "1",
             tag: "1",
             description: "1",
-            content: targzOf({ file: "file" })
+            content: targzOf({ file: "file" }),
+            fallbackAssetPath: "/file"
         });
         const bundleInstance = await models.Bundle.findOne({
             where: { name: eq("1") }
@@ -145,7 +164,8 @@ describe("BundlesClient.create", () => {
             content: targzOf({
                 "index.html": "index.html",
                 "index.js": "index.js"
-            })
+            }),
+            fallbackAssetPath: "/index.html"
         });
         const indexHtmlObject = await s3Client
             .getObject({
@@ -170,7 +190,8 @@ describe("BundlesClient.create", () => {
             content: targzOf({
                 "index.html": "index.html",
                 "index.js": "index.js"
-            })
+            }),
+            fallbackAssetPath: "/index.html"
         });
         expect(bundle).to.have.property("assets");
         expect(sortBy(bundle.assets, "path")).to.deep.equal(
@@ -236,7 +257,8 @@ describe("BundlesClient.getBundleAssetContent", () => {
             name: "1",
             tag: "1",
             description: "1",
-            content: targzOf({ file: "file" })
+            content: targzOf({ file: "file" }),
+            fallbackAssetPath: "/file"
         });
     });
     it("throws a BundleNotFoundError if no bundle with the specified id exists", async () => {
