@@ -7,5 +7,6 @@ export default interface IBundle {
     description: string;
     hash: string;
     assets: IAsset[];
+    fallbackAssetPath: string;
     createdAt: Date;
 }
