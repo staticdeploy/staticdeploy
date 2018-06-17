@@ -12,7 +12,8 @@ export default (
             err instanceof storage.AppNameNotValidError ||
             err instanceof storage.EntrypointUrlMatcherNotValidError ||
             err instanceof storage.BundleNameOrTagNotValidError ||
-            err instanceof storage.BundleNameTagCombinationNotValidError
+            err instanceof storage.BundleNameTagCombinationNotValidError ||
+            err instanceof storage.BundleFallbackAssetNotFound
         ) {
             res.status(400).send({ message: err.message });
         } else if (

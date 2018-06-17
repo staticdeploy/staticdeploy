@@ -468,6 +468,12 @@
   dependencies:
     "@types/node" "*"
 
+"@types/fs-extra@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-5.0.3.tgz#feb31d55eeae3ccd5f92dbce806344a6c777a713"
+  dependencies:
+    "@types/node" "*"
+
 "@types/geojson@^1.0.0":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.6.tgz#3e02972728c69248c2af08d60a48cbb8680fffdf"
