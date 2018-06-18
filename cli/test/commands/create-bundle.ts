@@ -28,7 +28,8 @@ describe("deploy command", () => {
         apiToken: "api-token",
         name: "name",
         tag: "tag",
-        description: "description"
+        description: "description",
+        fallbackAssetPath: "/index.html"
     };
 
     beforeEach(async () => {
@@ -59,6 +60,17 @@ describe("deploy command", () => {
             from: join(targetTree, "not-a-directory")
         });
         await expect(createPromise).to.be.rejectedWith(/No directory found at/);
+    });
+
+    it("throws error if there is no file corresponding to the specified fallbackAssetPath", async () => {
+        const createPromise = createBundle.handler({
+            ...commonOptions,
+            from: join(targetTree, "target"),
+            fallbackAssetPath: "/non-existing"
+        });
+        await expect(createPromise).to.be.rejectedWith(
+            /\/non-existing cannot be set as fallbackAssetPath/
+        );
     });
 
     it("packages the target path into a tar archive", async () => {

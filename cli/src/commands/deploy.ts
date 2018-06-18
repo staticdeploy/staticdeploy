@@ -37,11 +37,13 @@ const command: CommandModule = {
             apiUrl: argv.apiUrl,
             apiToken: argv.apiToken
         });
+
         await client.deploy({
             appName: argv.app,
             entrypointUrlMatcher: argv.entrypoint,
             bundleNameTagCombination: argv.bundle
         });
+
         log.success(
             `bundle ${argv.bundle} deployed to entrypoint ${argv.entrypoint}`
         );
