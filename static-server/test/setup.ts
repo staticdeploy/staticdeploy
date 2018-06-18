@@ -49,7 +49,7 @@ interface IData {
         redirectTo?: string;
         configuration?: IConfiguration;
     }[];
-    bundles?: { content: Buffer }[];
+    bundles?: { content: Buffer; fallbackAssetPath: string }[];
 }
 interface IIds {
     apps: string[];
@@ -97,7 +97,8 @@ async function insertFixtures(data: IData): Promise<IIds> {
             name: "name",
             tag: "tag",
             description: "description",
-            content: bundle.content
+            content: bundle.content,
+            fallbackAssetPath: bundle.fallbackAssetPath
         });
         ids.bundles.push(id);
     }
@@ -127,6 +128,7 @@ export interface ITestDefinition {
     entrypoints: {
         urlMatcher: string;
         bundleContent?: IDefinition;
+        bundleFallbackAssetPath?: string;
         redirectTo?: string;
         configuration?: IConfiguration;
         defaultConfiguration?: IConfiguration;
@@ -177,7 +179,8 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 // Create a bundle for each entrypoint in the test definition
                 // specifying a bundleContent
                 bundles: entrypoints.filter(entrypoint => entrypoint.bundleContent).map(entrypoint => ({
-                    content: targzOf(entrypoint.bundleContent!)
+                    content: targzOf(entrypoint.bundleContent!),
+                    fallbackAssetPath: entrypoint.bundleFallbackAssetPath!
                 }))
             });
 

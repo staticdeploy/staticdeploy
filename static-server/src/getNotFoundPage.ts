@@ -20,7 +20,7 @@ export class NotFoundError extends Error {
 function getTitle(notFoundError: NotFoundError) {
     switch (notFoundError.code) {
         case NotFoundErrorCode.noEntrypointFound:
-            return "No entrypoint found";
+            return "Entrypoint not found";
         case NotFoundErrorCode.noBundleDeployed:
             return "No bundle deployed";
     }

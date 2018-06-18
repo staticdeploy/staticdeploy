@@ -68,48 +68,42 @@ describe("BundlesClient", () => {
                     name: "name",
                     tag: "tag",
                     description: "description",
-                    content: "content"
+                    content: "content",
+                    fallbackAssetPath: "/fallback"
                 })
                 .reply(201);
             await staticdeployClient.bundles.create({
                 name: "name",
                 tag: "tag",
                 description: "description",
-                content: "content"
+                content: "content",
+                fallbackAssetPath: "/fallback"
             });
             scope.done();
         });
         it("returns the created bundle", async () => {
             nock(baseUrl)
-                .post("/bundles", {
-                    name: "name",
-                    tag: "tag",
-                    description: "description",
-                    content: "content"
-                })
+                .post("/bundles")
                 .reply(201, {});
             const bundle = await staticdeployClient.bundles.create({
                 name: "name",
                 tag: "tag",
                 description: "description",
-                content: "content"
+                content: "content",
+                fallbackAssetPath: "/fallback"
             });
             expect(bundle).to.deep.equal({});
         });
         it("inflates dates", async () => {
             nock(baseUrl)
-                .post("/bundles", {
-                    name: "name",
-                    tag: "tag",
-                    description: "description",
-                    content: "content"
-                })
+                .post("/bundles")
                 .reply(201, { createdAt: unixEpochISO });
             const bundle = await staticdeployClient.bundles.create({
                 name: "name",
                 tag: "tag",
                 description: "description",
-                content: "content"
+                content: "content",
+                fallbackAssetPath: "/fallback"
             });
             expect(bundle).to.deep.equal({ createdAt: unixEpoch });
         });

@@ -14,12 +14,15 @@
             "@types/chai-fuzzy",
             "@types/express",
             "@types/express-jwt",
+            "@types/fs-extra",
             "@types/jsonwebtoken",
             "@types/lodash",
             "@types/mocha",
             "@types/s3rver",
             "@types/sinon",
-            "@types/supertest"
+            "@types/supertest",
+            "@types/tar",
+            "@types/uuid"
         ],
         "baseUrl": "src",
         "outDir": "build",

@@ -1,17 +1,26 @@
 import chai from "chai";
 import chaiFuzzy from "chai-fuzzy";
+import { createTree, destroyTree, IDefinition } from "create-fs-tree";
+import { mkdirpSync, readFileSync, removeSync } from "fs-extra";
 import { Server } from "http";
 import { tmpdir } from "os";
 import { join } from "path";
 import S3rver from "s3rver";
+import tar from "tar";
+import { v4 } from "uuid";
 
 import storage from "services/storage";
 
+// Setup chai plugins
 chai.use(chaiFuzzy);
+
+// Base test directory
+const tempTestDirPath = join(tmpdir(), "/staticdeploy/api-server");
+mkdirpSync(tempTestDirPath);
 
 // Start the S3 mock
 const s3rver = new S3rver({
-    directory: join(tmpdir(), "staticdeploy/api-server/s3"),
+    directory: join(tempTestDirPath, "/s3"),
     silent: true
 });
 let s3rverServer: Server;
@@ -24,6 +33,19 @@ before(done => {
 after(done => {
     s3rverServer.close(done);
 });
+
+// Makes a targz buffer from a create-fs-tree filesystem definition
+export function targzOf(definition: IDefinition): Buffer {
+    const targzId = v4();
+    const contentPath = join(tempTestDirPath, targzId);
+    const contentTargzPath = join(tempTestDirPath, `${targzId}.tar.gz`);
+    createTree(contentPath, definition);
+    tar.create({ cwd: contentPath, file: contentTargzPath, sync: true }, ["."]);
+    destroyTree(contentPath);
+    const contentTargz = readFileSync(contentTargzPath);
+    removeSync(contentTargzPath);
+    return contentTargz;
+}
 
 // Function to insert fixtures into staticdeploy's storage
 export interface IData {
@@ -71,7 +93,8 @@ export async function insertFixtures(data: IData): Promise<IIds> {
         const { id } = await storage.bundles.create({
             ...bundle,
             description: "description",
-            content: Buffer.from("")
+            content: targzOf({ file: "file" }),
+            fallbackAssetPath: "/file"
         });
         ids.bundles.push(id);
     }

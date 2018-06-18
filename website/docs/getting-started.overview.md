@@ -23,9 +23,12 @@ the entities StaticDeploy deals with.
 
 ### Bundles
 
-Bundles are tar.gz archives of static content, plus associated metadata
-describing them (a name, a tag, a description, etc.). Conceptually bundles are
-equivalent to docker images.
+Bundles are tar.gz archives of static content (assets), plus associated metadata
+describing the archives (a name, a tag, a description, etc.). Conceptually
+bundles are equivalent to docker images.
+
+Bundles must specify a fallback asset, an asset that will be served to requests
+that don't match any other asset.
 
 Bundles can be created with the `create-bundle` command of the StaticDeploy cli,
 by giving it a folder that gets archived into a tar.gz and uploaded to the

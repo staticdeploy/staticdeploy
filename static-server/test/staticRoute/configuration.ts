@@ -20,8 +20,10 @@ describe("staticRoute configuration injection", () => {
             {
                 urlMatcher: "domain.com/",
                 bundleContent: {
-                    asset: htmlWithConfig
-                }
+                    asset: htmlWithConfig,
+                    fallback: "fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
@@ -39,8 +41,10 @@ describe("staticRoute configuration injection", () => {
                 urlMatcher: "domain.com/",
                 defaultConfiguration: { KEY: "DEFAULT_VALUE" },
                 bundleContent: {
-                    "asset.html": htmlWithConfig
-                }
+                    "asset.html": htmlWithConfig,
+                    fallback: "fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
@@ -67,8 +71,10 @@ describe("staticRoute configuration injection", () => {
                     "asset.html": htmlWithConfig,
                     nested: {
                         "index.html": htmlWithConfig
-                    }
-                }
+                    },
+                    fallback: "fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [

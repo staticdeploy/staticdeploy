@@ -53,6 +53,13 @@ export class BundleNameTagCombinationNotValidError extends Error {
         );
     }
 }
+export class BundleFallbackAssetNotFound extends Error {
+    constructor(fallbackAssetPath: string) {
+        super(
+            `Asset ${fallbackAssetPath} not found in bundle, cannot be set as fallback asset`
+        );
+    }
+}
 
 // Entrypoint errors
 export class EntrypointNotFoundError extends Error {

@@ -28,7 +28,7 @@ describe("staticRoute routing", () => {
         ]
     });
 
-    test("404 when the matching entrypoint has no linked bundle", {
+    test("404 when the matching entrypoint has no linked bundle and no configured redirect", {
         entrypoints: [{ urlMatcher: "domain.com/" }],
         testCases: [
             {
@@ -45,21 +45,6 @@ describe("staticRoute routing", () => {
         ]
     });
 
-    test("404 when the fallback resource /index.html is not found", {
-        entrypoints: [
-            {
-                urlMatcher: "domain.com/",
-                bundleContent: {}
-            }
-        ],
-        testCases: [
-            {
-                requestedUrl: "domain.com/asset",
-                expectedStatusCode: 404
-            }
-        ]
-    });
-
     /*
     *   301-s
     */
@@ -69,19 +54,24 @@ describe("staticRoute routing", () => {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     path: "domain.com/ + /path",
-                    pathAsset: "domain.com/ + /pathAsset"
-                }
+                    pathAsset: "domain.com/ + /pathAsset",
+                    fallback: "domain.com + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             },
             {
                 urlMatcher: "domain.com/path/",
                 bundleContent: {
                     subpath: "domain.com/path/ + /subpath",
-                    subpathAsset: "domain.com/path/ + /subpathAsset"
-                }
+                    subpathAsset: "domain.com/path/ + /subpathAsset",
+                    fallback: "domain.com/path/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             },
             {
                 urlMatcher: "domain.com/path/subpath/",
-                bundleContent: {}
+                bundleContent: { fallback: "domain.com/path/subpath/ + /fallback" },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
@@ -114,15 +104,19 @@ describe("staticRoute routing", () => {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     asset: "domain.com/ + /asset",
-                    nested: { asset: "domain.com/ + /nested/asset" }
-                }
+                    nested: { asset: "domain.com/ + /nested/asset" },
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             },
             {
                 urlMatcher: "domain.com/path/",
                 bundleContent: {
                     asset: "domain.com/path/ + /asset",
-                    nested: { asset: "domain.com/path/ + /nested/asset" }
-                }
+                    nested: { asset: "domain.com/path/ + /nested/asset" },
+                    fallback: "domain.com/path/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
@@ -198,21 +192,27 @@ describe("staticRoute routing", () => {
             {
                 urlMatcher: "domain.com/",
                 bundleContent: {
-                    path: { asset: "domain.com/ + /path/asset" }
-                }
+                    path: { asset: "domain.com/ + /path/asset" },
+                    fallback: "domain.com/ + fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             },
             {
                 urlMatcher: "domain.com/path/",
                 bundleContent: {
                     asset: "domain.com/path/ + /asset",
-                    subpath: { asset: "domain.com/path/ + /subpath/asset" }
-                }
+                    subpath: { asset: "domain.com/path/ + /subpath/asset" },
+                    fallback: "domain.com/path/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             },
             {
                 urlMatcher: "domain.com/path/subpath/",
                 bundleContent: {
-                    asset: "domain.com/path/subpath/ + /asset"
-                }
+                    asset: "domain.com/path/subpath/ + /asset",
+                    fallback: "domain.com/path/subpath/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
@@ -235,8 +235,10 @@ describe("staticRoute routing", () => {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     asset: "domain.com/ + /asset",
-                    nested: { asset: "domain.com/ + /nested/asset" }
-                }
+                    nested: { asset: "domain.com/ + /nested/asset" },
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
@@ -253,78 +255,41 @@ describe("staticRoute routing", () => {
         ]
     });
 
-    test("serves the .html file even when .html is omitted in the url", {
+    test("when file requestedPath doesn't exist, but requestPath + .html exists, serves it", {
+        entrypoints: [
+            {
+                urlMatcher: "domain.com/",
+                bundleContent: {
+                    "path.html": htmlWith("domain.com/ + /path.html"),
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
+            }
+        ],
+        testCases: [
+            {
+                requestedUrl: "domain.com/path",
+                expectedStatusCode: 200,
+                expectedBody: htmlWith("domain.com/ + /path.html")
+            },
+            {
+                requestedUrl: "domain.com/path/",
+                expectedStatusCode: 200,
+                expectedBody: htmlWith("domain.com/ + /path.html")
+            }
+        ]
+    });
+
+    test("when file requestedPath doesn't exist, but requestPath + /index.html exists, serves it", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     "index.html": htmlWith("domain.com/ + /index.html"),
-                    "a.html": htmlWith("domain.com/ + /a.html"),
-                    "asset.html": htmlWith("domain.com/ + /asset.html"),
-                    nested: {
-                        "index.html": htmlWith("domain.com/ + /nested/index.html"),
-                        "a.html": htmlWith("domain.com/ + /nested/a.html"),
-                        "asset.html": htmlWith("domain.com/ + /nested/asset.html")
-                    }
-                }
-            }
-        ],
-        testCases: [
-            {
-                requestedUrl: "domain.com/a",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /a.html")
-            },
-            {
-                requestedUrl: "domain.com/asset",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /asset.html")
-            },
-            {
-                requestedUrl: "domain.com/nested/a",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested/a.html")
-            },
-            {
-                requestedUrl: "domain.com/nested/asset",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested/asset.html")
-            }
-        ]
-    });
-
-    test("serves the .html file even when .html is omitted and the url has a trailing slash", {
-        entrypoints: [
-            {
-                urlMatcher: "domain.com/",
-                bundleContent: {
-                    "asset.html": htmlWith("domain.com/ + /asset.html"),
-                    nested: { "asset.html": htmlWith("domain.com/ + /nested/asset.html") }
-                }
-            }
-        ],
-        testCases: [
-            {
-                requestedUrl: "domain.com/asset/",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /asset.html")
-            },
-            {
-                requestedUrl: "domain.com/nested/asset/",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested/asset.html")
-            }
-        ]
-    });
-
-    test("serves requestedPath + /index.html when that file exists", {
-        entrypoints: [
-            {
-                urlMatcher: "domain.com/",
-                bundleContent: {
-                    "index.html": htmlWith("domain.com/ + /index.html"),
-                    nested: { "index.html": htmlWith("domain.com/ + /nested/index.html") }
-                }
+                    path: { "index.html": htmlWith("domain.com/ + /path/index.html") },
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
@@ -334,82 +299,95 @@ describe("staticRoute routing", () => {
                 expectedBody: htmlWith("domain.com/ + /index.html")
             },
             {
-                requestedUrl: "domain.com/nested",
+                requestedUrl: "domain.com/path",
                 expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested/index.html")
+                expectedBody: htmlWith("domain.com/ + /path/index.html")
             },
             {
-                requestedUrl: "domain.com/nested/",
+                requestedUrl: "domain.com/path/",
                 expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested/index.html")
+                expectedBody: htmlWith("domain.com/ + /path/index.html")
             }
         ]
     });
 
-    test("when files requestedPath and requestedPath + /index.html exist, serves the second", {
+    test("when files requestedPath and requestedPath + .html exist, serves the first", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
                 bundleContent: {
-                    "nested.html": htmlWith("domain.com/ + /nested.html"),
-                    nested: { "index.html": htmlWith("domain.com/ + /nested/index.html") },
-                    "n.html": htmlWith("domain.com/ + /n.html"),
-                    n: { "index.html": htmlWith("domain.com/ + /n/index.html") }
-                }
+                    path: "domain.com/ + /path",
+                    "path.html": htmlWith("domain.com/ + /path.html"),
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
             {
-                requestedUrl: "domain.com/nested",
+                requestedUrl: "domain.com/path",
                 expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested/index.html")
+                expectedBody: "domain.com/ + /path"
             },
             {
-                requestedUrl: "domain.com/nested/",
+                requestedUrl: "domain.com/path/",
                 expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested/index.html")
-            },
-            {
-                // The file "/nested.html/index.html" does not exist, hence we
-                // expect /nested.html to be served
-                requestedUrl: "domain.com/nested.html",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /nested.html")
-            },
-            {
-                requestedUrl: "domain.com/n",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /n/index.html")
-            },
-            {
-                requestedUrl: "domain.com/n/",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /n/index.html")
-            },
-            {
-                // The file "/n.html/index.html" does not exist, hence we
-                // expect /n.html to be served
-                requestedUrl: "domain.com/n.html",
-                expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /n.html")
+                expectedBody: "domain.com/ + /path"
             }
         ]
     });
+
+    test(
+        "when file requestedPath doesn't exist, but files requestedPath + .html and requestedPath + /index.html exist, serves the first",
+        {
+            entrypoints: [
+                {
+                    urlMatcher: "domain.com/",
+                    bundleContent: {
+                        "path.html": htmlWith("domain.com/ + /path.html"),
+                        path: {
+                            "index.html": htmlWith("domain.com/ + /path/index.html")
+                        },
+                        fallback: "domain.com/ + /fallback"
+                    },
+                    bundleFallbackAssetPath: "/fallback"
+                }
+            ],
+            testCases: [
+                {
+                    requestedUrl: "domain.com/path",
+                    expectedStatusCode: 200,
+                    expectedBody: htmlWith("domain.com/ + /path.html")
+                },
+                {
+                    requestedUrl: "domain.com/path/",
+                    expectedStatusCode: 200,
+                    expectedBody: htmlWith("domain.com/ + /path.html")
+                }
+            ]
+        }
+    );
 
     test("serves the fallback resource index.html when no asset matches", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
                 bundleContent: {
-                    "index.html": htmlWith("domain.com/ + /index.html")
-                }
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback"
             }
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/non-existing",
                 expectedStatusCode: 200,
-                expectedBody: htmlWith("domain.com/ + /index.html")
+                expectedBody: "domain.com/ + /fallback"
+            },
+            {
+                requestedUrl: "domain.com/nested/non-existing",
+                expectedStatusCode: 200,
+                expectedBody: "domain.com/ + /fallback"
             }
         ]
     });
@@ -421,20 +399,26 @@ describe("staticRoute routing", () => {
                 {
                     urlMatcher: "host.com/",
                     bundleContent: {
-                        "index.html": htmlWith("host.com/ + /index.html")
-                    }
+                        "index.html": htmlWith("host.com/ + /index.html"),
+                        fallback: "host.com/ + /fallback"
+                    },
+                    bundleFallbackAssetPath: "/fallback"
                 },
                 {
                     urlMatcher: "x-forwarded-host.com/",
                     bundleContent: {
-                        "index.html": htmlWith("x-forwarded-host.com/ + /index.html")
-                    }
+                        "index.html": htmlWith("x-forwarded-host.com/ + /index.html"),
+                        fallback: "x-forwarded-host.com/ + /fallback"
+                    },
+                    bundleFallbackAssetPath: "/fallback"
                 },
                 {
                     urlMatcher: "custom.com/",
                     bundleContent: {
-                        "index.html": htmlWith("custom.com/ + /index.html")
-                    }
+                        "index.html": htmlWith("custom.com/ + /index.html"),
+                        fallback: "custom.com/ + /fallback"
+                    },
+                    bundleFallbackAssetPath: "/fallback"
                 }
             ],
             testCases: [

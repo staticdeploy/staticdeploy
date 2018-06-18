@@ -24,6 +24,7 @@ interface IArgv extends apiConfig.IApiConfig {
     name: string;
     tag: string;
     description: string;
+    fallbackAssetPath: string;
 }
 
 const command: CommandModule = {
@@ -36,6 +37,12 @@ const command: CommandModule = {
             type: "string",
             coerce: resolve,
             demandOption: true
+        },
+        fallbackAssetPath: {
+            describe:
+                "Absolute path (relative to the 'from' directory) of the asset to use as fallback when requests don't match any other asset",
+            type: "string",
+            default: "/index.html"
         },
         // For some reason, when calling the following property 'name',
         // TypeScript complains about the type of property 'builder' being
@@ -63,19 +70,37 @@ const command: CommandModule = {
         }
     },
     handler: handleCommandHandlerErrors(async (argv: IArgv) => {
+        // Ensure the 'from' directory exists
         if (!existsSync(argv.from) || !statSync(argv.from).isDirectory()) {
             throw new Error(`No directory found at ${argv.from}`);
         }
+
+        // Ensure fallbackAssetPath points to an existing asset
+        const fallbackAssetLocalPath = join(argv.from, argv.fallbackAssetPath);
+        if (
+            !existsSync(fallbackAssetLocalPath) ||
+            !statSync(fallbackAssetLocalPath).isFile()
+        ) {
+            throw new Error(
+                `File ${fallbackAssetLocalPath} not found, ${
+                    argv.fallbackAssetPath
+                } cannot be set as fallbackAssetPath`
+            );
+        }
+
         const client = new StaticdeployClient({
             apiUrl: argv.apiUrl,
             apiToken: argv.apiToken
         });
+
         await client.bundles.create({
             content: targzOfDir(argv.from).toString("base64"),
             name: argv.name,
             tag: argv.tag,
-            description: argv.description
+            description: argv.description,
+            fallbackAssetPath: argv.fallbackAssetPath
         });
+
         log.success(`created bundle ${argv.name}:${argv.tag}`);
     })
 };

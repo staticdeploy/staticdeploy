@@ -18,6 +18,7 @@ export default (sequelize: Sequelize.Sequelize): BundleModel =>
             description: { type: Sequelize.TEXT },
             hash: { type: Sequelize.STRING },
             assets: { type: Sequelize.JSON },
+            fallbackAssetPath: { type: Sequelize.STRING },
             createdAt: { type: Sequelize.DATE }
         },
         {

@@ -1,7 +1,7 @@
 import { IBundle } from "@staticdeploy/common-types";
 import { S3 } from "aws-sdk";
 import { mkdirp, remove } from "fs-extra";
-import { isEmpty } from "lodash";
+import { isEmpty, some } from "lodash";
 import md5 from "md5";
 import { getType } from "mime";
 import { readFile, writeFile } from "mz/fs";
@@ -74,6 +74,7 @@ export default class BundlesClient {
         tag: string;
         description: string;
         content: Buffer;
+        fallbackAssetPath: string;
     }): Promise<IBundle> {
         // Validate name and tag
         validators.validateBundleNameOrTag(partial.name, "name");
@@ -100,6 +101,13 @@ export default class BundlesClient {
             mimeType: getType(localPath) || "application/octet-stream"
         }));
 
+        // Ensure the fallbackAssetPath corresponds to an asset in the bundle
+        if (!some(assets, { path: partial.fallbackAssetPath })) {
+            throw new errors.BundleFallbackAssetNotFound(
+                partial.fallbackAssetPath
+            );
+        }
+
         // Upload files to S3
         await concurrentForEach(assets, async asset => {
             const assetContent = await readFile(join(rootPath, asset.path));
@@ -122,7 +130,8 @@ export default class BundlesClient {
             tag: partial.tag,
             description: partial.description,
             hash: md5(partial.content),
-            assets: assets
+            assets: assets,
+            fallbackAssetPath: partial.fallbackAssetPath
         });
 
         return toPojo(bundle);
