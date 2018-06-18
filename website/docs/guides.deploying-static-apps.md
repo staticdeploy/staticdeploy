@@ -35,14 +35,18 @@ Deploying a static app is a two step process.
 First, we need to create a bundle from the folder containing our static app. We
 can do so with the `create-bundle` command of the cli, to which we also
 provide - aside from the folder where our app is located - a name for the
-bundle, a tag and a description:
+bundle, a tag, a description, and the path of the fallback asset (which must
+exist in the bundle):
 
 ```sh
 staticdeploy create-bundle \
   --from my-static-app-folder \
   --name my-static-app \
   --tag master \
-  --description "First bundle"
+  --description "First bundle" \
+  # If your fallback asset actually is /index.html, you can omit this option
+  # since it defaults to /index.html
+  --fallbackAssetPath /index.html
 ```
 
 The command will package the static app into a tar.gz archive and upload it to
