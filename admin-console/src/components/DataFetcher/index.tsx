@@ -24,7 +24,7 @@ interface IProps<FecthDataResult, ProxiedProps> {
 
 export enum FetchStatus {
     STARTED,
-    SUCCEDED,
+    SUCCEEDED,
     FAILED
 }
 interface IState<FecthDataResult> {
@@ -70,7 +70,7 @@ export default class DataFetcher<
             });
             const result = await props.fetchData(props.proxiedProps);
             this.setState({
-                status: FetchStatus.SUCCEDED,
+                status: FetchStatus.SUCCEEDED,
                 result: result,
                 error: null
             });
@@ -124,7 +124,7 @@ export default class DataFetcher<
         switch (this.state.status) {
             case FetchStatus.STARTED:
                 return this.renderSpinner();
-            case FetchStatus.SUCCEDED:
+            case FetchStatus.SUCCEEDED:
                 return this.renderComponent();
             case FetchStatus.FAILED:
                 return this.renderError();

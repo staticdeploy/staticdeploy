@@ -62,7 +62,7 @@ export default (options: IStaticRouteOptions) => async (
         *       requestedUrl === "domain.com/path"
         *
         *   In this situation other, shorter entrypoints might match the
-        *   requetsed url, for instance an entrypoint with urlMatcher
+        *   requested url, for instance an entrypoint with urlMatcher
         *   "domain.com/" in the example above.
         *
         *   We have three possible ways to handle the request:
@@ -84,8 +84,8 @@ export default (options: IStaticRouteOptions) => async (
     }
 
     // If a redirect for the entrypoint is specified, redirect to it with a 302.
-    // We don't use a 301 because the redirectTo property can be dinamically
-    // changed by the staticdeploy admins
+    // We don't use a 301 because the redirectTo property can be dynamically
+    // changed by the StaticDeploy admins
     if (matchingEntrypoint.redirectTo) {
         res.redirect(302, matchingEntrypoint.redirectTo);
         return;

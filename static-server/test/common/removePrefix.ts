@@ -9,12 +9,12 @@ describe("common removePrefix", () => {
             const prefix = "";
             expect(removePrefix(target, prefix)).to.equal("target");
         });
-        it("case: 0 < prefix.length < taregt.length", () => {
+        it("case: 0 < prefix.length < target.length", () => {
             const target = "target";
             const prefix = "tar";
             expect(removePrefix(target, prefix)).to.equal("get");
         });
-        it("case: prefix.length = taregt.length", () => {
+        it("case: prefix.length = target.length", () => {
             const target = "target";
             const prefix = "target";
             expect(removePrefix(target, prefix)).to.equal("");

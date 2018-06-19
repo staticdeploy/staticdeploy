@@ -47,7 +47,7 @@ export function targzOf(definition: IDefinition): Buffer {
     return contentTargz;
 }
 
-// Function to insert fixtures into staticdeploy's storage
+// Function to insert fixtures into StaticDeploy's storage
 export interface IData {
     apps?: { name: string }[];
     entrypoints?: {
@@ -65,7 +65,7 @@ export interface IIds {
     operationLogs: string[];
 }
 export async function insertFixtures(data: IData): Promise<IIds> {
-    // Setup and reset staticdeploy's storage
+    // Setup and reset StaticDeploy's storage
     await storage.setup();
     // Deleting all apps results in all entrypoints being deleted as well
     const apps = await storage.apps.findAll();

@@ -44,7 +44,7 @@
     "@types/express-jwt": "^0.0.40",
     "@types/fs-extra": "^5.0.3",
     "@types/jsonwebtoken": "^7.2.7",
-    "@types/lodash": "^4.14.109",
+    "@types/lodash": "^4.14.110",
     "@types/mocha": "^5.2.2",
     "@types/s3rver": "^0.0.30",
     "@types/sinon": "^5.0.1",

@@ -15,7 +15,7 @@ logger.debug("Server config", { config });
                 logger.info(`Server listening on port ${config.PORT}`);
             });
     } catch (err) {
-        logger.error(err, "Error boostrapping app");
+        logger.error(err, "Error bootstrapping app");
         process.exit(1);
     }
 })();

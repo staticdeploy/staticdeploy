@@ -1,13 +1,13 @@
 /*
 *   create-react-app does not play well with yarn workspaces, which hoist
 *   dependencies at the project root. Therefore we can't use it (or its
-*   TypeScript-orieted fork wmonk/create-react-app-typescript), and we have to
+*   TypeScript-oriented fork wmonk/create-react-app-typescript), and we have to
 *   "manually configure" webpack. Ejecting caused too much noise (too many
 *   files, too much unnecessary logic), so we just started from scratch copying
 *   bits and pieces from cra-typescript.
 *
-*   TODO: wait for facebookincubator/create-react-app#3435 to be resolved and
-*   merged into cra-typescript, then give it another shot.
+*   TODO: wait for facebook/create-react-app#3435 to be resolved and merged into
+*   cra-typescript, then give it another shot.
 */
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");

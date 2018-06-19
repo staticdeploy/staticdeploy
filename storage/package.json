@@ -51,7 +51,7 @@
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.0",
     "@types/fs-extra": "^5.0.3",
-    "@types/lodash": "^4.14.109",
+    "@types/lodash": "^4.14.110",
     "@types/md5": "^2.1.32",
     "@types/mime": "^2.0.0",
     "@types/mocha": "^5.2.2",

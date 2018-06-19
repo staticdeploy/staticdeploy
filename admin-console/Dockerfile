@@ -22,7 +22,7 @@ RUN yarn install && \
     # Compile code
     yarn compile
 
-FROM staticdeploy/app-server
+FROM staticdeploy/app-server:v2.1.0
 WORKDIR /website-root
 COPY --from=0 /workspace/admin-console/build /website-root
 ENV APP_SERVER_ROOT /website-root

@@ -40,7 +40,7 @@ describe("DataFetcher", () => {
     it("when state.status === FetchStatus.SUCCEEDED, renders the passed in Component with the fetch result, a re-fetch function, and proxied props", () => {
         const dataFetcher = shallow(<DataFetcher {...props} />);
         dataFetcher.setState({
-            status: FetchStatus.SUCCEDED,
+            status: FetchStatus.SUCCEEDED,
             result: "result"
         });
         const component = dataFetcher.find(props.Component);
@@ -53,7 +53,7 @@ describe("DataFetcher", () => {
     it("the re-fetch function passed to Component, when called re-calls fetchData", () => {
         const dataFetcher = shallow(<DataFetcher {...props} />);
         dataFetcher.setState({
-            status: FetchStatus.SUCCEDED,
+            status: FetchStatus.SUCCEEDED,
             result: "result"
         });
         const component = dataFetcher.find(props.Component);

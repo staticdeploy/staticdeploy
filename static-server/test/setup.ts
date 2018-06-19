@@ -40,7 +40,7 @@ after(done => {
     s3rverServer.close(done);
 });
 
-// Function to insert fixtures into staticdeploy's storage
+// Function to insert fixtures into StaticDeploy's storage
 interface IData {
     apps?: { name: string; defaultConfiguration?: IConfiguration }[];
     entrypoints?: {
@@ -57,7 +57,7 @@ interface IIds {
     bundles: string[];
 }
 async function insertFixtures(data: IData): Promise<IIds> {
-    // Setup and reset staticdeploy's storage
+    // Setup and reset StaticDeploy's storage
     await storage.setup();
     // Deleting all apps results in all entrypoints being deleted as well
     const apps = await storage.apps.findAll();

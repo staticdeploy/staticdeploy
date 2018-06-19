@@ -21,7 +21,7 @@ describe("EntrypointsClient", () => {
             await staticdeployClient.entrypoints.getAll();
             scope.done();
         });
-        it("optionally sets a filter on the request with querystrig parameter ?appIdOrName", async () => {
+        it("optionally sets a filter on the request with querystring parameter ?appIdOrName", async () => {
             const scope = nock(baseUrl)
                 .get("/entrypoints?appIdOrName=value")
                 .reply(200, []);

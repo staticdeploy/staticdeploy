@@ -14,7 +14,7 @@ export default async function migrate(sequelize: Sequelize.Sequelize) {
     //
     // In CI, when testing all of StaticDeploy's modules at once, this 'migrate'
     // function is run both in the source and the compiled form. With default
-    // settings Umzug saves and checks exectued migrations using the file name
+    // settings Umzug saves and checks executed migrations using the file name
     // of the migration, and therefore executes both the .js and the .ts version
     // of each migration, and since migrations aren't idempotent, breaks.
     //

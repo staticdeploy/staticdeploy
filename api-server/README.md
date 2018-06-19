@@ -33,13 +33,12 @@ The following environment variables can be used to configure the server:
 
 - `JWT_SECRET`: jwt secret (not base64 encoded), defaults to `secret`
 
-> Storage configurtations
+> Storage configurations
 
 - `DATABASE_URL`: database connection string. Supported databases are
-  [sqlite](https://www.sqlite.org/) and
-  [postgresql](https://www.postgresql.org/)
-- `S3_BUCKET`: name of the S3 bucket to use for storing static content, defaults
-  to `staticdeploy`
+  [SQLite](https://www.sqlite.org/) and
+  [PostgreSQL](https://www.postgresql.org/)
+- `S3_BUCKET`: name of the S3 bucket to use for storing static content
 - `S3_ENDPOINT`: endpoint of the S3 server
 - `S3_ACCESS_KEY_ID`: access key id for the S3 server
 - `S3_SECRET_ACCESS_KEY`: secret access key for the S3 server

@@ -5,8 +5,8 @@ Module proxying access to storage resources. The module is used by the
 **static-server**, which uses it to read from the storage.
 
 Currently StaticDeploy uses S3 (or any API compatible alternative) to store
-static files, and either [sqlite](https://www.sqlite.org/) ot
-[postgresql](https://www.postgresql.org/) to store metadata about the files, as
+static files, and either [SQLite](https://www.sqlite.org/) ot
+[PostgreSQL](https://www.postgresql.org/) to store metadata about the files, as
 well as the other entities of StaticDeploy.
 
 ## Contributing
