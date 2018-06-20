@@ -560,9 +560,9 @@
   dependencies:
     csstype "^2.2.0"
 
-"@types/react@^16.4.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.0.tgz#f7f639837bf1f8635f57616b12a1b0d193b6343a"
+"@types/react@^16.4.1":
+  version "16.4.1"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.1.tgz#c53bbfb4a78933db587da085ac60dbf5fcf73f8f"
   dependencies:
     csstype "^2.2.0"
 
@@ -3487,9 +3487,9 @@ doctrine@^2.1.0:
   dependencies:
     esutils "^2.0.2"
 
-docusaurus@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/docusaurus/-/docusaurus-1.2.0.tgz#106c24772efb1131df327ecb06d72af554d282ec"
+docusaurus@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/docusaurus/-/docusaurus-1.2.1.tgz#1c5c67a0fe7ef040b54b8fa4652d9d28c872b01e"
   dependencies:
     babel-plugin-transform-class-properties "^6.24.1"
     babel-plugin-transform-object-rest-spread "^6.26.0"
@@ -3519,10 +3519,10 @@ docusaurus@^1.2.0:
     imagemin-svgo "^6.0.0"
     markdown-toc "^1.2.0"
     mkdirp "^0.5.1"
-    prismjs "^1.14.0"
-    react "^16.4.0"
+    prismjs "^1.15.0"
+    react "^16.4.1"
     react-dev-utils "^5.0.1"
-    react-dom "^16.4.0"
+    react-dom "^16.4.1"
     remarkable "^1.7.1"
     request "^2.87.0"
     shelljs "^0.7.8"
@@ -8218,7 +8218,7 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-prismjs@^1.14.0:
+prismjs@^1.15.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.15.0.tgz#8801d332e472091ba8def94976c8877ad60398d9"
   optionalDependencies:
@@ -8809,15 +8809,6 @@ react-dev-utils@^5.0.1:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-react-dom@^16.4.0:
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.0.tgz#099f067dd5827ce36a29eaf9a6cdc7cbf6216b1e"
-  dependencies:
-    fbjs "^0.8.16"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.0"
-
 react-dom@^16.4.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.1.tgz#7f8b0223b3a5fbe205116c56deb85de32685dad6"
@@ -8909,15 +8900,6 @@ react-test-renderer@^16.0.0-0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
     react-is "^16.3.2"
-
-react@^16.4.0:
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
-  dependencies:
-    fbjs "^0.8.16"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.0"
 
 react@^16.4.1:
   version "16.4.1"
@@ -10993,9 +10975,9 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validator@^10.3.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-10.3.0.tgz#157a8c0981858cff381f59aabcdb8f83b57317cc"
+validator@^10.4.0:
+  version "10.4.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-10.4.0.tgz#ee99a44afb3bb5ed350a159f056ca72a204cfc3c"
 
 validator@^9.4.1:
   version "9.4.1"

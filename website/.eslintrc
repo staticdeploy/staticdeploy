@@ -1,7 +1,7 @@
 {
     "parser": "babel-eslint",
     "extends": ["eslint:recommended", "plugin:react/recommended"],
-    "env": { "browser": true, "commonjs": true },
+    "env": { "browser": true, "commonjs": true, "node": true },
     "globals": { "process": true },
     "rules": {
         "react/display-name": false,

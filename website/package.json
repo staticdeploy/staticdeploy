@@ -19,15 +19,17 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:eslint": "eslint 'core/**/*.js' 'pages/**/*.js'",
     "lint": "yarn lint:prettier && yarn lint:eslint",
-    "compile": "rimraf build && NODE_ENV=production docusaurus-build"
+    "compile": "rimraf build && BUILD_FOR_PRODUCTION=true docusaurus-build && node scripts/fixBuild.js"
   },
   "dependencies": {
-    "docusaurus": "^1.2.0"
+    "docusaurus": "^1.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
+    "cheerio": "^1.0.0-rc.2",
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.9.1",
+    "fs-extra": "^6.0.1",
     "prettier": "^1.13.5",
     "rimraf": "^2.6.2",
     "strip-indent": "^2.0.0",
