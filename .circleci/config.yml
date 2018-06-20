@@ -64,7 +64,8 @@ jobs:
               --from website/build/staticdeploy \
               --name staticdeploy.io \
               --tag $BUNDLE_TAG \
-              --description "Commit $CIRCLE_SHA1"
+              --description "Commit $CIRCLE_SHA1" \
+              --fallbackAssetPath /notFound.html
       - run:
           name: Deploy website bundle to staticdeploy.io/_/branchOrTag/
           command: |
