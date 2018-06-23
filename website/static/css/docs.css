@@ -1,0 +1,28 @@
+/* Decrease page title size and distantiate a bit from the text underneath */
+.postHeader h1 {
+    font-size: 230% !important;
+}
+
+/* Splits a section of an article in two columns */
+.splitter {
+    display: flex;
+    justify-content: space-between;
+}
+.splitter .left {
+    width: calc(50% - 16px);
+}
+.splitter .right {
+    width: calc(50% - 16px);
+}
+
+/* Make blockquotes yellow (instead of red) and text inside them black */
+blockquote {
+    color: var(--black);
+    background-color: #fecb4d32;
+    border-left-color: #fecb4d64;
+}
+
+/* Only show sidebar scrollbar when necessary */
+.docsNavContainer {
+    overflow-y: auto;
+}

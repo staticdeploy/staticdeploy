@@ -1,5 +1,5 @@
 ---
-id: getting-started.overview
+id: getting-started-overview
 title: Overview
 ---
 

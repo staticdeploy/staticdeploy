@@ -1,0 +1,20 @@
+/* Reduce font weight of subtitle */
+.homePage .projectTitle small {
+    font-weight: 300;
+}
+
+/* Make all buttons on the home page the same width */
+.homePage .button {
+    width: 140px;
+}
+
+/* Reduce space between title and features list */
+.homePage .mainContainer {
+    padding-top: 0px;
+}
+
+/* Increase font size in feature blocks, match the color of the icons above*/
+.homePage .blockContent > div {
+    font-size: 18px;
+    color: #4a4a4a;
+}
