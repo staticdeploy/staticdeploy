@@ -1,5 +1,5 @@
 ---
-id: reference.entities
+id: reference-entities
 title: Entities
 ---
 

@@ -1,5 +1,5 @@
 ---
-id: guides.deploying-staticdeploy-with-docker
+id: guides-deploying-staticdeploy-with-docker
 title: Deploying StaticDeploy with docker
 ---
 

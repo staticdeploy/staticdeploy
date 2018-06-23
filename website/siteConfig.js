@@ -12,7 +12,7 @@ module.exports = {
     projectName: "staticdeploy",
     customDocsPath: "website/docs",
     headerLinks: [
-        { label: "Docs", doc: "getting-started.overview" },
+        { label: "Docs", doc: "getting-started-overview" },
         {
             label: "GitHub",
             href: "https://github.com/staticdeploy/staticdeploy"

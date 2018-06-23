@@ -1,17 +1,6 @@
-/*
-*   create-react-app does not play well with yarn workspaces, which hoist
-*   dependencies at the project root. Therefore we can't use it (or its
-*   TypeScript-oriented fork wmonk/create-react-app-typescript), and we have to
-*   "manually configure" webpack. Ejecting caused too much noise (too many
-*   files, too much unnecessary logic), so we just started from scratch copying
-*   bits and pieces from cra-typescript.
-*
-*   TODO: wait for facebook/create-react-app#3435 to be resolved and merged into
-*   cra-typescript, then give it another shot.
-*/
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const webpack = require("webpack");
 
@@ -42,10 +31,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
-                })
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
             },
             {
                 test: /\.tsx?$/,
@@ -67,14 +53,7 @@ module.exports = {
             inject: true,
             template: `${root}/public/index.html`
         }),
-        new ExtractTextPlugin("main.[contenthash:8].css"),
+        new MiniCssExtractPlugin({ filename: "main.[contenthash:8].css" }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-    ],
-    node: {
-        dgram: "empty",
-        fs: "empty",
-        net: "empty",
-        tls: "empty",
-        child_process: "empty"
-    }
+    ]
 };

@@ -1,5 +1,5 @@
 ---
-id: reference.architecture
+id: reference-architecture
 title: Architecture
 ---
 

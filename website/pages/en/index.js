@@ -30,7 +30,7 @@ const HomeSplash = () => (
                             <div className="pluginRowBlock">
                                 <Button
                                     href={withBaseUrl(
-                                        "/docs/getting-started.quickstart.html"
+                                        "/docs/getting-started-quickstart"
                                     )}
                                 >
                                     {"get started"}
@@ -89,7 +89,7 @@ const MainFeaturesRow = () => (
 );
 
 module.exports = () => (
-    <div>
+    <div className="homePage">
         <HomeSplash />
         <div className="mainContainer">
             <MainFeaturesRow />

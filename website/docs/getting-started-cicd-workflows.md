@@ -1,5 +1,5 @@
 ---
-id: getting-started.cicd-workflows
+id: getting-started-cicd-workflows
 title: CI/CD Workflow
 ---
 

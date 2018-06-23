@@ -1,5 +1,5 @@
 ---
-id: guides.deploying-static-apps
+id: guides-deploying-static-apps
 title: Deploying static apps
 ---
 

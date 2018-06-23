@@ -1,5 +1,5 @@
 ---
-id: getting-started.quickstart
+id: getting-started-quickstart
 title: Quickstart
 ---
 

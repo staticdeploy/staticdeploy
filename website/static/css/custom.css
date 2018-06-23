@@ -1,62 +1,20 @@
-/* Make inline code fit better withsorrounding text (height, spacing) */
-code {
-    font-size: 16px;
-    padding: 2px;
-    margin: 0px 2px;
+/* Define global colors */
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #33639d;
+    --black: #24292e;
+    --white: #ffffff;
 }
 
-/* Make all buttons on the home page the same width */
-.homeContainer .button {
-    width: 120px;
+/* Make titles' font thin and color them of the primary color */
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 300;
+    color: var(--primary-color);
 }
-
-/* Make the "Back to the homepage" button on the not found page fit its text */
-.notFoundPage .button {
-    width: 200px;
-}
-
-/* Lower the 404 + message block in the not found page */
-.notFoundPage .projectTitle {
-    margin-top: 50px;
-}
-
-/* Increase the size of the 404 in the not found page */
-.notFoundPage .fourOhFour {
-    font-size: 120px;
-}
-
-/* Decrease the size of the message in the not found page */
-.notFoundPage .fourOhFourMessage {
-    font-size: 36px;
-}
-
-/* Splits a section of an article in two columns */
-.splitter {
-    display: flex;
-    justify-content: space-between;
-}
-.splitter .left {
-    width: calc(50% - 16px);
-}
-.splitter .right {
-    width: calc(50% - 16px);
-}
-
-/* Decrease page title size and distantiate a bit from the text underneath */
-.postHeader h1 {
-    font-size: 230% !important;
-}
-.postHeader {
-    margin-bottom: 16px;
-}
-
-/* Make blockquotes yellow (instead of red) */
-blockquote {
-    background-color: #fecb4d32;
-    border-left-color: #fecb4d64;
-}
-
-/* Increase top margin of prev-next buttons in docs */
-.docs-prevnext {
-    margin: 50px 0;
+/* Except for the title in the top bar */
+.headerTitleWithLogo {
+    color: var(--white);
 }

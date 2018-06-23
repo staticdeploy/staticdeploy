@@ -1,0 +1,19 @@
+/* Make the "Back to the homepage" button on the not found page fit its text */
+.notFoundPage .button {
+    width: 200px;
+}
+
+/* Lower the 404 + message block in the not found page */
+.notFoundPage .projectTitle {
+    margin-top: 50px;
+}
+
+/* Increase the size of the 404 in the not found page */
+.notFoundPage .fourOhFour {
+    font-size: 120px;
+}
+
+/* Decrease the size of the message in the not found page */
+.notFoundPage .fourOhFourMessage {
+    font-size: 36px;
+}

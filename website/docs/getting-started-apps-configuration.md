@@ -1,5 +1,5 @@
 ---
-id: getting-started.apps-configuration
+id: getting-started-apps-configuration
 title: Apps configuration
 ---
 
