@@ -91,7 +91,9 @@ describe("BundlesClient.create", () => {
             tag: "1",
             description: "1",
             content: targzOf({ file: "file" }),
-            fallbackAssetPath: "/file"
+            fallbackAssetPath: "/file",
+            fallbackStatusCode: 200,
+            headers: {}
         });
         await expect(createPromise).to.be.rejectedWith(
             errors.BundleNameOrTagNotValidError
@@ -106,7 +108,9 @@ describe("BundlesClient.create", () => {
             tag: "*",
             description: "1",
             content: targzOf({ file: "file" }),
-            fallbackAssetPath: "/file"
+            fallbackAssetPath: "/file",
+            fallbackStatusCode: 200,
+            headers: {}
         });
         await expect(createPromise).to.be.rejectedWith(
             errors.BundleNameOrTagNotValidError
@@ -121,7 +125,9 @@ describe("BundlesClient.create", () => {
             tag: "1",
             description: "1",
             content: targzOf({ file: "file" }),
-            fallbackAssetPath: "/non-existing"
+            fallbackAssetPath: "/non-existing",
+            fallbackStatusCode: 200,
+            headers: {}
         });
         await expect(createPromise).to.be.rejectedWith(
             errors.BundleFallbackAssetNotFound
@@ -136,7 +142,9 @@ describe("BundlesClient.create", () => {
             tag: "1",
             description: "1",
             content: targzOf({ file: "file" }),
-            fallbackAssetPath: "/file"
+            fallbackAssetPath: "/file",
+            fallbackStatusCode: 200,
+            headers: {}
         });
         const bundleInstance = await models.Bundle.findOne({
             where: { name: eq("1") }
@@ -149,7 +157,9 @@ describe("BundlesClient.create", () => {
             tag: "1",
             description: "1",
             content: targzOf({ file: "file" }),
-            fallbackAssetPath: "/file"
+            fallbackAssetPath: "/file",
+            fallbackStatusCode: 200,
+            headers: {}
         });
         const bundleInstance = await models.Bundle.findOne({
             where: { name: eq("1") }
@@ -165,7 +175,9 @@ describe("BundlesClient.create", () => {
                 "index.html": "index.html",
                 "index.js": "index.js"
             }),
-            fallbackAssetPath: "/index.html"
+            fallbackAssetPath: "/index.html",
+            fallbackStatusCode: 200,
+            headers: {}
         });
         const indexHtmlObject = await s3Client
             .getObject({
@@ -191,14 +203,42 @@ describe("BundlesClient.create", () => {
                 "index.html": "index.html",
                 "index.js": "index.js"
             }),
-            fallbackAssetPath: "/index.html"
+            fallbackAssetPath: "/index.html",
+            fallbackStatusCode: 200,
+            headers: {
+                "**/*": { "**/*": "**/*" },
+                "**/*.html": { "**/*.html": "**/*.html" },
+                "**/*.js": { "**/*.js": "**/*.js" },
+                "/index.html": { "/index.html": "/index.html" },
+                "/index.js": { "/index.js": "/index.js" },
+                "!(/index.html)": { "!(/index.html)": "!(/index.html)" },
+                "!(/index.js)": { "!(/index.js)": "!(/index.js)" }
+            }
         });
         expect(bundle).to.have.property("assets");
         expect(sortBy(bundle.assets, "path")).to.deep.equal(
             sortBy(
                 [
-                    { path: "/index.html", mimeType: "text/html" },
-                    { path: "/index.js", mimeType: "application/javascript" }
+                    {
+                        path: "/index.html",
+                        mimeType: "text/html",
+                        headers: {
+                            "**/*": "**/*",
+                            "**/*.html": "**/*.html",
+                            "/index.html": "/index.html",
+                            "!(/index.js)": "!(/index.js)"
+                        }
+                    },
+                    {
+                        path: "/index.js",
+                        mimeType: "application/javascript",
+                        headers: {
+                            "**/*": "**/*",
+                            "**/*.js": "**/*.js",
+                            "/index.js": "/index.js",
+                            "!(/index.html)": "!(/index.html)"
+                        }
+                    }
                 ],
                 "path"
             )
@@ -258,7 +298,9 @@ describe("BundlesClient.getBundleAssetContent", () => {
             tag: "1",
             description: "1",
             content: targzOf({ file: "file" }),
-            fallbackAssetPath: "/file"
+            fallbackAssetPath: "/file",
+            fallbackStatusCode: 200,
+            headers: {}
         });
     });
     it("throws a BundleNotFoundError if no bundle with the specified id exists", async () => {

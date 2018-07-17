@@ -122,8 +122,15 @@ export async function insertFixtures(data: IData) {
             createdAt: bundle.createdAt,
             description: "description",
             hash: "hash",
-            assets: [{ path: "/file", mimeType: "application/octet-stream" }],
-            fallbackAssetPath: "/file"
+            assets: [
+                {
+                    path: "/file",
+                    mimeType: "application/octet-stream",
+                    headers: {}
+                }
+            ],
+            fallbackAssetPath: "/file",
+            fallbackStatusCode: 200
         });
         // Add a dummy file on S3
         await s3Client
