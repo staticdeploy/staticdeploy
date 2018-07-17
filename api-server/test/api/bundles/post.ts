@@ -36,7 +36,9 @@ describe("api POST /bundles", () => {
                 tag: "0",
                 description: "0",
                 content: targzOf({ file: "file" }).toString("base64"),
-                fallbackAssetPath: "/file"
+                fallbackAssetPath: "/file",
+                fallbackStatusCode: 200,
+                headers: {}
             })
             .expect(400)
             .expect({ message: "* is not a valid name for a bundle" });
@@ -51,7 +53,9 @@ describe("api POST /bundles", () => {
                 tag: "*",
                 description: "0",
                 content: targzOf({ file: "file" }).toString("base64"),
-                fallbackAssetPath: "/file"
+                fallbackAssetPath: "/file",
+                fallbackStatusCode: 200,
+                headers: {}
             })
             .expect(400)
             .expect({ message: "* is not a valid tag for a bundle" });
@@ -66,7 +70,9 @@ describe("api POST /bundles", () => {
                 tag: "0",
                 description: "0",
                 content: targzOf({ file: "file" }).toString("base64"),
-                fallbackAssetPath: "/non-existing"
+                fallbackAssetPath: "/non-existing",
+                fallbackStatusCode: 200,
+                headers: {}
             })
             .expect(400)
             .expect({
@@ -84,7 +90,9 @@ describe("api POST /bundles", () => {
                 tag: "0",
                 description: "0",
                 content: targzOf({ file: "file" }).toString("base64"),
-                fallbackAssetPath: "/file"
+                fallbackAssetPath: "/file",
+                fallbackStatusCode: 200,
+                headers: {}
             })
             .expect(201);
         const bundles = await storage.bundles.findAll();
@@ -100,7 +108,9 @@ describe("api POST /bundles", () => {
                 tag: "0",
                 description: "0",
                 content: targzOf({ file: "file" }).toString("base64"),
-                fallbackAssetPath: "/file"
+                fallbackAssetPath: "/file",
+                fallbackStatusCode: 200,
+                headers: {}
             })
             .expect(201);
         const [bundle] = await storage.bundles.findAll();
@@ -116,7 +126,9 @@ describe("api POST /bundles", () => {
                 tag: "0",
                 description: "0",
                 content: targzOf({ file: "file" }).toString("base64"),
-                fallbackAssetPath: "/file"
+                fallbackAssetPath: "/file",
+                fallbackStatusCode: 200,
+                headers: {}
             })
             .expect(201);
         const operationLogs = await storage.operationLogs.findAll();

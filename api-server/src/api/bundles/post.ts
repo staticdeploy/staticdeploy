@@ -13,6 +13,12 @@ interface IRequest extends IBaseRequest {
         // Base64 encoded content
         content: string;
         fallbackAssetPath: string;
+        fallbackStatusCode: number;
+        headers: {
+            [assetMatcher: string]: {
+                [headerName: string]: string;
+            };
+        };
     };
 }
 
@@ -34,9 +40,29 @@ const bodySchema = {
         },
         fallbackAssetPath: {
             type: "string"
+        },
+        fallbackStatusCode: {
+            type: "number"
+        },
+        headers: {
+            type: "object",
+            additionalProperties: {
+                type: "object",
+                additionalProperties: {
+                    type: "string"
+                }
+            }
         }
     },
-    required: ["name", "tag", "description", "content", "fallbackAssetPath"],
+    required: [
+        "name",
+        "tag",
+        "description",
+        "content",
+        "fallbackAssetPath",
+        "fallbackStatusCode",
+        "headers"
+    ],
     additionalProperties: false
 };
 
@@ -65,7 +91,9 @@ export default convroute({
             tag: partial.tag,
             description: partial.description,
             content: Buffer.from(partial.content, "base64"),
-            fallbackAssetPath: partial.fallbackAssetPath
+            fallbackAssetPath: partial.fallbackAssetPath,
+            fallbackStatusCode: partial.fallbackStatusCode,
+            headers: partial.headers
         });
 
         await req.logOperation(Operation.createBundle, { createdBundle });

@@ -94,7 +94,9 @@ export async function insertFixtures(data: IData): Promise<IIds> {
             ...bundle,
             description: "description",
             content: targzOf({ file: "file" }),
-            fallbackAssetPath: "/file"
+            fallbackAssetPath: "/file",
+            fallbackStatusCode: 200,
+            headers: {}
         });
         ids.bundles.push(id);
     }
