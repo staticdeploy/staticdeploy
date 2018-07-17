@@ -8,5 +8,6 @@ export default interface IBundle {
     hash: string;
     assets: IAsset[];
     fallbackAssetPath: string;
+    fallbackStatusCode: number;
     createdAt: Date;
 }
