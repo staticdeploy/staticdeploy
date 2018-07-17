@@ -23,6 +23,12 @@ export default class BundlesClient {
         /** base64 string of the tar.gz of the directory to deploy */
         content: string;
         fallbackAssetPath: string;
+        fallbackStatusCode: number;
+        headers: {
+            [assetMatcher: string]: {
+                [headerName: string]: string;
+            };
+        };
     }): Promise<IBundle> {
         const result = await this.axios.post("/bundles", bundle);
         return parseDates(result.data);
