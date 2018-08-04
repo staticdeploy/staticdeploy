@@ -399,7 +399,7 @@ describe("staticRoute routing", () => {
         }
     );
 
-    test("serves the fallback resource when no asset matches", {
+    test("serves the fallback asset when no asset matches", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
@@ -425,7 +425,7 @@ describe("staticRoute routing", () => {
         ]
     });
 
-    test("when serving fallback resource, uses the status code specified in the bundle", {
+    test("when serving fallback asset, uses the status code specified in the bundle", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",

@@ -22,7 +22,7 @@ import appendIndexDotHtml from "./appendIndexDotHtml";
 *             canonical. We don't make the fallback asset path the canonical
 *             path because it would have an undesirable behaviour when serving
 *             SPAs and when serving statically generated websites: in the first
-*             case we probably want to serve index.html as fallback resource,
+*             case we probably want to serve index.html as fallback asset,
 *             maintaining the requested url intact so that the app can do client
 *             side routing. In the second case we probably want to serve a 404
 *             page, maintaining the requested url intact so the user can see
