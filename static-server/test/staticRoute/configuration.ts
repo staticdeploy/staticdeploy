@@ -23,7 +23,9 @@ describe("staticRoute configuration injection", () => {
                     asset: htmlWithConfig,
                     fallback: "fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -44,7 +46,9 @@ describe("staticRoute configuration injection", () => {
                     "asset.html": htmlWithConfig,
                     fallback: "fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -74,7 +78,9 @@ describe("staticRoute configuration injection", () => {
                     },
                     fallback: "fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [

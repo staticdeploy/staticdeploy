@@ -57,7 +57,9 @@ describe("staticRoute routing", () => {
                     pathAsset: "domain.com/ + /pathAsset",
                     fallback: "domain.com + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             },
             {
                 urlMatcher: "domain.com/path/",
@@ -66,12 +68,18 @@ describe("staticRoute routing", () => {
                     subpathAsset: "domain.com/path/ + /subpathAsset",
                     fallback: "domain.com/path/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             },
             {
                 urlMatcher: "domain.com/path/subpath/",
-                bundleContent: { fallback: "domain.com/path/subpath/ + /fallback" },
-                bundleFallbackAssetPath: "/fallback"
+                bundleContent: {
+                    fallback: "domain.com/path/subpath/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -104,10 +112,15 @@ describe("staticRoute routing", () => {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     asset: "domain.com/ + /asset",
-                    nested: { asset: "domain.com/ + /nested/asset" },
+                    nested: {
+                        asset: "domain.com/ + /nested/asset",
+                        "index.html": "domain.com/ + /nested/index.html"
+                    },
                     fallback: "domain.com/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             },
             {
                 urlMatcher: "domain.com/path/",
@@ -116,7 +129,9 @@ describe("staticRoute routing", () => {
                     nested: { asset: "domain.com/path/ + /nested/asset" },
                     fallback: "domain.com/path/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -195,7 +210,9 @@ describe("staticRoute routing", () => {
                     path: { asset: "domain.com/ + /path/asset" },
                     fallback: "domain.com/ + fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             },
             {
                 urlMatcher: "domain.com/path/",
@@ -204,7 +221,9 @@ describe("staticRoute routing", () => {
                     subpath: { asset: "domain.com/path/ + /subpath/asset" },
                     fallback: "domain.com/path/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             },
             {
                 urlMatcher: "domain.com/path/subpath/",
@@ -212,7 +231,9 @@ describe("staticRoute routing", () => {
                     asset: "domain.com/path/subpath/ + /asset",
                     fallback: "domain.com/path/subpath/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -238,7 +259,9 @@ describe("staticRoute routing", () => {
                     nested: { asset: "domain.com/ + /nested/asset" },
                     fallback: "domain.com/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -263,7 +286,9 @@ describe("staticRoute routing", () => {
                     "path.html": htmlWith("domain.com/ + /path.html"),
                     fallback: "domain.com/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -289,7 +314,9 @@ describe("staticRoute routing", () => {
                     path: { "index.html": htmlWith("domain.com/ + /path/index.html") },
                     fallback: "domain.com/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -320,7 +347,9 @@ describe("staticRoute routing", () => {
                     "path.html": htmlWith("domain.com/ + /path.html"),
                     fallback: "domain.com/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -350,7 +379,9 @@ describe("staticRoute routing", () => {
                         },
                         fallback: "domain.com/ + /fallback"
                     },
-                    bundleFallbackAssetPath: "/fallback"
+                    bundleFallbackAssetPath: "/fallback",
+                    bundleFallbackStatusCode: 200,
+                    bundleHeaders: {}
                 }
             ],
             testCases: [
@@ -368,14 +399,16 @@ describe("staticRoute routing", () => {
         }
     );
 
-    test("serves the fallback resource index.html when no asset matches", {
+    test("serves the fallback resource when no asset matches", {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     fallback: "domain.com/ + /fallback"
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {}
             }
         ],
         testCases: [
@@ -385,9 +418,133 @@ describe("staticRoute routing", () => {
                 expectedBody: "domain.com/ + /fallback"
             },
             {
-                requestedUrl: "domain.com/nested/non-existing",
+                requestedUrl: "domain.com/prefix/non-existing",
                 expectedStatusCode: 200,
                 expectedBody: "domain.com/ + /fallback"
+            }
+        ]
+    });
+
+    test("when serving fallback resource, uses the status code specified in the bundle", {
+        entrypoints: [
+            {
+                urlMatcher: "domain.com/",
+                bundleContent: {
+                    path: "domain.com/ + /path",
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 299,
+                bundleHeaders: {}
+            }
+        ],
+        testCases: [
+            {
+                requestedUrl: "domain.com/path",
+                expectedStatusCode: 200,
+                expectedBody: "domain.com/ + /path"
+            },
+            {
+                requestedUrl: "domain.com/fallback",
+                expectedStatusCode: 299,
+                expectedBody: "domain.com/ + /fallback"
+            },
+            {
+                requestedUrl: "domain.com/non-existing",
+                expectedStatusCode: 299,
+                expectedBody: "domain.com/ + /fallback"
+            },
+            {
+                requestedUrl: "domain.com/prefix/non-existing",
+                expectedStatusCode: 299,
+                expectedBody: "domain.com/ + /fallback"
+            }
+        ]
+    });
+
+    test("adds custom asset-headers specified in the bundle to the response", {
+        entrypoints: [
+            {
+                urlMatcher: "domain.com/",
+                bundleContent: {
+                    asset: "domain.com/ + /asset",
+                    "asset.html": htmlWith("domain.com/ + /asset.html"),
+                    "asset.js": "domain.com/ + /asset.js",
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {
+                    // / (slash) and * can't be used in headers without
+                    // escaping, use _ and - instead
+                    "/asset": { _asset: "_asset" },
+                    "**/*.html": { "--_-.html": "--_-.html" }
+                }
+            }
+        ],
+        testCases: [
+            {
+                requestedUrl: "domain.com/asset",
+                expectedStatusCode: 200,
+                expectedBody: "domain.com/ + /asset",
+                expectedHeaders: {
+                    _asset: "_asset"
+                }
+            },
+            {
+                requestedUrl: "domain.com/asset.html",
+                expectedStatusCode: 200,
+                expectedBody: htmlWith("domain.com/ + /asset.html"),
+                expectedHeaders: {
+                    "--_-.html": "--_-.html"
+                }
+            }
+        ]
+    });
+
+    test("allows overriding an asset's Content-Type header by specifing a custom header for it", {
+        entrypoints: [
+            {
+                urlMatcher: "domain.com/",
+                bundleContent: {
+                    asset: "domain.com/ + /asset",
+                    "asset.html": htmlWith("domain.com/ + /asset.html"),
+                    "asset.js": "domain.com/ + /asset.js",
+                    fallback: "domain.com/ + /fallback"
+                },
+                bundleFallbackAssetPath: "/fallback",
+                bundleFallbackStatusCode: 200,
+                bundleHeaders: {
+                    "/asset": { "Content-Type": "custom" },
+                    "**/*.html": { "Content-Type": "custom/html" },
+                    "**/*.js": { "Content-Type": "custom/js" }
+                }
+            }
+        ],
+        testCases: [
+            {
+                requestedUrl: "domain.com/asset",
+                expectedStatusCode: 200,
+                expectedBody: "domain.com/ + /asset",
+                expectedHeaders: {
+                    "Content-Type": "custom"
+                }
+            },
+            {
+                requestedUrl: "domain.com/asset.html",
+                expectedStatusCode: 200,
+                expectedBody: htmlWith("domain.com/ + /asset.html"),
+                expectedHeaders: {
+                    "Content-Type": "custom/html"
+                }
+            },
+            {
+                requestedUrl: "domain.com/asset.js",
+                expectedStatusCode: 200,
+                expectedBody: "domain.com/ + /asset.js",
+                expectedHeaders: {
+                    "Content-Type": "custom/js"
+                }
             }
         ]
     });
@@ -402,7 +559,9 @@ describe("staticRoute routing", () => {
                         "index.html": htmlWith("host.com/ + /index.html"),
                         fallback: "host.com/ + /fallback"
                     },
-                    bundleFallbackAssetPath: "/fallback"
+                    bundleFallbackAssetPath: "/fallback",
+                    bundleFallbackStatusCode: 200,
+                    bundleHeaders: {}
                 },
                 {
                     urlMatcher: "x-forwarded-host.com/",
@@ -410,7 +569,9 @@ describe("staticRoute routing", () => {
                         "index.html": htmlWith("x-forwarded-host.com/ + /index.html"),
                         fallback: "x-forwarded-host.com/ + /fallback"
                     },
-                    bundleFallbackAssetPath: "/fallback"
+                    bundleFallbackAssetPath: "/fallback",
+                    bundleFallbackStatusCode: 200,
+                    bundleHeaders: {}
                 },
                 {
                     urlMatcher: "custom.com/",
@@ -418,7 +579,9 @@ describe("staticRoute routing", () => {
                         "index.html": htmlWith("custom.com/ + /index.html"),
                         fallback: "custom.com/ + /fallback"
                     },
-                    bundleFallbackAssetPath: "/fallback"
+                    bundleFallbackAssetPath: "/fallback",
+                    bundleFallbackStatusCode: 200,
+                    bundleHeaders: {}
                 }
             ],
             testCases: [

@@ -49,7 +49,16 @@ interface IData {
         redirectTo?: string;
         configuration?: IConfiguration;
     }[];
-    bundles?: { content: Buffer; fallbackAssetPath: string }[];
+    bundles?: {
+        content: Buffer;
+        fallbackAssetPath: string;
+        fallbackStatusCode: number;
+        headers: {
+            [assetMatcher: string]: {
+                [headerName: string]: string;
+            };
+        };
+    }[];
 }
 interface IIds {
     apps: string[];
@@ -98,7 +107,9 @@ async function insertFixtures(data: IData): Promise<IIds> {
             tag: "tag",
             description: "description",
             content: bundle.content,
-            fallbackAssetPath: bundle.fallbackAssetPath
+            fallbackAssetPath: bundle.fallbackAssetPath,
+            fallbackStatusCode: bundle.fallbackStatusCode,
+            headers: bundle.headers
         });
         ids.bundles.push(id);
     }
@@ -129,6 +140,12 @@ export interface ITestDefinition {
         urlMatcher: string;
         bundleContent?: IDefinition;
         bundleFallbackAssetPath?: string;
+        bundleFallbackStatusCode?: number;
+        bundleHeaders?: {
+            [assetMatcher: string]: {
+                [headerName: string]: string;
+            };
+        };
         redirectTo?: string;
         configuration?: IConfiguration;
         defaultConfiguration?: IConfiguration;
@@ -180,7 +197,9 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 // specifying a bundleContent
                 bundles: entrypoints.filter(entrypoint => entrypoint.bundleContent).map(entrypoint => ({
                     content: targzOf(entrypoint.bundleContent!),
-                    fallbackAssetPath: entrypoint.bundleFallbackAssetPath!
+                    fallbackAssetPath: entrypoint.bundleFallbackAssetPath!,
+                    fallbackStatusCode: entrypoint.bundleFallbackStatusCode!,
+                    headers: entrypoint.bundleHeaders!
                 }))
             });
 

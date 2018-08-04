@@ -15,7 +15,7 @@ import appendIndexDotHtml from "./appendIndexDotHtml";
 *         with_ the asset path (dot-html matching asset)
 *
 *       - the request path, optionally minus the trailing /, plus /index.html
-*         _ends with_ the asset path (index-dot-html matching asset), UNLESs the
+*         _ends with_ the asset path (index-dot-html matching asset), UNLESS the
 *         asset path is /index.html, which would match with _any_ path since we
 *         append to it /index.html. If the asset path is /index.html, only path
 *         "/" index-dot-html matches with it

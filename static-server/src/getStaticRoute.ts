@@ -155,7 +155,20 @@ export default (options: IStaticRouteOptions) => async (
     }
 
     // Serve the matching asset
-    res.type(matchingAsset.mimeType)
-        .status(200)
+    res
+        // Set mime type. It might be overridden by custom headers, which are
+        // set afterward. This gives the user the possibility to use more
+        // accurate mime types if they so wish (instead of using the default
+        // ones derived from the asset's extension)
+        .type(matchingAsset.mimeType)
+        // Set custom asset headers
+        .set(matchingAsset.headers)
+        // When serving the fallback asset because no asset matched the
+        // requested path, use the fallback status code specified in the bundle
+        .status(
+            matchingAsset.path === fallbackAsset.path
+                ? linkedBundle.fallbackStatusCode
+                : 200
+        )
         .send(content);
 };
