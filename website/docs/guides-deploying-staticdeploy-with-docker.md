@@ -103,4 +103,4 @@ With a valid authentication token we can access the **admin-console** and use
 **cli** to deploy static apps.
 
 For instructions on how to do that, see the guide on
-[deploying static apps](/docs/guides.deploying-static-apps.html).
+[deploying static apps](/docs/guides-deploying-static-apps).

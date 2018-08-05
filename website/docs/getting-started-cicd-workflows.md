@@ -17,7 +17,7 @@ could do something like:
 # Build the app, saving static artifacts into the build/ folder
 npm run build
 # Create a bundle from that folder
-staticdeploy create-bundle \
+staticdeploy bundle \
   --from build/
   --name example-app \
   --tag $BRANCH \

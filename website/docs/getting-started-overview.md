@@ -30,8 +30,8 @@ bundles are equivalent to docker images.
 Bundles must specify a fallback asset, an asset that will be served to requests
 that don't match any other asset.
 
-Bundles can be created with the `create-bundle` command of the StaticDeploy cli,
-by giving it a folder that gets archived into a tar.gz and uploaded to the
+Bundles can be created with the `bundle` command of the StaticDeploy cli, by
+giving it a folder that gets archived into a tar.gz and uploaded to the
 StaticDeploy backend.
 
 ### Entrypoints
@@ -100,7 +100,7 @@ Served html:
 </div>
 </div>
 
-The [configuration page](/docs/getting-started.apps-configuration.html) of the
+The [configuration page](/docs/getting-started-apps-configuration) of the
 documentation goes in more details about how configuration works.
 
 ### Multiple versions
@@ -123,7 +123,7 @@ like:
 # Build the app, saving static artifacts into the build/ folder
 npm run build
 # Create a bundle from that folder
-staticdeploy create-bundle \
+staticdeploy bundle \
   --from build/
   --name example-app \
   --tag $BRANCH \
@@ -144,5 +144,5 @@ staticdeploy deploy
 But we could choose different url schemes for the app's entrypoints, like
 `prefix-$BRANCH.example-app.com/` or `example-app.com/$BRANCH/`.
 
-The [workflow page](/docs/getting-started.cicd-workflows.html) of the
-documentation explores different workflows for deploying static apps.
+The [workflow page](/docs/getting-started-cicd-workflows) of the documentation
+explores different workflows for deploying static apps.

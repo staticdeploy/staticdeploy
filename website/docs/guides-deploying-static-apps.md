@@ -3,7 +3,7 @@ id: guides-deploying-static-apps
 title: Deploying static apps
 ---
 
-[Having set up the StaticDeploy platform](/docs/guides.deploying-staticdeploy-with-docker.html),
+[Having set up the StaticDeploy platform](/docs/guides-deploying-staticdeploy-with-docker),
 we can now deploy our static apps on it.
 
 ## Setting up the cli
@@ -33,13 +33,13 @@ export STATICDEPLOY_API_TOKEN=my-jwt-auth-token
 Deploying a static app is a two step process.
 
 First, we need to create a bundle from the folder containing our static app. We
-can do so with the `create-bundle` command of the cli, to which we also
-provide - aside from the folder where our app is located - a name for the
-bundle, a tag, a description, and the path of the fallback asset (which must
-exist in the bundle):
+can do so with the `bundle` command of the cli, to which we also provide - aside
+from the folder where our app is located - a name for the bundle, a tag, a
+description, and the path of the fallback asset (which must exist in the
+bundle):
 
 ```sh
-staticdeploy create-bundle \
+staticdeploy bundle \
   --from my-static-app-folder \
   --name my-static-app \
   --tag master \

@@ -12,8 +12,15 @@ function getBundle(partial: Partial<IBundle>) {
         tag: "tag",
         description: "description",
         hash: "hash",
-        assets: [{ path: "/fallback", mimeType: "application/octet-stream" }],
+        assets: [
+            {
+                path: "/fallback",
+                mimeType: "application/octet-stream",
+                headers: {}
+            }
+        ],
         fallbackAssetPath: "/fallback",
+        fallbackStatusCode: 200,
         createdAt: new Date("1970"),
         ...partial
     };

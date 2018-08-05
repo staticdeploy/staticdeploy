@@ -69,7 +69,9 @@ describe("BundlesClient", () => {
                     tag: "tag",
                     description: "description",
                     content: "content",
-                    fallbackAssetPath: "/fallback"
+                    fallbackAssetPath: "/fallback",
+                    fallbackStatusCode: 200,
+                    headers: {}
                 })
                 .reply(201);
             await staticdeployClient.bundles.create({
@@ -77,7 +79,9 @@ describe("BundlesClient", () => {
                 tag: "tag",
                 description: "description",
                 content: "content",
-                fallbackAssetPath: "/fallback"
+                fallbackAssetPath: "/fallback",
+                fallbackStatusCode: 200,
+                headers: {}
             });
             scope.done();
         });
@@ -90,7 +94,9 @@ describe("BundlesClient", () => {
                 tag: "tag",
                 description: "description",
                 content: "content",
-                fallbackAssetPath: "/fallback"
+                fallbackAssetPath: "/fallback",
+                fallbackStatusCode: 200,
+                headers: {}
             });
             expect(bundle).to.deep.equal({});
         });
@@ -103,7 +109,9 @@ describe("BundlesClient", () => {
                 tag: "tag",
                 description: "description",
                 content: "content",
-                fallbackAssetPath: "/fallback"
+                fallbackAssetPath: "/fallback",
+                fallbackStatusCode: 200,
+                headers: {}
             });
             expect(bundle).to.deep.equal({ createdAt: unixEpoch });
         });

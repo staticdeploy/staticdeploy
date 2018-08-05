@@ -1,9 +1,11 @@
 import StaticdeployClient from "@staticdeploy/sdk";
+import { resolve } from "path";
 import { CommandModule } from "yargs";
 
 import * as apiConfig from "../apiConfig";
 import handleCommandHandlerErrors from "../handleCommandHandlerErrors";
 import log from "../log";
+import readStaticdeployConfig from "../readStaticdeployConfig";
 
 interface IArgv extends apiConfig.IApiConfig {
     app: string;
@@ -16,6 +18,18 @@ const command: CommandModule = {
     describe: "Deploys a bundle to an entrypoint",
     builder: {
         ...apiConfig.builder,
+        config: {
+            coerce: resolve,
+            config: true,
+            default: "staticdeploy.config.js",
+            configParser: configPath => {
+                // Read the config file
+                const config = readStaticdeployConfig(configPath);
+
+                // Return the deploy config, defaulting to an empty object
+                return config.deploy || {};
+            }
+        },
         app: {
             describe: "Name of the app the entrypoint links to",
             type: "string",

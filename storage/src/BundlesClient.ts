@@ -1,8 +1,9 @@
 import { IBundle } from "@staticdeploy/common-types";
 import { S3 } from "aws-sdk";
 import { mkdirp, remove } from "fs-extra";
-import { isEmpty, some } from "lodash";
+import { isEmpty, reduce, some } from "lodash";
 import md5 from "md5";
+import { isMatch } from "micromatch";
 import { getType } from "mime";
 import { readFile, writeFile } from "mz/fs";
 import { tmpdir } from "os";
@@ -75,6 +76,12 @@ export default class BundlesClient {
         description: string;
         content: Buffer;
         fallbackAssetPath: string;
+        fallbackStatusCode: number;
+        headers: {
+            [assetMatcher: string]: {
+                [headerName: string]: string;
+            };
+        };
     }): Promise<IBundle> {
         // Validate name and tag
         validators.validateBundleNameOrTag(partial.name, "name");
@@ -96,10 +103,24 @@ export default class BundlesClient {
 
         // Build the assets list
         const localPaths = await recursiveReaddir(rootPath);
-        const assets = localPaths.map(localPath => ({
-            path: removePrefix(localPath, rootPath),
-            mimeType: getType(localPath) || "application/octet-stream"
-        }));
+        const assets = localPaths.map(localPath => {
+            const path = removePrefix(localPath, rootPath);
+            return {
+                path: path,
+                mimeType: getType(localPath) || "application/octet-stream",
+                // partial.headers is a ( assetMatcher, headers ) map. Build the
+                // asset's headers object by merging all headers objects in the
+                // map whose asset matcher matches the asset path
+                headers: reduce(
+                    partial.headers,
+                    (finalHeaders, headers, assetMatcher) => ({
+                        ...finalHeaders,
+                        ...(isMatch(path, assetMatcher) ? headers : null)
+                    }),
+                    {}
+                )
+            };
+        });
 
         // Ensure the fallbackAssetPath corresponds to an asset in the bundle
         if (!some(assets, { path: partial.fallbackAssetPath })) {
@@ -131,7 +152,8 @@ export default class BundlesClient {
             description: partial.description,
             hash: md5(partial.content),
             assets: assets,
-            fallbackAssetPath: partial.fallbackAssetPath
+            fallbackAssetPath: partial.fallbackAssetPath,
+            fallbackStatusCode: partial.fallbackStatusCode
         });
 
         return toPojo(bundle);
