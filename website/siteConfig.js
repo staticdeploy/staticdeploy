@@ -16,6 +16,10 @@ module.exports = {
         {
             label: "GitHub",
             href: "https://github.com/staticdeploy/staticdeploy"
+        },
+        {
+            label: "Privacy",
+            href: "./privacyPolicy"
         }
     ],
     headerIcon: "images/top-bar-logo.png",
@@ -27,7 +31,5 @@ module.exports = {
     copyright: `Copyright © ${new Date().getFullYear()} Paolo Scanferla`,
     highlight: {
         theme: "default"
-    },
-    gaTrackingId: "UA-119541902-1",
-    gaGtag: true
+    }
 };
