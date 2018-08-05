@@ -1,4 +1,4 @@
-/* Decrease page title size and distantiate a bit from the text underneath */
+/* Decrease page title size and distantiate it a bit from the text underneath */
 .postHeader h1 {
     font-size: 230% !important;
 }
