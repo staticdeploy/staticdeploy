@@ -10,16 +10,20 @@ describing the archives (a name, a tag, a description, etc.). Conceptually
 bundles are equivalent to docker images.
 
 Bundles must specify a fallback asset, an asset that will be served to requests
-that don't match any other asset.
+that don't match any other asset, as well as the status code to use when serving
+it.
 
-Bundles can be created with the `create-bundle` command of the StaticDeploy cli,
-by giving it a folder that gets archived into a tar.gz and uploaded to the
+Bundles can also specify custom headers to be used by StaticDeploy when serving
+their assets.
+
+Bundles can be created with the `bundle` command of the StaticDeploy cli, by
+giving it a folder that gets archived into a tar.gz and uploaded to the
 StaticDeploy backend.
 
 ### Entrypoints
 
-Entrypoints are the urls at which the StaticDeploy backend serves the static
-content of bundles. Each entrypoint is characterized by two properties:
+Entrypoints are the urls at which StaticDeploy serves the static content of
+bundles. Each entrypoint is usually characterized by two properties:
 
 - `bundleId`: the id of the bundle to serve
 - `urlMatcher`: a domain + path combination against which incoming requests are
@@ -33,9 +37,9 @@ Entrypoints can be created manually from StaticDeploy's admin console, or
 automatically when deploying a bundle with the `deploy` command of the
 StaticDeploy cli.
 
-Entrypoints may also specify a `redirectTo`. If a `redirectTo` is specified, for
-that entrypoint the StaticDeploy's backend doesn't serve a static bundle, but
-instead issues a 302 with the `redirectTo` as `Location`.
+Entrypoints may specify a `redirectTo`, instead of a `bundleId`. If a
+`redirectTo` is specified, for that entrypoint StaticDeploy doesn't serve a
+static bundle, but instead issues a 302 with the `redirectTo` as `Location`.
 
 ### Apps
 

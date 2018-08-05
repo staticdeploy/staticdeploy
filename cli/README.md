@@ -22,12 +22,12 @@ npm i -g @staticdeploy/cli
   - `--name`: name of the bundle
   - `--tag`: tag of the bundle
   - `--description`: description of the bundle
-  - `--fallbackAssetPath` (optional): absolute path (relative to the 'from'
+  - `--fallbackAssetPath` (optional): absolute path (relative to the `from`
     directory) of the asset to use as fallback when requests don't match any
     other asset. Defaults to `/index.html`, but the asset MUST exist
   - `--fallbackStatusCode` (optional): status code to use when serving the
     fallback asset. Defaults to `200`
-  - `--headers` (optional): (asset matcher, headers) map specifying which
+  - `--headers` (optional): `(asset matcher, headers)` map specifying which
     headers to assign to which assets
 
 - `staticdeploy deploy`: deploys a bundle to an entrypoint. Options (all

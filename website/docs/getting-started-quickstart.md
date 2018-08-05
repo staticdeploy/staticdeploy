@@ -52,7 +52,7 @@ title: Quickstart
 - create a bundle for the demo static app in `website/demo-static-app`:
 
   ```sh
-  staticdeploy create-bundle \
+  staticdeploy bundle \
     --from website/demo-static-app \
     --name demo-static-app \
     --tag master \
