@@ -1,3 +1,16 @@
+## 0.9.0 (August 6, 2018)
+
+Breaking changes:
+
+- renamed **cli** command `create-bundle` to `bundle`
+
+Features:
+
+- allow passing options to the **cli** via config file
+- allow specifying a custom status code for the fallback asset
+- allow specifying custom headers for bundle assets
+- make [staticdeploy.io](https://staticdeploy.io) GDPR compliant
+
 ## 0.8.0 (June 19, 2018)
 
 Breaking changes:
