@@ -29,7 +29,7 @@
   "dependencies": {
     "@staticdeploy/common-types": "^0.8.0",
     "@staticdeploy/sdk": "^0.8.0",
-    "antd": "^3.7.3",
+    "antd": "^3.8.0",
     "classnames": "^2.2.6",
     "date-fns": "^1.29.0",
     "eventemitter3": "^3.1.0",
