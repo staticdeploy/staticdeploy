@@ -27,11 +27,13 @@ interface IArgv extends apiConfig.IApiConfig {
     description: string;
     fallbackAssetPath: string;
     fallbackStatusCode: number;
-    headers: {
-        [assetMatcher: string]: {
-            [headerName: string]: string;
-        };
-    };
+    // The headers string is a JSON of an object with structure:
+    // {
+    //     [assetMatcher: string]: {
+    //         [headerName: string]: string;
+    //     };
+    // }
+    headers: string;
 }
 
 const command: CommandModule = {
@@ -48,7 +50,19 @@ const command: CommandModule = {
                 const config = readStaticdeployConfig(configPath);
 
                 // Return the bundle config, defaulting to an empty object
-                return config.bundle || {};
+                return config.bundle
+                    ? {
+                          ...config.bundle,
+                          // headers is expected by yargs to be a string, but
+                          // it's an object when specified in the config file.
+                          // We need to stringify the object before passing it
+                          // to yargs, otherwise yargs transforms it in a way
+                          // that makes it invalid (see staticdeploy issue #24)
+                          headers: config.bundle.headers
+                              ? JSON.stringify(config.bundle.headers)
+                              : "{}"
+                      }
+                    : {};
             }
         },
         from: {
@@ -96,12 +110,7 @@ const command: CommandModule = {
             describe:
                 "(asset matcher, headers) map specifying which headers to assign to which assets",
             type: "string",
-            default: "{}",
-            // If loaded from the config file, headers will be an object, so we
-            // JSON-parse them only when they are a string (and supposedly come
-            // from a command line flag)
-            coerce: headers =>
-                typeof headers === "string" ? JSON.parse(headers) : headers
+            default: "{}"
         }
     },
     handler: handleCommandHandlerErrors(async (argv: IArgv) => {
@@ -135,7 +144,12 @@ const command: CommandModule = {
             description: argv.description,
             fallbackAssetPath: argv.fallbackAssetPath,
             fallbackStatusCode: argv.fallbackStatusCode,
-            headers: argv.headers
+            // Parse the object here instead of specifying a coerce function for
+            // the option to avoid yargs transforming the parsed object
+            // (staticdeploy issue #24)
+            // TODO: verify whether yargs behaviour is intended or not and - if
+            // not - open an issue
+            headers: JSON.parse(argv.headers)
         });
 
         log.success(`created bundle ${argv.name}:${argv.tag}`);

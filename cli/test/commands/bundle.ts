@@ -165,7 +165,7 @@ describe("bundle command", () => {
             description: "description",
             fallbackAssetPath: "/index.html",
             fallbackStatusCode: 200,
-            headers: {}
+            headers: "{}"
         };
 
         // Stub BundlesClient.create to:
