@@ -1,3 +1,9 @@
+## 0.9.1 (August 9, 2018)
+
+Fixes:
+
+- correctly parse **cli** `bundle` command `headers` option (fixes #24)
+
 ## 0.9.0 (August 6, 2018)
 
 Breaking changes:
