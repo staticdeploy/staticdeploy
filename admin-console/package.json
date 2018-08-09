@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/admin-console",
   "description": "staticdeploy admin console",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
@@ -27,8 +27,8 @@
     "docker:push": "docker push staticdeploy/admin-console:$DOCKER_TAG"
   },
   "dependencies": {
-    "@staticdeploy/common-types": "^0.9.0",
-    "@staticdeploy/sdk": "^0.9.0",
+    "@staticdeploy/common-types": "^0.9.1",
+    "@staticdeploy/sdk": "^0.9.1",
     "antd": "^3.8.0",
     "classnames": "^2.2.6",
     "date-fns": "^1.29.0",
