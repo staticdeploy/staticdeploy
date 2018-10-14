@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/storage",
   "description": "staticdeploy storage module",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "publishConfig": {
     "access": "public"
   },
@@ -29,7 +29,7 @@
     "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 10000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/common-types": "^0.9.1",
+    "@staticdeploy/common-types": "^0.10.0",
     "aws-sdk": "^2.334.0",
     "bluebird": "^3.5.2",
     "fs-extra": "^7.0.0",
