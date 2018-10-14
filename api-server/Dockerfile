@@ -22,6 +22,7 @@ RUN yarn install && \
     yarn install --production && \
     # Remove unecessary files
     rm yarn.lock tsconfig.json && \
+    rm -r common-types/tsconfig.json common-types/src && \
     rm -r storage/tsconfig.json storage/src && \
     rm -r api-server/tsconfig.json api-server/src
 

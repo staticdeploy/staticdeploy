@@ -29,7 +29,9 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
+    "test": "NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "docker:build": "docker build -f ./Dockerfile -t staticdeploy/cli:$DOCKER_TAG ../",
+    "docker:push": "docker push staticdeploy/cli:$DOCKER_TAG"
   },
   "dependencies": {
     "@staticdeploy/sdk": "^0.9.1",
