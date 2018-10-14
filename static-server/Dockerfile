@@ -22,12 +22,19 @@ RUN yarn install && \
     yarn install --production && \
     # Remove unecessary files
     rm yarn.lock tsconfig.json && \
+    rm -r common-types/tsconfig.json common-types/src && \
     rm -r storage/tsconfig.json storage/src && \
-    rm -r static-server/tsconfig.json static-server/src
+    rm -r static-server/tsconfig.json static-server/src && \
+    # Install curl for performing healthchecks
+    apk add --no-cache curl
 
 # Configure listening port
 ENV PORT 80
 EXPOSE 80
+
+# Configure healthcheck
+ENV HEALTH_ROUTE_HOSTNAME localhost
+HEALTHCHECK CMD curl -H "Host: $HEALTH_ROUTE_HOSTNAME" -f http://localhost/health || exit 1
 
 # Set start command
 WORKDIR /workspace/static-server

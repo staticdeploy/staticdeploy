@@ -3,7 +3,11 @@ import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import classnames from "classnames";
 import React from "react";
-import { FieldArray, FieldsProps, WrappedFieldArrayProps } from "redux-form";
+import {
+    FieldArray,
+    FieldArrayFieldsProps,
+    WrappedFieldArrayProps
+} from "redux-form";
 
 import { IKVPair } from "../../common/configurationUtils";
 import TextField from "../TextField";
@@ -29,7 +33,7 @@ export class WrappedConfigurationField extends React.PureComponent<
     renderKVPairFields(
         fieldName: string,
         index: number,
-        fields: FieldsProps<IKVPair>
+        fields: FieldArrayFieldsProps<IKVPair>
     ) {
         return (
             <Row key={index} gutter={8}>

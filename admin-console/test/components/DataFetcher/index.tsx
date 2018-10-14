@@ -14,12 +14,15 @@ describe("DataFetcher", () => {
         Component: sinon.spy(() => null),
         proxiedProps: { propKey: "propValue" }
     };
+    const originalLocation = window.location;
     beforeEach(() => {
         props.fetchData.reset();
         props.shouldRefetch.reset();
         props.Component.resetHistory();
-        if ((window.location.reload as any).restore) {
-            (window.location.reload as any).restore();
+        if (window.location !== originalLocation) {
+            Object.defineProperty((global as any).window, "location", {
+                get: () => originalLocation
+            });
         }
     });
 
@@ -97,7 +100,10 @@ describe("DataFetcher", () => {
     });
 
     it("when the reload button is clicked, reloads the page", () => {
-        sinon.stub(window.location, "reload");
+        const fakeLocation = { reload: sinon.spy() };
+        Object.defineProperty((global as any).window, "location", {
+            get: () => fakeLocation
+        });
         const dataFetcher = shallow(<DataFetcher {...props} />);
         dataFetcher.setState({
             status: FetchStatus.FAILED,

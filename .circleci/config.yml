@@ -1,5 +1,6 @@
 version: 2
 jobs:
+
   qa:
     docker:
       - image: circleci/node:8
@@ -38,6 +39,7 @@ jobs:
       - run:
           name: Publish code coverage report
           command: yarn publish-coverage
+
   publish-website:
     docker:
       - image: circleci/node:8
@@ -60,6 +62,7 @@ jobs:
       - run:
           name: Deploy website bundle
           command: staticdeploy deploy --config website/staticdeploy.config.js
+
   docker-build-push:
     docker:
       - image: circleci/node:8
@@ -81,6 +84,7 @@ jobs:
       - run:
           name: Push docker image
           command: yarn docker:push
+
   npm-publish:
     docker:
       - image: circleci/node:8
@@ -97,7 +101,7 @@ jobs:
           command: yarn compile
       - run:
           name: Publish npm modules
-          command: yarn lerna publish --yes --force-publish=* --skip-git --repo-version ${CIRCLE_TAG#v}
+          command: yarn lerna publish from-git --yes
 
 workflows:
   version: 2
