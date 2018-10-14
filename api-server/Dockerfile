@@ -24,11 +24,16 @@ RUN yarn install && \
     rm yarn.lock tsconfig.json && \
     rm -r common-types/tsconfig.json common-types/src && \
     rm -r storage/tsconfig.json storage/src && \
-    rm -r api-server/tsconfig.json api-server/src
+    rm -r api-server/tsconfig.json api-server/src && \
+    # Install curl for performing healthchecks
+    apk add --no-cache curl
 
 # Configure listening port
 ENV PORT 80
 EXPOSE 80
+
+# Configure healthcheck
+HEALTHCHECK CMD curl -f http://localhost/health || exit 1
 
 # Set start command
 WORKDIR /workspace/api-server
