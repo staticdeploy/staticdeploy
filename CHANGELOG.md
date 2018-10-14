@@ -1,3 +1,11 @@
+## 0.10.0 (October 14, 2018)
+
+Features:
+
+- publish `staticdeploy/cli` docker image with **cli** pre-installed
+- add healthchecks to `staticdeploy/api-server` and `staticdeploy/static-server`
+  docker images
+
 ## 0.9.1 (August 9, 2018)
 
 Fixes:
