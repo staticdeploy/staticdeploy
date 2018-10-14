@@ -11,6 +11,7 @@ module.exports = {
     cleanUrl: true,
     projectName: "staticdeploy",
     customDocsPath: "website/docs",
+    onPageNav: "separate",
     headerLinks: [
         { label: "Docs", doc: "getting-started-overview" },
         {

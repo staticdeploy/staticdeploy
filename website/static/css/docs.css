@@ -15,6 +15,11 @@
     width: calc(50% - 16px);
 }
 
+/* Make code blocks in getting-started-overview splitter the same height */
+.getting-started-overview-splitter code {
+    height: 160px;
+}
+
 /* Make blockquotes yellow (instead of red) and text inside them black */
 blockquote {
     color: var(--black);

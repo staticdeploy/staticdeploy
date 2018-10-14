@@ -23,8 +23,6 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
-    "precommit": "yarn lint && yarn test",
-    "commitmsg": "commitlint -e $GIT_PARAMS",
     "compile": "lerna run compile --stream --concurrency 1",
     "lint": "lerna run lint --stream --concurrency 1",
     "test": "lerna run test --stream --concurrency 1",
@@ -32,17 +30,17 @@
     "publish-coverage": "codecov",
     "docker:build": "lerna run docker:build --stream --concurrency 1",
     "docker:push": "lerna run docker:push --stream --concurrency 1",
-    "release": "lerna publish --force-publish=* --skip-npm",
+    "release": "lerna version --force-publish=* --allow-branch master --push false",
     "lerna": "lerna"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-conventional": "^7.0.1",
-    "@commitlint/config-lerna-scopes": "^7.0.0",
-    "codecov": "^3.0.4",
-    "husky": "^0.14.3",
-    "lerna": "^2.11.0",
-    "nyc": "^12.0.2",
-    "prettier": "^1.14.0"
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@commitlint/config-lerna-scopes": "^7.2.1",
+    "codecov": "^3.1.0",
+    "husky": "^1.1.2",
+    "lerna": "^3.4.3",
+    "nyc": "^13.0.1",
+    "prettier": "^1.14.3"
   }
 }

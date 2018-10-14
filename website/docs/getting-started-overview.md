@@ -73,7 +73,7 @@ configuration object.
 
 #### Example
 
-<div class="splitter">
+<div class="splitter getting-started-overview-splitter">
 <div class="left">
 Source html:
 
@@ -91,7 +91,7 @@ Served html:
 ```html
 <head>
   <script id="app-config">
-    window.APP_CONFIG = { /* configuration */ };
+    window.APP_CONFIG = { /* ... */ };
   </script>
   <!-- ... -->
 </head>

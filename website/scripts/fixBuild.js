@@ -9,6 +9,7 @@ const buildDocsDirPath = join(buildDirPath, "/docs");
 // Remove extra folders + index.html-s generated when the cleanUrl option is set
 console.log("Removing extra files...");
 fs.removeSync(join(buildDirPath, "/notFound"));
+fs.removeSync(join(buildDirPath, "/privacyPolicy"));
 fs.removeSync(join(buildDirPath, "/en"));
 fs.removeSync(join(buildDirPath, "/img"));
 fs.readdirSync(buildDocsDirPath).forEach(docFileName => {

@@ -17,6 +17,8 @@ export enum OperationStatus {
     Failed
 }
 
+type SuccessMessageFunction<Result> = ((result: Result) => React.ReactNode);
+
 interface IProps<Result> {
     title: React.ReactNode;
     operation: () => Promise<Result>;
@@ -26,7 +28,7 @@ interface IProps<Result> {
     performingOperationButtonText?: React.ReactNode;
     afterSuccessCloseButtonText?: React.ReactNode;
     onAfterSuccessClose?: (result: Result) => void;
-    successMessage?: React.ReactNode | ((result: Result) => React.ReactNode);
+    successMessage?: React.ReactNode | SuccessMessageFunction<Result>;
     width?: string | number;
 }
 
@@ -35,6 +37,12 @@ interface IState<Result> {
     status: OperationStatus;
     result: Result | null;
     error: Error | null;
+}
+
+function isSuccessMessageFunction<Result>(
+    fn: React.ReactNode | SuccessMessageFunction<Result>
+): fn is SuccessMessageFunction<Result> {
+    return typeof fn === "function";
 }
 
 export default class OperationModal<Result> extends React.PureComponent<
@@ -105,12 +113,13 @@ export default class OperationModal<Result> extends React.PureComponent<
     }
     renderContent() {
         if (this.state.status === OperationStatus.Succeeded) {
-            const successContent =
-                typeof this.props.successMessage === "function" ? (
-                    this.props.successMessage(this.state.result!)
-                ) : (
-                    <h3>{this.props.successMessage}</h3>
-                );
+            const successContent = isSuccessMessageFunction(
+                this.props.successMessage
+            ) ? (
+                this.props.successMessage(this.state.result!)
+            ) : (
+                <h3>{this.props.successMessage}</h3>
+            );
             return (
                 <Row gutter={16}>
                     <Col
