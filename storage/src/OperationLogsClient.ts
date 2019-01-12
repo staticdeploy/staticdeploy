@@ -1,4 +1,4 @@
-import { IOperationLog } from "@staticdeploy/common-types";
+import { IOperationLog, Operation } from "@staticdeploy/common-types";
 
 import { IModels } from "./models";
 import * as errors from "./utils/errors";
@@ -23,7 +23,7 @@ export default class OperationLogsClient {
     }
 
     async create(partial: {
-        operation: string;
+        operation: Operation;
         parameters: { [key: string]: any };
         performedBy: string;
     }): Promise<IOperationLog> {
