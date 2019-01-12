@@ -1,3 +1,4 @@
+import { Operation } from "@staticdeploy/common-types";
 import { expect } from "chai";
 import { Express } from "express";
 import { sign } from "jsonwebtoken";
@@ -5,7 +6,6 @@ import request from "supertest";
 
 import { JWT_SECRET } from "config";
 import getApp from "getApp";
-import { Operation } from "services/operations";
 import storage from "services/storage";
 import { IIds, insertFixtures } from "../../../setup";
 

@@ -1,3 +1,4 @@
+import { Operation } from "@staticdeploy/common-types";
 import {
     BundleNotFoundError,
     validateEntrypointUrlMatcher
@@ -5,7 +6,6 @@ import {
 
 import convroute from "common/convroute";
 import IBaseRequest from "common/IBaseRequest";
-import { Operation } from "services/operations";
 import storage from "services/storage";
 
 interface IRequest extends IBaseRequest {

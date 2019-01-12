@@ -1,4 +1,5 @@
-import { IOperationLog } from "@staticdeploy/common-types";
+import { IOperationLog, Operation } from "@staticdeploy/common-types";
+import Table from "antd/lib/table";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";
@@ -8,7 +9,7 @@ import OperationLogsList from "../../../src/components/OperationLogsList";
 function getOperationLog(partial: Partial<IOperationLog>) {
     return {
         id: "0",
-        operation: "operation",
+        operation: Operation.createApp,
         parameters: {},
         performedBy: "performedBy",
         performedAt: new Date(),
@@ -17,8 +18,8 @@ function getOperationLog(partial: Partial<IOperationLog>) {
 }
 
 describe("OperationLogsList", () => {
-    it("renders operation logs ordered by performedAt (descending order)", () => {
-        const operationlogsList = shallow(
+    it("renders a table with operation logs ordered by performedAt (descending order)", () => {
+        const operationLogsList = shallow(
             <OperationLogsList
                 operationLogs={[
                     getOperationLog({
@@ -39,15 +40,10 @@ describe("OperationLogsList", () => {
                 ]}
             />
         );
-        const renderedIds = operationlogsList
-            .find(".c-OperationLogsList-item")
-            .map(element =>
-                // Get performedAt text from the third rendered Col
-                element
-                    .childAt(2)
-                    .childAt(0)
-                    .text()
-            );
-        expect(renderedIds).to.deep.equal(["2", "1", "0"]);
+        const orderedIds = operationLogsList
+            .find(Table)
+            .prop<IOperationLog[]>("dataSource")
+            .map(operationLog => operationLog.id);
+        expect(orderedIds).to.deep.equal(["2", "1", "0"]);
     });
 });

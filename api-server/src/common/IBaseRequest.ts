@@ -1,7 +1,5 @@
-import { IOperationLog } from "@staticdeploy/common-types";
+import { IOperationLog, Operation } from "@staticdeploy/common-types";
 import { Request } from "express";
-
-import { Operation } from "services/operations";
 
 export default interface IBaseRequest extends Request {
     log: import("bunyan");

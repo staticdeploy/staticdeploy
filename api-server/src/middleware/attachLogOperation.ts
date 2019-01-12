@@ -1,8 +1,8 @@
-import { IOperationLog } from "@staticdeploy/common-types";
+import { IOperationLog, Operation } from "@staticdeploy/common-types";
 import { RequestHandler } from "express";
 
 import IBaseRequest from "common/IBaseRequest";
-import { logOperation, Operation } from "services/operations";
+import { logOperation } from "services/operations";
 
 export default function attachLogOperation(): RequestHandler {
     return (req: IBaseRequest, _res, next) => {

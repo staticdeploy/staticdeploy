@@ -14,7 +14,10 @@ const operationLogs = range(100).map(() => ({
         "bundles:create",
         "bundles:delete"
     ]),
-    parameters: {},
+    parameters: {
+        oldApp: { name: "oldApp" },
+        newApp: { name: "newApp" }
+    },
     performedBy: faker.internet.email(),
     performedAt: faker.date.past()
 }));

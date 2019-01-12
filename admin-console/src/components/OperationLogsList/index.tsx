@@ -1,10 +1,10 @@
-import { IOperationLog } from "@staticdeploy/common-types";
-import Col from "antd/lib/col";
-import Row from "antd/lib/row";
+import { IOperationLog, Operation } from "@staticdeploy/common-types";
+import Table, { ColumnProps } from "antd/lib/table";
 import Tag from "antd/lib/tag";
 import format from "date-fns/format";
 import sortBy from "lodash/sortBy";
 import React from "react";
+import JSONTree from "react-json-tree";
 
 import "./index.css";
 
@@ -13,46 +13,73 @@ interface IProps {
     operationLogs: IOperationLog[];
 }
 
-export default class OperationLogsList extends React.PureComponent<IProps> {
+export default class OperationLogsList extends React.Component<IProps> {
+    getColumns(): ColumnProps<IOperationLog>[] {
+        return [
+            {
+                key: "operation",
+                title: "Operation",
+                dataIndex: "operation",
+                align: "center",
+                className: "c-OperationLogsList-operation-cell",
+                render: (operation: Operation) => {
+                    return (
+                        <Tag className={operation.replace(":", "-")}>
+                            {operation.replace(":", " ")}
+                        </Tag>
+                    );
+                }
+            },
+            {
+                key: "performedAt",
+                title: "Performed at",
+                dataIndex: "performedAt",
+                className: "c-OperationLogsList-performedAt-cell",
+                render: (performedAt: string) =>
+                    format(performedAt, "YYYY-MM-DD HH:mm:ss Z")
+            },
+            {
+                key: "performedBy",
+                title: "Performed by",
+                dataIndex: "performedBy",
+                className: "c-OperationLogsList-performedBy-cell"
+            }
+        ];
+    }
+
     renderTitle() {
         return this.props.title ? <h4>{this.props.title}</h4> : null;
     }
-    renderOperation(operationLog: IOperationLog) {
-        const operation = operationLog.operation.replace(":", " ");
-        const colorClassName = operationLog.operation.replace(":", "-");
-        return <Tag className={colorClassName}>{operation}</Tag>;
-    }
-    renderOperationLog = (operationLog: IOperationLog) => {
+
+    renderDetails(operationLog: IOperationLog) {
         return (
-            <Row
-                key={operationLog.id}
-                className="c-OperationLogsList-item"
-                gutter={16}
-            >
-                <Col span={8} className="c-OperationLogsList-item-operation">
-                    {this.renderOperation(operationLog)}
-                </Col>
-                <Col span={8}>
-                    {format(operationLog.performedAt, "YYYY-MM-DD HH:mm:ss Z")}
-                </Col>
-                <Col span={8}>{operationLog.performedBy}</Col>
-            </Row>
+            <div className="c-OperationLogsList-details">
+                <h4>{"Parameters"}</h4>
+                <JSONTree
+                    theme="monokai"
+                    data={operationLog.parameters}
+                    hideRoot={true}
+                />
+            </div>
         );
-    };
+    }
+
     render() {
         return (
             <div className="c-OperationLogsList">
                 {this.renderTitle()}
-                <Row gutter={16} className="c-OperationLogsList-header">
-                    <Col span={8} className="align-center">
-                        {"Operation"}
-                    </Col>
-                    <Col span={8}>{"Performed at"}</Col>
-                    <Col span={8}>{"Performed by"}</Col>
-                </Row>
-                {sortBy(this.props.operationLogs, "performedAt")
-                    .reverse()
-                    .map(this.renderOperationLog)}
+                <Table<IOperationLog>
+                    columns={this.getColumns()}
+                    expandedRowRender={this.renderDetails}
+                    dataSource={sortBy(
+                        this.props.operationLogs,
+                        "performedAt"
+                    ).reverse()}
+                    size="small"
+                    bordered={false}
+                    rowKey="id"
+                    pagination={{ pageSize: 15 }}
+                />
             </div>
         );
     }
