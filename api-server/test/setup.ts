@@ -1,3 +1,4 @@
+import { Operation } from "@staticdeploy/common-types";
 import chai from "chai";
 import chaiFuzzy from "chai-fuzzy";
 import { createTree, destroyTree, IDefinition } from "create-fs-tree";
@@ -116,7 +117,7 @@ export async function insertFixtures(data: IData): Promise<IIds> {
     }
     for (const operationLog of data.operationLogs || []) {
         const { id } = await storage.operationLogs.create({
-            operation: "operation",
+            operation: Operation.createApp,
             parameters: {},
             performedBy: "performedBy",
             ...operationLog
