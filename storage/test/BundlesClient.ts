@@ -284,7 +284,7 @@ describe("BundlesClient.delete", () => {
     });
     it("deletes the bundle", async () => {
         await storageClient.bundles.delete("2");
-        const bundleInstance = await models.Bundle.findById("2");
+        const bundleInstance = await models.Bundle.findByPk("2");
         expect(bundleInstance).to.equal(null);
     });
 });

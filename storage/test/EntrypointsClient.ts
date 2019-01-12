@@ -252,7 +252,7 @@ describe("EntrypointsClient.update", () => {
     });
     it("updates the entrypoint", async () => {
         await storageClient.entrypoints.update("1", { urlMatcher: "3.com/" });
-        const entrypointInstance = await models.Entrypoint.findById("1");
+        const entrypointInstance = await models.Entrypoint.findByPk("1");
         expect(entrypointInstance!.get("urlMatcher")).to.equal("3.com/");
     });
     it("returns the updated entrypoint as a pojo", async () => {
@@ -281,7 +281,7 @@ describe("EntrypointsClient.delete", () => {
     });
     it("deletes the entrypoint", async () => {
         await storageClient.entrypoints.delete("1");
-        const entrypointInstance = await models.Entrypoint.findById("1");
+        const entrypointInstance = await models.Entrypoint.findByPk("1");
         expect(entrypointInstance).to.equal(null);
     });
 });

@@ -51,7 +51,7 @@ response:
 <head>
   <title>Example app</title>
   <script id="app-config">
-    window.APP_CONFIG = { "EXAMPLE_CONFIG_KEY": "EXAMPLE_CONFIG_VALUE" };
+    window.APP_CONFIG = { EXAMPLE_CONFIG_KEY: "EXAMPLE_CONFIG_VALUE" };
   </script>
   <script>
     // App code which accesses the configuration object

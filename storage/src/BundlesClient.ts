@@ -45,7 +45,7 @@ export default class BundlesClient {
     }
 
     async findOneById(id: string): Promise<IBundle | null> {
-        const bundle = await this.Bundle.findById(id);
+        const bundle = await this.Bundle.findByPk(id);
         return toPojo(bundle);
     }
 
@@ -160,7 +160,7 @@ export default class BundlesClient {
     }
 
     async delete(id: string): Promise<void> {
-        const bundle = await this.Bundle.findById(id);
+        const bundle = await this.Bundle.findByPk(id);
 
         // Ensure the bundle exists
         if (!bundle) {
@@ -197,7 +197,7 @@ export default class BundlesClient {
 
     async getBundleAssetContent(id: string, path: string): Promise<Buffer> {
         // Ensure the bundle exists
-        const bundle = await this.Bundle.findById(id);
+        const bundle = await this.Bundle.findByPk(id);
         if (!bundle) {
             throw new errors.BundleNotFoundError(id, "id");
         }

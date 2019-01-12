@@ -6,5 +6,8 @@
     "rules": {
         "react/display-name": false,
         "react/prop-types": false
+    },
+    "settings": {
+        "react": { "version": "detect" }
     }
 }

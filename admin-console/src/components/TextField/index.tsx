@@ -22,8 +22,8 @@ interface IProps {
     autoFocus?: InputProps["autoFocus"];
 }
 
-export class WrappedTextField extends React.PureComponent<
-    IProps & WrappedFieldProps
+export class WrappedTextField extends React.Component<
+    WrappedFieldProps & IProps
 > {
     render() {
         const error = this.props.meta.error;
@@ -64,13 +64,14 @@ export class WrappedTextField extends React.PureComponent<
     }
 }
 
-export default class TextField extends React.PureComponent<IProps> {
+export default class TextField extends React.Component<IProps> {
     render() {
         return (
             <Field
                 name={this.props.name}
-                component={WrappedTextField}
-                props={this.props}
+                // Untyped as typing it only complicates the code for no benefit
+                component={WrappedTextField as any}
+                props={this.props as any}
             />
         );
     }

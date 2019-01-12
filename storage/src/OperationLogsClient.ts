@@ -13,7 +13,7 @@ export default class OperationLogsClient {
     }
 
     async findOneById(id: string): Promise<IOperationLog | null> {
-        const operationLog = await this.OperationLog.findById(id);
+        const operationLog = await this.OperationLog.findByPk(id);
         return toPojo(operationLog);
     }
 
@@ -39,7 +39,7 @@ export default class OperationLogsClient {
     }
 
     async delete(id: string): Promise<void> {
-        const operationLog = await this.OperationLog.findById(id);
+        const operationLog = await this.OperationLog.findByPk(id);
 
         // Ensure the operation log exists
         if (!operationLog) {

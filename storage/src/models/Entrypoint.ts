@@ -9,7 +9,10 @@ export type EntrypointModel = Sequelize.Model<
 export const ENTRYPOINTS_TABLE = "entrypoints";
 
 export default (sequelize: Sequelize.Sequelize): EntrypointModel =>
-    sequelize.define(
+    sequelize.define<
+        Sequelize.Instance<Partial<IEntrypoint>>,
+        Partial<IEntrypoint>
+    >(
         "entrypoint",
         {
             id: { type: Sequelize.STRING, primaryKey: true },

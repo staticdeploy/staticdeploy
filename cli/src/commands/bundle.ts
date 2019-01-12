@@ -36,7 +36,7 @@ interface IArgv extends apiConfig.IApiConfig {
     headers: string;
 }
 
-const command: CommandModule = {
+const command: CommandModule<any, any> = {
     command: "bundle",
     describe: "Creates a bundle and uploads it to the StaticDeploy server",
     builder: {
@@ -45,7 +45,7 @@ const command: CommandModule = {
             coerce: resolve,
             config: true,
             default: "staticdeploy.config.js",
-            configParser: configPath => {
+            configParser: (configPath: string) => {
                 // Read the config file
                 const config = readStaticdeployConfig(configPath);
 
@@ -71,16 +71,7 @@ const command: CommandModule = {
             coerce: resolve,
             demandOption: true
         },
-        // For some reason, when calling the following property 'name',
-        // TypeScript complains about the type of property 'builder' being
-        // incompatible for type CommandModule. It might be that, since builder
-        // can either be an object or a function, when we give it a property
-        // 'name' TypeScript thinks it's a function. To work around this issue,
-        // we rename the property '_name' and alias it to 'name' (relying on
-        // yargs's aliasing feature)
-        // TODO: open issue on Microsoft/TypeScript
-        _name: {
-            alias: "name",
+        name: {
             describe: "Name of the bundle",
             type: "string",
             demandOption: true

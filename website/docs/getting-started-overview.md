@@ -91,7 +91,9 @@ Served html:
 ```html
 <head>
   <script id="app-config">
-    window.APP_CONFIG = { /* ... */ };
+    window.APP_CONFIG = {
+      /* ... */
+    };
   </script>
   <!-- ... -->
 </head>

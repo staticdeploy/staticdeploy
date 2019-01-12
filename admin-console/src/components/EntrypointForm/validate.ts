@@ -4,20 +4,20 @@ import { getErrors } from "../../common/configurationUtils";
 import { IInternalFormValues } from "./IFormValues";
 
 /*
-*   A valid urlMatcher has the shape domain + path, where domain is a
-*   fully-qualified domain name, and path an absolute and normalized path
-*   ending with a /.
-*
-*   Example of valid urlMatchers:
-*   - domain.com/
-*   - domain.com/path/
-*   - subdomain.domain.com/path/subpath/
-*
-*   Example of invalid urlMatchers:
-*   - http://domain.com/
-*   - domain.com
-*   - domain.com/path
-*/
+ *  A valid urlMatcher has the shape domain + path, where domain is a
+ *  fully-qualified domain name, and path an absolute and normalized path
+ *  ending with a /.
+ *
+ *  Example of valid urlMatchers:
+ *  - domain.com/
+ *  - domain.com/path/
+ *  - subdomain.domain.com/path/subpath/
+ *
+ *  Example of invalid urlMatchers:
+ *  - http://domain.com/
+ *  - domain.com
+ *  - domain.com/path
+ */
 function isUrlMatcherValid(urlMatcher: string): boolean {
     const indexOfFirstSlash = urlMatcher.indexOf("/");
     // Must contain at least a / to be valid

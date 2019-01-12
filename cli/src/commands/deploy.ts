@@ -13,7 +13,7 @@ interface IArgv extends apiConfig.IApiConfig {
     bundle: string;
 }
 
-const command: CommandModule = {
+const command: CommandModule<any, any> = {
     command: "deploy",
     describe: "Deploys a bundle to an entrypoint",
     builder: {
@@ -22,7 +22,7 @@ const command: CommandModule = {
             coerce: resolve,
             config: true,
             default: "staticdeploy.config.js",
-            configParser: configPath => {
+            configParser: (configPath: string) => {
                 // Read the config file
                 const config = readStaticdeployConfig(configPath);
 

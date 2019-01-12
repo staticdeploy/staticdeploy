@@ -9,7 +9,7 @@ export type BundleModel = Sequelize.Model<
 export const BUNDLES_TABLE = "bundles";
 
 export default (sequelize: Sequelize.Sequelize): BundleModel =>
-    sequelize.define(
+    sequelize.define<Sequelize.Instance<Partial<IBundle>>, Partial<IBundle>>(
         "bundle",
         {
             id: { type: Sequelize.STRING, primaryKey: true },

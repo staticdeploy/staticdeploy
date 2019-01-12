@@ -72,7 +72,7 @@ describe("OperationLogsClient.delete", () => {
     });
     it("deletes the operation log", async () => {
         await storageClient.operationLogs.delete("1");
-        const operationLogInstance = await models.OperationLog.findById("1");
+        const operationLogInstance = await models.OperationLog.findByPk("1");
         expect(operationLogInstance).to.equal(null);
     });
 });

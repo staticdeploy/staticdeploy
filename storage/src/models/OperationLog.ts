@@ -9,7 +9,10 @@ export type OperationLogModel = Sequelize.Model<
 export const OPERATION_LOGS_TABLE = "operationLogs";
 
 export default (sequelize: Sequelize.Sequelize): OperationLogModel =>
-    sequelize.define(
+    sequelize.define<
+        Sequelize.Instance<Partial<IOperationLog>>,
+        Partial<IOperationLog>
+    >(
         "operationLog",
         {
             id: { type: Sequelize.STRING, primaryKey: true },

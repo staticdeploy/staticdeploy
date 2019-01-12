@@ -195,12 +195,14 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 })),
                 // Create a bundle for each entrypoint in the test definition
                 // specifying a bundleContent
-                bundles: entrypoints.filter(entrypoint => entrypoint.bundleContent).map(entrypoint => ({
-                    content: targzOf(entrypoint.bundleContent!),
-                    fallbackAssetPath: entrypoint.bundleFallbackAssetPath!,
-                    fallbackStatusCode: entrypoint.bundleFallbackStatusCode!,
-                    headers: entrypoint.bundleHeaders!
-                }))
+                bundles: entrypoints
+                    .filter(entrypoint => entrypoint.bundleContent)
+                    .map(entrypoint => ({
+                        content: targzOf(entrypoint.bundleContent!),
+                        fallbackAssetPath: entrypoint.bundleFallbackAssetPath!,
+                        fallbackStatusCode: entrypoint.bundleFallbackStatusCode!,
+                        headers: entrypoint.bundleHeaders!
+                    }))
             });
 
             // Link entrypoints defined specifying a bunldeContent to the bundle

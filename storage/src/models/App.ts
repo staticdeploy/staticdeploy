@@ -9,7 +9,7 @@ export type AppModel = Sequelize.Model<
 export const APPS_TABLE = "apps";
 
 export default (sequelize: Sequelize.Sequelize): AppModel =>
-    sequelize.define(
+    sequelize.define<Sequelize.Instance<Partial<IApp>>, Partial<IApp>>(
         "app",
         {
             id: { type: Sequelize.STRING, primaryKey: true },

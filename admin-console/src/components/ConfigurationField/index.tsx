@@ -85,9 +85,9 @@ export default class ConfigurationField extends React.PureComponent<IProps> {
         return (
             <FieldArray
                 name={this.props.name}
-                // TODO: figure out how to correctly type this
+                // Untyped as typing it only complicates the code for no benefit
                 component={WrappedConfigurationField as any}
-                props={this.props}
+                props={this.props as any}
             />
         );
     }

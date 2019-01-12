@@ -9,8 +9,8 @@ function htmlWith(body: string): string {
 
 describe("staticRoute routing", () => {
     /*
-    *   404-s
-    */
+     *  404-s
+     */
     test("404 when no matching entrypoint is found", {
         entrypoints: [],
         testCases: [
@@ -46,8 +46,8 @@ describe("staticRoute routing", () => {
     });
 
     /*
-    *   301-s
-    */
+     *  301-s
+     */
     test("redirects to trailing slash when urlMatcher without trailing slash is requested", {
         entrypoints: [
             {
@@ -181,8 +181,8 @@ describe("staticRoute routing", () => {
     });
 
     /*
-    *   302-s
-    */
+     *  302-s
+     */
     test("redirects to the entrypoint's redirectTo when specified", {
         entrypoints: [
             {
@@ -200,8 +200,8 @@ describe("staticRoute routing", () => {
     });
 
     /*
-    *   200-s
-    */
+     *  200-s
+     */
     test("gives precedence to longer-matching entrypoints", {
         entrypoints: [
             {

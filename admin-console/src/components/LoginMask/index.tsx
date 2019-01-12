@@ -57,9 +57,9 @@ export default class LoginMask extends React.PureComponent<IProps> {
         return authTokenStatus.isSet
             ? this.props.children
             : authTokenStatus.isRetrieving
-                ? this.renderSpinner()
-                : authTokenStatus.retrievingError
-                    ? this.renderError(authTokenStatus)
-                    : this.renderLoginMask();
+            ? this.renderSpinner()
+            : authTokenStatus.retrievingError
+            ? this.renderError(authTokenStatus)
+            : this.renderLoginMask();
     }
 }

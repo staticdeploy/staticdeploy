@@ -25,7 +25,7 @@ describe("api GET /health", () => {
     });
 
     it("503 on un-healthy", () => {
-        stub(storage, "checkHealth").returns({ isHealthy: false });
+        stub(storage, "checkHealth").resolves({ isHealthy: false });
         return request(server)
             .get("/health")
             .set("Authorization", `Bearer ${token}`)

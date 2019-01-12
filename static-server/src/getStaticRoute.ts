@@ -54,31 +54,31 @@ export default (options: IStaticRouteOptions) => async (
     }
     if (!startsWith(url, matchingEntrypoint.urlMatcher)) {
         /*
-        *   We're in the situation in which the url requested equals one
-        *   entrypoint's urlMatcher minus the trailing slash.
-        *
-        *   Example:
-        *       entrypoint.urlMatcher === "domain.com/path/"
-        *       requestedUrl === "domain.com/path"
-        *
-        *   In this situation other, shorter entrypoints might match the
-        *   requested url, for instance an entrypoint with urlMatcher
-        *   "domain.com/" in the example above.
-        *
-        *   We have three possible ways to handle the request:
-        *
-        *   1. serve the shorter matching entrypoint if present, 404 otherwise
-        *   2. serve the shorter matching entrypoint if present, 301 to the
-        *      with-trailing-slash-matching entrypoint otherwise
-        *   3. always 301 to the with-trailing-slash-matching entrypoint
-        *
-        *   We go for option 3 because:
-        *
-        *   - option 1, while "logically correct", results in 404s when a user
-        *     visiting the url types it without the trailing slash
-        *   - option 2 makes the behaviour inconsistent, making it depend on
-        *     which entrypoints are configured
-        */
+         *  We're in the situation in which the url requested equals one
+         *  entrypoint's urlMatcher minus the trailing slash.
+         *
+         *  Example:
+         *      entrypoint.urlMatcher === "domain.com/path/"
+         *      requestedUrl === "domain.com/path"
+         *
+         *  In this situation other, shorter entrypoints might match the
+         *  requested url, for instance an entrypoint with urlMatcher
+         *  "domain.com/" in the example above.
+         *
+         *  We have three possible ways to handle the request:
+         *
+         *  1. serve the shorter matching entrypoint if present, 404 otherwise
+         *  2. serve the shorter matching entrypoint if present, 301 to the
+         *     with-trailing-slash-matching entrypoint otherwise
+         *  3. always 301 to the with-trailing-slash-matching entrypoint
+         *
+         *  We go for option 3 because:
+         *
+         *  - option 1, while "logically correct", results in 404s when a user
+         *    visiting the url types it without the trailing slash
+         *  - option 2 makes the behaviour inconsistent, making it depend on
+         *    which entrypoints are configured
+         */
         res.redirect(301, addTrailingSlash(req.path));
         return;
     }

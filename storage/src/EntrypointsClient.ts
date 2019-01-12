@@ -19,7 +19,7 @@ export default class EntrypointsClient {
     }
 
     async findOneById(id: string): Promise<IEntrypoint | null> {
-        const entrypoint = await this.Entrypoint.findById(id);
+        const entrypoint = await this.Entrypoint.findByPk(id);
         return toPojo(entrypoint);
     }
 
@@ -64,14 +64,14 @@ export default class EntrypointsClient {
         }
 
         // Ensure the linked app exists
-        const linkedApp = await this.App.findById(partial.appId);
+        const linkedApp = await this.App.findByPk(partial.appId);
         if (!linkedApp) {
             throw new errors.AppNotFoundError(partial.appId, "id");
         }
 
         // Ensure the linked bundle exists
         if (partial.bundleId) {
-            const linkedBundle = await this.Bundle.findById(partial.bundleId);
+            const linkedBundle = await this.Bundle.findByPk(partial.bundleId);
             if (!linkedBundle) {
                 throw new errors.BundleNotFoundError(partial.bundleId, "id");
             }
@@ -119,7 +119,7 @@ export default class EntrypointsClient {
             );
         }
 
-        const entrypoint = await this.Entrypoint.findById(id);
+        const entrypoint = await this.Entrypoint.findByPk(id);
 
         // Ensure the entrypoint exists
         if (!entrypoint) {
@@ -128,7 +128,7 @@ export default class EntrypointsClient {
 
         // Ensure the linked app exists
         if (patch.appId) {
-            const linkedApp = await this.App.findById(patch.appId);
+            const linkedApp = await this.App.findByPk(patch.appId);
             if (!linkedApp) {
                 throw new errors.AppNotFoundError(patch.appId, "id");
             }
@@ -136,7 +136,7 @@ export default class EntrypointsClient {
 
         // Ensure the linked bundle exists
         if (patch.bundleId) {
-            const linkedBundle = await this.Bundle.findById(patch.bundleId);
+            const linkedBundle = await this.Bundle.findByPk(patch.bundleId);
             if (!linkedBundle) {
                 throw new errors.BundleNotFoundError(patch.bundleId, "id");
             }
@@ -162,7 +162,7 @@ export default class EntrypointsClient {
     }
 
     async delete(id: string): Promise<void> {
-        const entrypoint = await this.Entrypoint.findById(id);
+        const entrypoint = await this.Entrypoint.findByPk(id);
 
         // Ensure the entrypoint exists
         if (!entrypoint) {

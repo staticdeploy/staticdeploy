@@ -151,7 +151,7 @@ describe("AppsClient.update", () => {
     });
     it("updates the app", async () => {
         await storageClient.apps.update("1", { name: "3" });
-        const appInstance = await models.App.findById("1");
+        const appInstance = await models.App.findByPk("1");
         expect(appInstance!.get("name")).to.equal("3");
     });
     it("returns the updated app as a pojo", async () => {
@@ -183,7 +183,7 @@ describe("AppsClient.delete", () => {
     });
     it("deletes the app", async () => {
         await storageClient.apps.delete("1");
-        const appInstance = await models.App.findById("1");
+        const appInstance = await models.App.findByPk("1");
         expect(appInstance).to.equal(null);
     });
 });

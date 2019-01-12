@@ -5,20 +5,20 @@ import { isFQDN } from "validator";
 import * as errors from "./errors";
 
 /*
-*   Regexp that matches strings containing only:
-*   - alphanumeric characters from the basic Latin alphabet
-*   - underscores, dashes, dots, and slashes
-*
-*   Strings only containing these basic characters are:
-*   - unambiguous to read (with a monospaced font)
-*   - easy to type in a shell
-*   - easy to display in a url
-*/
+ *  Regexp that matches strings containing only:
+ *  - alphanumeric characters from the basic Latin alphabet
+ *  - underscores, dashes, dots, and slashes
+ *
+ *  Strings only containing these basic characters are:
+ *  - unambiguous to read (with a monospaced font)
+ *  - easy to type in a shell
+ *  - easy to display in a url
+ */
 const basicCharsRegexp = /^[\w-\.\/]{1,255}$/;
 
 /*
-*   A valid configuration object is a (string, string) dictionary
-*/
+ *  A valid configuration object is a (string, string) dictionary
+ */
 export function isConfigurationValid(configuration: any) {
     return isPlainObject(configuration) && every(configuration, isString);
 }
@@ -32,10 +32,10 @@ export function validateConfiguration(
 }
 
 /*
-*   An app name is valid when:
-*   - has 0 < length < 256
-*   - contains only characters from the basicChars subset specified above
-*/
+ *  An app name is valid when:
+ *  - has 0 < length < 256
+ *  - contains only characters from the basicChars subset specified above
+ */
 export function isAppNameValid(name: string) {
     return basicCharsRegexp.test(name);
 }
@@ -46,20 +46,20 @@ export function validateAppName(name: string) {
 }
 
 /*
-*   A valid entrypoint urlMatcher has the shape domain + path, where domain is a
-*   fully-qualified domain name, and path an absolute and normalized path
-*   ending with a /.
-*
-*   Example of valid urlMatchers:
-*   - domain.com/
-*   - domain.com/path/
-*   - subdomain.domain.com/path/subpath/
-*
-*   Example of invalid urlMatchers:
-*   - http://domain.com/
-*   - domain.com
-*   - domain.com/path
-*/
+ *  A valid entrypoint urlMatcher has the shape domain + path, where domain is a
+ *  fully-qualified domain name, and path an absolute and normalized path
+ *  ending with a /.
+ *
+ *  Example of valid urlMatchers:
+ *  - domain.com/
+ *  - domain.com/path/
+ *  - subdomain.domain.com/path/subpath/
+ *
+ *  Example of invalid urlMatchers:
+ *  - http://domain.com/
+ *  - domain.com
+ *  - domain.com/path
+ */
 export function isEntrypointUrlMatcherValid(urlMatcher: string): boolean {
     const indexOfFirstSlash = urlMatcher.indexOf("/");
     // Must contain at least a / to be valid
@@ -82,10 +82,10 @@ export function validateEntrypointUrlMatcher(urlMatcher: string): void {
 }
 
 /*
-*   Bundle name and tag strings have the same validation rules:
-*   - 0 < length < 256
-*   - allowed characters are the ones from the basicChars subset specified above
-*/
+ *  Bundle name and tag strings have the same validation rules:
+ *  - 0 < length < 256
+ *  - allowed characters are the ones from the basicChars subset specified above
+ */
 export function isBundleNameOrTagValid(nameOrTag: string): boolean {
     return basicCharsRegexp.test(nameOrTag);
 }
@@ -99,9 +99,9 @@ export function validateBundleNameOrTag(
 }
 
 /*
-*   A bundle name:tag combination is a string joining name and tag with a colon
-*   character (:)
-*/
+ *  A bundle name:tag combination is a string joining name and tag with a colon
+ *  character (:)
+ */
 export function isBundleNameTagCombinationValid(
     nameTagCombination: string
 ): boolean {

@@ -33,7 +33,7 @@ export default async function migrate(sequelize: Sequelize.Sequelize) {
                         extname(__filename)
                     );
                 },
-                set(this: Sequelize.Instance<ISequelizeMetaRow>, name) {
+                set(this: Sequelize.Instance<ISequelizeMetaRow>, name: string) {
                     this.setDataValue("name", name.replace(".ts", ".js"));
                 }
             }

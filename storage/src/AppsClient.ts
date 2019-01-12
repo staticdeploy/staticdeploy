@@ -17,7 +17,7 @@ export default class AppsClient {
     }
 
     async findOneById(id: string): Promise<IApp | null> {
-        const app = await this.App.findById(id);
+        const app = await this.App.findByPk(id);
         return toPojo(app);
     }
 
@@ -82,7 +82,7 @@ export default class AppsClient {
             );
         }
 
-        const app = await this.App.findById(id);
+        const app = await this.App.findByPk(id);
 
         // Ensure the app exists
         if (!app) {
@@ -106,7 +106,7 @@ export default class AppsClient {
     }
 
     async delete(id: string): Promise<void> {
-        const app = await this.App.findById(id);
+        const app = await this.App.findByPk(id);
 
         // Ensure the app exists
         if (!app) {
