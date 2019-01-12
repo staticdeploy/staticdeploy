@@ -1,3 +1,4 @@
+import { Operation } from "@staticdeploy/common-types";
 import { S3 } from "aws-sdk";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -157,7 +158,7 @@ export async function insertFixtures(data: IData) {
     }
     for (const operationLog of data.operationLogs || []) {
         await OperationLog.create({
-            operation: "operation",
+            operation: Operation.createApp,
             parameters: {},
             performedBy: "performedBy",
             ...operationLog
