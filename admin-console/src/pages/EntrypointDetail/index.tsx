@@ -49,7 +49,15 @@ class EntrypointDetail extends React.Component<Props> {
                 <TextFieldRO title="App" value={app.name} />
                 <TextFieldRO
                     title="Url matcher"
-                    value={entrypoint.urlMatcher}
+                    value={
+                        <a
+                            href={`http://${entrypoint.urlMatcher}`}
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            {entrypoint.urlMatcher}
+                        </a>
+                    }
                 />
                 <TextFieldRO
                     title="Deployed bundle"
@@ -61,7 +69,19 @@ class EntrypointDetail extends React.Component<Props> {
                 />
                 <TextFieldRO
                     title="Redirects to"
-                    value={entrypoint.redirectTo || "No redirect configured"}
+                    value={
+                        entrypoint.redirectTo ? (
+                            <a
+                                href={entrypoint.redirectTo}
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                {entrypoint.redirectTo}
+                            </a>
+                        ) : (
+                            "No redirect configured"
+                        )
+                    }
                 />
                 <ConfigurationFieldRO
                     title={
