@@ -1,3 +1,4 @@
+import { Operation } from "@staticdeploy/common-types";
 import { expect } from "chai";
 
 import * as errors from "../src/utils/errors";
@@ -35,23 +36,23 @@ describe("OperationLogsClient.create", () => {
     });
     it("creates an operationLog", async () => {
         await storageClient.operationLogs.create({
-            operation: "1",
+            operation: Operation.createApp,
             parameters: {},
             performedBy: "1"
         });
         const operationLogInstance = await models.OperationLog.findOne({
-            where: { operation: eq("1") }
+            where: { operation: eq(Operation.createApp) }
         });
         expect(operationLogInstance).not.to.equal(null);
     });
-    it("returns the created app as a pojo", async () => {
+    it("returns the created operation log as a pojo", async () => {
         const operationLog = await storageClient.operationLogs.create({
-            operation: "1",
+            operation: Operation.createApp,
             parameters: {},
             performedBy: "1"
         });
         const operationLogInstance = await models.OperationLog.findOne({
-            where: { operation: eq("1") }
+            where: { operation: eq(Operation.createApp) }
         });
         expect(operationLog).to.deep.equal(operationLogInstance!.get());
     });
