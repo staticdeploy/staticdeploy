@@ -1,7 +1,7 @@
 import { IBundle } from "@staticdeploy/common-types";
 import { S3 } from "aws-sdk";
 import { mkdirp, remove } from "fs-extra";
-import { isEmpty, map, reduce, some } from "lodash";
+import { flatten, isEmpty, map, reduce, some } from "lodash";
 import md5 from "md5";
 import { isMatch } from "micromatch";
 import { getType } from "mime";
@@ -16,7 +16,7 @@ import concurrentForEach from "./utils/concurrentForEach";
 import * as errors from "./utils/errors";
 import generateId from "./utils/generateId";
 import removePrefix from "./utils/removePrefix";
-import { eq } from "./utils/sequelizeOperators";
+import { eq, valueIn } from "./utils/sequelizeOperators";
 import toPojo from "./utils/toPojo";
 import * as validators from "./utils/validators";
 
@@ -88,7 +88,7 @@ export default class BundlesClient {
         return toPojo(bundle);
     }
 
-    async findAllByNameTagCombination(
+    async findByNameTagCombination(
         nameTagCombination: string
     ): Promise<IBundle[]> {
         const [name, tag] = BundlesClient.splitNameTagCombination(
@@ -228,6 +228,50 @@ export default class BundlesClient {
 
         // Delete the bundle from the database
         await bundle.destroy();
+    }
+
+    async deleteByNameTagCombination(
+        nameTagCombination: string
+    ): Promise<void> {
+        const [name, tag] = BundlesClient.splitNameTagCombination(
+            nameTagCombination
+        );
+
+        // Find bundles to be deleted
+        const bundles = await this.findByNameTagCombination(nameTagCombination);
+        const bundleIds = map(bundles, "id");
+
+        // Ensure the bundles are not used by any entrypoint
+        const dependentEntrypoints = await this.Entrypoint.findAll({
+            where: { bundleId: valueIn(bundleIds) }
+        });
+        if (!isEmpty(dependentEntrypoints)) {
+            throw new errors.BundlesInUseError(
+                bundleIds,
+                dependentEntrypoints.map(entrypoint => entrypoint.get("id"))
+            );
+        }
+
+        // Delete bundles' files on S3
+        await this.s3Client
+            .deleteObjects({
+                Bucket: this.s3Bucket,
+                Delete: {
+                    Objects: flatten(
+                        map(bundles, bundle =>
+                            map(bundle.assets, asset => ({
+                                Key: this.getAssetS3Key(bundle.id, asset.path)
+                            }))
+                        )
+                    )
+                }
+            })
+            .promise();
+
+        // Delete the bundles from the database
+        await this.Bundle.destroy({
+            where: { name: eq(name), tag: eq(tag) }
+        });
     }
 
     async getBundleAssetContent(id: string, path: string): Promise<Buffer> {

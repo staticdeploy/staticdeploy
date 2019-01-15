@@ -41,6 +41,15 @@ export class BundleInUseError extends Error {
         );
     }
 }
+export class BundlesInUseError extends Error {
+    constructor(ids: string[], dependentEntrypointsIds: string[]) {
+        const bundleIdsString = ids.join(", ");
+        const entrypointIdsString = dependentEntrypointsIds.join(", ");
+        super(
+            `Can't delete bundles with id = ${bundleIdsString}, as ore or more of them are being used by entrypoints with ids = ${entrypointIdsString}`
+        );
+    }
+}
 export class BundleNameOrTagNotValidError extends Error {
     constructor(nameOrTag: string, type: "name" | "tag") {
         super(`${nameOrTag} is not a valid ${type} for a bundle`);

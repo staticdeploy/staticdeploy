@@ -94,7 +94,7 @@ describe("BundlesClient.findLatestByNameTagCombination", () => {
     });
 });
 
-describe("BundlesClient.findAllByNameTagCombination", () => {
+describe("BundlesClient.findByNameTagCombination", () => {
     beforeEach(async () => {
         await insertFixtures({
             bundles: [
@@ -114,7 +114,7 @@ describe("BundlesClient.findAllByNameTagCombination", () => {
         });
     });
     it("returns all bundles (as pojo-s) matching the specified name:tag combination", async () => {
-        const bundles = await storageClient.bundles.findAllByNameTagCombination(
+        const bundles = await storageClient.bundles.findByNameTagCombination(
             "1:1"
         );
         expect(bundles).to.have.length(2);
@@ -345,6 +345,52 @@ describe("BundlesClient.delete", () => {
         await storageClient.bundles.delete("2");
         const bundleInstance = await models.Bundle.findByPk("2");
         expect(bundleInstance).to.equal(null);
+    });
+});
+
+describe("BundlesClient.deleteByNameTagCombination", () => {
+    beforeEach(async () => {
+        await insertFixtures({
+            apps: [{ id: "1", name: "1" }],
+            entrypoints: [
+                { id: "1", appId: "1", bundleId: "1", urlMatcher: "1.com/" }
+            ],
+            bundles: [
+                { id: "1", name: "1", tag: "1" },
+                { id: "2", name: "1", tag: "1" },
+                { id: "3", name: "2", tag: "2" },
+                { id: "4", name: "2", tag: "2" }
+            ]
+        });
+    });
+    it("throws a BundlesInUseError if one of the to-be-delete bundles is being use by some entrypoint", async () => {
+        const deletePromise = storageClient.bundles.deleteByNameTagCombination(
+            "1:1"
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            errors.BundlesInUseError
+        );
+        await expect(deletePromise).to.be.rejectedWith(
+            "Can't delete bundles with id = 1, 2, as ore or more of them are being used by entrypoints with ids = 1"
+        );
+    });
+    it("deletes the bundles' files from S3", async () => {
+        await storageClient.bundles.deleteByNameTagCombination("2:2");
+        const b3Objects = await s3Client
+            .listObjects({ Bucket: s3Bucket, Prefix: "3" })
+            .promise();
+        expect(b3Objects.Contents).to.deep.equal([]);
+        const b4Objects = await s3Client
+            .listObjects({ Bucket: s3Bucket, Prefix: "4" })
+            .promise();
+        expect(b4Objects.Contents).to.deep.equal([]);
+    });
+    it("deletes the bundles", async () => {
+        await storageClient.bundles.deleteByNameTagCombination("2:2");
+        const b3Instance = await models.Bundle.findByPk("3");
+        expect(b3Instance).to.equal(null);
+        const b4Instance = await models.Bundle.findByPk("4");
+        expect(b4Instance).to.equal(null);
     });
 });
 
