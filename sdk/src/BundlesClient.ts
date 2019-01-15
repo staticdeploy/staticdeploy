@@ -6,7 +6,26 @@ import parseDates from "./parseDates";
 export default class BundlesClient {
     constructor(private axios: AxiosInstance) {}
 
-    async getAll(): Promise<IBundle[]> {
+    async getNames(): Promise<string[]> {
+        const result = await this.axios.get("/bundleNames");
+        return result.data;
+    }
+
+    async getTagsByName(name: string): Promise<string[]> {
+        const result = await this.axios.get(`/bundleNames/${name}/bundleTags`);
+        return result.data;
+    }
+
+    async getByNameAndTag(name: string, tag: string): Promise<string[]> {
+        const result = await this.axios.get(
+            `/bundleNames/${name}/bundleTags/${tag}/bundles`
+        );
+        return result.data.map(parseDates);
+    }
+
+    async getAll(): Promise<
+        Pick<IBundle, "id" | "name" | "tag" | "createdAt">[]
+    > {
         const result = await this.axios.get("/bundles");
         return result.data.map(parseDates);
     }
@@ -36,5 +55,11 @@ export default class BundlesClient {
 
     async delete(id: string): Promise<void> {
         await this.axios.delete(`/bundles/${id}`);
+    }
+
+    async deleteByNameAndTag(name: string, tag: string): Promise<void> {
+        await this.axios.delete(
+            `/bundleNames/${name}/bundleTags/${tag}/bundles`
+        );
     }
 }
