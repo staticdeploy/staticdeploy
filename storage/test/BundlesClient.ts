@@ -31,6 +31,36 @@ describe("BundlesClient.findOneById", () => {
     });
 });
 
+describe("BundlesClient.findNames", () => {
+    beforeEach(async () => {
+        await insertFixtures({
+            bundles: [
+                { id: "1", name: "1", tag: "1" },
+                { id: "2", name: "2", tag: "2" }
+            ]
+        });
+    });
+    it("returns all bundles' names", async () => {
+        const bundleNames = await storageClient.bundles.findNames();
+        expect(bundleNames).to.deep.equal(["1", "2"]);
+    });
+});
+
+describe("BundlesClient.findTagsByName", () => {
+    beforeEach(async () => {
+        await insertFixtures({
+            bundles: [
+                { id: "1", name: "1", tag: "1" },
+                { id: "2", name: "1", tag: "2" }
+            ]
+        });
+    });
+    it("returns all tags of the bundles with the specified name", async () => {
+        const bundleTags = await storageClient.bundles.findTagsByName("1");
+        expect(bundleTags).to.deep.equal(["1", "2"]);
+    });
+});
+
 describe("BundlesClient.findLatestByNameTagCombination", () => {
     beforeEach(async () => {
         await insertFixtures({
@@ -61,6 +91,35 @@ describe("BundlesClient.findLatestByNameTagCombination", () => {
             "1:1"
         );
         expect(bundle).to.have.property("id", "2");
+    });
+});
+
+describe("BundlesClient.findAllByNameTagCombination", () => {
+    beforeEach(async () => {
+        await insertFixtures({
+            bundles: [
+                {
+                    id: "1",
+                    name: "1",
+                    tag: "1",
+                    createdAt: new Date("1970-01-01")
+                },
+                {
+                    id: "2",
+                    name: "1",
+                    tag: "1",
+                    createdAt: new Date("1970-01-02")
+                }
+            ]
+        });
+    });
+    it("returns all bundles (as pojo-s) matching the specified name:tag combination", async () => {
+        const bundles = await storageClient.bundles.findAllByNameTagCombination(
+            "1:1"
+        );
+        expect(bundles).to.have.length(2);
+        expect(bundles[0]).to.have.property("id", "1");
+        expect(bundles[1]).to.have.property("id", "2");
     });
 });
 

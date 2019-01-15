@@ -1,7 +1,7 @@
 import { IBundle } from "@staticdeploy/common-types";
 import { S3 } from "aws-sdk";
 import { mkdirp, remove } from "fs-extra";
-import { isEmpty, reduce, some } from "lodash";
+import { isEmpty, map, reduce, some } from "lodash";
 import md5 from "md5";
 import { isMatch } from "micromatch";
 import { getType } from "mime";
@@ -49,6 +49,29 @@ export default class BundlesClient {
         return toPojo(bundle);
     }
 
+    async findNames(): Promise<string[]> {
+        // Aggregating with DISTINCT, sequelize produces the following query:
+        //   SELECT DISTINCT(`name`) AS `DISTINCT` FROM `bundles` AS `bundle`
+        // Specifying plain=false as an option, we get back the raw result of
+        // the query, an array of { DISTINCT: string } rows, from which we then
+        // extract the result we're interested in
+        const result: { DISTINCT: string }[] = (await this.Bundle.aggregate(
+            "name",
+            "DISTINCT",
+            { plain: false }
+        )) as any;
+        return map(result, "DISTINCT");
+    }
+
+    async findTagsByName(name: string): Promise<string[]> {
+        const result: { DISTINCT: string }[] = (await this.Bundle.aggregate(
+            "tag",
+            "DISTINCT",
+            { plain: false, where: { name: eq(name) } }
+        )) as any;
+        return map(result, "DISTINCT");
+    }
+
     // Many bundles can have the same name:tag combination. The "latest" bundle
     // for a name:tag combination is the newest bundle (by createdAt) having
     // that combination
@@ -63,6 +86,18 @@ export default class BundlesClient {
             order: [["createdAt", "DESC"]]
         });
         return toPojo(bundle);
+    }
+
+    async findAllByNameTagCombination(
+        nameTagCombination: string
+    ): Promise<IBundle[]> {
+        const [name, tag] = BundlesClient.splitNameTagCombination(
+            nameTagCombination
+        );
+        const bundles = await this.Bundle.findAll({
+            where: { name: eq(name), tag: eq(tag) }
+        });
+        return bundles.map(toPojo);
     }
 
     async findAll(): Promise<IBundle[]> {
