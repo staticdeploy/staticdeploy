@@ -42,7 +42,7 @@ describe("BundlesClient.findNames", () => {
     });
     it("returns all bundles' names", async () => {
         const bundleNames = await storageClient.bundles.findNames();
-        expect(bundleNames).to.deep.equal(["1", "2"]);
+        expect(bundleNames.sort()).to.deep.equal(["1", "2"].sort());
     });
 });
 
@@ -57,7 +57,7 @@ describe("BundlesClient.findTagsByName", () => {
     });
     it("returns all tags of the bundles with the specified name", async () => {
         const bundleTags = await storageClient.bundles.findTagsByName("1");
-        expect(bundleTags).to.deep.equal(["1", "2"]);
+        expect(bundleTags.sort()).to.deep.equal(["1", "2"].sort());
     });
 });
 
