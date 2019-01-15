@@ -30,7 +30,8 @@ export default class EntrypointCreateOperationModal extends React.Component<
         const values = this.form!.getValues();
         return staticdeploy.entrypoints.create({
             appId: this.props.app.id,
-            redirectTo: values.redirectTo || null,
+            bundleId: values.bundleId,
+            redirectTo: values.redirectTo,
             urlMatcher: values.urlMatcher,
             configuration: values.configuration || undefined
         });

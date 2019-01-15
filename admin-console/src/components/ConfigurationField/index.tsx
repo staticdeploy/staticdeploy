@@ -1,7 +1,6 @@
 import Button from "antd/lib/button";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
-import classnames from "classnames";
 import React from "react";
 import {
     FieldArray,
@@ -16,13 +15,11 @@ import "./index.css";
 interface IProps {
     name: string;
     label?: string;
-    colon?: boolean;
 }
 
 export class WrappedConfigurationField extends React.PureComponent<
     IProps & WrappedFieldArrayProps<IKVPair>
 > {
-    static defaultProps = { colon: true };
     renderLabel() {
         return this.props.label ? (
             <div className="ant-form-item-label">
@@ -62,11 +59,8 @@ export class WrappedConfigurationField extends React.PureComponent<
     }
     render() {
         const { fields } = this.props;
-        const className = classnames("c-ConfigurationField", {
-            "ant-form-item-no-colon": !this.props.colon
-        });
         return (
-            <div className={className}>
+            <div className="c-ConfigurationField">
                 {this.renderLabel()}
                 {fields.map(this.renderKVPairFields)}
                 <Button

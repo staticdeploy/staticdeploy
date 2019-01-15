@@ -34,34 +34,6 @@ describe("ConfigurationField", () => {
         });
     });
 
-    describe("colon prop", () => {
-        it("when colon === false, adds the ant-form-item-no-colon class to the top-level div", () => {
-            const configurationField = shallow(
-                <WrappedConfigurationField
-                    name="name"
-                    fields={{ map: () => null } as any}
-                    meta={{} as any}
-                    colon={false}
-                />
-            );
-            expect(
-                configurationField.is("div.ant-form-item-no-colon")
-            ).to.equal(true);
-        });
-        it("when colon !== false, doesn't add the ant-form-item-no-colon class to the top-level div", () => {
-            const configurationField = shallow(
-                <WrappedConfigurationField
-                    name="name"
-                    fields={{ map: () => null } as any}
-                    meta={{} as any}
-                />
-            );
-            expect(
-                configurationField.is("div.ant-form-item-no-colon")
-            ).to.equal(false);
-        });
-    });
-
     it("for each kvPair field passed by redux-form, renders a TextField for the key and one for the value", () => {
         const configurationField = shallow(
             <WrappedConfigurationField

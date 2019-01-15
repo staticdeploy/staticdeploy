@@ -13,13 +13,8 @@ interface IProps {
     className?: string;
     inlineError?: boolean;
     label?: FormItemProps["label"];
-    colon?: FormItemProps["colon"];
-    labelCol?: FormItemProps["labelCol"];
-    wrapperCol?: FormItemProps["wrapperCol"];
     disabled?: InputProps["disabled"];
     placeholder?: InputProps["placeholder"];
-    size?: InputProps["size"];
-    autoFocus?: InputProps["autoFocus"];
 }
 
 export class WrappedTextField extends React.Component<
@@ -42,9 +37,6 @@ export class WrappedTextField extends React.Component<
         return (
             <Form.Item
                 label={this.props.label}
-                labelCol={this.props.labelCol}
-                wrapperCol={this.props.wrapperCol}
-                colon={this.props.colon}
                 className={classnames("c-TextField", this.props.className)}
                 validateStatus={displayError ? "error" : undefined}
                 help={displayNonInlineError ? error : undefined}
@@ -55,8 +47,6 @@ export class WrappedTextField extends React.Component<
                     onBlur={this.props.input.onBlur}
                     disabled={this.props.disabled}
                     placeholder={this.props.placeholder}
-                    size={this.props.size}
-                    autoFocus={this.props.autoFocus}
                     suffix={suffix}
                 />
             </Form.Item>
