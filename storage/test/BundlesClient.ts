@@ -457,3 +457,13 @@ describe("BundlesClient.splitNameTagCombination", () => {
         expect(tuple).to.deep.equal(["name", "tag"]);
     });
 });
+
+describe("BundlesClient.formNameTagCombination", () => {
+    it("returns the name:tag combination string", () => {
+        const nameTagCombination = BundlesClient.formNameTagCombination(
+            "name",
+            "tag"
+        );
+        expect(nameTagCombination).to.deep.equal("name:tag");
+    });
+});

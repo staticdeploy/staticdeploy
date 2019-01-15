@@ -43,7 +43,7 @@ export default async function getApp(): Promise<express.Express> {
         )
         .use(authenticateRequest(config.JWT_SECRET))
         .use(attachLogOperation())
-        .loadFrom(`${__dirname}/api/**/*.@(ts|js)`);
+        .loadFrom(`${__dirname}/api/**/@(delete|get|patch|post).@(ts|js)`);
 
     // Return express app
     return express().use(router);

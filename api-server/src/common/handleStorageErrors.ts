@@ -27,7 +27,8 @@ export default (
         } else if (
             err instanceof storage.ConflictingAppError ||
             err instanceof storage.ConflictingEntrypointError ||
-            err instanceof storage.BundleInUseError
+            err instanceof storage.BundleInUseError ||
+            err instanceof storage.BundlesInUseError
         ) {
             res.status(409).send({ message: err.message });
         } else {

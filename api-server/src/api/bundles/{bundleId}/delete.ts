@@ -25,10 +25,14 @@ export default convroute({
     ],
     responses: {
         "204": { description: "Bundle deleted, returns nothing" },
-        "404": { description: "Bundle not found" }
+        "404": { description: "Bundle not found" },
+        "409": {
+            description:
+                "Bundle can't be deleted because in use by one or more entrypoints"
+        }
     },
     handler: async (req: IRequest, res) => {
-        // Retrieve deleted bundle for the operation log
+        // Retrieve to-be-deleted bundle for the operation log
         const deletedBundle = await storage.bundles.findOneById(
             req.params.bundleId
         );

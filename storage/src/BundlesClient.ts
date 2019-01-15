@@ -25,6 +25,10 @@ import * as validators from "./utils/validators";
 const baseUnpackingDirPath = join(tmpdir(), "staticdeploy/storage");
 
 export default class BundlesClient {
+    static formNameTagCombination(name: string, tag: string): string {
+        return `${name}:${tag}`;
+    }
+
     static splitNameTagCombination(
         nameTagCombination: string
     ): [string, string] {
