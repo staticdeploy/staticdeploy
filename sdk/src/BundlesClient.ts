@@ -16,7 +16,7 @@ export default class BundlesClient {
         return result.data;
     }
 
-    async getByNameAndTag(name: string, tag: string): Promise<string[]> {
+    async getByNameAndTag(name: string, tag: string): Promise<IBundle[]> {
         const result = await this.axios.get(
             `/bundleNames/${name}/bundleTags/${tag}/bundles`
         );

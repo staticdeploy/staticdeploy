@@ -16,7 +16,7 @@ import { IExternalFormValues, IInternalFormValues } from "./IFormValues";
 import validate from "./validate";
 
 interface IState {
-    bundles: IBundle[];
+    bundles: Pick<IBundle, "id" | "name" | "tag" | "createdAt">[];
     loadingBundles: boolean;
     errorLoadingBundles: Error | null;
 }
