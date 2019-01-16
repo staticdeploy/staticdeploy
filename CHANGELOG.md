@@ -1,3 +1,16 @@
+## 0.11.0 (January 16, 2019)
+
+Features:
+
+- implement deleting bundles by **name:tag** combination
+- **admin-console**:
+  - show operation logs details
+  - show bundles details
+  - optimize bundles retrieval
+  - client-side paginate long lists
+  - allow setting an entrypoint's bundle
+  - in an entrypoint's details, link to urlMatcher and redirectTo
+
 ## 0.10.0 (October 14, 2018)
 
 Features:
