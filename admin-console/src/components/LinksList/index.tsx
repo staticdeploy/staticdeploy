@@ -1,4 +1,5 @@
 import Icon from "antd/lib/icon";
+import Table, { ColumnProps } from "antd/lib/table";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -18,26 +19,37 @@ interface IProps<Item extends IItem> {
 export default class LinksList<Item extends IItem> extends React.PureComponent<
     IProps<Item>
 > {
-    renderTitle() {
-        return this.props.title ? <h4>{this.props.title}</h4> : null;
+    getColumns(): ColumnProps<Item>[] {
+        return [
+            {
+                key: "link",
+                title: this.props.title,
+                className: "c-LinksList-item",
+                render: (_, item) => {
+                    const href = this.props.getHref(item);
+                    return (
+                        <NavLink to={href}>
+                            <div className="c-LinksList-item-description">
+                                {this.props.getDescription(item)}
+                            </div>
+                            <Icon type="right" />
+                        </NavLink>
+                    );
+                }
+            }
+        ];
     }
-    renderLinks = (item: Item) => {
-        const href = this.props.getHref(item);
-        return (
-            <NavLink key={item.id} className="c-LinksList-item" to={href}>
-                <div className="c-LinksList-item-description">
-                    {this.props.getDescription(item)}
-                </div>
-                <Icon type="right" />
-            </NavLink>
-        );
-    };
     render() {
         return (
-            <div className="c-LinksList">
-                {this.renderTitle()}
-                {this.props.items.map(this.renderLinks)}
-            </div>
+            <Table<Item>
+                className="c-LinksList"
+                columns={this.getColumns()}
+                dataSource={this.props.items}
+                size="small"
+                bordered={false}
+                rowKey="id"
+                pagination={{ pageSize: 15, hideOnSinglePage: true }}
+            />
         );
     }
 }

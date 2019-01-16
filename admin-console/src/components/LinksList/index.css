@@ -1,46 +1,81 @@
+/* Remove horizontal marign from table */
+.c-LinksList .ant-table-body {
+    margin: 0px !important;
+}
+/* Remove table border and border radius */
+.c-LinksList .ant-table-small {
+    border: 0px;
+    border-radius: 0px;
+}
+.c-LinksList .ant-table-thead > tr:first-child > th:first-child,
+.c-LinksList .ant-table-thead > tr:first-child > th:last-child {
+    border-radius: 0px;
+}
+
+/*
+*   Remove the table header background color and bottom border, increase space
+*   between header and first row
+*/
+.c-LinksList .ant-table-thead th {
+    background-color: transparent !important;
+    border-bottom: 0px !important;
+    padding-bottom: 5px !important;
+}
+
+/* Remove row background-change-on-hover delay */
+.c-LinksList .ant-table-thead > tr,
+.ant-table-tbody > tr,
+.c-LinksList .ant-table-tbody > tr > td {
+    transition: all 0s !important;
+}
+
+/* Give space below */
 .c-LinksList {
     margin-bottom: 16px;
 }
 
+/* Make link occupy all cell, justify its content */
 .c-LinksList-item {
+    padding: 0px !important;
+}
+.c-LinksList-item a {
     width: 100%;
-    border-style: solid;
-    border-color: var(--grey-4);
-    border-width: 0;
-    border-bottom-width: 1px;
+    padding: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px;
     color: var(--grey-8);
     cursor: pointer;
 }
 
-.c-LinksList-item,
-.c-LinksList-item:focus,
-.c-LinksList-item:hover {
+/* Make link light up on hover and on link active */
+.c-LinksList-item a,
+.c-LinksList-item a:focus,
+.c-LinksList-item a:hover {
     text-decoration: none;
 }
-.c-LinksList-item.active {
+.c-LinksList-item a.active {
     background: var(--blue-1);
 }
 
-.c-LinksList-item:hover {
+.c-LinksList-item a:hover {
     background: var(--blue-1);
     color: var(--grey-8);
 }
 
+/* Show the right arrow on hover and on link active */
+.c-LinksList-item .anticon {
+    visibility: hidden;
+}
+.c-LinksList-item a:hover .anticon,
+.c-LinksList-item a.active .anticon {
+    visibility: visible;
+}
+
+/* Truncate description text */
 .c-LinksList-item-description {
     width: 90%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-}
-
-.c-LinksList-item .anticon {
-    visibility: hidden;
-}
-.c-LinksList-item:hover .anticon,
-.c-LinksList-item.active .anticon {
-    visibility: visible;
 }
