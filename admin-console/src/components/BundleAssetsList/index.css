@@ -1,0 +1,25 @@
+/* Remove horizontal marign from table */
+.c-BundleAssetsList .ant-table-body {
+    margin: 0px !important;
+}
+/* Remove table border and border radius */
+.c-BundleAssetsList .ant-table-small {
+    border: 0px;
+    border-radius: 0px;
+}
+.c-BundleAssetsList .ant-table-thead > tr:first-child > th:first-child,
+.c-BundleAssetsList .ant-table-thead > tr:first-child > th:last-child {
+    border-radius: 0px;
+}
+
+/* Remove the table header background color */
+.c-BundleAssetsList .ant-table-thead th {
+    background-color: transparent !important;
+}
+
+/* Remove row background-change-on-hover delay */
+.c-BundleAssetsList .ant-table-thead > tr,
+.c-BundleAssetsList .ant-table-tbody > tr,
+.c-BundleAssetsList .ant-table-tbody > tr > td {
+    transition: all 0s !important;
+}

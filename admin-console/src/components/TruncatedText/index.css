@@ -1,0 +1,6 @@
+/* Truncate overflowing text with ellipsis */
+.c-TruncatedText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

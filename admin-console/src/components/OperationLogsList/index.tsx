@@ -23,9 +23,10 @@ export default class OperationLogsList extends React.Component<IProps> {
                 align: "center",
                 className: "c-OperationLogsList-operation-cell",
                 render: (operation: Operation) => {
+                    const prettifiedOperation = operation.replace(":", "-");
                     return (
-                        <Tag className={operation.replace(":", "-")}>
-                            {operation.replace(":", " ")}
+                        <Tag className={prettifiedOperation}>
+                            {prettifiedOperation}
                         </Tag>
                     );
                 }

@@ -10,7 +10,13 @@ const bundles = range(20).map(() => ({
     name: faker.random.arrayElement(names),
     tag: faker.random.arrayElement(tags),
     description: faker.lorem.sentence(12),
-    assets: [],
+    assets: [
+        { path: "/index.html", mimeType: "text/html" },
+        { path: "/js/index.js", mimeType: "application/js" },
+        { path: "/css/index.css", mimeType: "text/css" }
+    ],
+    fallbackAssetPath: faker.random.arrayElement(["/index.html", "/404.html"]),
+    fallbackStatusCode: faker.random.arrayElement([404, 200]),
     createdAt: faker.date.past()
 }));
 

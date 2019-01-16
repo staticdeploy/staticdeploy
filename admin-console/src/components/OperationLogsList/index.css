@@ -27,7 +27,7 @@
 
 /* Remove row background-change-on-hover delay */
 .c-OperationLogsList .ant-table-thead > tr,
-.ant-table-tbody > tr,
+.c-OperationLogsList .ant-table-tbody > tr,
 .c-OperationLogsList .ant-table-tbody > tr > td {
     transition: all 0s !important;
 }
@@ -41,11 +41,6 @@
 /* Give space below */
 .c-OperationLogsList {
     margin-bottom: 16px;
-}
-
-/* Make header bold */
-.c-OperationLogsList-header {
-    font-weight: 500;
 }
 
 .c-OperationLogsList-operation-cell .ant-tag {

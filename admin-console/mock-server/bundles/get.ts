@@ -6,11 +6,8 @@ const names = range(10).map(() => faker.lorem.word());
 const tags = range(10).map(() => faker.lorem.word());
 const bundles = range(1000).map(() => ({
     id: faker.random.alphaNumeric(8),
-    hash: faker.random.alphaNumeric(255),
     name: faker.random.arrayElement(names),
     tag: faker.random.arrayElement(tags),
-    description: faker.lorem.sentence(12),
-    assets: [],
     createdAt: faker.date.past()
 }));
 

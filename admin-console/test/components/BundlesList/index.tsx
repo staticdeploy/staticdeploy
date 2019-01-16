@@ -1,4 +1,5 @@
 import { IBundle } from "@staticdeploy/common-types";
+import Table from "antd/lib/table";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";
@@ -37,9 +38,10 @@ describe("BundlesList", () => {
                 ]}
             />
         );
-        const renderedIds = bundlesList
-            .find(".c-BundlesList-item-id code")
-            .map(codeElement => codeElement.text());
-        expect(renderedIds).to.deep.equal(["2", "1", "0"]);
+        const sortedBundles = bundlesList
+            .find(Table)
+            .prop("dataSource") as IBundle[];
+        const sortedIds = sortedBundles.map(bundle => bundle.id);
+        expect(sortedIds).to.deep.equal(["2", "1", "0"]);
     });
 });

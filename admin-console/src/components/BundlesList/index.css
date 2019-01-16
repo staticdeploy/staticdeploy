@@ -1,22 +1,59 @@
+/* Remove horizontal marign from table */
+.c-BundlesList .ant-table-body {
+    margin: 0px !important;
+}
+/* Remove table border and border radius */
+.c-BundlesList .ant-table-small {
+    border: 0px;
+    border-radius: 0px;
+}
+.c-BundlesList .ant-table-thead > tr:first-child > th:first-child,
+.c-BundlesList .ant-table-thead > tr:first-child > th:last-child {
+    border-radius: 0px;
+}
+
+/* Style the expand-collapse button */
+.c-BundlesList .ant-table-row-expand-icon {
+    border-radius: 100%;
+    height: 22px;
+    width: 22px;
+    line-height: 18px;
+}
+
+/* Remove the table header background color */
+.c-BundlesList .ant-table-thead th {
+    background-color: transparent !important;
+}
+
+/* Remove row background-change-on-hover delay */
+.c-BundlesList .ant-table-thead > tr,
+.c-BundlesList .ant-table-tbody > tr,
+.c-BundlesList .ant-table-tbody > tr > td {
+    transition: all 0s !important;
+}
+
+/* Remove expanded row background */
+.c-BundlesList tr.ant-table-expanded-row,
+.c-BundlesList tr.ant-table-expanded-row:hover {
+    background: transparent;
+}
+
+/* Give space below */
 .c-BundlesList {
     margin-bottom: 16px;
 }
 
-.c-BundlesList-header {
-    font-weight: 500;
+/* Set table and table columns widths */
+.c-BundlesList table {
+    width: 100%;
+    table-layout: fixed;
 }
-
-.c-BundlesList-header,
-.c-BundlesList-item {
-    border-style: solid;
-    border-color: var(--grey-4);
-    border-width: 0;
-    border-bottom-width: 1px;
-    padding: 8px;
+.c-BundlesList-id-column {
+    width: 100px;
 }
-
-.c-BundlesList-item-description {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+.c-BundlesList-description-column {
+    width: 100%;
+}
+.c-BundlesList-createdAt-column {
+    width: 150px;
 }
