@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@staticdeploy/common-types": "^0.10.0",
-    "aws-sdk": "^2.387.0",
+    "aws-sdk": "^2.389.0",
     "bluebird": "^3.5.3",
     "fs-extra": "^7.0.1",
     "lodash": "^4.17.11",
@@ -45,7 +45,7 @@
     "sqlite3": "^4.0.6",
     "tar": "^4.4.8",
     "umzug": "^2.2.0",
-    "validator": "^10.10.0"
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.25",
