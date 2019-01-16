@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/website",
   "description": "staticdeploy website",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",

@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/cli",
   "description": "CLI tool for StaticDeploy",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "publishConfig": {
     "access": "public"
   },
@@ -34,7 +34,7 @@
     "docker:push": "docker push staticdeploy/cli:$DOCKER_TAG"
   },
   "dependencies": {
-    "@staticdeploy/sdk": "^0.10.0",
+    "@staticdeploy/sdk": "^0.11.0",
     "chalk": "^2.4.2",
     "fs-extra": "^7.0.1",
     "tar": "^4.4.8",
