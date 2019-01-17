@@ -79,3 +79,8 @@
     overflow: hidden;
     white-space: nowrap;
 }
+
+/* Hide the no-data placeholder */
+.c-LinksList .ant-table-placeholder {
+    display: none;
+}
