@@ -1,3 +1,9 @@
+## 0.11.1 (January 17, 2019)
+
+Fixes:
+
+- in the **admin-console**, hide the no-data placeholder of tables
+
 ## 0.11.0 (January 16, 2019)
 
 Features:
