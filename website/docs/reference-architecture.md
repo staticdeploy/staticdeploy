@@ -6,9 +6,12 @@ title: Architecture
 The following diagram represents the logical architecture of the StaticDeploy
 platform:
 
-<br />
-![Architecture](../images/architecture.svg)
-<br />
+<div class="padded-docs-image">
+  <img
+    src="../images/architecture.svg"
+    alt="StaticDeploy Architecture"
+  />
+</div>
 
 On the server side, we have:
 

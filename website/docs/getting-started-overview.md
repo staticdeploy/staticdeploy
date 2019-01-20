@@ -4,8 +4,8 @@ title: Overview
 ---
 
 StaticDeploy is an open-source platform for deploying and configuring static web
-applications and websites. We can think about it as a
-[Kubernetes](https://kubernetes.io/) for static content.
+applications and websites. We can think about it as a Kubernetes for static
+content.
 
 StaticDeploy was created with two objectives in mind:
 
@@ -34,6 +34,13 @@ Bundles can be created with the `bundle` command of the StaticDeploy cli, by
 giving it a folder that gets archived into a tar.gz and uploaded to the
 StaticDeploy backend.
 
+<div class="padded-docs-image">
+  <img
+    src="../images/bundles-screenshot.png"
+    alt="Browsing bundles in the admin console"
+  />
+</div>
+
 ### Entrypoints
 
 Entrypoints are the urls at which the StaticDeploy backend serves the static
@@ -50,6 +57,13 @@ injected at serve-time into the html files of the bundle.
 Entrypoints can be created manually from StaticDeploy's admin console, or
 automatically when deploying a bundle with the `deploy` command of the
 StaticDeploy cli.
+
+<div class="padded-docs-image">
+  <img
+    src="../images/entrypoints-screenshot.png"
+    alt="Browsing apps and entrypoints in the admin console"
+  />
+</div>
 
 ### Apps
 

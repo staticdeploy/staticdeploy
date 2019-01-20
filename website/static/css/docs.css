@@ -17,7 +17,12 @@
 
 /* Make code blocks in getting-started-overview splitter the same height */
 .getting-started-overview-splitter code {
-    height: 160px;
+    height: 200px;
+}
+
+/* Add padding to images */
+.padded-docs-image {
+    padding: 16px;
 }
 
 /* Make blockquotes yellow (instead of red) and text inside them black */
