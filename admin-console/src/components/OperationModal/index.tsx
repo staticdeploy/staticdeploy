@@ -17,7 +17,7 @@ export enum OperationStatus {
     Failed
 }
 
-type SuccessMessageFunction<Result> = ((result: Result) => React.ReactNode);
+type SuccessMessageFunction<Result> = (result: Result) => React.ReactNode;
 
 interface IProps<Result> {
     title: React.ReactNode;

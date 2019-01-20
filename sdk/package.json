@@ -37,20 +37,20 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/lodash": "^4.14.119",
+    "@types/lodash": "^4.14.120",
     "@types/mocha": "^5.2.5",
     "@types/nock": "^9.3.0",
-    "@types/sinon": "^7.0.3",
+    "@types/sinon": "^7.0.4",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^5.2.0",
     "nock": "^10.0.6",
-    "prettier": "^1.15.3",
+    "prettier": "^1.16.0",
     "rimraf": "^2.6.3",
-    "sinon": "^7.2.2",
+    "sinon": "^7.2.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.4"
   }
 }

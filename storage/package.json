@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@staticdeploy/common-types": "^0.11.1",
-    "aws-sdk": "^2.389.0",
+    "aws-sdk": "^2.391.0",
     "bluebird": "^3.5.3",
     "fs-extra": "^7.0.1",
     "lodash": "^4.17.11",
@@ -52,7 +52,7 @@
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
     "@types/fs-extra": "^5.0.4",
-    "@types/lodash": "^4.14.119",
+    "@types/lodash": "^4.14.120",
     "@types/md5": "^2.1.33",
     "@types/micromatch": "^3.1.0",
     "@types/mime": "^2.0.0",
@@ -60,7 +60,7 @@
     "@types/mz": "^0.0.32",
     "@types/recursive-readdir": "^2.2.0",
     "@types/s3rver": "^0.0.30",
-    "@types/sequelize": "^4.27.33",
+    "@types/sequelize": "^4.27.34",
     "@types/tar": "^4.0.0",
     "@types/umzug": "^2.2.0",
     "@types/uuid": "^3.4.4",
@@ -69,13 +69,13 @@
     "chai-as-promised": "^7.1.1",
     "create-fs-tree": "^1.0.0",
     "mocha": "^5.2.0",
-    "prettier": "^1.15.3",
+    "prettier": "^1.16.0",
     "rimraf": "^2.6.3",
     "s3rver": "^2.2.7",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
-    "typescript": "^3.2.2",
+    "typescript": "^3.2.4",
     "uuid": "^3.3.2"
   }
 }
