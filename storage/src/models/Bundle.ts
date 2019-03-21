@@ -1,16 +1,22 @@
-import { IBundle } from "@staticdeploy/common-types";
+import { IAsset, IBundle } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
 
-export type BundleModel = Sequelize.Model<
-    Sequelize.Instance<Partial<IBundle>>,
-    Partial<IBundle>
->;
+export class BundleModel extends Sequelize.Model implements IBundle {
+    id!: string;
+    name!: string;
+    tag!: string;
+    description!: string;
+    hash!: string;
+    assets!: IAsset[];
+    fallbackAssetPath!: string;
+    fallbackStatusCode!: number;
+    createdAt!: Date;
+}
 
 export const BUNDLES_TABLE = "bundles";
 
-export default (sequelize: Sequelize.Sequelize): BundleModel =>
-    sequelize.define<Sequelize.Instance<Partial<IBundle>>, Partial<IBundle>>(
-        "bundle",
+export default (sequelize: Sequelize.Sequelize): typeof BundleModel => {
+    BundleModel.init(
         {
             id: { type: Sequelize.STRING, primaryKey: true },
             name: { type: Sequelize.STRING },
@@ -23,8 +29,11 @@ export default (sequelize: Sequelize.Sequelize): BundleModel =>
             createdAt: { type: Sequelize.DATE }
         },
         {
+            sequelize: sequelize,
             tableName: BUNDLES_TABLE,
             timestamps: true,
             updatedAt: false
         }
     );
+    return BundleModel;
+};

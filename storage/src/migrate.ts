@@ -2,8 +2,11 @@ import { extname, join } from "path";
 import Sequelize from "sequelize";
 import Umzug from "umzug";
 
-interface ISequelizeMetaRow {
+interface ISequelizeMeta {
     name: string;
+}
+class SequelizeMeta extends Sequelize.Model implements ISequelizeMeta {
+    name!: string;
 }
 
 export default async function migrate(sequelize: Sequelize.Sequelize) {
@@ -21,24 +24,27 @@ export default async function migrate(sequelize: Sequelize.Sequelize) {
     // To avoid this, we make so the saved migration name is always the .js
     // version, and the read migration name is .ts when running the .ts version
     // of this function, .js when running the .js version
-    const SequelizeMeta = sequelize.define(
-        "SequelizeMeta",
+    SequelizeMeta.init(
         {
             name: {
                 type: Sequelize.STRING,
                 primaryKey: true,
-                get(this: Sequelize.Instance<ISequelizeMetaRow>) {
+                get(this: SequelizeMeta) {
                     return this.getDataValue("name").replace(
                         ".js",
                         extname(__filename)
                     );
                 },
-                set(this: Sequelize.Instance<ISequelizeMetaRow>, name: string) {
+                set(this: SequelizeMeta, name: string) {
                     this.setDataValue("name", name.replace(".ts", ".js"));
                 }
             }
         },
-        { tableName: "SequelizeMeta", timestamps: false }
+        {
+            sequelize: sequelize,
+            tableName: "SequelizeMeta",
+            timestamps: false
+        }
     );
 
     const umzug = new Umzug({

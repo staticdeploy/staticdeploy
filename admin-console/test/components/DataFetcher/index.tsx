@@ -61,7 +61,7 @@ describe("DataFetcher", () => {
         });
         const component = dataFetcher.find(props.Component);
         props.fetchData.reset();
-        component.prop("refetch")();
+        component.prop<() => any>("refetch")();
         expect(props.fetchData).to.have.callCount(1);
         expect(props.fetchData).to.have.been.calledWith({
             propKey: "propValue"

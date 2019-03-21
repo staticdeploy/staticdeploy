@@ -115,7 +115,10 @@ describe("deploy command", () => {
         //   the options with which the handler is called)
         // - run assertions on it being called, verifying the correct behavior
         //   of the handler
-        let staticdeployDeployStub: sinon.SinonStub;
+        let staticdeployDeployStub: sinon.SinonStub<
+            Parameters<typeof StaticdeployClient.prototype.deploy>,
+            ReturnType<typeof StaticdeployClient.prototype.deploy>
+        >;
         beforeEach(() => {
             staticdeployDeployStub = sinon.stub(
                 StaticdeployClient.prototype,

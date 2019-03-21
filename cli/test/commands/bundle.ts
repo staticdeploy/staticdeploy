@@ -173,7 +173,10 @@ describe("bundle command", () => {
         //   the options above)
         // - run assertions on it being called, verifying the correct behavior
         //   of the handler
-        let bundlesCreateStub: sinon.SinonStub;
+        let bundlesCreateStub: sinon.SinonStub<
+            Parameters<typeof BundlesClient.prototype.create>,
+            ReturnType<typeof BundlesClient.prototype.create>
+        >;
         beforeEach(() => {
             bundlesCreateStub = sinon.stub(BundlesClient.prototype, "create");
         });

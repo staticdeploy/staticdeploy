@@ -1,19 +1,21 @@
-import { IEntrypoint } from "@staticdeploy/common-types";
+import { IConfiguration, IEntrypoint } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
 
-export type EntrypointModel = Sequelize.Model<
-    Sequelize.Instance<Partial<IEntrypoint>>,
-    Partial<IEntrypoint>
->;
+export class EntrypointModel extends Sequelize.Model implements IEntrypoint {
+    id!: string;
+    appId!: string;
+    bundleId!: string | null;
+    redirectTo!: string | null;
+    urlMatcher!: string;
+    configuration!: IConfiguration | null;
+    createdAt!: Date;
+    updatedAt!: Date;
+}
 
 export const ENTRYPOINTS_TABLE = "entrypoints";
 
-export default (sequelize: Sequelize.Sequelize): EntrypointModel =>
-    sequelize.define<
-        Sequelize.Instance<Partial<IEntrypoint>>,
-        Partial<IEntrypoint>
-    >(
-        "entrypoint",
+export default (sequelize: Sequelize.Sequelize): typeof EntrypointModel => {
+    EntrypointModel.init(
         {
             id: { type: Sequelize.STRING, primaryKey: true },
             appId: { type: Sequelize.STRING },
@@ -24,5 +26,11 @@ export default (sequelize: Sequelize.Sequelize): EntrypointModel =>
             createdAt: { type: Sequelize.DATE },
             updatedAt: { type: Sequelize.DATE }
         },
-        { tableName: ENTRYPOINTS_TABLE }
+        {
+            sequelize: sequelize,
+            tableName: ENTRYPOINTS_TABLE
+        }
     );
+
+    return EntrypointModel;
+};

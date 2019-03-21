@@ -105,14 +105,16 @@ export async function insertFixtures(data: IData) {
 
     // Empty the S3 bucket
     const objects = await s3Client.listObjects({ Bucket: s3Bucket }).promise();
-    await s3Client
-        .deleteObjects({
-            Bucket: s3Bucket,
-            Delete: {
-                Objects: objects.Contents!.map(obj => ({ Key: obj.Key! }))
-            }
-        })
-        .promise();
+    if (objects.Contents && objects.Contents.length > 0) {
+        await s3Client
+            .deleteObjects({
+                Bucket: s3Bucket,
+                Delete: {
+                    Objects: objects.Contents.map(obj => ({ Key: obj.Key! }))
+                }
+            })
+            .promise();
+    }
 
     // Insert provided database fixtures
     for (const bundle of data.bundles || []) {

@@ -213,12 +213,14 @@ export default class BundlesClient {
         if (!isEmpty(dependentEntrypoints)) {
             throw new errors.BundleInUseError(
                 id,
-                dependentEntrypoints.map(entrypoint => entrypoint.get("id"))
+                dependentEntrypoints.map(entrypoint =>
+                    entrypoint.get<"id">("id")
+                )
             );
         }
 
         // Delete bundle files on S3
-        const assets: IBundle["assets"] = bundle.get("assets");
+        const assets: IBundle["assets"] = bundle.get<"assets">("assets");
         await this.s3Client
             .deleteObjects({
                 Bucket: this.s3Bucket,
@@ -252,7 +254,9 @@ export default class BundlesClient {
         if (!isEmpty(dependentEntrypoints)) {
             throw new errors.BundlesInUseError(
                 bundleIds,
-                dependentEntrypoints.map(entrypoint => entrypoint.get("id"))
+                dependentEntrypoints.map(entrypoint =>
+                    entrypoint.get<"id">("id")
+                )
             );
         }
 
@@ -286,7 +290,7 @@ export default class BundlesClient {
         }
 
         // Ensure the asset exists
-        const assets: IBundle["assets"] = bundle.get("assets");
+        const assets: IBundle["assets"] = bundle.get<"assets">("assets");
         const requestedAsset = assets.find(asset => asset.path === path);
         if (!requestedAsset) {
             throw new errors.BundleAssetNotFoundError(id, path);

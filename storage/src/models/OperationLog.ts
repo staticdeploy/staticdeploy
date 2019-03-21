@@ -1,19 +1,21 @@
-import { IOperationLog } from "@staticdeploy/common-types";
+import { IOperationLog, Operation } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
 
-export type OperationLogModel = Sequelize.Model<
-    Sequelize.Instance<Partial<IOperationLog>>,
-    Partial<IOperationLog>
->;
+export class OperationLogModel extends Sequelize.Model
+    implements IOperationLog {
+    id!: string;
+    operation!: Operation;
+    parameters!: {
+        [key: string]: any;
+    };
+    performedBy!: string;
+    performedAt!: Date;
+}
 
 export const OPERATION_LOGS_TABLE = "operationLogs";
 
-export default (sequelize: Sequelize.Sequelize): OperationLogModel =>
-    sequelize.define<
-        Sequelize.Instance<Partial<IOperationLog>>,
-        Partial<IOperationLog>
-    >(
-        "operationLog",
+export default (sequelize: Sequelize.Sequelize): typeof OperationLogModel => {
+    OperationLogModel.init(
         {
             id: { type: Sequelize.STRING, primaryKey: true },
             operation: { type: Sequelize.STRING },
@@ -22,9 +24,12 @@ export default (sequelize: Sequelize.Sequelize): OperationLogModel =>
             performedAt: { type: Sequelize.DATE }
         },
         {
+            sequelize: sequelize,
             tableName: OPERATION_LOGS_TABLE,
             timestamps: true,
             createdAt: "performedAt",
             updatedAt: false
         }
     );
+    return OperationLogModel;
+};

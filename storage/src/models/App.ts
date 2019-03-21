@@ -1,16 +1,18 @@
-import { IApp } from "@staticdeploy/common-types";
+import { IApp, IConfiguration } from "@staticdeploy/common-types";
 import Sequelize from "sequelize";
 
-export type AppModel = Sequelize.Model<
-    Sequelize.Instance<Partial<IApp>>,
-    Partial<IApp>
->;
+export class AppModel extends Sequelize.Model implements IApp {
+    id!: string;
+    name!: string;
+    defaultConfiguration!: IConfiguration;
+    createdAt!: Date;
+    updatedAt!: Date;
+}
 
 export const APPS_TABLE = "apps";
 
-export default (sequelize: Sequelize.Sequelize): AppModel =>
-    sequelize.define<Sequelize.Instance<Partial<IApp>>, Partial<IApp>>(
-        "app",
+export default (sequelize: Sequelize.Sequelize): typeof AppModel => {
+    AppModel.init(
         {
             id: { type: Sequelize.STRING, primaryKey: true },
             name: { type: Sequelize.STRING },
@@ -18,5 +20,10 @@ export default (sequelize: Sequelize.Sequelize): AppModel =>
             createdAt: { type: Sequelize.DATE },
             updatedAt: { type: Sequelize.DATE }
         },
-        { tableName: APPS_TABLE }
+        {
+            sequelize: sequelize,
+            tableName: APPS_TABLE
+        }
     );
+    return AppModel;
+};

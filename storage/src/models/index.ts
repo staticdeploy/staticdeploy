@@ -6,10 +6,10 @@ import getEntrypointModel, { EntrypointModel } from "./Entrypoint";
 import getOperationLogModel, { OperationLogModel } from "./OperationLog";
 
 export interface IModels {
-    App: AppModel;
-    Bundle: BundleModel;
-    Entrypoint: EntrypointModel;
-    OperationLog: OperationLogModel;
+    App: typeof AppModel;
+    Bundle: typeof BundleModel;
+    Entrypoint: typeof EntrypointModel;
+    OperationLog: typeof OperationLogModel;
 }
 
 export default (sequelize: Sequelize.Sequelize): IModels => ({
