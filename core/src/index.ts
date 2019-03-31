@@ -71,14 +71,6 @@ export {
 } from "./entities/Bundle";
 export { IConfiguration } from "./entities/Configuration";
 export { IEndpointRequest } from "./entities/EndpointRequest";
-export {
-    EndpointResponseType,
-    IAssetEndpointResponse,
-    IPermanentRedirectEndpointResponse,
-    ITemporaryRedirectEndpointResponse,
-    INoMatchingEntrypointEndpointResponse,
-    INoBundleDeployedEndpointResponse,
-    EndpointResponse
-} from "./entities/EndpointResponse";
+export { IEndpointResponse } from "./entities/EndpointResponse";
 export { IEntrypoint } from "./entities/Entrypoint";
 export { IOperationLog, Operation } from "./entities/OperationLog";

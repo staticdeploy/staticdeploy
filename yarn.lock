@@ -1732,6 +1732,11 @@
   resolved "https://registry.yarnpkg.com/@types/cookiejar/-/cookiejar-2.1.0.tgz#4b7daf2c51696cfc70b942c11690528229d1a1ce"
   integrity sha512-EIjmpvnHj+T4nMcKwHwxZKUfDmphIKJc2qnEMhSoOvr1lYEQpuRKRz8orWr//krYIIArS/KGGLfL2YGVUYXmIA==
 
+"@types/deep-equal-in-any-order@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.0.tgz#83e6c2db993e62e5fb9b213682b09495c9eee20d"
+  integrity sha512-hPzN7Lic9GJITzk6agYsvYNmqfQ8bTV1MeNSLSGa193bN+EUhC2XTlwsJg2M7FFyyB4UCA9xVgkcRrneHUWg3Q==
+
 "@types/enzyme-adapter-react-16@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.0.5.tgz#1bf30a166f49be69eeda4b81e3f24113c8b4e9d5"
@@ -4865,6 +4870,14 @@ deep-eql@^3.0.1:
   integrity sha512-+QeIQyN5ZuO+3Uk5DYh6/1eKO0m0YmJFGNmFHGACpf1ClL1nmlV/p4gNgbl2pJGxgXb4faqo6UE+M5ACEMyVcw==
   dependencies:
     type-detect "^4.0.0"
+
+deep-equal-in-any-order@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.13.tgz#6eadb9ccb95babeaf474978379e13d9f0d745931"
+  integrity sha512-pjrdGkbGkUNf9jSy//fdGxauhaO6P0fXKssjuMPWy3HFJOFnsMuAYZmWn/1et6jMpEiYe8KYnVSarq42Vf6PFw==
+  dependencies:
+    lodash "^4.17.11"
+    sort-any "^1.1.14"
 
 deep-equal@^1.0.0, deep-equal@^1.0.1:
   version "1.0.1"
@@ -13330,6 +13343,13 @@ socks@~2.2.0:
   dependencies:
     ip "^1.1.5"
     smart-buffer "^4.0.1"
+
+sort-any@^1.1.14:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/sort-any/-/sort-any-1.1.14.tgz#6fd17d57c89de54edf606bf7d7c823b978d40bb5"
+  integrity sha512-SX+487Akw52cMzoDMmQI7AShCme4perv66prhZgyYfW5P7u0FYl2jLGLVoIz00W6rCldmtmfx+CtDWv8AyvNbA==
+  dependencies:
+    lodash "^4.17.11"
 
 sort-keys-length@^1.0.0:
   version "1.0.1"

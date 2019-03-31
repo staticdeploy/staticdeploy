@@ -11,6 +11,7 @@
     "sdk",
     "storage",
     "static-server",
+    "core",
     "website"
   ],
   "license": "MIT",

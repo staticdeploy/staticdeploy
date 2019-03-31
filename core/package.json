@@ -1,10 +1,8 @@
 {
-  "name": "@staticdeploy/storage",
-  "description": "staticdeploy storage module",
+  "name": "@staticdeploy/core",
+  "description": "staticdeploy core module",
   "version": "0.11.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "main": "lib/index.js",
   "typings": "lib/index.d.js",
   "files": [
@@ -29,21 +27,15 @@
     "test": "NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/common-types": "^0.11.1",
-    "aws-sdk": "^2.426.0",
     "bluebird": "^3.5.3",
     "fs-extra": "^7.0.1",
     "lodash": "^4.17.11",
     "md5": "^2.2.1",
     "micromatch": "^3.1.10",
     "mime": "^2.4.0",
-    "pg": "^7.9.0",
-    "pg-hstore": "^2.3.2",
     "recursive-readdir": "^2.2.2",
-    "sequelize": "^5.1.0",
-    "sqlite3": "^4.0.6",
     "tar": "^4.4.8",
-    "umzug": "^2.2.0",
+    "uuid": "^3.3.2",
     "validator": "^10.11.0"
   },
   "devDependencies": {
@@ -57,12 +49,9 @@
     "@types/micromatch": "^3.1.0",
     "@types/mime": "^2.0.1",
     "@types/mocha": "^5.2.6",
-    "@types/mz": "^0.0.32",
     "@types/recursive-readdir": "^2.2.0",
-    "@types/s3rver": "^0.0.30",
     "@types/sinon-chai": "^3.2.2",
     "@types/tar": "^4.0.0",
-    "@types/umzug": "^2.2.0",
     "@types/uuid": "^3.4.4",
     "@types/validator": "^10.9.0",
     "chai": "^4.2.0",
@@ -72,12 +61,10 @@
     "mocha": "^6.0.2",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3",
-    "s3rver": "^2.2.9",
     "sinon-chai": "^3.3.0",
     "ts-node": "^8.0.3",
     "tslint": "^5.14.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.4000",
-    "uuid": "^3.3.2"
+    "typescript": "^3.3.4000"
   }
 }
