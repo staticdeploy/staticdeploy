@@ -8,6 +8,6 @@ export default class GetBundlesByNameTagCombination extends Usecase {
 
         const [name, tag] = splitNameTagCombination(nameTagCombination);
 
-        return this.bundlesStorage.findManyByNameAndTag(name, tag);
+        return this.storages.bundles.findManyByNameAndTag(name, tag);
     }
 }

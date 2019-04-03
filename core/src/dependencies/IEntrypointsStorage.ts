@@ -1,6 +1,5 @@
 import { IConfiguration } from "../entities/Configuration";
 import { IEntrypoint } from "../entities/Entrypoint";
-import { IHealthCheckResult } from "../entities/HealthCheckResult";
 
 export default interface IEntrypointsStorage {
     findOne(id: string): Promise<IEntrypoint | null>;
@@ -34,5 +33,4 @@ export default interface IEntrypointsStorage {
     ): Promise<IEntrypoint>;
     deleteOne(id: string): Promise<void>;
     deleteManyByAppId(appId: string): Promise<void>;
-    checkHealth(): Promise<IHealthCheckResult>;
 }

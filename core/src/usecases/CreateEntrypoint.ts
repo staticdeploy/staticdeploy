@@ -33,14 +33,14 @@ export default class CreateEntrypoint extends Usecase {
         }
 
         // Ensure the linked app exists
-        const linkedApp = await this.appsStorage.findOne(partial.appId);
+        const linkedApp = await this.storages.apps.findOne(partial.appId);
         if (!linkedApp) {
             throw new AppNotFoundError(partial.appId, "id");
         }
 
         // Ensure the linked bundle exists
         if (partial.bundleId) {
-            const linkedBundle = await this.bundlesStorage.findOne(
+            const linkedBundle = await this.storages.bundles.findOne(
                 partial.bundleId
             );
             if (!linkedBundle) {
@@ -49,7 +49,7 @@ export default class CreateEntrypoint extends Usecase {
         }
 
         // Ensure no entrypoint with the same urlMatcher exists
-        const conflictingEntrypoint = await this.entrypointsStorage.findOneByUrlMatcher(
+        const conflictingEntrypoint = await this.storages.entrypoints.findOneByUrlMatcher(
             partial.urlMatcher
         );
         if (conflictingEntrypoint) {
@@ -58,7 +58,7 @@ export default class CreateEntrypoint extends Usecase {
 
         // Create the entrypoint
         const now = new Date();
-        const createdEntrypoint = await this.entrypointsStorage.createOne({
+        const createdEntrypoint = await this.storages.entrypoints.createOne({
             id: generateId(),
             appId: partial.appId,
             bundleId: partial.bundleId || null,

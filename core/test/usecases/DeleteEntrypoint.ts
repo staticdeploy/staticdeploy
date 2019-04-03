@@ -36,20 +36,22 @@ describe("usecase DeleteEntrypoint", () => {
 
     it("deletes the entrypoint", async () => {
         const deps = getMockDependencies();
-        deps.entrypointsStorage.findOne.resolves({} as any);
+        deps.storages.entrypoints.findOne.resolves({} as any);
         const deleteEntrypoint = new DeleteEntrypoint(deps);
         await deleteEntrypoint.exec("entrypointId");
-        expect(deps.entrypointsStorage.deleteOne).to.have.been.calledOnceWith(
+        expect(deps.storages.entrypoints.deleteOne).to.have.been.calledOnceWith(
             "entrypointId"
         );
     });
 
     it("logs the delete entrypoint operation", async () => {
         const deps = getMockDependencies();
-        deps.entrypointsStorage.findOne.resolves({} as any);
+        deps.storages.entrypoints.findOne.resolves({} as any);
         const deleteEntrypoint = new DeleteEntrypoint(deps);
         await deleteEntrypoint.exec("entrypointId");
-        expect(deps.operationLogsStorage.createOne).to.have.been.calledOnceWith(
+        expect(
+            deps.storages.operationLogs.createOne
+        ).to.have.been.calledOnceWith(
             sinon.match.has("operation", Operation.deleteEntrypoint)
         );
     });

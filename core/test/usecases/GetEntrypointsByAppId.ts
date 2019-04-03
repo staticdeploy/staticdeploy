@@ -21,7 +21,7 @@ describe("usecase GetEntrypointsByAppId", () => {
     it("returns the entrypoints with the specified appId", async () => {
         const deps = getMockDependencies();
         const mockEntrypoints = [] as any;
-        deps.entrypointsStorage.findManyByAppId.resolves(mockEntrypoints);
+        deps.storages.entrypoints.findManyByAppId.resolves(mockEntrypoints);
         const getEntrypoints = new GetEntrypointsByAppId(deps);
         const entrypoints = await getEntrypoints.exec("appId");
         expect(entrypoints).to.equal(mockEntrypoints);

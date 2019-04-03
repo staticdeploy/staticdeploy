@@ -112,9 +112,9 @@ describe("usecase CreateBundle", () => {
                 "!(/index.js)": { "!(/index.js)": "!(/index.js)" }
             }
         });
-        expect(deps.bundlesStorage.createOne).to.have.callCount(1);
+        expect(deps.storages.bundles.createOne).to.have.callCount(1);
         expect(
-            deps.bundlesStorage.createOne.getCall(0).args[0].assets
+            deps.storages.bundles.createOne.getCall(0).args[0].assets
         ).to.deep.equalInAnyOrder([
             {
                 path: "/index.html",
@@ -153,7 +153,7 @@ describe("usecase CreateBundle", () => {
             fallbackStatusCode: 200,
             headers: {}
         });
-        expect(deps.bundlesStorage.createOne).to.have.been.calledOnceWith({
+        expect(deps.storages.bundles.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
             name: "name",
             tag: "tag",
@@ -179,7 +179,9 @@ describe("usecase CreateBundle", () => {
             fallbackStatusCode: 200,
             headers: {}
         });
-        expect(deps.operationLogsStorage.createOne).to.have.been.calledOnceWith(
+        expect(
+            deps.storages.operationLogs.createOne
+        ).to.have.been.calledOnceWith(
             sinon.match.has("operation", Operation.createBundle)
         );
     });
@@ -187,7 +189,7 @@ describe("usecase CreateBundle", () => {
     it("returns the created bundle", async () => {
         const deps = getMockDependencies();
         const mockCreatedBundle = {} as any;
-        deps.bundlesStorage.createOne.resolves(mockCreatedBundle);
+        deps.storages.bundles.createOne.resolves(mockCreatedBundle);
         const createBundle = new CreateBundle(deps);
         const createdBundle = await createBundle.exec({
             name: "name",

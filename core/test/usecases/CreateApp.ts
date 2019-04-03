@@ -50,7 +50,7 @@ describe("usecase CreateApp", () => {
 
     it("throws ConflictingAppError if an app with the same name exists", async () => {
         const deps = getMockDependencies();
-        deps.appsStorage.findOneByName.resolves({} as any);
+        deps.storages.apps.findOneByName.resolves({} as any);
         const createApp = new CreateApp(deps);
         const createAppPromise = createApp.exec({ name: "name" });
         await expect(createAppPromise).to.be.rejectedWith(ConflictingAppError);
@@ -63,7 +63,7 @@ describe("usecase CreateApp", () => {
         const deps = getMockDependencies();
         const createApp = new CreateApp(deps);
         await createApp.exec({ name: "name" });
-        expect(deps.appsStorage.createOne).to.have.been.calledOnceWith({
+        expect(deps.storages.apps.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
             name: "name",
             defaultConfiguration: {},
@@ -76,7 +76,9 @@ describe("usecase CreateApp", () => {
         const deps = getMockDependencies();
         const createApp = new CreateApp(deps);
         await createApp.exec({ name: "name" });
-        expect(deps.operationLogsStorage.createOne).to.have.been.calledOnceWith(
+        expect(
+            deps.storages.operationLogs.createOne
+        ).to.have.been.calledOnceWith(
             sinon.match.has("operation", Operation.createApp)
         );
     });
@@ -84,7 +86,7 @@ describe("usecase CreateApp", () => {
     it("returns the created app", async () => {
         const deps = getMockDependencies();
         const mockCreatedApp = {} as any;
-        deps.appsStorage.createOne.resolves(mockCreatedApp);
+        deps.storages.apps.createOne.resolves(mockCreatedApp);
         const createApp = new CreateApp(deps);
         const createdApp = await createApp.exec({ name: "name" });
         expect(createdApp).to.equal(mockCreatedApp);

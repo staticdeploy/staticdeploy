@@ -76,7 +76,7 @@ export default class CreateBundle extends Usecase {
         }
 
         // Create the bundle database object
-        const createdBundle = await this.bundlesStorage.createOne({
+        const createdBundle = await this.storages.bundles.createOne({
             id: id,
             name: partial.name,
             tag: partial.tag,

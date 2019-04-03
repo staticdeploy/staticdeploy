@@ -37,7 +37,7 @@ export default class UpdateEntrypoint extends Usecase {
             validateConfiguration(patch.configuration, "configuration");
         }
 
-        const existingEntrypoint = await this.entrypointsStorage.findOne(id);
+        const existingEntrypoint = await this.storages.entrypoints.findOne(id);
 
         // Ensure the entrypoint exists
         if (!existingEntrypoint) {
@@ -46,7 +46,7 @@ export default class UpdateEntrypoint extends Usecase {
 
         // Ensure the linked app exists
         if (patch.appId) {
-            const linkedApp = await this.appsStorage.findOne(patch.appId);
+            const linkedApp = await this.storages.apps.findOne(patch.appId);
             if (!linkedApp) {
                 throw new AppNotFoundError(patch.appId, "id");
             }
@@ -54,7 +54,7 @@ export default class UpdateEntrypoint extends Usecase {
 
         // Ensure the linked bundle exists
         if (patch.bundleId) {
-            const linkedBundle = await this.bundlesStorage.findOne(
+            const linkedBundle = await this.storages.bundles.findOne(
                 patch.bundleId
             );
             if (!linkedBundle) {
@@ -67,7 +67,7 @@ export default class UpdateEntrypoint extends Usecase {
             patch.urlMatcher &&
             patch.urlMatcher !== existingEntrypoint.urlMatcher
         ) {
-            const conflictingEntrypoint = await this.entrypointsStorage.findOneByUrlMatcher(
+            const conflictingEntrypoint = await this.storages.entrypoints.findOneByUrlMatcher(
                 patch.urlMatcher
             );
             if (conflictingEntrypoint) {
@@ -76,10 +76,13 @@ export default class UpdateEntrypoint extends Usecase {
         }
 
         // Update the entrypoint
-        const updatedEntrypoint = await this.entrypointsStorage.updateOne(id, {
-            ...patch,
-            updatedAt: new Date()
-        });
+        const updatedEntrypoint = await this.storages.entrypoints.updateOne(
+            id,
+            {
+                ...patch,
+                updatedAt: new Date()
+            }
+        );
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.updateEntrypoint, {

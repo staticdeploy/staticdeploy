@@ -1,7 +1,7 @@
-import { IAsset } from "@staticdeploy/common-types";
 import { endsWith, isEmpty, maxBy } from "lodash";
 import { join } from "path";
 
+import { IAsset } from "../../entities/Asset";
 import appendDotHtml from "./appendDotHtml";
 import appendIndexDotHtml from "./appendIndexDotHtml";
 

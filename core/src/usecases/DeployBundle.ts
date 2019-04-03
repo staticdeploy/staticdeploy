@@ -29,9 +29,9 @@ export default class DeployBundle extends Usecase {
 
         // Retrieve the deploy objects
         const [bundle, existingApp, existingEntrypoint] = await Promise.all([
-            this.bundlesStorage.findLatestByNameAndTag(bundleName, bundleTag),
-            this.appsStorage.findOneByName(appName),
-            this.entrypointsStorage.findOneByUrlMatcher(entrypointUrlMatcher)
+            this.storages.bundles.findLatestByNameAndTag(bundleName, bundleTag),
+            this.storages.apps.findOneByName(appName),
+            this.storages.entrypoints.findOneByUrlMatcher(entrypointUrlMatcher)
         ]);
 
         // Ensure the bundle exists
@@ -65,7 +65,7 @@ export default class DeployBundle extends Usecase {
             validateAppName(appName);
 
             const now = new Date();
-            app = await this.appsStorage.createOne({
+            app = await this.storages.apps.createOne({
                 id: generateId(),
                 name: appName,
                 defaultConfiguration: {},
@@ -85,16 +85,18 @@ export default class DeployBundle extends Usecase {
 
             // Create the entrypoint if it doesn't exist
             const now = new Date();
-            const createdEntrypoint = await this.entrypointsStorage.createOne({
-                id: generateId(),
-                appId: app.id,
-                bundleId: bundle.id,
-                redirectTo: null,
-                urlMatcher: entrypointUrlMatcher,
-                configuration: null,
-                createdAt: now,
-                updatedAt: now
-            });
+            const createdEntrypoint = await this.storages.entrypoints.createOne(
+                {
+                    id: generateId(),
+                    appId: app.id,
+                    bundleId: bundle.id,
+                    redirectTo: null,
+                    urlMatcher: entrypointUrlMatcher,
+                    configuration: null,
+                    createdAt: now,
+                    updatedAt: now
+                }
+            );
 
             // Log the operation
             await this.operationLogger.logOperation(
@@ -104,7 +106,7 @@ export default class DeployBundle extends Usecase {
         } else {
             // Otherwise, just update the existing entrypoint to point it to the
             // supplied bundle
-            const updatedEntrypoint = await this.entrypointsStorage.updateOne(
+            const updatedEntrypoint = await this.storages.entrypoints.updateOne(
                 existingEntrypoint.id,
                 { bundleId: bundle.id, updatedAt: new Date() }
             );

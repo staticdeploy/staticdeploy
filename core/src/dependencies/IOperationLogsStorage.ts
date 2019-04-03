@@ -1,4 +1,3 @@
-import { IHealthCheckResult } from "../entities/HealthCheckResult";
 import { IOperationLog, Operation } from "../entities/OperationLog";
 
 export default interface IOperationLogsStorage {
@@ -10,7 +9,6 @@ export default interface IOperationLogsStorage {
             [key: string]: any;
         };
         performedBy: string;
-        createdAt: Date;
+        performedAt: Date;
     }): Promise<IOperationLog>;
-    checkHealth(): Promise<IHealthCheckResult>;
 }

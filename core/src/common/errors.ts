@@ -104,5 +104,9 @@ export class NoBundleOrRedirectToError extends Error {
 }
 
 // Storage errors
-export class GenericStorageError extends Error {}
+export class GenericStorageError extends Error {
+    constructor(public originalError: Error) {
+        super("An error occurred while accessing StaticDeploy's storage");
+    }
+}
 export class StorageInconsistencyError extends Error {}

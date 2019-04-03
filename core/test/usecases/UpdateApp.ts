@@ -59,8 +59,8 @@ describe("usecase UpdateApp", () => {
 
     it("throws ConflictingAppError if an app with the same (to be updated) name exists", async () => {
         const deps = getMockDependencies();
-        deps.appsStorage.findOne.resolves({} as any);
-        deps.appsStorage.findOneByName.resolves({} as any);
+        deps.storages.apps.findOne.resolves({} as any);
+        deps.storages.apps.findOneByName.resolves({} as any);
         const updateApp = new UpdateApp(deps);
         const updateAppPromise = updateApp.exec("appId", { name: "name" });
         await expect(updateAppPromise).to.be.rejectedWith(ConflictingAppError);
@@ -71,10 +71,10 @@ describe("usecase UpdateApp", () => {
 
     it("updates the app", async () => {
         const deps = getMockDependencies();
-        deps.appsStorage.findOne.resolves({} as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const updateApp = new UpdateApp(deps);
         await updateApp.exec("appId", { name: "name" });
-        expect(deps.appsStorage.updateOne).to.have.been.calledOnceWith(
+        expect(deps.storages.apps.updateOne).to.have.been.calledOnceWith(
             "appId",
             {
                 name: "name",
@@ -85,10 +85,12 @@ describe("usecase UpdateApp", () => {
 
     it("logs the update app operation", async () => {
         const deps = getMockDependencies();
-        deps.appsStorage.findOne.resolves({} as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const updateApp = new UpdateApp(deps);
         await updateApp.exec("appId", {});
-        expect(deps.operationLogsStorage.createOne).to.have.been.calledOnceWith(
+        expect(
+            deps.storages.operationLogs.createOne
+        ).to.have.been.calledOnceWith(
             sinon.match.has("operation", Operation.updateApp)
         );
     });
@@ -96,8 +98,8 @@ describe("usecase UpdateApp", () => {
     it("returns the updated app", async () => {
         const deps = getMockDependencies();
         const mockUpdatedApp = {} as any;
-        deps.appsStorage.findOne.resolves({} as any);
-        deps.appsStorage.updateOne.resolves(mockUpdatedApp);
+        deps.storages.apps.findOne.resolves({} as any);
+        deps.storages.apps.updateOne.resolves(mockUpdatedApp);
         const updateApp = new UpdateApp(deps);
         const updatedApp = await updateApp.exec("appId", {});
         expect(updatedApp).to.equal(mockUpdatedApp);

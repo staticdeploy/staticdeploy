@@ -13,14 +13,14 @@ export default class DeleteBundlesByNameTagCombination extends Usecase {
         const [name, tag] = splitNameTagCombination(nameTagCombination);
 
         // Find bundles to be deleted
-        const toBeDeletedBundles = await this.bundlesStorage.findManyByNameAndTag(
+        const toBeDeletedBundles = await this.storages.bundles.findManyByNameAndTag(
             name,
             tag
         );
         const toBeDeletedBundleIds = map(toBeDeletedBundles, "id");
 
         // Ensure the bundles are not used by any entrypoint
-        const dependentEntrypoints = await this.entrypointsStorage.findManyByBundleIds(
+        const dependentEntrypoints = await this.storages.entrypoints.findManyByBundleIds(
             toBeDeletedBundleIds
         );
         if (!isEmpty(dependentEntrypoints)) {
@@ -31,7 +31,7 @@ export default class DeleteBundlesByNameTagCombination extends Usecase {
         }
 
         // Delete the bundles
-        await this.bundlesStorage.deleteMany(toBeDeletedBundleIds);
+        await this.storages.bundles.deleteMany(toBeDeletedBundleIds);
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.deleteBundle, {

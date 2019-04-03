@@ -7,8 +7,8 @@ export default class DeleteApp extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        const toBeDeletedApp = await this.appsStorage.findOne(id);
-        const toBeDeletedEntrypoints = await this.entrypointsStorage.findManyByAppId(
+        const toBeDeletedApp = await this.storages.apps.findOne(id);
+        const toBeDeletedEntrypoints = await this.storages.entrypoints.findManyByAppId(
             id
         );
 
@@ -18,10 +18,10 @@ export default class DeleteApp extends Usecase {
         }
 
         // Delete linked entrypoints
-        await this.entrypointsStorage.deleteManyByAppId(id);
+        await this.storages.entrypoints.deleteManyByAppId(id);
 
         // Delete the app
-        await this.appsStorage.deleteOne(id);
+        await this.storages.apps.deleteOne(id);
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.deleteApp, {

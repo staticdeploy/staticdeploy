@@ -1,6 +1,5 @@
 import { IApp } from "../entities/App";
 import { IConfiguration } from "../entities/Configuration";
-import { IHealthCheckResult } from "../entities/HealthCheckResult";
 
 export default interface IAppsStorage {
     findOne(id: string): Promise<IApp | null>;
@@ -22,5 +21,4 @@ export default interface IAppsStorage {
         }
     ): Promise<IApp>;
     deleteOne(id: string): Promise<void>;
-    checkHealth(): Promise<IHealthCheckResult>;
 }

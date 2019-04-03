@@ -6,6 +6,6 @@ export default class GetApps extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        return this.appsStorage.findMany();
+        return this.storages.apps.findMany();
     }
 }

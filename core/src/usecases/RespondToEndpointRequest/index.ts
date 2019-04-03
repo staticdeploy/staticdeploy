@@ -21,7 +21,7 @@ export default class RespondToEndpointRequest extends Usecase {
     async exec(request: IEndpointRequest): Promise<IEndpointResponse> {
         // Find the matching entrypoint
         const requestedUrl = join(request.hostname, request.path);
-        const entrypoints = await this.entrypointsStorage.findManyByUrlMatcherHostname(
+        const entrypoints = await this.storages.entrypoints.findManyByUrlMatcherHostname(
             request.hostname
         );
         const matchingEntrypoint = _(entrypoints)
@@ -100,7 +100,7 @@ export default class RespondToEndpointRequest extends Usecase {
         const requestedPath = toAbsolute(
             removePrefix(request.path, urlMatcherPath)
         );
-        const linkedBundle = await this.bundlesStorage.findOne(
+        const linkedBundle = await this.storages.bundles.findOne(
             matchingEntrypoint.bundleId
         );
         if (!linkedBundle) {
@@ -146,7 +146,7 @@ export default class RespondToEndpointRequest extends Usecase {
         }
 
         // Get the matching asset content
-        let content = await this.bundlesStorage.getBundleAssetContent(
+        let content = await this.storages.bundles.getBundleAssetContent(
             linkedBundle.id,
             matchingAsset.path
         );
@@ -166,7 +166,7 @@ export default class RespondToEndpointRequest extends Usecase {
             if (matchingEntrypoint.configuration) {
                 configuration = matchingEntrypoint.configuration;
             } else {
-                const linkedApp = await this.appsStorage.findOne(
+                const linkedApp = await this.storages.apps.findOne(
                     matchingEntrypoint.appId
                 );
                 if (!linkedApp) {

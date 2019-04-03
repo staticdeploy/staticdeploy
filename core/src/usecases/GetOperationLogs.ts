@@ -6,6 +6,6 @@ export default class GetOperationLogs extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        return this.operationLogsStorage.findMany();
+        return this.storages.operationLogs.findMany();
     }
 }

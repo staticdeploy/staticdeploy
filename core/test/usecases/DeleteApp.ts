@@ -34,29 +34,33 @@ describe("usecase DeleteApp", () => {
 
     it("deletes all linked entrypoints", async () => {
         const deps = getMockDependencies();
-        deps.appsStorage.findOne.resolves({} as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const deleteApp = new DeleteApp(deps);
         await deleteApp.exec("appId");
         expect(
-            deps.entrypointsStorage.deleteManyByAppId
+            deps.storages.entrypoints.deleteManyByAppId
         ).to.have.been.calledOnceWith("appId");
     });
 
     it("deletes the app", async () => {
         const deps = getMockDependencies();
-        deps.appsStorage.findOne.resolves({} as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const deleteApp = new DeleteApp(deps);
         await deleteApp.exec("appId");
-        expect(deps.appsStorage.deleteOne).to.have.been.calledOnceWith("appId");
+        expect(deps.storages.apps.deleteOne).to.have.been.calledOnceWith(
+            "appId"
+        );
     });
 
     it("logs the delete app operation", async () => {
         const deps = getMockDependencies();
-        deps.appsStorage.findOne.resolves({} as any);
-        deps.entrypointsStorage.findManyByAppId.resolves([] as any);
+        deps.storages.apps.findOne.resolves({} as any);
+        deps.storages.entrypoints.findManyByAppId.resolves([] as any);
         const deleteApp = new DeleteApp(deps);
         await deleteApp.exec("appId");
-        expect(deps.operationLogsStorage.createOne).to.have.been.calledOnceWith(
+        expect(
+            deps.storages.operationLogs.createOne
+        ).to.have.been.calledOnceWith(
             sinon.match.has("operation", Operation.deleteApp)
         );
     });

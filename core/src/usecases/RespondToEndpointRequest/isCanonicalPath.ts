@@ -1,6 +1,6 @@
-import { IAsset } from "@staticdeploy/common-types";
 import { join } from "path";
 
+import { IAsset } from "../../entities/Asset";
 import appendDotHtml from "./appendDotHtml";
 import appendIndexDotHtml from "./appendIndexDotHtml";
 

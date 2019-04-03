@@ -21,7 +21,7 @@ describe("usecase GetBundleNames", () => {
     it("returns all the (unique) names of the stored bundles", async () => {
         const deps = getMockDependencies();
         const mockBundleNames = [] as any;
-        deps.bundlesStorage.findManyBundleNames.resolves(mockBundleNames);
+        deps.storages.bundles.findManyNames.resolves(mockBundleNames);
         const getBundleNames = new GetBundleNames(deps);
         const bundleNames = await getBundleNames.exec();
         expect(bundleNames).to.equal(mockBundleNames);

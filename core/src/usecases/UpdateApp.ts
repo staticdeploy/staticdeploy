@@ -29,7 +29,7 @@ export default class UpdateApp extends Usecase {
             );
         }
 
-        const existingApp = await this.appsStorage.findOne(id);
+        const existingApp = await this.storages.apps.findOne(id);
 
         // Ensure the app exists
         if (!existingApp) {
@@ -38,7 +38,7 @@ export default class UpdateApp extends Usecase {
 
         // Ensure no app with the same name exists
         if (patch.name && patch.name !== existingApp.name) {
-            const conflictingApp = await this.appsStorage.findOneByName(
+            const conflictingApp = await this.storages.apps.findOneByName(
                 patch.name
             );
             if (conflictingApp) {
@@ -47,7 +47,7 @@ export default class UpdateApp extends Usecase {
         }
 
         // Update the app
-        const updatedApp = await this.appsStorage.updateOne(id, {
+        const updatedApp = await this.storages.apps.updateOne(id, {
             ...patch,
             updatedAt: new Date()
         });

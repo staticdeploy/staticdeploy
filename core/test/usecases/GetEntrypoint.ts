@@ -35,7 +35,7 @@ describe("usecase GetEntrypoint", () => {
     it("returns the entrypoint with the specified id", async () => {
         const deps = getMockDependencies();
         const mockEntrypoint = {} as any;
-        deps.entrypointsStorage.findOne.resolves(mockEntrypoint);
+        deps.storages.entrypoints.findOne.resolves(mockEntrypoint);
         const getEntrypoint = new GetEntrypoint(deps);
         const entrypoint = await getEntrypoint.exec("entrypointId");
         expect(entrypoint).to.equal(mockEntrypoint);

@@ -33,7 +33,7 @@ describe("usecase GetApp", () => {
     it("returns the app with the specified id", async () => {
         const deps = getMockDependencies();
         const mockApp = {} as any;
-        deps.appsStorage.findOne.resolves(mockApp);
+        deps.storages.apps.findOne.resolves(mockApp);
         const getApp = new GetApp(deps);
         const app = await getApp.exec("appId");
         expect(app).to.equal(mockApp);

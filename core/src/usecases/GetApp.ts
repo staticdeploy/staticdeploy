@@ -7,7 +7,7 @@ export default class GetApp extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        const app = await this.appsStorage.findOne(id);
+        const app = await this.storages.apps.findOne(id);
 
         // Ensure the app exists
         if (!app) {

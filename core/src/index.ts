@@ -56,6 +56,7 @@ export {
     default as IOperationLogsStorage
 } from "./dependencies/IOperationLogsStorage";
 export { default as IRequestContext } from "./dependencies/IRequestContext";
+export { default as IStorages } from "./dependencies/IStorages";
 
 // Entity types
 export { IApp } from "./entities/App";
@@ -73,4 +74,5 @@ export { IConfiguration } from "./entities/Configuration";
 export { IEndpointRequest } from "./entities/EndpointRequest";
 export { IEndpointResponse } from "./entities/EndpointResponse";
 export { IEntrypoint } from "./entities/Entrypoint";
+export { IHealthCheckResult } from "./entities/HealthCheckResult";
 export { IOperationLog, Operation } from "./entities/OperationLog";

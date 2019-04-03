@@ -5,6 +5,6 @@ export default class GetBundleTagsByBundleName extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        return this.bundlesStorage.findManyBundleTagsByBundleName(bundleName);
+        return this.storages.bundles.findManyTagsByName(bundleName);
     }
 }

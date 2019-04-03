@@ -26,7 +26,7 @@ export default class CreateApp extends Usecase {
         }
 
         // Ensure no app with the same name exists
-        const conflictingApp = await this.appsStorage.findOneByName(
+        const conflictingApp = await this.storages.apps.findOneByName(
             partial.name
         );
         if (conflictingApp) {
@@ -35,7 +35,7 @@ export default class CreateApp extends Usecase {
 
         // Create the app
         const now = new Date();
-        const createdApp = await this.appsStorage.createOne({
+        const createdApp = await this.storages.apps.createOne({
             id: generateId(),
             name: partial.name,
             defaultConfiguration: partial.defaultConfiguration || {},

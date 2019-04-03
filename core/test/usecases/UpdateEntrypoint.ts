@@ -73,7 +73,7 @@ describe("usecase UpdateEntrypoint", () => {
 
     it("throws AppNotFoundError if no app with the specified id exists", async () => {
         const deps = getMockDependencies();
-        deps.entrypointsStorage.findOne.resolves({} as any);
+        deps.storages.entrypoints.findOne.resolves({} as any);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         const updateEntrypointPromise = updateEntrypoint.exec("entrypointId", {
             appId: "appId"
@@ -88,7 +88,7 @@ describe("usecase UpdateEntrypoint", () => {
 
     it("throws BundleNotFoundError if no bundle with the specified id exists", async () => {
         const deps = getMockDependencies();
-        deps.entrypointsStorage.findOne.resolves({} as any);
+        deps.storages.entrypoints.findOne.resolves({} as any);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         const updateEntrypointPromise = updateEntrypoint.exec("entrypointId", {
             bundleId: "bundleId"
@@ -103,8 +103,8 @@ describe("usecase UpdateEntrypoint", () => {
 
     it("throws ConflictingEntrypointError if an entrypoint with the same (to be updated) urlMatcher exists", async () => {
         const deps = getMockDependencies();
-        deps.entrypointsStorage.findOne.resolves({} as any);
-        deps.entrypointsStorage.findOneByUrlMatcher.resolves({} as any);
+        deps.storages.entrypoints.findOne.resolves({} as any);
+        deps.storages.entrypoints.findOneByUrlMatcher.resolves({} as any);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         const updateEntrypointPromise = updateEntrypoint.exec("entrypointId", {
             urlMatcher: "example.com/"
@@ -119,12 +119,12 @@ describe("usecase UpdateEntrypoint", () => {
 
     it("updates the entrypoint", async () => {
         const deps = getMockDependencies();
-        deps.entrypointsStorage.findOne.resolves({} as any);
+        deps.storages.entrypoints.findOne.resolves({} as any);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         await updateEntrypoint.exec("entrypointId", {
             urlMatcher: "example.com/"
         });
-        expect(deps.entrypointsStorage.updateOne).to.have.been.calledOnceWith(
+        expect(deps.storages.entrypoints.updateOne).to.have.been.calledOnceWith(
             "entrypointId",
             {
                 urlMatcher: "example.com/",
@@ -135,10 +135,12 @@ describe("usecase UpdateEntrypoint", () => {
 
     it("logs the update entrypoint operation", async () => {
         const deps = getMockDependencies();
-        deps.entrypointsStorage.findOne.resolves({} as any);
+        deps.storages.entrypoints.findOne.resolves({} as any);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         await updateEntrypoint.exec("entrypointId", {});
-        expect(deps.operationLogsStorage.createOne).to.have.been.calledOnceWith(
+        expect(
+            deps.storages.operationLogs.createOne
+        ).to.have.been.calledOnceWith(
             sinon.match.has("operation", Operation.updateEntrypoint)
         );
     });
@@ -146,8 +148,8 @@ describe("usecase UpdateEntrypoint", () => {
     it("returns the updated entrypoint", async () => {
         const deps = getMockDependencies();
         const mockUpdatedEntrypoint = {} as any;
-        deps.entrypointsStorage.findOne.resolves({} as any);
-        deps.entrypointsStorage.updateOne.resolves(mockUpdatedEntrypoint);
+        deps.storages.entrypoints.findOne.resolves({} as any);
+        deps.storages.entrypoints.updateOne.resolves(mockUpdatedEntrypoint);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         const updatedEntrypoint = await updateEntrypoint.exec(
             "entrypointId",

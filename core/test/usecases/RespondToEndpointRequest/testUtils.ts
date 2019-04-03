@@ -66,10 +66,10 @@ export function test(description: string, testDefinition: ITestDefinition) {
     // Mock dependencies so that they behave according to the supplied
     // entrypoints configuration. The methods to mock used by the usecase are:
     //
-    //   - entrypointsStorage.findManyByUrlMatcherHostname(request.hostname)
-    //   - bundlesStorage.findOne(matchingEntrypoint.bundleId)
-    //   - bundlesStorage.getBundleAssetContent(linkedBundle.id, matchingAsset.path)
-    //   - appsStorage.findOne(matchingEntrypoint.appId)
+    //   - storages.entrypoints.findManyByUrlMatcherHostname(request.hostname)
+    //   - storages.bundles.findOne(matchingEntrypoint.bundleId)
+    //   - storages.bundles.getBundleAssetContent(linkedBundle.id, matchingAsset.path)
+    //   - storages.apps.findOne(matchingEntrypoint.appId)
     const deps = getMockDependencies();
     const mockEntrypoints: IEntrypoint[] = [];
     entrypoints.forEach((entrypoint, index) => {
@@ -82,7 +82,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
             !!entrypoint.bundleContent && !!entrypoint.bundleFallbackAssetPath;
 
         // Mock the linked app
-        deps.appsStorage.findOne.withArgs(id).resolves({
+        deps.storages.apps.findOne.withArgs(id).resolves({
             id: id,
             name: "name",
             defaultConfiguration: entrypoint.defaultConfiguration || {},
@@ -111,7 +111,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
                     )
                 };
             });
-            deps.bundlesStorage.findOne.withArgs(id).resolves({
+            deps.storages.bundles.findOne.withArgs(id).resolves({
                 id: id,
                 name: "name",
                 tag: "tag",
@@ -123,7 +123,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 createdAt: new Date()
             });
             assets.forEach(asset => {
-                deps.bundlesStorage.getBundleAssetContent
+                deps.storages.bundles.getBundleAssetContent
                     .withArgs(id, asset.path)
                     .resolves(asset.content);
             });
@@ -142,7 +142,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
         });
     });
     // Mock the entrypoints
-    deps.entrypointsStorage.findManyByUrlMatcherHostname.resolves(
+    deps.storages.entrypoints.findManyByUrlMatcherHostname.resolves(
         mockEntrypoints
     );
 

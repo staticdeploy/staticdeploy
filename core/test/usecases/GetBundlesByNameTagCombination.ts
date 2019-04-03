@@ -37,7 +37,7 @@ describe("usecase GetBundlesByNameTagCombination", () => {
     it("returns the bundles found with the specified name:tag combination", async () => {
         const deps = getMockDependencies();
         const mockBundles = [] as any;
-        deps.bundlesStorage.findManyByNameAndTag.resolves(mockBundles);
+        deps.storages.bundles.findManyByNameAndTag.resolves(mockBundles);
         const getBundles = new GetBundlesByNameTagCombination(deps);
         const bundles = await getBundles.exec("name:tag");
         expect(bundles).to.equal(mockBundles);

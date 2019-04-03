@@ -19,7 +19,7 @@ export default class OperationLogger {
             parameters: parameters,
             // This service assumes the request to be authenticated
             performedBy: this.requestContext.userId!,
-            createdAt: new Date()
+            performedAt: new Date()
         });
     }
 }

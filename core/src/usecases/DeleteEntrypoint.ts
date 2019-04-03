@@ -7,7 +7,9 @@ export default class DeleteEntrypoint extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        const toBeDeletedEntrypoint = await this.entrypointsStorage.findOne(id);
+        const toBeDeletedEntrypoint = await this.storages.entrypoints.findOne(
+            id
+        );
 
         // Ensure the entrypoint exists
         if (!toBeDeletedEntrypoint) {
@@ -15,7 +17,7 @@ export default class DeleteEntrypoint extends Usecase {
         }
 
         // Delete the entrypoint
-        await this.entrypointsStorage.deleteOne(id);
+        await this.storages.entrypoints.deleteOne(id);
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.deleteEntrypoint, {

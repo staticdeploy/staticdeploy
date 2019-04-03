@@ -5,6 +5,6 @@ export default class GetBundleNames extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        return this.bundlesStorage.findManyBundleNames();
+        return this.storages.bundles.findManyNames();
     }
 }

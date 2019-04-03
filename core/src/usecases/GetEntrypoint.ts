@@ -7,7 +7,7 @@ export default class GetEntrypoint extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        const entrypoint = await this.entrypointsStorage.findOne(id);
+        const entrypoint = await this.storages.entrypoints.findOne(id);
 
         // Ensure the entrypoint exists
         if (!entrypoint) {

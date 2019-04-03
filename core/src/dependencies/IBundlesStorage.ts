@@ -1,6 +1,5 @@
 import { IAssetWithContent } from "../entities/Asset";
 import { IBaseBundle, IBundleWithoutAssetsContent } from "../entities/Bundle";
-import { IHealthCheckResult } from "../entities/HealthCheckResult";
 
 export default interface IBundlesStorage {
     findOne(id: string): Promise<IBundleWithoutAssetsContent | null>;
@@ -17,8 +16,8 @@ export default interface IBundlesStorage {
         name: string,
         tag: string
     ): Promise<IBundleWithoutAssetsContent[]>;
-    findManyBundleNames(): Promise<string[]>;
-    findManyBundleTagsByBundleName(bundleName: string): Promise<string[]>;
+    findManyNames(): Promise<string[]>;
+    findManyTagsByName(name: string): Promise<string[]>;
     createOne(bundle: {
         id: string;
         name: string;
@@ -32,5 +31,4 @@ export default interface IBundlesStorage {
     }): Promise<IBundleWithoutAssetsContent>;
     deleteOne(id: string): Promise<void>;
     deleteMany(ids: string[]): Promise<void>;
-    checkHealth(): Promise<IHealthCheckResult>;
 }

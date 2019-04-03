@@ -6,6 +6,6 @@ export default class GetEntrypointsByAppId extends Usecase {
         // Ensure the request is authenticated
         this.authorizer.ensureAuthenticated();
 
-        return this.entrypointsStorage.findManyByAppId(appId);
+        return this.storages.entrypoints.findManyByAppId(appId);
     }
 }
