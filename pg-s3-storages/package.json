@@ -1,0 +1,61 @@
+{
+  "name": "@staticdeploy/pg-s3-storages",
+  "description": "staticdeploy pg+s3 storage module",
+  "version": "0.11.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib/index.js",
+  "typings": "lib/index.d.js",
+  "files": [
+    "lib"
+  ],
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "compile": "rimraf lib && tsc",
+    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:tslint",
+    "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 10000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "start-test-containers:minio": "docker run --rm -p 9000:9000 -e MINIO_ACCESS_KEY=accessKeyId -e MINIO_SECRET_KEY=secretAccessKey minio/minio server /data",
+    "start-test-containers:pg": "docker run --rm -p 5432:5432 postgres",
+    "start-test-containers": "npm-run-all -p start-test-containers:*"
+  },
+  "dependencies": {
+    "@staticdeploy/core": "^0.11.1",
+    "aws-sdk": "^2.426.0",
+    "bluebird": "^3.5.3",
+    "knex": "^0.16.3",
+    "lodash": "^4.17.11",
+    "pg": "^7.9.0",
+    "pg-hstore": "^2.3.2"
+  },
+  "devDependencies": {
+    "@staticdeploy/storages-test-suite": "^0.11.1",
+    "@types/bluebird": "^3.5.26",
+    "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/lodash": "^4.14.123",
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.0.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.14.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.3.4000"
+  }
+}

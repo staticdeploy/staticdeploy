@@ -11,6 +11,8 @@
     "sdk",
     "storage",
     "static-server",
+    "pg-s3-storages",
+    "storages-test-suite",
     "core",
     "website"
   ],
