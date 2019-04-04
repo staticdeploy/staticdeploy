@@ -4,12 +4,11 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "api-server",
     "admin-console",
     "cli",
     "common-types",
     "sdk",
-    "static-server",
+    "web-server",
     "memory-storages",
     "pg-s3-storages",
     "storages-test-suite",
