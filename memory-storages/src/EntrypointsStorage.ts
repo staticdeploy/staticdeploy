@@ -3,59 +3,46 @@ import {
     IEntrypoint,
     IEntrypointsStorage
 } from "@staticdeploy/core";
-import Knex from "knex";
+import { filter, find, map } from "lodash";
 
+import cloneMethodsIO from "./common/cloneMethodsIO";
 import convertErrors from "./common/convertErrors";
 
-export const ENTRYPOINTS_TABLE = "entrypoints";
-
+@cloneMethodsIO
 @convertErrors
 export default class EntrypointsStorage implements IEntrypointsStorage {
-    constructor(private knex: Knex) {}
+    private entrypoints: { [id: string]: IEntrypoint } = {};
 
     async findOne(id: string): Promise<IEntrypoint | null> {
-        const [entrypoint = null] = await this.knex(ENTRYPOINTS_TABLE).where({
-            id
-        });
-        return entrypoint;
+        return this.entrypoints[id] || null;
     }
 
     async findOneByUrlMatcher(urlMatcher: string): Promise<IEntrypoint | null> {
-        const [entrypoint = null] = await this.knex(ENTRYPOINTS_TABLE).where({
-            urlMatcher
-        });
-        return entrypoint;
+        return find(this.entrypoints, { urlMatcher }) || null;
     }
 
     async findManyByAppId(appId: string): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).where({ appId });
-        return entrypoints;
+        return filter(this.entrypoints, { appId });
     }
 
     async findManyByBundleId(bundleId: string): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).where({
-            bundleId
-        });
-        return entrypoints;
+        return filter(this.entrypoints, { bundleId });
     }
 
     async findManyByBundleIds(bundleIds: string[]): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).whereIn(
-            "bundleId",
-            bundleIds
+        return filter(this.entrypoints, entrypoint =>
+            entrypoint.bundleId
+                ? bundleIds.includes(entrypoint.bundleId)
+                : false
         );
-        return entrypoints;
     }
 
     async findManyByUrlMatcherHostname(
         urlMatcherHostname: string
     ): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).where(
-            "urlMatcher",
-            "like",
-            `${urlMatcherHostname}%`
+        return filter(this.entrypoints, entrypoint =>
+            entrypoint.urlMatcher.startsWith(urlMatcherHostname)
         );
-        return entrypoints;
     }
 
     async createOne(toBeCreatedEntrypoint: {
@@ -68,10 +55,8 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
         createdAt: Date;
         updatedAt: Date;
     }): Promise<IEntrypoint> {
-        const [createdApp] = await this.knex(ENTRYPOINTS_TABLE)
-            .insert(toBeCreatedEntrypoint)
-            .returning("*");
-        return createdApp;
+        this.entrypoints[toBeCreatedEntrypoint.id] = toBeCreatedEntrypoint;
+        return toBeCreatedEntrypoint;
     }
 
     async updateOne(
@@ -85,22 +70,21 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
             updatedAt: Date;
         }
     ): Promise<IEntrypoint> {
-        const [updatedApp] = await this.knex(ENTRYPOINTS_TABLE)
-            .where({ id })
-            .update(patch)
-            .returning("*");
-        return updatedApp;
+        this.entrypoints[id] = {
+            ...this.entrypoints[id],
+            ...patch
+        };
+        return this.entrypoints[id];
     }
 
     async deleteOne(id: string): Promise<void> {
-        await this.knex(ENTRYPOINTS_TABLE)
-            .where({ id })
-            .delete();
+        delete this.entrypoints[id];
     }
 
     async deleteManyByAppId(appId: string): Promise<void> {
-        await this.knex(ENTRYPOINTS_TABLE)
-            .where({ appId })
-            .delete();
+        const toBeRemovedIds = map(filter(this.entrypoints, { appId }), "id");
+        for (const id of toBeRemovedIds) {
+            delete this.entrypoints[id];
+        }
     }
 }

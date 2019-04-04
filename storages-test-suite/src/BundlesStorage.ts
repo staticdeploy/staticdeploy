@@ -242,7 +242,19 @@ export default (storages: IStorages) => {
             };
             await storages.bundles.createOne(bundle as any);
             const foundBundle = await storages.bundles.findOne("id");
-            expect(foundBundle).to.deep.equal(removeAssetsContent(bundle));
+            // We leave storages the possibility to either not-set
+            // asset.content, or set it to undefined (the two things are
+            // functionally the same). Chai's deep equal considers not-set and
+            // undefined to be different, and since removeAssetsContent un-sets
+            // asset.content, this test would fail for implementations that set
+            // it to undefined. JSON stringification allows us to check for
+            // equality not caring for the not-set/undefined difference. We
+            // should employ this strategy for the other tests as well, but
+            // since this test is the only one that runs into this problem for
+            // now, we do it just here
+            expect(JSON.stringify(foundBundle)).to.equal(
+                JSON.stringify(removeAssetsContent(bundle))
+            );
         });
 
         it("create a bundle and retrieve its assets contents as expected", async () => {

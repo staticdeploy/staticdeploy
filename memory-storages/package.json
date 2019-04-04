@@ -1,6 +1,6 @@
 {
-  "name": "@staticdeploy/pg-s3-storages",
-  "description": "Pg + S3 storages for StaticDeploy",
+  "name": "@staticdeploy/memory-storages",
+  "description": "In-memory storages for StaticDeploy",
   "version": "0.11.1",
   "private": true,
   "main": "lib/index.js",
@@ -24,25 +24,16 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 10000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
-    "start-test-containers:minio": "docker run --rm -p 9000:9000 -e MINIO_ACCESS_KEY=accessKeyId -e MINIO_SECRET_KEY=secretAccessKey minio/minio server /data",
-    "start-test-containers:pg": "docker run --rm -p 5432:5432 postgres",
-    "start-test-containers": "npm-run-all -p start-test-containers:*"
+    "test": "NODE_ENV=test NODE_PATH=src mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
     "@staticdeploy/core": "^0.11.1",
-    "aws-sdk": "^2.426.0",
-    "bluebird": "^3.5.3",
-    "knex": "^0.16.3",
-    "lodash": "^4.17.11",
-    "pg": "^7.9.0"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@staticdeploy/storages-test-suite": "^0.11.1",
-    "@types/bluebird": "^3.5.26",
     "@types/lodash": "^4.14.123",
     "mocha": "^6.0.2",
-    "npm-run-all": "^4.1.5",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3",
     "ts-node": "^8.0.3",
