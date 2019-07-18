@@ -77,9 +77,7 @@ export default convroute({
             (!existingApp || existingApp.id !== existingEntrypoint.appId)
         ) {
             res.status(409).send({
-                message: `Entrypoint with urlMatcher = ${
-                    req.body.entrypointUrlMatcher
-                } doesn't link to app with name = ${req.body.appName}`
+                message: `Entrypoint with urlMatcher = ${req.body.entrypointUrlMatcher} doesn't link to app with name = ${req.body.appName}`
             });
             return;
         }

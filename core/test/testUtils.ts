@@ -20,25 +20,25 @@ interface IMockDependencies {
             [method in keyof IAppsStorage]: SinonStub<
                 Parameters<IAppsStorage[method]>,
                 ReturnType<IAppsStorage[method]>
-            >
+            >;
         };
         bundles: {
             [method in keyof IBundlesStorage]: SinonStub<
                 Parameters<IBundlesStorage[method]>,
                 ReturnType<IBundlesStorage[method]>
-            >
+            >;
         };
         entrypoints: {
             [method in keyof IEntrypointsStorage]: SinonStub<
                 Parameters<IEntrypointsStorage[method]>,
                 ReturnType<IEntrypointsStorage[method]>
-            >
+            >;
         };
         operationLogs: {
             [method in keyof IOperationLogsStorage]: SinonStub<
                 Parameters<IOperationLogsStorage[method]>,
                 ReturnType<IOperationLogsStorage[method]>
-            >
+            >;
         };
         checkHealth: SinonStub<
             Parameters<IStorages["checkHealth"]>,

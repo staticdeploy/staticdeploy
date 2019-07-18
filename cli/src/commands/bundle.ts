@@ -117,9 +117,7 @@ const command: CommandModule<any, any> = {
             !statSync(fallbackAssetLocalPath).isFile()
         ) {
             throw new Error(
-                `File ${fallbackAssetLocalPath} not found, ${
-                    argv.fallbackAssetPath
-                } cannot be set as fallbackAssetPath`
+                `File ${fallbackAssetLocalPath} not found, ${argv.fallbackAssetPath} cannot be set as fallbackAssetPath`
             );
         }
 

@@ -105,11 +105,7 @@ export default class RespondToEndpointRequest extends Usecase {
         );
         if (!linkedBundle) {
             throw new StorageInconsistencyError(
-                `Entrypoint with id = ${
-                    matchingEntrypoint.id
-                } links to a non-existing bundle with id = ${
-                    matchingEntrypoint.bundleId
-                }`
+                `Entrypoint with id = ${matchingEntrypoint.id} links to a non-existing bundle with id = ${matchingEntrypoint.bundleId}`
             );
         }
         const fallbackAsset = _.find(linkedBundle.assets, {
@@ -117,11 +113,7 @@ export default class RespondToEndpointRequest extends Usecase {
         });
         if (!fallbackAsset) {
             throw new StorageInconsistencyError(
-                `Bundle with id = ${
-                    linkedBundle.id
-                } specifies a non-existing fallback asset with path = ${
-                    linkedBundle.fallbackAssetPath
-                }`
+                `Bundle with id = ${linkedBundle.id} specifies a non-existing fallback asset with path = ${linkedBundle.fallbackAssetPath}`
             );
         }
         const matchingAsset = findMatchingAsset(
@@ -152,11 +144,7 @@ export default class RespondToEndpointRequest extends Usecase {
         );
         if (!content) {
             throw new StorageInconsistencyError(
-                `Asset with path = ${
-                    matchingAsset.path
-                } specified in bundle with id = ${
-                    linkedBundle.id
-                } has no content`
+                `Asset with path = ${matchingAsset.path} specified in bundle with id = ${linkedBundle.id} has no content`
             );
         }
 
@@ -171,11 +159,7 @@ export default class RespondToEndpointRequest extends Usecase {
                 );
                 if (!linkedApp) {
                     throw new StorageInconsistencyError(
-                        `Entrypoint with id = ${
-                            matchingEntrypoint.id
-                        } links to a non-existing app with id = ${
-                            matchingEntrypoint.appId
-                        }`
+                        `Entrypoint with id = ${matchingEntrypoint.id} links to a non-existing app with id = ${matchingEntrypoint.appId}`
                     );
                 }
                 configuration = linkedApp.defaultConfiguration;

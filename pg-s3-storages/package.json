@@ -31,23 +31,23 @@
   },
   "dependencies": {
     "@staticdeploy/core": "^0.11.1",
-    "aws-sdk": "^2.426.0",
-    "bluebird": "^3.5.3",
-    "knex": "^0.16.3",
-    "lodash": "^4.17.11",
-    "pg": "^7.9.0"
+    "aws-sdk": "^2.494.0",
+    "bluebird": "^3.5.5",
+    "knex": "^0.19.0",
+    "lodash": "^4.17.14",
+    "pg": "^7.11.0"
   },
   "devDependencies": {
     "@staticdeploy/storages-test-suite": "^0.11.1",
-    "@types/bluebird": "^3.5.26",
-    "@types/lodash": "^4.14.123",
-    "mocha": "^6.0.2",
+    "@types/bluebird": "^3.5.27",
+    "@types/lodash": "^4.14.136",
+    "mocha": "^6.1.4",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.16.4",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.14.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.5.3"
   }
 }

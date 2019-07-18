@@ -28,8 +28,7 @@ export default class SqlS3Storages implements IStoragesModule {
         };
     }) {
         // Instantiate knex
-        // TODO: remove as any once knex 0.16.4 is released
-        this.knex = Knex(options.databaseUrl as any);
+        this.knex = Knex(options.databaseUrl);
 
         // Instantiate S3 client
         this.s3Bucket = options.s3Config.bucket;

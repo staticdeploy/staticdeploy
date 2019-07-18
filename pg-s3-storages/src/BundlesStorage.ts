@@ -122,7 +122,8 @@ export default class BundlesStorage implements IBundlesStorage {
     }
 
     async deleteOne(id: string): Promise<void> {
-        const [bundle]: [IBundleWithoutAssetsContent] = await this.knex(
+        // const [bundle]: [IBundleWithoutAssetsContent]
+        const [bundle] = await this.knex<IBundleWithoutAssetsContent>(
             BUNDLES_TABLE
         ).where({ id });
         // Delete files from S3
