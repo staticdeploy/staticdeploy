@@ -1,7 +1,7 @@
 import Usecase from "../common/Usecase";
 import { IHealthCheckResult } from "../entities/HealthCheckResult";
 
-export default class CheckStoragesHealth extends Usecase {
+export default class CheckHealth extends Usecase {
     async exec(): Promise<IHealthCheckResult> {
         const healthCheckResult = await this.storages.checkHealth();
         return {

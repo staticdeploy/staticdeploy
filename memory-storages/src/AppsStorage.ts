@@ -3,11 +3,12 @@ import { find, toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
 import convertErrors from "./common/convertErrors";
+import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
 @convertErrors
 export default class AppsStorage implements IAppsStorage {
-    private apps: { [id: string]: IApp } = {};
+    constructor(private apps: ICollection<IApp>) {}
 
     async findOne(id: string): Promise<IApp | null> {
         return this.apps[id] || null;

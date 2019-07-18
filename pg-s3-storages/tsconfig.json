@@ -8,24 +8,7 @@
         // can't use the compiler's default behaviour of loading all @types
         // packages, and we need to manually specify the required ones
         // TODO: explore alternative approach when yarnpkg/yarn#4979 is resolved
-        "types": [
-            "@types/bluebird",
-            "@types/chai",
-            "@types/chai-as-promised",
-            "@types/fs-extra",
-            "@types/lodash",
-            "@types/md5",
-            "@types/micromatch",
-            "@types/mime",
-            "@types/mocha",
-            "@types/mz",
-            "@types/recursive-readdir",
-            "@types/s3rver",
-            "@types/tar",
-            "@types/umzug",
-            "@types/uuid",
-            "@types/validator"
-        ],
+        "types": ["@types/bluebird", "@types/lodash"],
         "outDir": "lib",
         "declaration": true,
         "experimentalDecorators": true

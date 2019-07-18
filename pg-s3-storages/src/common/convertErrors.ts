@@ -1,13 +1,13 @@
-import { errors } from "@staticdeploy/core";
+import { GenericStorageError } from "@staticdeploy/core";
 import { isFunction, keys } from "lodash";
 
 // tslint:disable-next-line: ban-types
-function wrap(method: Function): Function {
-    return function convertMethodErrors(this: any) {
+function withErrorsConverter(method: Function): Function {
+    return function errorsConverter(this: any) {
         try {
             return method.apply(this, arguments);
         } catch (err) {
-            throw new errors.GenericStorageError(err);
+            throw new GenericStorageError(err);
         }
     };
 }
@@ -19,7 +19,7 @@ export default function convertErrors(constructor: Function) {
     keys(constructor.prototype).forEach(key => {
         const method = constructor.prototype[key];
         if (isFunction(method)) {
-            constructor.prototype[key] = wrap(method);
+            constructor.prototype[key] = withErrorsConverter(method);
         }
     });
 }

@@ -1,4 +1,8 @@
-import { IHealthCheckResult, IStorages } from "@staticdeploy/core";
+import {
+    IHealthCheckResult,
+    IStorages,
+    IStoragesModule
+} from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
 import Knex from "knex";
 import { join } from "path";
@@ -9,7 +13,7 @@ import { StorageSetupError } from "./common/errors";
 import EntrypointsStorage from "./EntrypointsStorage";
 import OperationLogsStorage from "./OperationLogsStorage";
 
-export default class SqlS3Storages {
+export default class SqlS3Storages implements IStoragesModule {
     private knex: Knex;
     private s3Client: S3;
     private s3Bucket: string;
@@ -37,6 +41,11 @@ export default class SqlS3Storages {
         });
     }
 
+    async setup() {
+        await this.runSqlMigrations();
+        await this.createS3Bucket();
+    }
+
     getStorages(): IStorages {
         return {
             apps: new AppsStorage(this.knex),
@@ -51,18 +60,14 @@ export default class SqlS3Storages {
         };
     }
 
-    async checkHealth(): Promise<IHealthCheckResult> {
+    private async checkHealth(): Promise<IHealthCheckResult> {
         try {
+            // TODO: also head s3 bucket
             await this.knex.raw("select 1");
             return { isHealthy: true };
         } catch {
             return { isHealthy: false };
         }
-    }
-
-    async setup() {
-        await this.runSqlMigrations();
-        await this.createS3Bucket();
     }
 
     private async runSqlMigrations() {

@@ -7,11 +7,12 @@ import { filter, find, map } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
 import convertErrors from "./common/convertErrors";
+import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
 @convertErrors
 export default class EntrypointsStorage implements IEntrypointsStorage {
-    private entrypoints: { [id: string]: IEntrypoint } = {};
+    constructor(private entrypoints: ICollection<IEntrypoint>) {}
 
     async findOne(id: string): Promise<IEntrypoint | null> {
         return this.entrypoints[id] || null;

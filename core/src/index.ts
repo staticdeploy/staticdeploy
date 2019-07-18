@@ -1,50 +1,37 @@
 // Errors
-import * as _errors from "./common/errors";
-export const errors = _errors;
+export * from "./common/errors";
 
 // Usecases
-import CheckStoragesHealth from "./usecases/CheckStoragesHealth";
-import CreateApp from "./usecases/CreateApp";
-import CreateBundle from "./usecases/CreateBundle";
-import CreateEntrypoint from "./usecases/CreateEntrypoint";
-import DeleteApp from "./usecases/DeleteApp";
-import DeleteBundlesByNameTagCombination from "./usecases/DeleteBundlesByNameTagCombination";
-import DeleteEntrypoint from "./usecases/DeleteEntrypoint";
-import DeployBundle from "./usecases/DeployBundle";
-import GetApp from "./usecases/GetApp";
-import GetApps from "./usecases/GetApps";
-import GetBundleNames from "./usecases/GetBundleNames";
-import GetBundles from "./usecases/GetBundles";
-import GetBundlesByNameTagCombination from "./usecases/GetBundlesByNameTagCombination";
-import GetBundleTagsByBundleName from "./usecases/GetBundleTagsByBundleName";
-import GetEntrypoint from "./usecases/GetEntrypoint";
-import GetEntrypointsByAppId from "./usecases/GetEntrypointsByAppId";
-import GetOperationLogs from "./usecases/GetOperationLogs";
-import RespondToEndpointRequest from "./usecases/RespondToEndpointRequest";
-import UpdateApp from "./usecases/UpdateApp";
-import UpdateEntrypoint from "./usecases/UpdateEntrypoint";
-export const usecases = {
-    CheckStoragesHealth,
-    CreateApp,
-    CreateBundle,
-    CreateEntrypoint,
-    DeleteApp,
-    DeleteBundlesByNameTagCombination,
-    DeleteEntrypoint,
-    DeployBundle,
-    GetApp,
-    GetApps,
-    GetBundleNames,
-    GetBundles,
-    GetBundlesByNameTagCombination,
-    GetBundleTagsByBundleName,
-    GetEntrypoint,
-    GetEntrypointsByAppId,
-    GetOperationLogs,
-    RespondToEndpointRequest,
-    UpdateApp,
-    UpdateEntrypoint
-};
+export { default as CheckHealth } from "./usecases/CheckHealth";
+export { default as CreateApp } from "./usecases/CreateApp";
+export { default as CreateBundle } from "./usecases/CreateBundle";
+export { default as CreateEntrypoint } from "./usecases/CreateEntrypoint";
+export { default as DeleteApp } from "./usecases/DeleteApp";
+export {
+    default as DeleteBundlesByNameTagCombination
+} from "./usecases/DeleteBundlesByNameTagCombination";
+export { default as DeleteEntrypoint } from "./usecases/DeleteEntrypoint";
+export { default as DeployBundle } from "./usecases/DeployBundle";
+export { default as GetApp } from "./usecases/GetApp";
+export { default as GetApps } from "./usecases/GetApps";
+export { default as GetBundleNames } from "./usecases/GetBundleNames";
+export { default as GetBundles } from "./usecases/GetBundles";
+export {
+    default as GetBundlesByNameTagCombination
+} from "./usecases/GetBundlesByNameTagCombination";
+export {
+    default as GetBundleTagsByBundleName
+} from "./usecases/GetBundleTagsByBundleName";
+export { default as GetEntrypoint } from "./usecases/GetEntrypoint";
+export {
+    default as GetEntrypointsByAppId
+} from "./usecases/GetEntrypointsByAppId";
+export { default as GetOperationLogs } from "./usecases/GetOperationLogs";
+export {
+    default as RespondToEndpointRequest
+} from "./usecases/RespondToEndpointRequest";
+export { default as UpdateApp } from "./usecases/UpdateApp";
+export { default as UpdateEntrypoint } from "./usecases/UpdateEntrypoint";
 
 // External dependencies
 export { default as IAppsStorage } from "./dependencies/IAppsStorage";
@@ -57,6 +44,7 @@ export {
 } from "./dependencies/IOperationLogsStorage";
 export { default as IRequestContext } from "./dependencies/IRequestContext";
 export { default as IStorages } from "./dependencies/IStorages";
+export { default as IStoragesModule } from "./dependencies/IStoragesModule";
 
 // Entity types
 export { IApp } from "./entities/App";
