@@ -1,4 +1,4 @@
-import { IOperationLog, Operation } from "@staticdeploy/common-types";
+import { IOperationLog, Operation } from "@staticdeploy/core";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tag from "antd/lib/tag";
 import format from "date-fns/format";

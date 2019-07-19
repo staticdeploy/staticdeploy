@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/common-types";
+import { IBundle } from "@staticdeploy/core";
 import isEmpty from "lodash/isEmpty";
 import React from "react";
 import { InjectedFormProps } from "redux-form";

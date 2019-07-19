@@ -1,26 +1,13 @@
-import { map } from "bluebird";
-import { mkdirp, readFile, remove, writeFile } from "fs-extra";
 import { reduce, some } from "lodash";
 import md5 from "md5";
 import { isMatch } from "micromatch";
 import { getType } from "mime";
-import { tmpdir } from "os";
-import { join } from "path";
-import recursiveReaddir from "recursive-readdir";
-import tar from "tar";
-import { v4 } from "uuid";
 
 import { BundleFallbackAssetNotFoundError } from "../common/errors";
 import generateId from "../common/generateId";
-import removePrefix from "../common/removePrefix";
 import Usecase from "../common/Usecase";
 import { IBundle, validateBundleNameOrTag } from "../entities/Bundle";
 import { Operation } from "../entities/OperationLog";
-
-interface IFile {
-    path: string;
-    content: Buffer;
-}
 
 export default class CreateBundle extends Usecase {
     async exec(partial: {
@@ -48,7 +35,7 @@ export default class CreateBundle extends Usecase {
         const id = generateId();
 
         // Build the assets list
-        const files = await this.extractFiles(partial.content);
+        const files = await this.archiver.extractFiles(partial.content);
         const assets = files.map(file => {
             return {
                 path: file.path,
@@ -94,38 +81,5 @@ export default class CreateBundle extends Usecase {
         });
 
         return createdBundle;
-    }
-
-    private async extractFiles(content: Buffer): Promise<IFile[]> {
-        // Make a temporary directory on the filesystem for unpacking the bundle
-        // content
-        const unpackingDirPath = join(tmpdir(), "staticdeploy/storage", v4());
-        await mkdirp(unpackingDirPath);
-
-        // Write the tar archive to the filesystem
-        const targzPath = join(unpackingDirPath, "content.tar.gz");
-        await writeFile(targzPath, content);
-
-        // Unpack the archive. If the content Buffer is not a valid archive,
-        // tar.extract doesn't throw any error, and just doesn't extract
-        // anything
-        const rootPath = join(unpackingDirPath, "root");
-        await mkdirp(rootPath);
-        await tar.extract({ cwd: rootPath, file: targzPath });
-
-        // Build the list of files unpacked from the archive
-        const localPaths = await recursiveReaddir(rootPath);
-        const files = await map(localPaths, async localPath => {
-            const path = removePrefix(localPath, rootPath);
-            return {
-                path: path,
-                content: await readFile(join(rootPath, path))
-            };
-        });
-
-        // Remove the temporary unpacking directory
-        await remove(unpackingDirPath);
-
-        return files;
     }
 }

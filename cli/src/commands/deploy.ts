@@ -2,10 +2,10 @@ import StaticdeployClient from "@staticdeploy/sdk";
 import { resolve } from "path";
 import { CommandModule } from "yargs";
 
-import * as apiConfig from "../apiConfig";
-import handleCommandHandlerErrors from "../handleCommandHandlerErrors";
-import log from "../log";
-import readStaticdeployConfig from "../readStaticdeployConfig";
+import * as apiConfig from "../common/apiConfig";
+import handleCommandHandlerErrors from "../common/handleCommandHandlerErrors";
+import log from "../common/log";
+import readStaticdeployConfig from "../common/readStaticdeployConfig";
 
 interface IArgv extends apiConfig.IApiConfig {
     app: string;

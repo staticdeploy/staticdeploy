@@ -3,8 +3,8 @@
   "description": "staticdeploy website",
   "version": "0.11.1",
   "private": true,
-  "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/staticdeploy/staticdeploy.git"
@@ -22,12 +22,12 @@
     "compile": "rimraf build && BUILD_FOR_PRODUCTION=true docusaurus-build && node scripts/fixBuild.js"
   },
   "dependencies": {
-    "docusaurus": "^1.11.1"
+    "docusaurus": "^1.12.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
     "cheerio": "^1.0.0-rc.3",
-    "eslint": "^6.0.1",
+    "eslint": "^6.1.0",
     "eslint-plugin-react": "^7.14.2",
     "fs-extra": "^8.1.0",
     "prettier": "^1.18.2",

@@ -1,7 +1,3 @@
 # @staticdeploy/core
 
-Module implementing StaticDeploy's business logic.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+Module implementing StaticDeploy's core business logic.

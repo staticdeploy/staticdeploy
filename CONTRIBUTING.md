@@ -17,8 +17,8 @@ From the project's root directory, you can run the following npm scripts:
 - `yarn lerna ...`: runs lerna with the supplied command line options
 
 Each subproject defines its own npm scripts, which you can run from the
-subproject's directory. Refer to the subproject's **CONTRIBUTING.md** file for
-info.
+subproject's directory. Look at the subproject's **package.json** file too see
+which scripts are available.
 
 ## Installing dependencies
 

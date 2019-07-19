@@ -1,4 +1,4 @@
-import { IApp } from "@staticdeploy/common-types";
+import { IApp } from "@staticdeploy/core";
 import { History, Location } from "history";
 import React from "react";
 

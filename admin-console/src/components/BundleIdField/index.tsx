@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/common-types";
+import { IBundle } from "@staticdeploy/core";
 import Cascader, { CascaderOptionType, CascaderProps } from "antd/lib/cascader";
 import Form, { FormItemProps } from "antd/lib/form";
 import classnames from "classnames";

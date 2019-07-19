@@ -28,7 +28,7 @@
   "dependencies": {
     "@staticdeploy/core": "^0.11.1",
     "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

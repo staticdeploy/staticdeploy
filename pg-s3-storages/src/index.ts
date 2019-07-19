@@ -19,7 +19,7 @@ export default class SqlS3Storages implements IStoragesModule {
     private s3Bucket: string;
 
     constructor(options: {
-        databaseUrl: string;
+        postgresUrl: string;
         s3Config: {
             bucket: string;
             endpoint: string;
@@ -28,7 +28,7 @@ export default class SqlS3Storages implements IStoragesModule {
         };
     }) {
         // Instantiate knex
-        this.knex = Knex(options.databaseUrl);
+        this.knex = Knex(options.postgresUrl);
 
         // Instantiate S3 client
         this.s3Bucket = options.s3Config.bucket;
@@ -60,13 +60,33 @@ export default class SqlS3Storages implements IStoragesModule {
     }
 
     private async checkHealth(): Promise<IHealthCheckResult> {
+        const healthCheckResult: IHealthCheckResult = {
+            isHealthy: true,
+            details: {}
+        };
+
         try {
-            // TODO: also head s3 bucket
             await this.knex.raw("select 1");
-            return { isHealthy: true };
-        } catch {
-            return { isHealthy: false };
+        } catch (err) {
+            healthCheckResult.isHealthy = false;
+            healthCheckResult.details.postgres = {
+                message: "Unable to run query 'select 1'",
+                err: err
+            };
         }
+
+        try {
+            await this.s3Client.headBucket({ Bucket: this.s3Bucket }).promise();
+        } catch (err) {
+            healthCheckResult.isHealthy = false;
+            healthCheckResult.isHealthy = false;
+            healthCheckResult.details.s3 = {
+                message: `Unable to HEAD bucket ${this.s3Bucket}`,
+                err: err
+            };
+        }
+
+        return healthCheckResult;
     }
 
     private async runSqlMigrations() {

@@ -1,4 +1,4 @@
-import { IEntrypoint } from "@staticdeploy/common-types";
+import { IEntrypoint } from "@staticdeploy/core";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";

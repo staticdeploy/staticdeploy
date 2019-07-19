@@ -2,6 +2,7 @@ import { IStorages } from "@staticdeploy/core";
 
 import registerAppsStorageTests from "./AppsStorage";
 import registerBundlesStorageTests from "./BundlesStorage";
+import registerCheckHealthTests from "./checkHealth";
 import registerEntrypointsStorageTests from "./EntrypointsStorage";
 import registerOperationLogsStorageTests from "./OperationLogsStorage";
 
@@ -19,6 +20,7 @@ export default function registerStoragesTests(options: IOptions): void {
         await options.eraseStorages();
     });
     describe(`storages test suite for ${options.storagesName}`, () => {
+        registerCheckHealthTests(options.storages);
         registerAppsStorageTests(options.storages);
         registerBundlesStorageTests(options.storages);
         registerEntrypointsStorageTests(options.storages);

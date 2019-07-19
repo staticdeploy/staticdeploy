@@ -1,4 +1,4 @@
-import { IApp, IEntrypoint } from "@staticdeploy/common-types";
+import { IApp, IEntrypoint } from "@staticdeploy/core";
 import { History } from "history";
 import React from "react";
 

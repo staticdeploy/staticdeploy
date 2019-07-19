@@ -3,12 +3,12 @@ jobs:
 
   qa:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
       - image: postgres
       - image: minio/minio
         environment:
-          MINIO_ACCESS_KEY: accessKey
-          MINIO_SECRET_KEY: secretKey
+          MINIO_ACCESS_KEY: accessKeyId
+          MINIO_SECRET_KEY: secretAccessKey
         command: server /data
     steps:
       - checkout
@@ -22,18 +22,6 @@ jobs:
           name: Run linters
           command: yarn lint
       - run:
-          name: Run tests against sqlite and the embedded S3 mock
-          command: yarn test
-      - run:
-          name: Run tests against postgres and minio
-          command: yarn test
-          environment:
-            DATABASE_URL: postgres://postgres@localhost/postgres
-            S3_BUCKET: staticdeploy
-            S3_ENDPOINT: http://localhost:9000
-            S3_ACCESS_KEY_ID: accessKey
-            S3_SECRET_ACCESS_KEY: secretKey
-      - run:
           name: Run tests and calculate code coverage
           command: npm run coverage
       - run:
@@ -42,7 +30,7 @@ jobs:
 
   publish-website:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - run:
@@ -65,7 +53,7 @@ jobs:
 
   docker-build-push:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - setup_remote_docker
@@ -87,7 +75,7 @@ jobs:
 
   npm-publish:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - run:

@@ -1,24 +1,13 @@
 import StaticdeployClient from "@staticdeploy/sdk";
-import { randomBytes } from "crypto";
-import { pathExistsSync, readFileSync, removeSync, statSync } from "fs-extra";
-import { tmpdir } from "os";
+import tarArchiver from "@staticdeploy/tar-archiver";
+import { pathExistsSync, statSync } from "fs-extra";
 import { join, resolve } from "path";
-import tar from "tar";
 import { CommandModule } from "yargs";
 
-import * as apiConfig from "../apiConfig";
-import handleCommandHandlerErrors from "../handleCommandHandlerErrors";
-import log from "../log";
-import readStaticdeployConfig from "../readStaticdeployConfig";
-
-function targzOfDir(path: string): Buffer {
-    const randomString = randomBytes(8).toString("hex");
-    const tmpFile = join(tmpdir(), randomString);
-    tar.create({ cwd: path, file: tmpFile, sync: true }, ["."]);
-    const contentTargz = readFileSync(tmpFile);
-    removeSync(tmpFile);
-    return contentTargz;
-}
+import * as apiConfig from "../common/apiConfig";
+import handleCommandHandlerErrors from "../common/handleCommandHandlerErrors";
+import log from "../common/log";
+import readStaticdeployConfig from "../common/readStaticdeployConfig";
 
 interface IArgv extends apiConfig.IApiConfig {
     from: string;
@@ -127,7 +116,9 @@ const command: CommandModule<any, any> = {
         });
 
         await client.bundles.create({
-            content: targzOfDir(argv.from).toString("base64"),
+            content: (await tarArchiver.makeArchiveFromPath(
+                argv.from
+            )).toString("base64"),
             name: argv.name,
             tag: argv.tag,
             description: argv.description,
@@ -136,7 +127,7 @@ const command: CommandModule<any, any> = {
             // Parse the object here instead of specifying a coerce function for
             // the option to avoid yargs transforming the parsed object
             // (staticdeploy issue #24)
-            // TODO: verify whether yargs behaviour is intended or not and - if
+            // : verify whether yargs behaviour is intended or not and - if
             // not - open an issue
             headers: JSON.parse(argv.headers)
         });

@@ -1,12 +1,7 @@
-import { createTree, destroyTree, IDefinition } from "create-fs-tree";
-import { mkdirpSync, readFileSync, removeSync } from "fs-extra";
-import { tmpdir } from "os";
-import { join } from "path";
 import sinon, { SinonStub } from "sinon";
-import tar from "tar";
-import { v4 } from "uuid";
 
 import IAppsStorage from "../src/dependencies/IAppsStorage";
+import IArchiver from "../src/dependencies/IArchiver";
 import IBundlesStorage from "../src/dependencies/IBundlesStorage";
 import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
@@ -46,6 +41,12 @@ interface IMockDependencies {
         >;
     };
     requestContext: IRequestContext;
+    archiver: {
+        [method in keyof IArchiver]: SinonStub<
+            Parameters<IArchiver[method]>,
+            ReturnType<IArchiver[method]>
+        >;
+    };
 }
 export function getMockDependencies(): IMockDependencies {
     return {
@@ -90,23 +91,10 @@ export function getMockDependencies(): IMockDependencies {
         },
         requestContext: {
             userId: "userId"
+        },
+        archiver: {
+            extractFiles: sinon.stub(),
+            makeArchive: sinon.stub()
         }
     };
-}
-
-// Makes a targz buffer from a create-fs-tree filesystem definition
-export function targzOf(definition: IDefinition): Buffer {
-    // Base test directory
-    const tempTestDirPath = join(tmpdir(), "/staticdeploy/storage");
-    mkdirpSync(tempTestDirPath);
-    // Random id to make test runs independent
-    const targzId = v4();
-    const contentPath = join(tempTestDirPath, targzId);
-    const contentTargzPath = join(tempTestDirPath, `${targzId}.tar.gz`);
-    createTree(contentPath, definition);
-    tar.create({ cwd: contentPath, file: contentTargzPath, sync: true }, ["."]);
-    destroyTree(contentPath);
-    const contentTargz = readFileSync(contentTargzPath);
-    removeSync(contentTargzPath);
-    return contentTargz;
 }

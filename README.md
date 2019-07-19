@@ -23,26 +23,23 @@ For more information on StaticDeploy visit
 
 This is the StaticDeploy monorepo, which includes several different projects:
 
-**[Server side]**
-
-- [storage](./storage): module proxying access to storage resources
-- [api-server](./api-server): service implementing the API to manage
-  StaticDeploy's entities
-- [static-server](./static-server): service responsible for serving and
-  configuring static content to end users
-
-**[Client side]**
-
+- [core](./core): module implementing StaticDeploy's core business logic
+  (entities, usecases, and gateway interfaces)
+- [pg-s3-storages](./pg-s3-storages): gateway for storage resources backed by
+  [S3](https://aws.amazon.com/s3/) and [PostgreSQL]
+- [memory-storages](./memory-storages): in-memory gateway for storage resources
+- [storages-test-suite](./storages-test-suite): test suite for storages
+- [tar-archiver](./tar-archiver): implementation of the core `IArchiver`
+  interface using tar
+- [http-adapters](./http-adapters): adapters that implement an http API for
+  StaticDeploy's core usecases
+- [serve-static](./server-static): express middleware for serving files in a
+  local directory
+- [staticdeploy](./staticdeploy): main service pulling together the other
+  modules and implementing the StaticDeploy platform
 - [sdk](./sdk): browser and nodejs SDK for StaticDeploy's API
 - [cli](./cli): CLI tool to deploy static apps
 - [admin-console](./admin-console): web GUI for the API
-
-**[Shared]**
-
-- [common-types](./common-types): TypeScript types for StaticDeploy's entities
-
-**[Documentation]**
-
 - [website](./website): landing page and documentation, deployed with
   StaticDeploy on [staticdeploy.io](https://staticdeploy.io)
 

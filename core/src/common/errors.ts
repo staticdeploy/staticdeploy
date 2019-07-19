@@ -64,6 +64,16 @@ export class BundlesInUseError extends Error {
         );
     }
 }
+export class ArchiveCreationError extends Error {
+    constructor() {
+        super("Error creating archive from files");
+    }
+}
+export class ArchiveExtractionError extends Error {
+    constructor() {
+        super("Error extracting files from archive");
+    }
+}
 
 // Entrypoint errors
 export class EntrypointUrlMatcherNotValidError extends Error {

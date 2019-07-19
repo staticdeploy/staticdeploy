@@ -1,7 +1,6 @@
 # @staticdeploy/cli
 
-CLI tool to create and deploy bundles. The tool calls the APIs exposed by
-StaticDeploy's **api-server**.
+CLI tool to create and deploy bundles.
 
 ## Install
 
@@ -16,7 +15,7 @@ npm i -g @staticdeploy/cli
 
   - `--config` (optional): specify the file from which to load options. Defaults
     to `staticdeploy.config.js`
-  - `--apiUrl`: URL of the StaticDeploy **api-server**
+  - `--apiUrl`: URL of the StaticDeploy API
   - `--apiToken`: authentication token for the API
   - `--from`: path of the directory to create the bundle from
   - `--name`: name of the bundle
@@ -35,7 +34,7 @@ npm i -g @staticdeploy/cli
 
   - `--config` (optional): specify the file from which to load options. Defaults
     to `staticdeploy.config.js`
-  - `--apiUrl`: URL of the StaticDeploy **api-server**
+  - `--apiUrl`: URL of the StaticDeploy API
   - `--apiToken`: authentication token for the API
   - `--bundle`: name:tag combination of the bundle to deploy
   - `--entrypoint`: urlMatcher of the entrypoint to deploy to
@@ -73,7 +72,3 @@ Option sources have the following priority:
 Meaning for example that when an option is provided both as a command line flag
 and as an environment variable, the value provided with the command line flag is
 used.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).

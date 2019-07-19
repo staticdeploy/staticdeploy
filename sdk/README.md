@@ -1,6 +1,6 @@
 # @staticdeploy/sdk
 
-Browser and nodejs SDK for the StaticDeploy AP.
+Browser and nodejs SDK for the StaticDeploy API.
 
 ## Install
 
@@ -26,7 +26,3 @@ console.log(apps);
 const createdApp = await client.apps.create({ name: "my-app" });
 console.log(createdApp);
 ```
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/common-types";
+import { IBundle } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 

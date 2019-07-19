@@ -1,4 +1,4 @@
-import { IOperationLog } from "@staticdeploy/common-types";
+import { IOperationLog } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";

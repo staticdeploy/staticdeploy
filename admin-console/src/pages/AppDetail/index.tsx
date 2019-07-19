@@ -1,4 +1,4 @@
-import { IApp, IEntrypoint } from "@staticdeploy/common-types";
+import { IApp, IEntrypoint } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -88,7 +88,7 @@ export default withData({
         const { appId } = props.match.params;
         const [app, entrypoints] = await Promise.all([
             staticdeploy.apps.getOne(appId),
-            staticdeploy.entrypoints.getAll({ appIdOrName: appId })
+            staticdeploy.entrypoints.getAll({ appId: appId })
         ]);
         return { app, entrypoints };
     },

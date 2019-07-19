@@ -1,4 +1,3 @@
-import { configureHtml } from "@staticdeploy/app-config";
 import _ from "lodash";
 import { join } from "path";
 
@@ -13,6 +12,7 @@ import { IConfiguration } from "../../entities/Configuration";
 import { IEndpointRequest } from "../../entities/EndpointRequest";
 import { IEndpointResponse } from "../../entities/EndpointResponse";
 import addTrailingSlash from "./addTrailingSlash";
+import configureHtml from "./configureHtml";
 import findMatchingAsset from "./findMatchingAsset";
 import isCanonicalPath from "./isCanonicalPath";
 import toAbsolute from "./toAbsolute";
@@ -164,12 +164,7 @@ export default class RespondToEndpointRequest extends Usecase {
                 }
                 configuration = linkedApp.defaultConfiguration;
             }
-            content = configureHtml({
-                rawConfig: configuration,
-                configKeyPrefix: "",
-                html: content,
-                selector: "script#app-config"
-            });
+            content = configureHtml(content, configuration);
         }
 
         // Return the asset response

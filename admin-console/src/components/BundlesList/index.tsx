@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/common-types";
+import { IBundle } from "@staticdeploy/core";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tooltip from "antd/lib/tooltip";
 import distanceInWords from "date-fns/distance_in_words";

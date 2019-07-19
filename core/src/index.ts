@@ -2,23 +2,25 @@
 export * from "./common/errors";
 
 // Usecases
+export { default as Usecase } from "./common/Usecase";
 export { default as CheckHealth } from "./usecases/CheckHealth";
 export { default as CreateApp } from "./usecases/CreateApp";
 export { default as CreateBundle } from "./usecases/CreateBundle";
 export { default as CreateEntrypoint } from "./usecases/CreateEntrypoint";
 export { default as DeleteApp } from "./usecases/DeleteApp";
 export {
-    default as DeleteBundlesByNameTagCombination
-} from "./usecases/DeleteBundlesByNameTagCombination";
+    default as DeleteBundlesByNameAndTag
+} from "./usecases/DeleteBundlesByNameAndTag";
 export { default as DeleteEntrypoint } from "./usecases/DeleteEntrypoint";
 export { default as DeployBundle } from "./usecases/DeployBundle";
 export { default as GetApp } from "./usecases/GetApp";
 export { default as GetApps } from "./usecases/GetApps";
+export { default as GetBundle } from "./usecases/GetBundle";
 export { default as GetBundleNames } from "./usecases/GetBundleNames";
 export { default as GetBundles } from "./usecases/GetBundles";
 export {
-    default as GetBundlesByNameTagCombination
-} from "./usecases/GetBundlesByNameTagCombination";
+    default as GetBundlesByNameAndTag
+} from "./usecases/GetBundlesByNameAndTag";
 export {
     default as GetBundleTagsByBundleName
 } from "./usecases/GetBundleTagsByBundleName";
@@ -35,6 +37,7 @@ export { default as UpdateEntrypoint } from "./usecases/UpdateEntrypoint";
 
 // External dependencies
 export { default as IAppsStorage } from "./dependencies/IAppsStorage";
+export { default as IArchiver } from "./dependencies/IArchiver";
 export { default as IBundlesStorage } from "./dependencies/IBundlesStorage";
 export {
     default as IEntrypointsStorage
@@ -62,5 +65,6 @@ export { IConfiguration } from "./entities/Configuration";
 export { IEndpointRequest } from "./entities/EndpointRequest";
 export { IEndpointResponse } from "./entities/EndpointResponse";
 export { IEntrypoint } from "./entities/Entrypoint";
+export { IFile } from "./entities/File";
 export { IHealthCheckResult } from "./entities/HealthCheckResult";
 export { IOperationLog, Operation } from "./entities/OperationLog";

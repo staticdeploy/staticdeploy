@@ -1,4 +1,4 @@
-import { IApp, IBundle, IEntrypoint } from "@staticdeploy/common-types";
+import { IApp, IBundle, IEntrypoint } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 

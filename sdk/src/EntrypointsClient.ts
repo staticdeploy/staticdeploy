@@ -1,4 +1,4 @@
-import { IConfiguration, IEntrypoint } from "@staticdeploy/common-types";
+import { IConfiguration, IEntrypoint } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";
@@ -6,7 +6,7 @@ import parseDates from "./parseDates";
 export default class EntrypointsClient {
     constructor(private axios: AxiosInstance) {}
 
-    async getAll(filter?: { appIdOrName?: string }): Promise<IEntrypoint[]> {
+    async getAll(filter: { appId: string }): Promise<IEntrypoint[]> {
         const result = await this.axios.get("/entrypoints", { params: filter });
         return result.data.map(parseDates);
     }

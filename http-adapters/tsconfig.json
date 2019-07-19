@@ -1,0 +1,17 @@
+{
+    "extends": "../tsconfig.json",
+    "include": ["src/**/*.ts"],
+    "compilerOptions": {
+        "types": [
+            "@types/chai",
+            "@types/express",
+            "@types/mocha",
+            "@types/sinon",
+            "@types/sinon-chai",
+            "@types/supertest"
+        ],
+        "outDir": "lib",
+        "declaration": true,
+        "strictFunctionTypes": false
+    }
+}

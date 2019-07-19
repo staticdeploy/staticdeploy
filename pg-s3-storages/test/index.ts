@@ -10,7 +10,7 @@ import { OPERATION_LOGS_TABLE } from "../src/OperationLogsStorage";
 
 // Create a pgS3Storages object with test configurations
 const pgS3Storages = new PgS3Storages({
-    databaseUrl: "postgres://postgres@localhost/postgres",
+    postgresUrl: "postgres://postgres@localhost/postgres",
     s3Config: {
         bucket: "test",
         endpoint: "http://localhost:9000",

@@ -1,0 +1,17 @@
+{
+    "extends": "../tsconfig.json",
+    "include": ["src/**/*.ts"],
+    "compilerOptions": {
+        "types": [
+            "@types/bluebird",
+            "@types/chai",
+            "@types/deep-equal-in-any-order",
+            "@types/fs-extra",
+            "@types/mocha",
+            "@types/recursive-readdir",
+            "@types/tar"
+        ],
+        "outDir": "lib",
+        "declaration": true
+    }
+}

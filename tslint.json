@@ -5,6 +5,7 @@
     ],
     "rules": {
         "array-type": false,
+        "callable-types": false,
         "max-classes-per-file": false,
         "member-access": false,
         "no-implicit-dependencies": false,

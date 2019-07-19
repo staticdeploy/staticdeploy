@@ -6,17 +6,19 @@
   "workspaces": [
     "admin-console",
     "cli",
-    "common-types",
-    "sdk",
-    "web-server",
+    "core",
+    "http-adapters",
     "memory-storages",
     "pg-s3-storages",
+    "sdk",
+    "serve-static",
+    "staticdeploy",
     "storages-test-suite",
-    "core",
+    "tar-archiver",
     "website"
   ],
-  "license": "MIT",
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/staticdeploy/staticdeploy.git"
@@ -28,7 +30,7 @@
     "compile": "lerna run compile --stream --concurrency 1",
     "lint": "lerna run lint --stream --concurrency 1",
     "test": "lerna run test --stream --concurrency 1",
-    "coverage": "nyc --all yarn test",
+    "coverage": "nyc --all npm test",
     "publish-coverage": "codecov",
     "docker:build": "lerna run docker:build --stream --concurrency 1",
     "docker:push": "lerna run docker:push --stream --concurrency 1",
@@ -40,8 +42,8 @@
     "@commitlint/config-conventional": "^8.1.0",
     "@commitlint/config-lerna-scopes": "^8.1.0",
     "codecov": "^3.5.0",
-    "husky": "^3.0.0",
-    "lerna": "^3.15.0",
+    "husky": "^3.0.1",
+    "lerna": "^3.16.1",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2"
   }

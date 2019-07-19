@@ -1,4 +1,4 @@
-import { IAsset, IBundle } from "@staticdeploy/common-types";
+import { IAsset, IBundle } from "@staticdeploy/core";
 import Table from "antd/lib/table";
 import sortBy from "lodash/sortBy";
 import React from "react";

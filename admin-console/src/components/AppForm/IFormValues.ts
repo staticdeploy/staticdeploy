@@ -1,4 +1,4 @@
-import { IConfiguration } from "@staticdeploy/common-types";
+import { IConfiguration } from "@staticdeploy/core";
 
 import { IKVPair } from "../../common/configurationUtils";
 
