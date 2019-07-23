@@ -1,3 +1,28 @@
+## 0.12.0 (July 23, 2019)
+
+Refactors:
+
+- restructure the project to follow the
+  [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+  principles
+- switch to [Knex.js](https://knexjs.org/) (from
+  [Sequelize](http://docs.sequelizejs.com/)) for sql operations
+
+BREAKING CHANGES:
+
+- the project is now distributed as the single docker image
+  `staticdeploy/staticdeploy` instead of the three images
+  `staticdeploy/api-server`, `staticdeploy/static-server`, and
+  `staticdeploy/admin-console`
+- the `staticdeploy/staticdeploy` image requires a slightly different
+  configuration than the previous three images. Refer to
+  [the documentation](https://staticdeploy.io/_/v0.12.0/docs/guides-deploying-staticdeploy-with-docker)
+  for details
+- SQLite is not supported anymore as a databse
+- due to the SQL migrations library having changed, a _migration of the saved
+  migrations_ must be done manually on existing PostgreSQL databases. If you're
+  in this situation, open an issue asking for support
+
 ## 0.11.1 (January 17, 2019)
 
 Fixes:
@@ -33,7 +58,7 @@ Fixes:
 
 ## 0.9.0 (August 6, 2018)
 
-Breaking changes:
+BREAKING CHANGES:
 
 - renamed **cli** command `create-bundle` to `bundle`
 
@@ -46,7 +71,7 @@ Features:
 
 ## 0.8.0 (June 19, 2018)
 
-Breaking changes:
+BREAKING CHANGES:
 
 - bundles must now specify a fallback asset, that will be served to requests not
   matching any other asset. The fallback asset used to be statically set to
@@ -76,7 +101,7 @@ Features:
 
 ## 0.7.0 (June 2, 2018)
 
-Breaking changes:
+BREAKING CHANGES:
 
 - using the local filesystem to store static content is no longer supported
 
