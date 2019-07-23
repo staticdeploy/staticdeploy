@@ -33,6 +33,7 @@
     "coverage": "nyc --all npm test",
     "publish-coverage": "codecov",
     "docker:build": "lerna run docker:build --stream --concurrency 1",
+    "docker:tag-latest": "lerna run docker:tag-latest --stream --concurrency 1",
     "docker:push": "lerna run docker:push --stream --concurrency 1",
     "release": "lerna version --force-publish=* --allow-branch master --push false",
     "lerna": "lerna"
