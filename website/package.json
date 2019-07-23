@@ -28,7 +28,7 @@
     "babel-eslint": "^10.0.2",
     "cheerio": "^1.0.0-rc.3",
     "eslint": "^6.1.0",
-    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-react": "^7.14.3",
     "fs-extra": "^8.1.0",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",

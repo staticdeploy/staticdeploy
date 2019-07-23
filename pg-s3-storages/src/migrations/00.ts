@@ -38,10 +38,12 @@ export function up(knex: Knex) {
             table
                 .string("appId")
                 .notNullable()
+                .index()
                 .references("id")
                 .inTable(APPS_TABLE);
             table
                 .string("bundleId")
+                .index()
                 .references("id")
                 .inTable(BUNDLES_TABLE);
             table.string("redirectTo");
