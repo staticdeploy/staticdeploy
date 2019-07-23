@@ -2,11 +2,11 @@ import { expect } from "chai";
 import sinon from "sinon";
 import request from "supertest";
 
-import { getApiAdapterServer } from "../../testUtils";
+import { getManagementApiAdapter } from "../../testUtils";
 
-describe("apiAdapter POST /deploy", () => {
+describe("managementApiAdapter POST /deploy", () => {
     it("400 on invalid request body", () => {
-        const server = getApiAdapterServer({});
+        const server = getManagementApiAdapter({});
         return request(server)
             .post("/deploy")
             .send({})
@@ -16,7 +16,7 @@ describe("apiAdapter POST /deploy", () => {
 
     it("204 on bundle deployed, deploys the bundle", async () => {
         const execMock = sinon.stub().resolves();
-        const server = getApiAdapterServer({ deployBundle: execMock });
+        const server = getManagementApiAdapter({ deployBundle: execMock });
         await request(server)
             .post("/deploy")
             .send({

@@ -20,25 +20,30 @@ const HomeSplash = () => (
         <div className="homeSplashFade">
             <div className="wrapper homeWrapper">
                 <div className="inner">
-                    <img src="/images/logo.png" width="100px" />
+                    <img
+                        className="staticdeployLogo"
+                        src="/images/logo-white.png"
+                        width="100px"
+                    />
                     <h2 className="projectTitle">
-                        {siteConfig.title}
+                        <span className="staticdeployTitle">
+                            <span>Static</span>
+                            <span>Deploy</span>
+                        </span>
                         <small>{siteConfig.tagline}</small>
                     </h2>
                     <div className="section promoSection">
                         <div className="promoRow">
-                            <div className="pluginRowBlock">
-                                <Button
-                                    href={withBaseUrl(
-                                        "/docs/getting-started-quickstart"
-                                    )}
-                                >
-                                    {"get started"}
-                                </Button>
-                                <Button href="https://github.com/staticdeploy/staticdeploy">
-                                    {"github"}
-                                </Button>
-                            </div>
+                            <code>
+                                {"docker run staticdeploy/staticdeploy"}
+                            </code>
+                            <Button
+                                href={withBaseUrl(
+                                    "/docs/getting-started-quickstart"
+                                )}
+                            >
+                                {"get started"}
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -68,8 +73,8 @@ const MainFeaturesRow = () => (
                     title: "Runtime Configuration",
                     content: stripIndent(`
                         Configuration at build time be gone! Define your app's
-                        configuration in the StaticDeploy admin console, and have it injected
-                        into your bundles at runtime
+                        configuration in the StaticDeploy console, and have it
+                        injected into your bundles at runtime
                     `)
                 },
                 {

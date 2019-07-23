@@ -4,7 +4,7 @@ import { extname } from "path";
 
 const IS_CURRENT_FILE_TYPESCRIPT = extname(__filename) === ".ts";
 
-export default function apiAdapter(options: {
+export default function managementApiAdapter(options: {
     serviceName: string;
     serviceVersion: string;
     serviceHost: string;

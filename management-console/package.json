@@ -1,6 +1,6 @@
 {
-  "name": "@staticdeploy/admin-console",
-  "description": "staticdeploy admin console",
+  "name": "@staticdeploy/management-console",
+  "description": "staticdeploy management console",
   "version": "0.11.1",
   "private": true,
   "main": "build/index.html",

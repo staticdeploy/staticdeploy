@@ -70,6 +70,12 @@ jobs:
           name: Build docker image
           command: yarn docker:build
       - run:
+          name: When building a git tag, tag the image as latest
+          command: |
+            if [ ! -z $CIRCLE_TAG ]; then \
+              yarn docker:tag-latest \
+            ; fi
+      - run:
           name: Push docker image
           command: yarn docker:push
 

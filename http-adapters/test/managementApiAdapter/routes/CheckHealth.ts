@@ -1,12 +1,12 @@
 import sinon from "sinon";
 import request from "supertest";
 
-import { getApiAdapterServer } from "../../testUtils";
+import { getManagementApiAdapter } from "../../testUtils";
 
-describe("apiAdapter GET /health", () => {
+describe("managementApiAdapter GET /health", () => {
     it("200 on healthy service", () => {
         const execMock = sinon.stub().resolves({ isHealthy: true });
-        const server = getApiAdapterServer({ checkHealth: execMock });
+        const server = getManagementApiAdapter({ checkHealth: execMock });
         return request(server)
             .get("/health")
             .expect(200)
@@ -15,7 +15,7 @@ describe("apiAdapter GET /health", () => {
 
     it("503 on unhealthy service", () => {
         const execMock = sinon.stub().resolves({ isHealthy: false });
-        const server = getApiAdapterServer({ checkHealth: execMock });
+        const server = getManagementApiAdapter({ checkHealth: execMock });
         return request(server)
             .get("/health")
             .expect(503)

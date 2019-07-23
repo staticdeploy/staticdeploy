@@ -2,11 +2,11 @@ import { expect } from "chai";
 import sinon from "sinon";
 import request from "supertest";
 
-import { getApiAdapterServer } from "../../testUtils";
+import { getManagementApiAdapter } from "../../testUtils";
 
-describe("apiAdapter PATCH /entrypoints/:entrypointId", () => {
+describe("managementApiAdapter PATCH /entrypoints/:entrypointId", () => {
     it("400 on invalid request body", () => {
-        const server = getApiAdapterServer({});
+        const server = getManagementApiAdapter({});
         return request(server)
             .patch("/entrypoints/id")
             .send({ invalidKey: "invalidKey" })
@@ -16,7 +16,7 @@ describe("apiAdapter PATCH /entrypoints/:entrypointId", () => {
 
     it("200 on entrypoint updated, updates entrypoint and returns it", async () => {
         const execMock = sinon.stub().resolves({ urlMatcher: "example.com/" });
-        const server = getApiAdapterServer({ updateEntrypoint: execMock });
+        const server = getManagementApiAdapter({ updateEntrypoint: execMock });
         await request(server)
             .patch("/entrypoints/id")
             .send({ urlMatcher: "example.com/" })

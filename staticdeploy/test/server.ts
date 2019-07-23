@@ -9,7 +9,7 @@ import getLogger from "../src/services/logger";
 import getStoragesModule from "../src/services/storagesModule";
 
 describe("staticdeploy server", () => {
-    it("serves the admin console at $HOST/", async () => {
+    it("serves the management console at $HOST/", async () => {
         const logger = getLogger(config);
         const app = await getExpressApp({
             config: config,
@@ -19,12 +19,12 @@ describe("staticdeploy server", () => {
         });
         return request(app)
             .get("/")
-            .set("host", config.adminHostname)
+            .set("host", config.managementHostname)
             .expect(200)
-            .expect(/StaticDeploy Admin Console/);
+            .expect(/StaticDeploy Management Console/);
     });
 
-    it("serves the admin api at $HOST/api/", async () => {
+    it("serves the management API at $HOST/api/", async () => {
         const logger = getLogger(config);
         const app = await getExpressApp({
             config: config,
@@ -34,7 +34,7 @@ describe("staticdeploy server", () => {
         });
         return request(app)
             .get("/api/health")
-            .set("host", config.adminHostname)
+            .set("host", config.managementHostname)
             .expect(200)
             .expect({ isHealthy: true });
     });
@@ -51,7 +51,7 @@ describe("staticdeploy server", () => {
         // Create a bundle
         await request(app)
             .post("/api/bundles")
-            .set("host", config.adminHostname)
+            .set("host", config.managementHostname)
             .set("authorization", `Bearer ${token}`)
             .send({
                 name: "test",
@@ -68,7 +68,7 @@ describe("staticdeploy server", () => {
         // Deploy the bundle
         await request(app)
             .post("/api/deploy")
-            .set("host", config.adminHostname)
+            .set("host", config.managementHostname)
             .set("authorization", `Bearer ${token}`)
             .send({
                 appName: "test",

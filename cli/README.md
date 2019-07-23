@@ -15,8 +15,8 @@ npm i -g @staticdeploy/cli
 
   - `--config` (optional): specify the file from which to load options. Defaults
     to `staticdeploy.config.js`
-  - `--apiUrl`: URL of the StaticDeploy API
-  - `--apiToken`: authentication token for the API
+  - `--apiUrl`: URL of the StaticDeploy management API
+  - `--apiToken`: authentication token for the management API
   - `--from`: path of the directory to create the bundle from
   - `--name`: name of the bundle
   - `--tag`: tag of the bundle

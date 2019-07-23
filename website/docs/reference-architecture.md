@@ -3,40 +3,27 @@ id: reference-architecture
 title: Architecture
 ---
 
-The following diagram represents the logical architecture of the StaticDeploy
+The following diagram represents the functional architecture of the StaticDeploy
 platform:
 
-<div class="padded-docs-image">
+<div class="paddedDocsImage">
   <img
-    src="../images/architecture.svg"
-    alt="StaticDeploy Architecture"
+    src="../images/functional-architecture.svg"
+    alt="StaticDeploy Functional Architecture"
   />
 </div>
 
-On the server side, we have:
-
-- the **api-server**, which exposes an API to manage StaticDeploy's entities
-  like bundles and entrypoints. Clients of this service are the
-  **admin-console** and **cli**
-- the **static-server**, the service responsible for serving the bundles at the
-  configured entrypoints. Clients of this service are the users which request
-  the deployed websites (optionally via a CDN)
-
-On the client side, we have:
-
-- the **admin-console**, which allows us to graphically manage StaticDeploy's
-  entities. The **admin-console** communicates with the **api-server**
-- the **cli**, which we can use to create and deploy bundles. The **cli** also
-  communicates with the **api-server**
-- end users requesting websites we've deployed. End users direct requests to the
-  **static-server**
-
-The **storage** layer is comprised of two parts:
-
-- a relational database, used to store StaticDeploy's entities
-- a file storage service, used to store the static content of bundles
-
-StaticDeploy currently supports [PostgreSQL](https://www.postgresql.org/) and
-[SQLite](https://www.sqlite.org/) as relational databases, and
-[Amazon S3](https://aws.amazon.com/s3/) (and API-compatible servers like
-[Minio](https://minio.io)) as file storage service.
+- the **management API** is a RESTful API to manage StaticDeploy's entities like
+  bundles and entrypoints
+- the **management console** is a web GUI which allows us to graphically
+  interact with the API
+- **@staticdeploy/cli** is a command line tool which we can use to create and
+  deploy bundles
+- the **static server** is the component responsible for serving deployed
+  assets. Clients of this service are the users which request - optionally via a
+  CDN - the deployed websites
+- the **storage layer** is where StaticDeploy saves its entities. Currently the
+  only supported non-volatile storage layer uses
+  [PostgreSQL](https://www.postgresql.org/) and
+  [Amazon S3](https://aws.amazon.com/s3/) (or API-compatible servers like
+  [Minio](https://minio.io))

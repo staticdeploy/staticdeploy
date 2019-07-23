@@ -16,7 +16,7 @@ const config: IConfig = {
     port: env("PORT", { default: "3000" }),
 
     // Routing configuration
-    adminHostname: env("ADMIN_HOSTNAME", {
+    managementHostname: env("MANAGEMENT_HOSTNAME", {
         required: true,
         nonProductionDefault: "localhost"
     }),

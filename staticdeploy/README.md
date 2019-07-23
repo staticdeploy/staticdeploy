@@ -8,9 +8,10 @@ The service is distributed as a Docker image (`staticdeploy/staticdeploy`) that
 can be run without modifications on docker-compose, ECS, Kubernetes, etc.
 
 You can check the health status of the service via
-`GET $ADMIN_HOSTNAME/api/health`: the server will return a `200` if the service
-is in a healthy status, a `503` otherwise. If the request is authenticated, the
-(json) body of the response contains details about the health status.
+`GET $MANAGEMENT_HOSTNAME/api/health`: the server will return a `200` if the
+service is in a healthy status, a `503` otherwise. If the request is
+authenticated, the (json) body of the response contains details about the health
+status.
 
 ## Configure
 
@@ -22,13 +23,13 @@ The following environment variables can be used to configure the server:
 
 > Routing configuration
 
-- `ADMIN_HOSTNAME` _(required)_: the hostname at which the admin console and api
-  will be served
-- `HOSTNAME_HEADER` _(optional)_: the header from which to retrieve the hostname
-  of requests for static assets. By default `Host` - or `X-Forwarded-Host` if
-  present - are used. Some proxies however use other headers to pass the
-  information upstream (example: Azure's Verizon CDN uses `X-Host`), so you can
-  use this option to make StaticDeploy work behind such proxies
+- `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the management
+  console and api will be served
+- `HOSTNAME_HEADER`: the header from which to retrieve the hostname of requests
+  for static assets. By default `Host` - or `X-Forwarded-Host` if present - are
+  used. Some proxies however use other headers to pass the information upstream
+  (example: Azure's Verizon CDN uses `X-Host`), so you can use this option to
+  make StaticDeploy work behind such proxies
 
 > Auth configurations
 

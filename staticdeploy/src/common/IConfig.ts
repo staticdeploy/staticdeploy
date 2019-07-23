@@ -9,7 +9,7 @@ export default interface IConfig {
     port: string;
 
     // Routing configuration
-    adminHostname: string;
+    managementHostname: string;
     hostnameHeader?: string;
 
     // Auth configurations

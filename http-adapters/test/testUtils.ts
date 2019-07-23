@@ -1,16 +1,22 @@
 import express from "express";
 import sinon from "sinon";
 
-import { apiAdapter, IBaseRequest, staticServerAdapter } from "../src";
+import {
+    IBaseRequest,
+    managementApiAdapter,
+    staticServerAdapter
+} from "../src";
 
 interface IExecMocks {
     [usecase: string]: sinon.SinonStub;
 }
 
-export function getApiAdapterServer(execMocks: IExecMocks): express.Express {
+export function getManagementApiAdapter(
+    execMocks: IExecMocks
+): express.Express {
     return getServer(
         execMocks,
-        apiAdapter({
+        managementApiAdapter({
             serviceName: "serviceName",
             serviceVersion: "serviceVersion",
             serviceHost: "serviceHost"

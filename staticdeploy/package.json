@@ -23,13 +23,14 @@
     "test": "NODE_ENV=test TS_NODE_FILES=true mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
     "start": "NODE_ENV=production node build/server.js",
     "docker:build": "docker build -f ./Dockerfile -t staticdeploy/staticdeploy:$DOCKER_TAG ../",
-    "docker:push": "docker push staticdeploy/staticdeploy:$DOCKER_TAG"
+    "docker:tag-latest": "docker tag staticdeploy/staticdeploy:$DOCKER_TAG staticdeploy/staticdeploy:latest",
+    "docker:push": "docker push staticdeploy/staticdeploy"
   },
   "dependencies": {
     "@mondora/env": "^1.3.0",
-    "@staticdeploy/admin-console": "^0.11.1",
     "@staticdeploy/core": "^0.11.1",
     "@staticdeploy/http-adapters": "^0.11.1",
+    "@staticdeploy/management-console": "^0.11.1",
     "@staticdeploy/memory-storages": "^0.11.1",
     "@staticdeploy/pg-s3-storages": "^0.11.1",
     "@staticdeploy/serve-static": "^0.11.1",

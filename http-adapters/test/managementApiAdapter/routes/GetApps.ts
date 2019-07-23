@@ -1,12 +1,12 @@
 import sinon from "sinon";
 import request from "supertest";
 
-import { getApiAdapterServer } from "../../testUtils";
+import { getManagementApiAdapter } from "../../testUtils";
 
-describe("apiAdapter GET /apps", () => {
+describe("managementApiAdapter GET /apps", () => {
     it("200 and returns all apps", () => {
         const execMock = sinon.stub().resolves([]);
-        const server = getApiAdapterServer({ getApps: execMock });
+        const server = getManagementApiAdapter({ getApps: execMock });
         return request(server)
             .get("/apps")
             .expect(200)

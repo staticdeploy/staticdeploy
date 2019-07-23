@@ -2,11 +2,11 @@ import { expect } from "chai";
 import sinon from "sinon";
 import request from "supertest";
 
-import { getApiAdapterServer } from "../../testUtils";
+import { getManagementApiAdapter } from "../../testUtils";
 
-describe("apiAdapter POST /entrypoints", () => {
+describe("managementApiAdapter POST /entrypoints", () => {
     it("400 on invalid request body", () => {
-        const server = getApiAdapterServer({});
+        const server = getManagementApiAdapter({});
         return request(server)
             .post("/entrypoints")
             .send({})
@@ -18,7 +18,7 @@ describe("apiAdapter POST /entrypoints", () => {
         const execMock = sinon
             .stub()
             .resolves({ appId: "appId", urlMatcher: "example.com/" });
-        const server = await getApiAdapterServer({
+        const server = await getManagementApiAdapter({
             createEntrypoint: execMock
         });
         await request(server)

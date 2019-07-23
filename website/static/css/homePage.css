@@ -3,8 +3,56 @@
     font-weight: 300;
 }
 
-/* Make all buttons on the home page the same width */
-.homePage .button {
+/*
+ * Increase home "hero" height, color it with primary-color and make its text
+ * and buttons white
+ */
+.homePage .homeContainer {
+    background: var(--primary-color);
+    height: 440px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.homePage .homeContainer .projectTitle {
+    color: var(--white);
+}
+.homePage .homeContainer .button {
+    background: var(--white);
+    transition: all 0.3s;
+}
+.homePage .homeContainer .button:hover {
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+/* Align StaticDeploy's D with the D of the logo */
+.homePage .homeContainer .staticdeployTitle {
+    position: relative;
+    left: 13px;
+}
+.homePage .homeContainer .staticdeployLogo {
+    position: relative;
+    right: 5px;
+}
+
+/* Make StaticDeploy's Static yellow */
+.homePage .homeContainer .staticdeployTitle > span:first-child {
+    color: var(--yellow);
+}
+
+/* Style the docker run code block */
+.homePage code {
+    background: var(--white);
+    color: var(--secondary-color);
+    padding: 4px 16px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* Increase width of the GET STARTED button */
+.homePage .homeContainer .button {
     width: 140px;
 }
 

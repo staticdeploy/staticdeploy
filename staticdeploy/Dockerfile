@@ -7,11 +7,11 @@ WORKDIR /opt/staticdeploy
 # Copy files
 COPY package.json lerna.json yarn.lock tsconfig.json ./
 
-COPY admin-console/package.json admin-console/tsconfig.json ./admin-console/
-COPY admin-console/webpack ./admin-console/webpack/
-COPY admin-console/typings ./admin-console/typings/
-COPY admin-console/public ./admin-console/public/
-COPY admin-console/src ./admin-console/src/
+COPY management-console/package.json management-console/tsconfig.json ./management-console/
+COPY management-console/webpack ./management-console/webpack/
+COPY management-console/typings ./management-console/typings/
+COPY management-console/public ./management-console/public/
+COPY management-console/src ./management-console/src/
 COPY core/package.json core/tsconfig.json ./core/
 COPY core/src ./core/src/
 COPY http-adapters/package.json http-adapters/tsconfig.json ./http-adapters/
@@ -41,7 +41,7 @@ RUN yarn install && \
     yarn install --production && \
     # Remove unecessary files
     rm yarn.lock tsconfig.json && \
-    rm -r admin-console/tsconfig.json admin-console/webpack admin-console/typings admin-console/public admin-console/src && \
+    rm -r management-console/tsconfig.json management-console/webpack management-console/typings management-console/public management-console/src && \
     rm -r core/tsconfig.json core/src && \
     rm -r http-adapters/tsconfig.json http-adapters/src && \
     rm -r memory-storages/tsconfig.json memory-storages/src && \
@@ -59,7 +59,7 @@ ENV PORT 80
 EXPOSE 80
 
 # Configure healthcheck
-HEALTHCHECK CMD curl -f http://$ADMIN_HOSTNAME:$PORT/api/health || exit 1
+HEALTHCHECK CMD curl -f http://$MANAGEMENT_HOSTNAME:$PORT/api/health || exit 1
 
 # Set start command
 WORKDIR /opt/staticdeploy/staticdeploy

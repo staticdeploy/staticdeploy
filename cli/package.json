@@ -31,7 +31,8 @@
     "lint": "yarn lint:prettier && yarn lint:tslint",
     "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
     "docker:build": "docker build -f ./Dockerfile -t staticdeploy/cli:$DOCKER_TAG ../",
-    "docker:push": "docker push staticdeploy/cli:$DOCKER_TAG"
+    "docker:tag-latest": "docker tag staticdeploy/cli:$DOCKER_TAG staticdeploy/cli:latest",
+    "docker:push": "docker push staticdeploy/cli"
   },
   "dependencies": {
     "@staticdeploy/core": "^0.11.1",

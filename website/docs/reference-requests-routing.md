@@ -5,7 +5,7 @@ title: How StaticDeploy routes requests
 
 ## Matching requests to entrypoints
 
-A StaticDeploy server can host thousands of websites, each deployed on a
+A StaticDeploy installation can host thousands of websites, each deployed on a
 different [entrypoint](/docs/reference-entities#entrypoints). The first thing
 StaticDeploy does upon receiving a request is to figure out which entrypoint is
 targeted by the request.

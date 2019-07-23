@@ -1,7 +1,7 @@
 import { IStoragesModule } from "@staticdeploy/core";
 import {
-    apiAdapter,
     IUsecasesByName,
+    managementApiAdapter,
     staticServerAdapter
 } from "@staticdeploy/http-adapters";
 import serveStatic from "@staticdeploy/serve-static";
@@ -25,27 +25,27 @@ export default async function getExpressApp(options: {
 
     await storagesModule.setup();
 
-    const adminConsoleStaticServer = await serveStatic({
-        root: dirname(require.resolve("@staticdeploy/admin-console")),
+    const managementConsoleStaticServer = await serveStatic({
+        root: dirname(require.resolve("@staticdeploy/management-console")),
         fallbackAssetPath: "/index.html",
         fallbackStatusCode: 200,
         configuration: {
-            API_URL: `//${config.adminHostname}/api`
+            API_URL: `//${config.managementHostname}/api`
         },
         headers: {}
     });
 
-    const adminRouter = express
+    const managementRouter = express
         .Router()
         .use(
             "/api",
-            apiAdapter({
+            managementApiAdapter({
                 serviceName: config.appName,
                 serviceVersion: config.appVersion,
-                serviceHost: config.adminHostname
+                serviceHost: config.managementHostname
             })
         )
-        .use(adminConsoleStaticServer);
+        .use(managementConsoleStaticServer);
 
     return express()
         .use(
@@ -56,6 +56,6 @@ export default async function getExpressApp(options: {
         )
         .use(authenticateRequest(config.jwtSecret))
         .use(injectMakeUsecase({ storagesModule, usecases }))
-        .use(vhost(config.adminHostname, adminRouter))
+        .use(vhost(config.managementHostname, managementRouter))
         .use(staticServerAdapter({ hostnameHeader: config.hostnameHeader }));
 }

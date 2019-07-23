@@ -2,12 +2,12 @@ import { expect } from "chai";
 import sinon from "sinon";
 import request from "supertest";
 
-import { getApiAdapterServer } from "../../testUtils";
+import { getManagementApiAdapter } from "../../testUtils";
 
-describe("apiAdapter DELETE /bundleNames/:bundleName/bundleTags/:bundleTag/bundles", () => {
+describe("managementApiAdapter DELETE /bundleNames/:bundleName/bundleTags/:bundleTag/bundles", () => {
     it("204 on bundles deleted, deletes the bundles", async () => {
         const execMock = sinon.stub().resolves([]);
-        const server = getApiAdapterServer({
+        const server = getManagementApiAdapter({
             deleteBundlesByNameAndTag: execMock
         });
         await request(server)
