@@ -22,7 +22,7 @@ const HomeSplash = () => (
                 <div className="inner">
                     <img
                         className="staticdeployLogo"
-                        src="/images/logo-white.png"
+                        src={withBaseUrl("/images/logo-white.png")}
                         width="100px"
                     />
                     <h2 className="projectTitle">
