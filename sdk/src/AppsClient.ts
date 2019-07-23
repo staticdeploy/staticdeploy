@@ -1,4 +1,4 @@
-import { IApp, IConfiguration } from "@staticdeploy/common-types";
+import { IApp, IConfiguration } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";

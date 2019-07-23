@@ -1,17 +1,11 @@
 import BundlesClient from "@staticdeploy/sdk/lib/BundlesClient";
+import tarArchiver from "@staticdeploy/tar-archiver";
 import { expect } from "chai";
 import { createTree, destroyTree } from "create-fs-tree";
-import {
-    emptyDirSync,
-    pathExists,
-    readFile,
-    removeSync,
-    writeFile
-} from "fs-extra";
+import { emptyDirSync, removeSync } from "fs-extra";
 import { tmpdir } from "os";
 import { join } from "path";
 import sinon from "sinon";
-import tar from "tar";
 import yargs from "yargs";
 
 import bundle from "../../src/commands/bundle";
@@ -134,7 +128,6 @@ describe("bundle command", () => {
 
     describe("handler", () => {
         // Setup test fs, and clean it up afterward
-        const targzPath = join(baseTestPath, "targz-path");
         const unpackingFolder = join(baseTestPath, "unpacking-folder");
         const targetTree = join(baseTestPath, "target-tree");
         beforeEach(() => {
@@ -147,11 +140,9 @@ describe("bundle command", () => {
                 },
                 "not-a-directory": "not-a-directory"
             });
-            removeSync(targzPath);
             emptyDirSync(unpackingFolder);
         });
         after(() => {
-            removeSync(targzPath);
             removeSync(unpackingFolder);
             destroyTree(targetTree);
         });
@@ -173,7 +164,10 @@ describe("bundle command", () => {
         //   the options above)
         // - run assertions on it being called, verifying the correct behavior
         //   of the handler
-        let bundlesCreateStub: sinon.SinonStub;
+        let bundlesCreateStub: sinon.SinonStub<
+            Parameters<typeof BundlesClient.prototype.create>,
+            ReturnType<typeof BundlesClient.prototype.create>
+        >;
         beforeEach(() => {
             bundlesCreateStub = sinon.stub(BundlesClient.prototype, "create");
         });
@@ -218,14 +212,13 @@ describe("bundle command", () => {
                 from: join(targetTree, "target")
             });
             const { content } = bundlesCreateStub.getCall(0).args[0];
-            await writeFile(targzPath, Buffer.from(content, "base64"));
-            await tar.extract({ cwd: unpackingFolder, file: targzPath });
-            expect(
-                await pathExists(join(unpackingFolder, "index.html"))
-            ).to.equal(true);
-            expect(
-                await readFile(join(unpackingFolder, "index.html"), "utf8")
-            ).to.equal("index.html");
+            const files = await tarArchiver.extractFiles(
+                Buffer.from(content, "base64")
+            );
+            expect(files).to.deep.equalInAnyOrder([
+                { path: "/index.html", content: Buffer.from("index.html") },
+                { path: "/js/index.js", content: Buffer.from("index.js") }
+            ]);
         });
 
         it("creates a bundle", async () => {

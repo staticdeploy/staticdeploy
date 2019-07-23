@@ -14,36 +14,31 @@ beforeEach(() => {
 
 describe("EntrypointsClient", () => {
     describe("getAll", () => {
-        it("requests GET /entrypoints", async () => {
+        it("requests GET /entrypoints?appId", async () => {
             const scope = nock(baseUrl)
-                .get("/entrypoints")
+                .get("/entrypoints?appId=appId")
                 .reply(200, []);
-            await staticdeployClient.entrypoints.getAll();
-            scope.done();
-        });
-        it("optionally sets a filter on the request with querystring parameter ?appIdOrName", async () => {
-            const scope = nock(baseUrl)
-                .get("/entrypoints?appIdOrName=value")
-                .reply(200, []);
-            await staticdeployClient.entrypoints.getAll({
-                appIdOrName: "value"
-            });
+            await staticdeployClient.entrypoints.getAll({ appId: "appId" });
             scope.done();
         });
         it("returns a list of entrypoints", async () => {
             nock(baseUrl)
-                .get("/entrypoints")
+                .get("/entrypoints?appId=appId")
                 .reply(200, []);
-            const entrypoints = await staticdeployClient.entrypoints.getAll();
+            const entrypoints = await staticdeployClient.entrypoints.getAll({
+                appId: "appId"
+            });
             expect(entrypoints).to.deep.equal([]);
         });
         it("inflates dates", async () => {
             nock(baseUrl)
-                .get("/entrypoints")
+                .get("/entrypoints?appId=appId")
                 .reply(200, [
                     { createdAt: unixEpochISO, updatedAt: unixEpochISO }
                 ]);
-            const entrypoints = await staticdeployClient.entrypoints.getAll();
+            const entrypoints = await staticdeployClient.entrypoints.getAll({
+                appId: "appId"
+            });
             expect(entrypoints).to.deep.equal([
                 { createdAt: unixEpoch, updatedAt: unixEpoch }
             ]);

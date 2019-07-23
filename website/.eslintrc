@@ -4,8 +4,8 @@
     "env": { "browser": true, "commonjs": true, "node": true },
     "globals": { "process": true },
     "rules": {
-        "react/display-name": false,
-        "react/prop-types": false
+        "react/display-name": 0,
+        "react/prop-types": 0
     },
     "settings": {
         "react": { "version": "detect" }

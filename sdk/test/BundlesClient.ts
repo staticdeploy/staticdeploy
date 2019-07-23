@@ -183,16 +183,6 @@ describe("BundlesClient", () => {
         });
     });
 
-    describe("delete", () => {
-        it("requests DELETE /bundles/:bundleId", async () => {
-            const scope = nock(baseUrl)
-                .delete("/bundles/id")
-                .reply(204);
-            await staticdeployClient.bundles.delete("id");
-            scope.done();
-        });
-    });
-
     describe("deleteByNameAndTag", () => {
         it("requests DELETE /bundleNames/:bundleName/bundleTags/:bundleTag/bundles", async () => {
             const scope = nock(baseUrl)

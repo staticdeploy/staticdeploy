@@ -16,8 +16,8 @@ npm install --global @staticdeploy/cli
 yarn global add @staticdeploy/cli
 ```
 
-We need to provide the **cli** the address of our StaticDeploy **api-server**,
-as well as a valid authentication token for making requests to the API. We can
+We need to provide the **cli** the address of our StaticDeploy **management
+API**, as well as a valid authentication token for making requests to it. We can
 do so by setting two environment variables:
 
 ```sh
@@ -25,8 +25,8 @@ export STATICDEPLOY_API_URL=https://staticdeploy.$MY_DOMAIN/api/
 export STATICDEPLOY_API_TOKEN=my-jwt-auth-token
 ```
 
-> Note: we're assuming we have an **api-server** listening at
-> `https://staticdeploy.$MY_DOMAIN/api/`
+> Note: we're assuming we have the **staticdeploy** service listening at
+> `https://staticdeploy.$MY_DOMAIN/`
 
 ## Deploying a static app
 
@@ -50,7 +50,7 @@ staticdeploy bundle \
 ```
 
 The command will package the static app into a tar.gz archive and upload it to
-the StaticDeploy server, where it can now be deployed.
+the StaticDeploy platform, where it can now be deployed.
 
 We can do so using the `deploy` command of the cli. The command takes three
 arguments:
@@ -71,22 +71,22 @@ The command will deploy the latest bundle with name `my-static-app` and tag
 
 ## Pointing the DNS to StaticDeploy's static-server
 
-Now that we've deployed our static app, when StaticDeploy's **static-server**
+Now that we've deployed our static app, when the **staticdeploy** service
 receives requests for `my-static-app.com/`, it will respond with the appropriate
 file in the bundle we've deployed.
 
-We need however to make requests for `my-static-app.com/` get to StaticDeploy's
-**static-server**. For this, we can simply point the DNS of `my-static-app.com`
+We need however to make requests for `my-static-app.com/` get to
+**staticdeploy**. For this, we can simply point the DNS of `my-static-app.com`
 to `staticdeploy.$MY_DOMAIN`.
 
 ## Improving performances with a CDN
 
-StaticDeploy's **static-server** is not very efficient at serving static files.
-Its main jobs are correctly routing requests and injecting configurations. It
-also doesn't serve content via HTTPS.
+**staticdeploy** is not very efficient at serving static files. Its main jobs
+are correctly routing requests and injecting configurations. It also doesn't
+serve content via HTTPS.
 
 For efficiently serving static content, as well as securing requests with HTTPS,
 using a CDN is highly recommended. Using a CDN with StaticDeploy is fairly
-simple: we just need to set our StaticDeploy installation as the source from
-where the CDN gets the content, point the DNS of our app to the CDN, and
-configure the CDN to pass-through to StaticDeploy the `Host` header of requests.
+simple: we just need to set our **staticdeploy** service installation as the
+source from where the CDN gets the content, point the DNS of our app to the CDN,
+and configure the CDN to pass-through the `Host` header of requests.

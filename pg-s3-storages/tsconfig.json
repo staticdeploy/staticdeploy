@@ -1,0 +1,10 @@
+{
+    "extends": "../tsconfig.json",
+    "include": ["src/**/*.ts"],
+    "compilerOptions": {
+        "types": ["@types/bluebird", "@types/lodash"],
+        "outDir": "lib",
+        "declaration": true,
+        "experimentalDecorators": true
+    }
+}

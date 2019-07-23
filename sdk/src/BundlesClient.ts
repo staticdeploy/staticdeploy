@@ -1,4 +1,4 @@
-import { IBundle } from "@staticdeploy/common-types";
+import { IBundle } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";
@@ -51,10 +51,6 @@ export default class BundlesClient {
     }): Promise<IBundle> {
         const result = await this.axios.post("/bundles", bundle);
         return parseDates(result.data);
-    }
-
-    async delete(id: string): Promise<void> {
-        await this.axios.delete(`/bundles/${id}`);
     }
 
     async deleteByNameAndTag(name: string, tag: string): Promise<void> {

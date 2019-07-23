@@ -1,0 +1,42 @@
+{
+  "name": "@staticdeploy/storages-test-suite",
+  "description": "Test suite for StaticDeploy storages",
+  "version": "0.11.1",
+  "private": true,
+  "main": "lib/index.js",
+  "typings": "lib/index.d.js",
+  "files": [
+    "lib"
+  ],
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "compile": "rimraf lib && tsc",
+    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:tslint"
+  },
+  "dependencies": {
+    "@staticdeploy/core": "^0.11.1",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.3"
+  }
+}

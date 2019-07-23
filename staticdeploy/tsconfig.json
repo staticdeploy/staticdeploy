@@ -1,0 +1,18 @@
+{
+    "extends": "../tsconfig.json",
+    "include": ["src/**/*.ts", "typings/**/*.ts"],
+    "compilerOptions": {
+        "types": [
+            "@types/bunyan",
+            "@types/chai",
+            "@types/express",
+            "@types/express-jwt",
+            "@types/jsonwebtoken",
+            "@types/lodash",
+            "@types/mocha",
+            "@types/supertest"
+        ],
+        "outDir": "build",
+        "strictFunctionTypes": false
+    }
+}

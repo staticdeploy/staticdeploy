@@ -4,7 +4,7 @@ title: Using a fallback asset
 ---
 
 As explained in the
-[request routing reference article](/docs/reference-request-routing), when
+[request routing reference article](/docs/reference-requests-routing), when
 StaticDeploy receives a request to a certain entrypoint that doesn't match any
 asset in the entrypoint's bundle, the bundle's fallback asset is served instead.
 

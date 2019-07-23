@@ -33,7 +33,7 @@ bundles. Each entrypoint is usually characterized by two properties:
 Entrypoints may specify a configuration, a `(string, string)` dictionary that is
 injected at serve-time into the html files of the bundle.
 
-Entrypoints can be created manually from StaticDeploy's admin console, or
+Entrypoints can be created manually from StaticDeploy's management console, or
 automatically when deploying a bundle with the `deploy` command of the
 StaticDeploy cli.
 
@@ -46,8 +46,9 @@ static bundle, but instead issues a 302 with the `redirectTo` as `Location`.
 Apps are groups of entrypoints. Apps define a default configuration to be used
 for entrypoints which don't define one.
 
-Apps can be created manually from StaticDeploy's admin console, or automatically
-when deploying a bundle with the `deploy` command of the StaticDeploy cli.
+Apps can be created manually from StaticDeploy's management console, or
+automatically when deploying a bundle with the `deploy` command of the
+StaticDeploy cli.
 
 ### Operation Logs
 

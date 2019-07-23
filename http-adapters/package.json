@@ -1,0 +1,59 @@
+{
+  "name": "@staticdeploy/http-adapters",
+  "description": "Adapters implementing an http API for StaticDeploys' core usecases",
+  "version": "0.11.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib/index.js",
+  "typings": "lib/index.d.js",
+  "files": [
+    "lib"
+  ],
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "compile": "rimraf lib && tsc",
+    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:tslint",
+    "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
+  },
+  "dependencies": {
+    "convexpress": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@staticdeploy/core": "^0.11.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@staticdeploy/core": "^0.11.1",
+    "@types/chai": "^4.1.7",
+    "@types/express": "^4.17.0",
+    "@types/mocha": "^5.2.7",
+    "@types/sinon": "^7.0.13",
+    "@types/sinon-chai": "^3.2.2",
+    "@types/supertest": "^2.0.8",
+    "chai": "^4.2.0",
+    "express": "^4.17.1",
+    "mocha": "^6.2.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "supertest": "^4.0.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.3"
+  }
+}

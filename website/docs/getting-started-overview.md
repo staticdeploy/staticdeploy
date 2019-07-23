@@ -34,10 +34,10 @@ Bundles can be created with the `bundle` command of the StaticDeploy cli, by
 giving it a folder that gets archived into a tar.gz and uploaded to the
 StaticDeploy backend.
 
-<div class="padded-docs-image">
+<div class="paddedDocsImage">
   <img
     src="../images/bundles-screenshot.png"
-    alt="Browsing bundles in the admin console"
+    alt="Browsing bundles in the management console"
   />
 </div>
 
@@ -54,14 +54,14 @@ content of bundles. Each entrypoint is characterized by two properties:
 Entrypoints may specify a configuration, a `(string, string)` dictionary that is
 injected at serve-time into the html files of the bundle.
 
-Entrypoints can be created manually from StaticDeploy's admin console, or
+Entrypoints can be created manually from StaticDeploy's management console, or
 automatically when deploying a bundle with the `deploy` command of the
 StaticDeploy cli.
 
-<div class="padded-docs-image">
+<div class="paddedDocsImage">
   <img
     src="../images/entrypoints-screenshot.png"
-    alt="Browsing apps and entrypoints in the admin console"
+    alt="Browsing apps and entrypoints in the management console"
   />
 </div>
 
@@ -70,8 +70,9 @@ StaticDeploy cli.
 Apps are groups of entrypoints. Apps define a default configuration to be used
 for entrypoints which don't define one.
 
-Apps can be created manually from StaticDeploy's admin console, or automatically
-when deploying a bundle with the `deploy` command of the StaticDeploy cli.
+Apps can be created manually from StaticDeploy's management console, or
+automatically when deploying a bundle with the `deploy` command of the
+StaticDeploy cli.
 
 ## Reaching the goals
 
@@ -87,7 +88,7 @@ configuration object.
 
 #### Example
 
-<div class="splitter getting-started-overview-splitter">
+<div class="splitter gettingStartedOverviewSplitter">
 <div class="left">
 Source html:
 

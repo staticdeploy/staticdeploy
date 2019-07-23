@@ -1,0 +1,30 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "esnext",
+        "lib": ["es2017", "dom"],
+
+        "types": [
+            "@types/chai",
+            "@types/classnames",
+            "@types/enzyme",
+            "@types/enzyme-adapter-react-16",
+            "@types/express",
+            "@types/faker",
+            "@types/lodash",
+            "@types/mocha",
+            "@types/node",
+            "@types/prop-types",
+            "@types/react",
+            "@types/react-dom",
+            "@types/react-router-dom",
+            "@types/sinon",
+            "@types/sinon-chai",
+            "@types/validator"
+        ],
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": true
+    }
+}

@@ -27,30 +27,33 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "NODE_ENV=test mocha --exit -r ts-node/register -r test/setup.ts --watch-extensions ts 'test/**/*.ts'"
+    "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register -r test/setup.ts --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/common-types": "^0.11.1",
-    "axios": "^0.18.0",
-    "lodash": "^4.17.11"
+    "axios": "^0.19.0",
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "@staticdeploy/core": "^0.11.1"
   },
   "devDependencies": {
+    "@staticdeploy/core": "^0.11.1",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/lodash": "^4.14.120",
-    "@types/mocha": "^5.2.5",
-    "@types/nock": "^9.3.0",
-    "@types/sinon": "^7.0.4",
+    "@types/lodash": "^4.14.136",
+    "@types/mocha": "^5.2.7",
+    "@types/nock": "^10.0.3",
+    "@types/sinon": "^7.0.13",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "mocha": "^5.2.0",
+    "mocha": "^6.2.0",
     "nock": "^10.0.6",
-    "prettier": "^1.16.0",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
-    "sinon": "^7.2.3",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.12.1",
-    "tslint-config-prettier": "^1.17.0",
-    "typescript": "^3.2.4"
+    "sinon": "^7.3.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.3"
   }
 }

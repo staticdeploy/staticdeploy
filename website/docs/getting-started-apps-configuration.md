@@ -70,8 +70,8 @@ development directly inside the script. StaticDeploy will replace it on serve
 with the correct configuration of the served entrypoint.
 
 Another more complex but more flexible approach is to use the `src` attribute of
-the `app-config` script, pointing it to _something_ that returns a configuration
-snippet. One such _thing_ is the
+the `app-config` script, pointing it to _something that returns a configuration
+snippet_. One such thing is the
 [dev-config-server](https://github.com/staticdeploy/app-config/blob/master/docs/dev-config-server-cli-options.md)
 provided by
 [@staticdeploy/app-config](https://github.com/staticdeploy/app-config), which
