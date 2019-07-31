@@ -1,5 +1,4 @@
 import tarArchiver from "@staticdeploy/tar-archiver";
-import { sign } from "jsonwebtoken";
 import request from "supertest";
 
 import usecases from "../src/common/usecases";
@@ -47,12 +46,10 @@ describe("staticdeploy server", () => {
             usecases: usecases,
             logger: logger
         });
-        const token = sign({ sub: "sub" } as object, config.jwtSecret);
         // Create a bundle
         await request(app)
             .post("/api/bundles")
             .set("host", config.managementHostname)
-            .set("authorization", `Bearer ${token}`)
             .send({
                 name: "test",
                 tag: "test",
@@ -69,7 +66,6 @@ describe("staticdeploy server", () => {
         await request(app)
             .post("/api/deploy")
             .set("host", config.managementHostname)
-            .set("authorization", `Bearer ${token}`)
             .send({
                 appName: "test",
                 entrypointUrlMatcher: "example.com/",
