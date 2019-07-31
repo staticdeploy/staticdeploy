@@ -15,14 +15,18 @@ import TextField from "../TextField";
 import { IExternalFormValues, IInternalFormValues } from "./IFormValues";
 import validate from "./validate";
 
+interface IProps {
+    showUrlMatcherField?: boolean;
+}
+
 interface IState {
     bundles: Pick<IBundle, "id" | "name" | "tag" | "createdAt">[];
     loadingBundles: boolean;
     errorLoadingBundles: Error | null;
 }
 
-class EntrypointForm extends React.PureComponent<
-    InjectedFormProps<IInternalFormValues>,
+class EntrypointForm extends React.Component<
+    IProps & InjectedFormProps<IInternalFormValues>,
     IState
 > {
     state = { bundles: [], loadingBundles: false, errorLoadingBundles: null };
@@ -50,15 +54,18 @@ class EntrypointForm extends React.PureComponent<
     }
 
     render() {
+        const { showUrlMatcherField } = this.props;
         const { bundles, loadingBundles, errorLoadingBundles } = this.state;
         return (
             <form onSubmit={this.props.handleSubmit}>
-                <TextField
-                    label="Url matcher"
-                    name="urlMatcher"
-                    placeholder="sub.example.com/path/"
-                    inlineError={true}
-                />
+                {showUrlMatcherField !== false ? (
+                    <TextField
+                        label="Url matcher"
+                        name="urlMatcher"
+                        placeholder="sub.example.com/path/"
+                        inlineError={true}
+                    />
+                ) : null}
                 <TextField
                     label="Redirect to"
                     name="redirectTo"
@@ -84,7 +91,7 @@ class EntrypointForm extends React.PureComponent<
 export interface IEntrypointFormInstance
     extends IConverterForm<IExternalFormValues> {}
 
-export default reduxForm<IExternalFormValues, IInternalFormValues>({
+export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
     form: "EntrypointForm",
     validate: validate,
     toInternal: (initialValues = {}) => ({

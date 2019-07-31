@@ -27,18 +27,22 @@ export interface IConverterForm<ExternalValues> {
     getValues: () => ExternalValues;
 }
 
-export function reduxForm<ExternalValues, InternalValues>(
+export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
     config: IConfig<ExternalValues, InternalValues>
 ) {
     const toInternal: any = config.toInternal || identity;
     const toExternal: any = config.toExternal || identity;
-    return (Form: React.ComponentType<InjectedFormProps<InternalValues>>) => {
+    return (
+        Form: React.ComponentType<
+            InjectedFormProps<InternalValues> & AdditionalProps
+        >
+    ) => {
         const DecoratedForm = wrappedReduxForm({
             form: config.form,
             validate: config.validate
-        })(Form);
+        })(Form as any);
         return class ConverterForm
-            extends React.PureComponent<IProps<ExternalValues>>
+            extends React.Component<IProps<ExternalValues> & AdditionalProps>
             implements IConverterForm<ExternalValues> {
             private form!: FormInstance<
                 InternalValues,
@@ -55,9 +59,10 @@ export function reduxForm<ExternalValues, InternalValues>(
                 return toExternal(this.form.values);
             }
             render() {
-                const { initialValues, onSubmit } = this.props;
+                const { initialValues, onSubmit, ...rest } = this.props;
                 return (
                     <DecoratedForm
+                        {...rest}
                         ref={form => (this.form = form!)}
                         initialValues={toInternal(initialValues)}
                         onSubmit={values =>

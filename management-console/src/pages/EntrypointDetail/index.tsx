@@ -46,7 +46,6 @@ class EntrypointDetail extends React.Component<Props> {
         const { app, entrypoint, bundle } = this.props.result;
         return (
             <Page title="Entrypoint detail" actions={this.getActions()}>
-                <TextFieldRO title="App" value={app.name} />
                 <TextFieldRO
                     title="Url matcher"
                     value={

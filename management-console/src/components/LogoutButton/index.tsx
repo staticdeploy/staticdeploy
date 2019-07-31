@@ -9,7 +9,7 @@ interface IProps {
     authTokenService: IAuthTokenService;
 }
 
-export default class LogoutButton extends React.PureComponent<IProps> {
+export default class LogoutButton extends React.Component<IProps> {
     render() {
         return (
             <Tooltip title="Logout" placement="right">

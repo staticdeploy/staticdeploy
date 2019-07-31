@@ -2,7 +2,7 @@ import { Options } from "yargs";
 
 export interface IApiConfig {
     apiUrl: string;
-    apiToken: string;
+    apiToken?: string;
 }
 
 export const builder: { [name: string]: Options } = {
@@ -13,7 +13,6 @@ export const builder: { [name: string]: Options } = {
     },
     apiToken: {
         describe: "Api server auth token",
-        type: "string",
-        demandOption: true
+        type: "string"
     }
 };

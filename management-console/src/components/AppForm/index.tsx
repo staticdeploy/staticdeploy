@@ -11,9 +11,7 @@ import TextField from "../TextField";
 import { IExternalFormValues, IInternalFormValues } from "./IFormValues";
 import validate from "./validate";
 
-class AppForm extends React.PureComponent<
-    InjectedFormProps<IInternalFormValues>
-> {
+class AppForm extends React.Component<InjectedFormProps<IInternalFormValues>> {
     render() {
         return (
             <form onSubmit={this.props.handleSubmit}>

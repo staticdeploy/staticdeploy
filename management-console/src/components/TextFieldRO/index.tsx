@@ -7,7 +7,7 @@ interface IProps {
     value: React.ReactNode;
 }
 
-export default class TextFieldRO extends React.PureComponent<IProps> {
+export default class TextFieldRO extends React.Component<IProps> {
     render() {
         return (
             <div className="c-TextFieldRO">

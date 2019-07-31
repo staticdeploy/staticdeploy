@@ -3,7 +3,6 @@ import Menu from "antd/lib/menu";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-// Not a PureComponent since we want it to re-render on location change
 export default class SiderNav extends React.Component {
     render() {
         const firstLevelPath = window.location.pathname

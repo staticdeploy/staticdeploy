@@ -34,10 +34,8 @@ export default class EntrypointsClient {
     async update(
         id: string,
         patch: {
-            appId?: string;
             bundleId?: string | null;
             redirectTo?: string | null;
-            urlMatcher?: string;
             configuration?: IConfiguration | null;
         }
     ): Promise<IEntrypoint> {

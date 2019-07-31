@@ -140,37 +140,33 @@ describe("EntrypointsClient", () => {
     describe("update", () => {
         it("requests PATCH /entrypoints/:entrypointId", async () => {
             const scope = nock(baseUrl)
-                .patch("/entrypoints/id", { appId: "newAppId" })
+                .patch("/entrypoints/id", { bundleId: "newBundleId" })
                 .reply(200);
             await staticdeployClient.entrypoints.update("id", {
-                appId: "newAppId"
+                bundleId: "newBundleId"
             });
             scope.done();
         });
         it("returns the updated entrypoint", async () => {
             nock(baseUrl)
-                .patch("/entrypoints/id", { appId: "newAppId" })
+                .patch("/entrypoints/id", { bundleId: "newBundleId" })
                 .reply(200, {});
             const entrypoint = await staticdeployClient.entrypoints.update(
                 "id",
-                {
-                    appId: "newAppId"
-                }
+                { bundleId: "newBundleId" }
             );
             expect(entrypoint).to.deep.equal({});
         });
         it("inflates dates", async () => {
             nock(baseUrl)
-                .patch("/entrypoints/id", { appId: "newAppId" })
+                .patch("/entrypoints/id", { bundleId: "newBundleId" })
                 .reply(200, {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
                 });
             const entrypoint = await staticdeployClient.entrypoints.update(
                 "id",
-                {
-                    appId: "newAppId"
-                }
+                { bundleId: "newBundleId" }
             );
             expect(entrypoint).to.deep.equal({
                 createdAt: unixEpoch,

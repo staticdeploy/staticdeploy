@@ -10,7 +10,7 @@ export interface IFormValues {
     authToken: string;
 }
 
-class LoginForm extends React.PureComponent<InjectedFormProps<IFormValues>> {
+class LoginForm extends React.Component<InjectedFormProps<IFormValues>> {
     render() {
         return (
             <Card>

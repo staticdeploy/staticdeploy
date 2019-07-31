@@ -17,7 +17,7 @@ interface IProps {
     label?: string;
 }
 
-export class WrappedConfigurationField extends React.PureComponent<
+export class WrappedConfigurationField extends React.Component<
     IProps & WrappedFieldArrayProps<IKVPair>
 > {
     renderLabel() {
@@ -74,7 +74,7 @@ export class WrappedConfigurationField extends React.PureComponent<
     }
 }
 
-export default class ConfigurationField extends React.PureComponent<IProps> {
+export default class ConfigurationField extends React.Component<IProps> {
     render() {
         return (
             <FieldArray

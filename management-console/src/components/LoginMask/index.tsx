@@ -10,7 +10,7 @@ interface IProps {
     authTokenService: IAuthTokenService;
 }
 
-export default class LoginMask extends React.PureComponent<IProps> {
+export default class LoginMask extends React.Component<IProps> {
     boundForceUpdate = () => this.forceUpdate();
     componentWillMount() {
         this.props.authTokenService.onStatusChange(this.boundForceUpdate);

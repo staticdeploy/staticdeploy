@@ -16,7 +16,7 @@ interface IProps<Item extends IItem> {
     getHref: (item: Item) => string;
 }
 
-export default class LinksList<Item extends IItem> extends React.PureComponent<
+export default class LinksList<Item extends IItem> extends React.Component<
     IProps<Item>
 > {
     getColumns(): ColumnProps<Item>[] {
