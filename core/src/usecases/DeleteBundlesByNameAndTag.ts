@@ -6,8 +6,8 @@ import { Operation } from "../entities/OperationLog";
 
 export default class DeleteBundlesByNameAndTag extends Usecase {
     async exec(name: string, tag: string): Promise<void> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        this.authorizer.ensureCanDeleteBundles(name);
 
         // Find bundles to be deleted
         const toBeDeletedBundles = await this.storages.bundles.findManyByNameAndTag(

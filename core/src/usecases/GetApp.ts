@@ -4,8 +4,8 @@ import { IApp } from "../entities/App";
 
 export default class GetApp extends Usecase {
     async exec(id: string): Promise<IApp> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        this.authorizer.ensureCanGetApps();
 
         const app = await this.storages.apps.findOne(id);
 

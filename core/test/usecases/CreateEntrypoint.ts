@@ -3,7 +3,6 @@ import sinon from "sinon";
 
 import {
     AppNotFoundError,
-    AuthenticationRequiredError,
     BundleNotFoundError,
     ConfigurationNotValidError,
     ConflictingEntrypointError,
@@ -14,22 +13,6 @@ import CreateEntrypoint from "../../src/usecases/CreateEntrypoint";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase CreateEntrypoint", () => {
-    it("throws AuthenticationRequiredError if the request is not authenticated", async () => {
-        const deps = getMockDependencies();
-        deps.requestContext.userId = null;
-        const createEntrypoint = new CreateEntrypoint(deps);
-        const createEntrypointPromise = createEntrypoint.exec({
-            appId: "appId",
-            urlMatcher: "example.com/"
-        });
-        await expect(createEntrypointPromise).to.be.rejectedWith(
-            AuthenticationRequiredError
-        );
-        await expect(createEntrypointPromise).to.be.rejectedWith(
-            "This operation requires the request to be authenticated"
-        );
-    });
-
     it("throws EntrypointUrlMatcherNotValidError if the urlMatcher is not valid", async () => {
         const createEntrypoint = new CreateEntrypoint(getMockDependencies());
         const createEntrypointPromise = createEntrypoint.exec({

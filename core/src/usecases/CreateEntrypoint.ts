@@ -23,8 +23,11 @@ export default class CreateEntrypoint extends Usecase {
         urlMatcher: string;
         configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        this.authorizer.ensureCanCreateEntrypoint(
+            partial.appId,
+            partial.urlMatcher
+        );
 
         // Validate the urlMatcher and the configuration
         validateEntrypointUrlMatcher(partial.urlMatcher);

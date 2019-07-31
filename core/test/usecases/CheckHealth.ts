@@ -14,6 +14,7 @@ describe("usecase CheckHealth", () => {
 
     it("when the request is authenticated, returns the details returned by storage healthchecks", async () => {
         const deps = getMockDependencies();
+        deps.requestContext.user = { id: "userId", roles: [] };
         deps.storages.checkHealth.resolves({ isHealthy: false, details: {} });
         const checkHealth = new CheckHealth(deps);
         const result = await checkHealth.exec();
@@ -24,7 +25,7 @@ describe("usecase CheckHealth", () => {
 
     it("when the request is NOT authenticated, doesn't return any details", async () => {
         const deps = getMockDependencies();
-        deps.requestContext.userId = null;
+        deps.requestContext.user = null;
         deps.storages.checkHealth.resolves({ isHealthy: false, details: {} });
         const checkHealth = new CheckHealth(deps);
         const result = await checkHealth.exec();

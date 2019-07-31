@@ -247,15 +247,21 @@ export default (storages: IStorages) => {
                 appId: "id",
                 bundleId: null,
                 redirectTo: null,
-                configuration: null,
+                configuration: {},
                 createdAt: new Date(),
                 updatedAt: new Date()
             });
             await storages.entrypoints.updateOne("id", {
                 redirectTo: "redirectTo",
+                configuration: undefined,
                 updatedAt: new Date()
             });
             const foundEntrypoint = await storages.entrypoints.findOne("id");
+            // Test to see if undefined values passed to updateOne are correctly
+            // ignored
+            expect(foundEntrypoint)
+                .to.have.property("configuration")
+                .that.deep.equals({});
             expect(foundEntrypoint).to.have.property(
                 "redirectTo",
                 "redirectTo"
@@ -274,22 +280,6 @@ export default (storages: IStorages) => {
                 updatedAt: new Date()
             });
             await storages.entrypoints.deleteOne("id");
-            const notFoundEntrypoint = await storages.entrypoints.findOne("id");
-            expect(notFoundEntrypoint).to.equal(null);
-        });
-
-        it("create an entrypoint, delete it by deleting many by appId, try to find it and get null", async () => {
-            await storages.entrypoints.createOne({
-                id: "id",
-                urlMatcher: "example.com/",
-                appId: "id",
-                bundleId: "id",
-                redirectTo: null,
-                configuration: null,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            });
-            await storages.entrypoints.deleteManyByAppId("id");
             const notFoundEntrypoint = await storages.entrypoints.findOne("id");
             expect(notFoundEntrypoint).to.equal(null);
         });

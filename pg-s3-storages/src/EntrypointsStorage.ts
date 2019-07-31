@@ -77,10 +77,8 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     async updateOne(
         id: string,
         patch: {
-            appId?: string;
             bundleId?: string | null;
             redirectTo?: string | null;
-            urlMatcher?: string;
             configuration?: IConfiguration | null;
             updatedAt: Date;
         }
@@ -95,12 +93,6 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     async deleteOne(id: string): Promise<void> {
         await this.knex(ENTRYPOINTS_TABLE)
             .where({ id })
-            .delete();
-    }
-
-    async deleteManyByAppId(appId: string): Promise<void> {
-        await this.knex(ENTRYPOINTS_TABLE)
-            .where({ appId })
             .delete();
     }
 }

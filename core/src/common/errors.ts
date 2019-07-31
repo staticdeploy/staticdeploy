@@ -4,7 +4,13 @@ export class AuthenticationRequiredError extends Error {
         super("This operation requires the request to be authenticated");
     }
 }
-export class AuthorizationError extends Error {}
+export class MissingRoleError extends Error {
+    constructor() {
+        super(
+            "The user doesn't have the necessary roles to perform this operation"
+        );
+    }
+}
 
 // Configuration errors
 export class ConfigurationNotValidError extends Error {
@@ -27,6 +33,13 @@ export class AppNotFoundError extends Error {
 export class ConflictingAppError extends Error {
     constructor(name: string) {
         super(`An app with name = ${name} already exists`);
+    }
+}
+export class AppHasEntrypointsError extends Error {
+    constructor(id: string) {
+        super(
+            `Can't delete app with id = ${id} because it has linked entrypoints`
+        );
     }
 }
 
@@ -60,7 +73,7 @@ export class BundlesInUseError extends Error {
         const bundleIdsString = ids.join(", ");
         const entrypointIdsString = dependentEntrypointsIds.join(", ");
         super(
-            `Can't delete bundles with id = ${bundleIdsString}, as ore or more of them are being used by entrypoints with ids = ${entrypointIdsString}`
+            `Can't delete bundles with id = ${bundleIdsString}, as one or more of them are being used by entrypoints with ids = ${entrypointIdsString}`
         );
     }
 }

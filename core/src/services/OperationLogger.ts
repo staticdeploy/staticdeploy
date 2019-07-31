@@ -17,8 +17,9 @@ export default class OperationLogger {
             id: generateId(),
             operation: operation,
             parameters: parameters,
-            // This service assumes the request to be authenticated
-            performedBy: this.requestContext.userId!,
+            performedBy: this.requestContext.user
+                ? this.requestContext.user.id
+                : "anonymous",
             performedAt: new Date()
         });
     }

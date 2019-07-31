@@ -13,7 +13,8 @@ export default interface IConfig {
     hostnameHeader?: string;
 
     // Auth configurations
-    jwtSecret: Buffer;
+    enforceAuth: boolean;
+    jwtSecret?: Buffer;
 
     // pg-s3-storages configurations
     postgresUrl?: string;

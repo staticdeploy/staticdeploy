@@ -23,6 +23,7 @@ export default convroute({
     responses: {
         "204": { description: "Entrypoint deleted, returns nothing" },
         "401": { description: "Authentication required" },
+        "403": { description: "Missing authorization roles" },
         "404": { description: "Entrypoint not found" }
     },
     handler: async (req: IRequest, res) => {

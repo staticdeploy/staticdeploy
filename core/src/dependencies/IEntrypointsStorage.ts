@@ -23,14 +23,11 @@ export default interface IEntrypointsStorage {
     updateOne(
         id: string,
         patch: {
-            appId?: string;
             bundleId?: string | null;
             redirectTo?: string | null;
-            urlMatcher?: string;
             configuration?: IConfiguration | null;
             updatedAt: Date;
         }
     ): Promise<IEntrypoint>;
     deleteOne(id: string): Promise<void>;
-    deleteManyByAppId(appId: string): Promise<void>;
 }

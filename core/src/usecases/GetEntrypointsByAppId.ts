@@ -4,8 +4,8 @@ import { IEntrypoint } from "../entities/Entrypoint";
 
 export default class GetEntrypointsByAppId extends Usecase {
     async exec(appId: string): Promise<IEntrypoint[]> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        this.authorizer.ensureCanGetEntrypoints();
 
         // Ensure the app with the specified id exists
         const app = await this.storages.apps.findOne(appId);

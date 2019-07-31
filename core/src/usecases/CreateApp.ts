@@ -13,8 +13,8 @@ export default class CreateApp extends Usecase {
         name: string;
         defaultConfiguration?: IConfiguration;
     }): Promise<IApp> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        this.authorizer.ensureCanCreateApp();
 
         // Validate name and defaultConfiguration
         validateAppName(partial.name);

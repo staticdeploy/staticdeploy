@@ -48,6 +48,7 @@ export {
 export { default as IRequestContext } from "./dependencies/IRequestContext";
 export { default as IStorages } from "./dependencies/IStorages";
 export { default as IStoragesModule } from "./dependencies/IStoragesModule";
+export { default as IUsecaseConfig } from "./dependencies/IUsecaseConfig";
 
 // Entity types
 export { IApp } from "./entities/App";
@@ -68,3 +69,4 @@ export { IEntrypoint } from "./entities/Entrypoint";
 export { IFile } from "./entities/File";
 export { IHealthCheckResult } from "./entities/HealthCheckResult";
 export { IOperationLog, Operation } from "./entities/OperationLog";
+export { IUser } from "./entities/User";

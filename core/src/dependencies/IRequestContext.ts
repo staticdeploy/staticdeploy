@@ -1,3 +1,5 @@
+import { IUser } from "../entities/User";
+
 export default interface IRequestContext {
-    userId: string | null;
+    user: IUser | null;
 }

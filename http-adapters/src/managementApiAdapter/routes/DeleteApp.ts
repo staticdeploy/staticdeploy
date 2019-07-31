@@ -23,7 +23,9 @@ export default convroute({
     responses: {
         "204": { description: "App deleted, returns nothing" },
         "401": { description: "Authentication required" },
-        "404": { description: "App not found" }
+        "403": { description: "Missing authorization roles" },
+        "404": { description: "App not found" },
+        "409": { description: "App has entrypoints" }
     },
     handler: async (req: IRequest, res) => {
         const deleteApp = req.makeUsecase("deleteApp");

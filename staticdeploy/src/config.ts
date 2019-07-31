@@ -10,9 +10,7 @@ const config: IConfig = {
     appName: pkg.name,
     appVersion: pkg.version,
     nodeEnv: env("NODE_ENV", { default: "development" }),
-    logLevel: env("LOG_LEVEL", {
-        default: "info"
-    }) as LogLevelString,
+    logLevel: env("LOG_LEVEL", { default: "info" }) as LogLevelString,
     port: env("PORT", { default: "3000" }),
 
     // Routing configuration
@@ -23,11 +21,11 @@ const config: IConfig = {
     hostnameHeader: env("HOSTNAME_HEADER"),
 
     // Auth configurations
-    jwtSecret: env("JWT_SECRET", {
-        required: true,
-        nonProductionDefault: "secret",
-        parse: Buffer.from
+    enforceAuth: env("ENFORCE_AUTH", {
+        default: "false",
+        parse: value => value === "true"
     }),
+    jwtSecret: env("JWT_SECRET", { parse: Buffer.from }),
 
     // pg-s3-storages configurations
     postgresUrl: env("POSTGRES_URL"),

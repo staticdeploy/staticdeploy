@@ -3,7 +3,6 @@ import sinon from "sinon";
 
 import {
     AppNameNotValidError,
-    AuthenticationRequiredError,
     ConfigurationNotValidError,
     ConflictingAppError
 } from "../../src/common/errors";
@@ -12,19 +11,6 @@ import CreateApp from "../../src/usecases/CreateApp";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase CreateApp", () => {
-    it("throws AuthenticationRequiredError if the request is not authenticated", async () => {
-        const deps = getMockDependencies();
-        deps.requestContext.userId = null;
-        const createApp = new CreateApp(deps);
-        const createAppPromise = createApp.exec({ name: "name" });
-        await expect(createAppPromise).to.be.rejectedWith(
-            AuthenticationRequiredError
-        );
-        await expect(createAppPromise).to.be.rejectedWith(
-            "This operation requires the request to be authenticated"
-        );
-    });
-
     it("throws AppNameNotValidError if the name is not valid", async () => {
         const createApp = new CreateApp(getMockDependencies());
         const createAppPromise = createApp.exec({ name: "*" });

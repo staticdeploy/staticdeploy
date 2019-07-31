@@ -15,6 +15,7 @@
             "@types/validator"
         ],
         "outDir": "lib",
-        "declaration": true
+        "declaration": true,
+        "experimentalDecorators": true
     }
 }

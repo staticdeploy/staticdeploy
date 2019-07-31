@@ -5,9 +5,11 @@ import {
     staticServerAdapter
 } from "@staticdeploy/http-adapters";
 import serveStatic from "@staticdeploy/serve-static";
+import tarArchiver from "@staticdeploy/tar-archiver";
 import Logger from "bunyan";
 import bunyanMiddleware from "bunyan-middleware";
 import express from "express";
+import { compact } from "lodash";
 import { dirname } from "path";
 import vhost from "vhost";
 
@@ -30,7 +32,8 @@ export default async function getExpressApp(options: {
         fallbackAssetPath: "/index.html",
         fallbackStatusCode: 200,
         configuration: {
-            API_URL: `//${config.managementHostname}/api`
+            API_URL: `//${config.managementHostname}/api`,
+            AUTH_ENFORCED: config.enforceAuth ? "true" : "false"
         },
         headers: {}
     });
@@ -47,15 +50,20 @@ export default async function getExpressApp(options: {
         )
         .use(managementConsoleStaticServer);
 
-    return express()
-        .use(
+    return express().use(
+        compact([
             bunyanMiddleware({
                 logger: logger,
                 obscureHeaders: ["Authorization"]
-            })
-        )
-        .use(authenticateRequest(config.jwtSecret))
-        .use(injectMakeUsecase({ storagesModule, usecases }))
-        .use(vhost(config.managementHostname, managementRouter))
-        .use(staticServerAdapter({ hostnameHeader: config.hostnameHeader }));
+            }),
+            config.jwtSecret ? authenticateRequest(config.jwtSecret) : null,
+            injectMakeUsecase(usecases, {
+                archiver: tarArchiver,
+                config: { enforceAuth: config.enforceAuth },
+                storages: storagesModule.getStorages()
+            }),
+            vhost(config.managementHostname, managementRouter),
+            staticServerAdapter({ hostnameHeader: config.hostnameHeader })
+        ])
+    );
 }

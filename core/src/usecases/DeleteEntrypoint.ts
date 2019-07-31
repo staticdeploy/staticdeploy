@@ -4,9 +4,6 @@ import { Operation } from "../entities/OperationLog";
 
 export default class DeleteEntrypoint extends Usecase {
     async exec(id: string): Promise<void> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
-
         const toBeDeletedEntrypoint = await this.storages.entrypoints.findOne(
             id
         );
@@ -15,6 +12,12 @@ export default class DeleteEntrypoint extends Usecase {
         if (!toBeDeletedEntrypoint) {
             throw new EntrypointNotFoundError(id, "id");
         }
+
+        // Auth check
+        this.authorizer.ensureCanDeleteEntrypoint(
+            id,
+            toBeDeletedEntrypoint.appId
+        );
 
         // Delete the entrypoint
         await this.storages.entrypoints.deleteOne(id);

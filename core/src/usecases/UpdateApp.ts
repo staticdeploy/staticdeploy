@@ -15,8 +15,8 @@ export default class UpdateApp extends Usecase {
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        this.authorizer.ensureCanUpdateApp(id);
 
         // Validate name and defaultConfiguration
         if (patch.name) {
@@ -48,7 +48,8 @@ export default class UpdateApp extends Usecase {
 
         // Update the app
         const updatedApp = await this.storages.apps.updateOne(id, {
-            ...patch,
+            name: patch.name,
+            defaultConfiguration: patch.defaultConfiguration,
             updatedAt: new Date()
         });
 

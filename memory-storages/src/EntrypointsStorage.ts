@@ -3,7 +3,7 @@ import {
     IEntrypoint,
     IEntrypointsStorage
 } from "@staticdeploy/core";
-import { filter, find, map } from "lodash";
+import { defaults, filter, find } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
 import convertErrors from "./common/convertErrors";
@@ -63,29 +63,20 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     async updateOne(
         id: string,
         patch: {
-            appId?: string;
             bundleId?: string | null;
             redirectTo?: string | null;
-            urlMatcher?: string;
             configuration?: IConfiguration | null;
             updatedAt: Date;
         }
     ): Promise<IEntrypoint> {
         this.entrypoints[id] = {
             ...this.entrypoints[id],
-            ...patch
+            ...defaults(patch, this.entrypoints[id])
         };
         return this.entrypoints[id];
     }
 
     async deleteOne(id: string): Promise<void> {
         delete this.entrypoints[id];
-    }
-
-    async deleteManyByAppId(appId: string): Promise<void> {
-        const toBeRemovedIds = map(filter(this.entrypoints, { appId }), "id");
-        for (const id of toBeRemovedIds) {
-            delete this.entrypoints[id];
-        }
     }
 }

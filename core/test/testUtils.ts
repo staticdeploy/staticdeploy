@@ -7,9 +7,18 @@ import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
 import IRequestContext from "../src/dependencies/IRequestContext";
 import IStorages from "../src/dependencies/IStorages";
+import IUsecaseConfig from "../src/dependencies/IUsecaseConfig";
 
 // Dependencies mock
 interface IMockDependencies {
+    archiver: {
+        [method in keyof IArchiver]: SinonStub<
+            Parameters<IArchiver[method]>,
+            ReturnType<IArchiver[method]>
+        >;
+    };
+    config: IUsecaseConfig;
+    requestContext: IRequestContext;
     storages: {
         apps: {
             [method in keyof IAppsStorage]: SinonStub<
@@ -40,16 +49,19 @@ interface IMockDependencies {
             ReturnType<IStorages["checkHealth"]>
         >;
     };
-    requestContext: IRequestContext;
-    archiver: {
-        [method in keyof IArchiver]: SinonStub<
-            Parameters<IArchiver[method]>,
-            ReturnType<IArchiver[method]>
-        >;
-    };
 }
 export function getMockDependencies(): IMockDependencies {
     return {
+        archiver: {
+            extractFiles: sinon.stub(),
+            makeArchive: sinon.stub()
+        },
+        config: {
+            enforceAuth: false
+        },
+        requestContext: {
+            user: null
+        },
         storages: {
             apps: {
                 findOne: sinon.stub(),
@@ -80,21 +92,13 @@ export function getMockDependencies(): IMockDependencies {
                 findManyByUrlMatcherHostname: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
-                deleteOne: sinon.stub(),
-                deleteManyByAppId: sinon.stub()
+                deleteOne: sinon.stub()
             },
             operationLogs: {
                 findMany: sinon.stub(),
                 createOne: sinon.stub()
             },
             checkHealth: sinon.stub()
-        },
-        requestContext: {
-            userId: "userId"
-        },
-        archiver: {
-            extractFiles: sinon.stub(),
-            makeArchive: sinon.stub()
         }
     };
 }

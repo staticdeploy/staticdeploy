@@ -4,7 +4,6 @@ import sinon from "sinon";
 import {
     AppNameNotValidError,
     AppNotFoundError,
-    AuthenticationRequiredError,
     ConfigurationNotValidError,
     ConflictingAppError
 } from "../../src/common/errors";
@@ -13,19 +12,6 @@ import UpdateApp from "../../src/usecases/UpdateApp";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase UpdateApp", () => {
-    it("throws AuthenticationRequiredError if the request is not authenticated", async () => {
-        const deps = getMockDependencies();
-        deps.requestContext.userId = null;
-        const updateApp = new UpdateApp(deps);
-        const updateAppPromise = updateApp.exec("appId", {});
-        await expect(updateAppPromise).to.be.rejectedWith(
-            AuthenticationRequiredError
-        );
-        await expect(updateAppPromise).to.be.rejectedWith(
-            "This operation requires the request to be authenticated"
-        );
-    });
-
     it("throws AppNameNotValidError if the name is not valid", async () => {
         const updateApp = new UpdateApp(getMockDependencies());
         const updateAppPromise = updateApp.exec("appId", { name: "*" });
@@ -78,6 +64,7 @@ describe("usecase UpdateApp", () => {
             "appId",
             {
                 name: "name",
+                defaultConfiguration: undefined,
                 updatedAt: sinon.match.date
             }
         );

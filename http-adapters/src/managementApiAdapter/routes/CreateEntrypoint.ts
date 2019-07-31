@@ -53,6 +53,7 @@ export default convroute({
         "201": { description: "Entrypoint created, returns the entrypoint" },
         "400": { description: "Body validation failed" },
         "401": { description: "Authentication required" },
+        "403": { description: "Missing authorization roles" },
         "404": { description: "Linked app or bundle not found" },
         "409": { description: "Entrypoint with same urlMatcher already exists" }
     },

@@ -45,6 +45,7 @@ export default convroute({
         "200": { description: "App updated, returns the app" },
         "400": { description: "Patch validation failed" },
         "401": { description: "Authentication required" },
+        "403": { description: "Missing authorization roles" },
         "404": { description: "App not found" },
         "409": { description: "App with same name already exists" }
     },

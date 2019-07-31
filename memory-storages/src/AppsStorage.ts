@@ -1,5 +1,5 @@
 import { IApp, IAppsStorage, IConfiguration } from "@staticdeploy/core";
-import { find, toArray } from "lodash";
+import { defaults, find, toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
 import convertErrors from "./common/convertErrors";
@@ -43,7 +43,7 @@ export default class AppsStorage implements IAppsStorage {
     ): Promise<IApp> {
         this.apps[id] = {
             ...this.apps[id],
-            ...patch
+            ...defaults(patch, this.apps[id])
         };
         return this.apps[id];
     }

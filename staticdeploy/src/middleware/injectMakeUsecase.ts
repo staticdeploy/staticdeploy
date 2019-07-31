@@ -1,24 +1,30 @@
-import { IStoragesModule } from "@staticdeploy/core";
+import { IArchiver, IStorages, IUsecaseConfig } from "@staticdeploy/core";
 import { IUsecasesByName } from "@staticdeploy/http-adapters";
-import tarArchiver from "@staticdeploy/tar-archiver";
 import { RequestHandler } from "express";
 
 import IAuthenticatedRequest from "../common/IAuthenticatedRequest";
 
-export default (options: {
-    storagesModule: IStoragesModule;
-    usecases: IUsecasesByName;
-}): RequestHandler => (req: IAuthenticatedRequest, _res, next) => {
-    const { usecases, storagesModule } = options;
-    req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
-        const UsecaseClass = usecases[name];
-        return new UsecaseClass({
-            storages: storagesModule.getStorages(),
-            requestContext: {
-                userId: req.user ? req.user.id : null
-            },
-            archiver: tarArchiver
-        }) as InstanceType<IUsecasesByName[Name]>;
+export default function injectMakeUsecase(
+    usecases: IUsecasesByName,
+    dependencies: {
+        archiver: IArchiver;
+        config: IUsecaseConfig;
+        storages: IStorages;
+    }
+): RequestHandler {
+    const { archiver, config, storages } = dependencies;
+    return (req: IAuthenticatedRequest, _res, next) => {
+        req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
+            const UsecaseClass = usecases[name];
+            return new UsecaseClass({
+                archiver: archiver,
+                config: config,
+                requestContext: {
+                    user: req.user ? req.user : null
+                },
+                storages: storages
+            }) as InstanceType<IUsecasesByName[Name]>;
+        };
+        next();
     };
-    next();
-};
+}
