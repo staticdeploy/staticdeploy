@@ -70,10 +70,10 @@ export class BundleNotFoundError extends Error {
 }
 export class BundlesInUseError extends Error {
     constructor(ids: string[], dependentEntrypointsIds: string[]) {
-        const bundleIdsString = ids.join(", ");
-        const entrypointIdsString = dependentEntrypointsIds.join(", ");
+        const bundlesIdsString = ids.join(", ");
+        const entrypointsIdsString = dependentEntrypointsIds.join(", ");
         super(
-            `Can't delete bundles with id = ${bundleIdsString}, as one or more of them are being used by entrypoints with ids = ${entrypointIdsString}`
+            `Can't delete bundles with ids = ${bundlesIdsString}, as one or more of them are being used by entrypoints with ids = ${entrypointsIdsString}`
         );
     }
 }
