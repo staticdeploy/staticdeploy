@@ -1,4 +1,4 @@
-import { IBundle, IStorages } from "@staticdeploy/core/lib";
+import { IBundle, IStorages } from "@staticdeploy/core";
 import { expect } from "chai";
 import { omit } from "lodash";
 

@@ -1,3 +1,9 @@
+export enum AuthEnforcementLevel {
+    None,
+    Authentication,
+    Authorization
+}
+
 export default interface IUsecaseConfig {
-    enforceAuth: boolean;
+    authEnforcementLevel: AuthEnforcementLevel;
 }

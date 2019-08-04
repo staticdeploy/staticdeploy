@@ -1,20 +1,15 @@
 import {
     AuthenticationRequiredError,
     MissingRoleError
-} from "../../common/errors";
-import {
-    oneOfRolesMatchesRole,
-    RoleName,
-    RoleTuple
-} from "../../entities/Role";
-import { IUser } from "../../entities/User";
-import skipOnAuthNotEnforced from "./skipOnAuthNotEnforced";
+} from "../common/errors";
+import { AuthEnforcementLevel } from "../dependencies/IUsecaseConfig";
+import { oneOfRolesMatchesRole, RoleName, RoleTuple } from "../entities/Role";
+import { IUser } from "../entities/User";
 
 export default class Authorizer {
     constructor(
         private user: IUser | null,
-        // @ts-ignore: property read by @skipOnAuthNotEnforced
-        private enforceAuth: boolean
+        private authEnforcementLevel: AuthEnforcementLevel
     ) {}
 
     isAuthenticated(): boolean {
@@ -22,63 +17,54 @@ export default class Authorizer {
     }
 
     // Apps
-    @skipOnAuthNotEnforced
     ensureCanCreateApp(): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(this.matchesRole([RoleName.Root]));
+        this.enforceAuth(() => this.matchesRole([RoleName.Root]));
     }
-    @skipOnAuthNotEnforced
     ensureCanUpdateApp(appId: string): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(
-            this.matchesRole([RoleName.Root]) ||
+        this.enforceAuth(
+            () =>
+                this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
-    @skipOnAuthNotEnforced
     ensureCanDeleteApp(appId: string): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(
-            this.matchesRole([RoleName.Root]) ||
+        this.enforceAuth(
+            () =>
+                this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
-    @skipOnAuthNotEnforced
     ensureCanGetApps(): void {
-        this.ensureAuthenticated();
+        this.enforceAuth();
     }
 
     // Bundles
-    @skipOnAuthNotEnforced
     ensureCanCreateBundle(bundleName: string): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(
-            this.matchesRole([RoleName.Root]) ||
+        this.enforceAuth(
+            () =>
+                this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundleName])
         );
     }
-    @skipOnAuthNotEnforced
     ensureCanDeleteBundles(bundlesName: string): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(
-            this.matchesRole([RoleName.Root]) ||
+        this.enforceAuth(
+            () =>
+                this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundlesName])
         );
     }
-    @skipOnAuthNotEnforced
     ensureCanGetBundles(): void {
-        this.ensureAuthenticated();
+        this.enforceAuth();
     }
 
     // Entrypoints
-    @skipOnAuthNotEnforced
     ensureCanCreateEntrypoint(
         entrypointAppId: string,
         entrypointUrlMatcher: string
     ): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(
-            this.matchesRole([RoleName.Root]) ||
+        this.enforceAuth(
+            () =>
+                this.matchesRole([RoleName.Root]) ||
                 (this.matchesRole([RoleName.AppManager, entrypointAppId]) &&
                     this.matchesRole([
                         RoleName.EntrypointCreator,
@@ -86,48 +72,49 @@ export default class Authorizer {
                     ]))
         );
     }
-    @skipOnAuthNotEnforced
     ensureCanUpdateEntrypoint(
         entrypointId: string,
         entrypointAppId: string
     ): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(
-            this.matchesRole([RoleName.Root]) ||
+        this.enforceAuth(
+            () =>
+                this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, entrypointAppId]) ||
                 this.matchesRole([RoleName.EntrypointManager, entrypointId])
         );
     }
-    @skipOnAuthNotEnforced
     ensureCanDeleteEntrypoint(
         entrypointId: string,
         entrypointAppId: string
     ): void {
-        this.ensureAuthenticated();
-        this.ensureAuthorized(
-            this.matchesRole([RoleName.Root]) ||
+        this.enforceAuth(
+            () =>
+                this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, entrypointAppId]) ||
                 this.matchesRole([RoleName.EntrypointManager, entrypointId])
         );
     }
-    @skipOnAuthNotEnforced
     ensureCanGetEntrypoints(): void {
-        this.ensureAuthenticated();
+        this.enforceAuth();
     }
 
     // Operation logs
-    @skipOnAuthNotEnforced
     ensureCanGetOperationLogs(): void {
-        this.ensureAuthenticated();
+        this.enforceAuth();
     }
 
-    private ensureAuthenticated(): void {
-        if (!this.isAuthenticated()) {
+    private enforceAuth(authorizer?: () => boolean): void {
+        if (
+            this.authEnforcementLevel >= AuthEnforcementLevel.Authentication &&
+            !this.isAuthenticated()
+        ) {
             throw new AuthenticationRequiredError();
         }
-    }
-    private ensureAuthorized(isAuthorized: boolean): void {
-        if (!isAuthorized) {
+        if (
+            this.authEnforcementLevel >= AuthEnforcementLevel.Authorization &&
+            authorizer &&
+            !authorizer()
+        ) {
             throw new MissingRoleError();
         }
     }

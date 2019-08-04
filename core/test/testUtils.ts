@@ -7,7 +7,9 @@ import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
 import IRequestContext from "../src/dependencies/IRequestContext";
 import IStorages from "../src/dependencies/IStorages";
-import IUsecaseConfig from "../src/dependencies/IUsecaseConfig";
+import IUsecaseConfig, {
+    AuthEnforcementLevel
+} from "../src/dependencies/IUsecaseConfig";
 
 // Dependencies mock
 interface IMockDependencies {
@@ -57,7 +59,7 @@ export function getMockDependencies(): IMockDependencies {
             makeArchive: sinon.stub()
         },
         config: {
-            enforceAuth: false
+            authEnforcementLevel: AuthEnforcementLevel.None
         },
         requestContext: {
             user: null

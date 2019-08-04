@@ -21,9 +21,9 @@ const config: IConfig = {
     hostnameHeader: env("HOSTNAME_HEADER"),
 
     // Auth configurations
-    enforceAuth: env("ENFORCE_AUTH", {
-        default: "false",
-        parse: value => value === "true"
+    authEnforcementLevel: env("AUTH_ENFORCEMENT_LEVEL", {
+        default: "0",
+        parse: value => parseInt(value, 10)
     }),
     jwtSecret: env("JWT_SECRET", { parse: Buffer.from }),
 

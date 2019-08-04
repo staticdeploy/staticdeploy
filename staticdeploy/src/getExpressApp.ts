@@ -33,7 +33,7 @@ export default async function getExpressApp(options: {
         fallbackStatusCode: 200,
         configuration: {
             API_URL: `//${config.managementHostname}/api`,
-            AUTH_ENFORCED: config.enforceAuth ? "true" : "false"
+            AUTH_ENFORCEMENT_LEVEL: config.authEnforcementLevel.toString()
         },
         headers: {}
     });
@@ -59,7 +59,7 @@ export default async function getExpressApp(options: {
             config.jwtSecret ? authenticateRequest(config.jwtSecret) : null,
             injectMakeUsecase(usecases, {
                 archiver: tarArchiver,
-                config: { enforceAuth: config.enforceAuth },
+                config: { authEnforcementLevel: config.authEnforcementLevel },
                 storages: storagesModule.getStorages()
             }),
             vhost(config.managementHostname, managementRouter),

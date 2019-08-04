@@ -1,3 +1,4 @@
+import { AuthEnforcementLevel } from "@staticdeploy/core";
 import { LogLevelString } from "bunyan";
 
 export default interface IConfig {
@@ -13,7 +14,7 @@ export default interface IConfig {
     hostnameHeader?: string;
 
     // Auth configurations
-    enforceAuth: boolean;
+    authEnforcementLevel: AuthEnforcementLevel;
     jwtSecret?: Buffer;
 
     // pg-s3-storages configurations

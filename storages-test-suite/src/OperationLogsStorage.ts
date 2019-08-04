@@ -1,4 +1,4 @@
-import { IStorages, Operation } from "@staticdeploy/core/lib";
+import { IStorages, Operation } from "@staticdeploy/core";
 import { expect } from "chai";
 
 export default (storages: IStorages) => {

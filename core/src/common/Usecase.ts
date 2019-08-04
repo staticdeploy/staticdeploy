@@ -25,7 +25,7 @@ export default abstract class Usecase {
         this.storages = options.storages;
         this.authorizer = new Authorizer(
             this.requestContext.user,
-            this.config.enforceAuth
+            this.config.authEnforcementLevel
         );
         this.operationLogger = new OperationLogger(
             this.storages.operationLogs,

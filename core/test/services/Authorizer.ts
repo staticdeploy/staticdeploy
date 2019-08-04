@@ -4,19 +4,26 @@ import {
     AuthenticationRequiredError,
     MissingRoleError
 } from "../../src/common/errors";
+import { AuthEnforcementLevel } from "../../src/dependencies/IUsecaseConfig";
 import Authorizer from "../../src/services/Authorizer";
 
 describe("service Authorizer", () => {
     // Apps
     describe("ensureCanCreateApp", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanCreateApp()).to.throw(
                 AuthenticationRequiredError
             );
         });
         it("throws MissingRoleError if the user is not allowed to create the app", () => {
-            const authorizer = new Authorizer({ id: "id", roles: [] }, true);
+            const authorizer = new Authorizer(
+                { id: "id", roles: [] },
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanCreateApp()).to.throw(
                 MissingRoleError
             );
@@ -24,14 +31,17 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to create the app", () => {
             const authorizer = new Authorizer(
                 { id: "id", roles: ["root"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanCreateApp()).not.to.throw();
         });
     });
     describe("ensureCanUpdateApp", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanUpdateApp("appId")).to.throw(
                 AuthenticationRequiredError
             );
@@ -39,7 +49,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to update the app", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: ["app-manager:different-appId"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanUpdateApp("appId")).to.throw(
                 MissingRoleError
@@ -48,14 +58,17 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to update the app", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: ["app-manager:appId"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanUpdateApp("appId")).not.to.throw();
         });
     });
     describe("ensureCanDeleteApp", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanDeleteApp("appId")).to.throw(
                 AuthenticationRequiredError
             );
@@ -63,7 +76,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to delete the app", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: ["app-manager:different-appId"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanDeleteApp("appId")).to.throw(
                 MissingRoleError
@@ -72,14 +85,17 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to delete the app", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: ["app-manager:appId"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanDeleteApp("appId")).not.to.throw();
         });
     });
     describe("ensureCanGetApps", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanGetApps()).to.throw(
                 AuthenticationRequiredError
             );
@@ -87,7 +103,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get apps", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: [] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanGetApps()).not.to.throw();
         });
@@ -96,7 +112,10 @@ describe("service Authorizer", () => {
     // Bundles
     describe("ensureCanCreateBundle", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() =>
                 authorizer.ensureCanCreateBundle("bundleName")
             ).to.throw(AuthenticationRequiredError);
@@ -107,7 +126,7 @@ describe("service Authorizer", () => {
                     id: "userId",
                     roles: ["bundle-manager:different-bundleName"]
                 },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanCreateBundle("bundleName")
@@ -116,7 +135,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to create the bundle", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: ["bundle-manager:bundleName"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanCreateBundle("bundleName")
@@ -125,7 +144,10 @@ describe("service Authorizer", () => {
     });
     describe("ensureCanDeleteBundles", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() =>
                 authorizer.ensureCanDeleteBundles("bundleName")
             ).to.throw(AuthenticationRequiredError);
@@ -136,7 +158,7 @@ describe("service Authorizer", () => {
                     id: "userId",
                     roles: ["bundle-manager:different-bundleName"]
                 },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanDeleteBundles("bundleName")
@@ -145,7 +167,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to delete the bundles", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: ["bundle-manager:bundleName"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanDeleteBundles("bundleName")
@@ -154,7 +176,10 @@ describe("service Authorizer", () => {
     });
     describe("ensureCanGetBundles", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanGetBundles()).to.throw(
                 AuthenticationRequiredError
             );
@@ -162,7 +187,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get bundles", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: [] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanGetBundles()).not.to.throw();
         });
@@ -171,7 +196,10 @@ describe("service Authorizer", () => {
     // Entrypoints
     describe("ensureCanCreateEntrypoint", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() =>
                 authorizer.ensureCanCreateEntrypoint("appId", "example.com/")
             ).to.throw(AuthenticationRequiredError);
@@ -179,7 +207,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to create the entrypoint", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: ["app-manager:appId"] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanCreateEntrypoint("appId", "example.com/")
@@ -194,7 +222,7 @@ describe("service Authorizer", () => {
                         "app-manager:appId"
                     ]
                 },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanCreateEntrypoint("appId", "example.com/")
@@ -203,7 +231,10 @@ describe("service Authorizer", () => {
     });
     describe("ensureCanUpdateEntrypoint", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() =>
                 authorizer.ensureCanUpdateEntrypoint("entrypointId", "appId")
             ).to.throw(AuthenticationRequiredError);
@@ -217,7 +248,7 @@ describe("service Authorizer", () => {
                         "entrypoint-manager:different-entrypointId"
                     ]
                 },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanUpdateEntrypoint("entrypointId", "appId")
@@ -227,7 +258,7 @@ describe("service Authorizer", () => {
             it("case: has app-manager role", () => {
                 const authorizer = new Authorizer(
                     { id: "userId", roles: ["app-manager:appId"] },
-                    true
+                    AuthEnforcementLevel.Authorization
                 );
                 expect(() =>
                     authorizer.ensureCanUpdateEntrypoint(
@@ -242,7 +273,7 @@ describe("service Authorizer", () => {
                         id: "userId",
                         roles: ["entrypoint-manager:entrypointId"]
                     },
-                    true
+                    AuthEnforcementLevel.Authorization
                 );
                 expect(() =>
                     authorizer.ensureCanUpdateEntrypoint(
@@ -255,7 +286,10 @@ describe("service Authorizer", () => {
     });
     describe("ensureCanDeleteEntrypoint", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() =>
                 authorizer.ensureCanDeleteEntrypoint("entrypointId", "appId")
             ).to.throw(AuthenticationRequiredError);
@@ -269,7 +303,7 @@ describe("service Authorizer", () => {
                         "entrypoint-manager:different-entrypointId"
                     ]
                 },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() =>
                 authorizer.ensureCanDeleteEntrypoint("entrypointId", "appId")
@@ -279,7 +313,7 @@ describe("service Authorizer", () => {
             it("case: has app-manager role", () => {
                 const authorizer = new Authorizer(
                     { id: "userId", roles: ["app-manager:appId"] },
-                    true
+                    AuthEnforcementLevel.Authorization
                 );
                 expect(() =>
                     authorizer.ensureCanDeleteEntrypoint(
@@ -294,7 +328,7 @@ describe("service Authorizer", () => {
                         id: "userId",
                         roles: ["entrypoint-manager:entrypointId"]
                     },
-                    true
+                    AuthEnforcementLevel.Authorization
                 );
                 expect(() =>
                     authorizer.ensureCanDeleteEntrypoint(
@@ -307,7 +341,10 @@ describe("service Authorizer", () => {
     });
     describe("ensureCanGetEntrypoints", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanGetEntrypoints()).to.throw(
                 AuthenticationRequiredError
             );
@@ -315,7 +352,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get entrypoints", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: [] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanGetEntrypoints()).not.to.throw();
         });
@@ -324,7 +361,10 @@ describe("service Authorizer", () => {
     // Operation logs
     describe("ensureCanGetOperationLogs", () => {
         it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(null, true);
+            const authorizer = new Authorizer(
+                null,
+                AuthEnforcementLevel.Authorization
+            );
             expect(() => authorizer.ensureCanGetOperationLogs()).to.throw(
                 AuthenticationRequiredError
             );
@@ -332,7 +372,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get operation logs", () => {
             const authorizer = new Authorizer(
                 { id: "userId", roles: [] },
-                true
+                AuthEnforcementLevel.Authorization
             );
             expect(() => authorizer.ensureCanGetOperationLogs()).not.to.throw();
         });
