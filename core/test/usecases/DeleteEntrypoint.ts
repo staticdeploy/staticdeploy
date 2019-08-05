@@ -36,7 +36,7 @@ describe("usecase DeleteEntrypoint", () => {
         expect(
             deps.storages.operationLogs.createOne
         ).to.have.been.calledOnceWith(
-            sinon.match.has("operation", Operation.deleteEntrypoint)
+            sinon.match.has("operation", Operation.DeleteEntrypoint)
         );
     });
 });

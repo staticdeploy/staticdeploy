@@ -6,8 +6,7 @@ export default class CheckHealth extends Usecase {
         const healthCheckResult = await this.storages.checkHealth();
         return {
             isHealthy: healthCheckResult.isHealthy,
-            // Only return details then the request is authenticated
-            details: this.authorizer.isAuthenticated()
+            details: (await this.authorizer.canSeeHealtCheckDetails())
                 ? healthCheckResult.details
                 : undefined
         };

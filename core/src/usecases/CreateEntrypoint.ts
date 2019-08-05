@@ -24,7 +24,7 @@ export default class CreateEntrypoint extends Usecase {
         configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
         // Auth check
-        this.authorizer.ensureCanCreateEntrypoint(
+        await this.authorizer.ensureCanCreateEntrypoint(
             partial.appId,
             partial.urlMatcher
         );
@@ -36,6 +36,7 @@ export default class CreateEntrypoint extends Usecase {
         }
 
         // Ensure the linked app exists
+        // TODO: use apps.oneExistsWithId()
         const linkedApp = await this.storages.apps.findOne(partial.appId);
         if (!linkedApp) {
             throw new AppNotFoundError(partial.appId, "id");
@@ -43,6 +44,7 @@ export default class CreateEntrypoint extends Usecase {
 
         // Ensure the linked bundle exists
         if (partial.bundleId) {
+            // TODO: use bundles.oneExistsWithId()
             const linkedBundle = await this.storages.bundles.findOne(
                 partial.bundleId
             );
@@ -52,6 +54,7 @@ export default class CreateEntrypoint extends Usecase {
         }
 
         // Ensure no entrypoint with the same urlMatcher exists
+        // TODO: use entrypoints.oneExistsWithUrlMatcher()
         const conflictingEntrypoint = await this.storages.entrypoints.findOneByUrlMatcher(
             partial.urlMatcher
         );
@@ -73,7 +76,7 @@ export default class CreateEntrypoint extends Usecase {
         });
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.createEntrypoint, {
+        await this.operationLogger.logOperation(Operation.CreateEntrypoint, {
             createdEntrypoint
         });
 

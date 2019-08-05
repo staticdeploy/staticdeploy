@@ -169,7 +169,7 @@ describe("usecase CreateBundle", () => {
         expect(
             deps.storages.operationLogs.createOne
         ).to.have.been.calledOnceWith(
-            sinon.match.has("operation", Operation.createBundle)
+            sinon.match.has("operation", Operation.CreateBundle)
         );
     });
 

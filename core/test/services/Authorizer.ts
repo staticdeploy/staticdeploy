@@ -2,379 +2,400 @@ import { expect } from "chai";
 
 import {
     AuthenticationRequiredError,
-    MissingRoleError
+    MissingRoleError,
+    UserNotFoundError
 } from "../../src/common/errors";
 import { AuthEnforcementLevel } from "../../src/dependencies/IUsecaseConfig";
 import Authorizer from "../../src/services/Authorizer";
+import { getMockDependencies } from "../testUtils";
+
+function getAuthorizerForUser(user: any) {
+    const deps = getMockDependencies();
+    deps.storages.users.findOneWithRolesByIdpAndIdpId.resolves(user);
+    return new Authorizer(
+        deps.storages.users,
+        { id: "id", idp: "idp" },
+        AuthEnforcementLevel.Authorization
+    );
+}
 
 describe("service Authorizer", () => {
-    // Apps
-    describe("ensureCanCreateApp", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
+    // General
+    describe("ensure* methods", () => {
+        it("don't throw anything if AuthEnforcementLevel = None (0)", async () => {
+            const deps = getMockDependencies();
             const authorizer = new Authorizer(
+                deps.storages.users,
+                null,
+                AuthEnforcementLevel.None
+            );
+            await authorizer.ensureCanCreateApp();
+        });
+        it("throw AuthenticationRequiredError if the request is not authenticated", async () => {
+            const deps = getMockDependencies();
+            const authorizer = new Authorizer(
+                deps.storages.users,
                 null,
                 AuthEnforcementLevel.Authorization
             );
-            expect(() => authorizer.ensureCanCreateApp()).to.throw(
+            const ensurePromise = authorizer.ensureCanCreateApp();
+            await expect(ensurePromise).to.be.rejectedWith(
                 AuthenticationRequiredError
             );
         });
-        it("throws MissingRoleError if the user is not allowed to create the app", () => {
+        it("throw UserNotFoundError if no user corresponds to the request idp user", async () => {
+            const deps = getMockDependencies();
             const authorizer = new Authorizer(
-                { id: "id", roles: [] },
+                deps.storages.users,
+                { id: "id", idp: "idp" },
                 AuthEnforcementLevel.Authorization
             );
-            expect(() => authorizer.ensureCanCreateApp()).to.throw(
-                MissingRoleError
-            );
+            const ensurePromise = authorizer.ensureCanCreateApp();
+            await expect(ensurePromise).to.be.rejectedWith(UserNotFoundError);
         });
-        it("doesn't throw if the user is allowed to create the app", () => {
-            const authorizer = new Authorizer(
-                { id: "id", roles: ["root"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanCreateApp()).not.to.throw();
+    });
+
+    // Apps
+    describe("ensureCanCreateApp", () => {
+        it("throws MissingRoleError if the user is not allowed to create the app", async () => {
+            const authorizer = getAuthorizerForUser({ id: "id", roles: [] });
+            const ensurePromise = authorizer.ensureCanCreateApp();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to create the app", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanCreateApp();
         });
     });
     describe("ensureCanUpdateApp", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanUpdateApp("appId")).to.throw(
-                AuthenticationRequiredError
-            );
+        it("throws MissingRoleError if the user is not allowed to update the app", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["app-manager:different-appId"]
+            });
+            const ensurePromise = authorizer.ensureCanUpdateApp("appId");
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
-        it("throws MissingRoleError if the user is not allowed to update the app", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: ["app-manager:different-appId"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanUpdateApp("appId")).to.throw(
-                MissingRoleError
-            );
-        });
-        it("doesn't throw if the user is allowed to update the app", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: ["app-manager:appId"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanUpdateApp("appId")).not.to.throw();
+        it("doesn't throw if the user is allowed to update the app", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["app-manager:appId"]
+            });
+            await authorizer.ensureCanUpdateApp("appId");
         });
     });
     describe("ensureCanDeleteApp", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanDeleteApp("appId")).to.throw(
-                AuthenticationRequiredError
-            );
+        it("throws MissingRoleError if the user is not allowed to delete the app", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["app-manager:different-appId"]
+            });
+            const ensurePromise = authorizer.ensureCanDeleteApp("appId");
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
-        it("throws MissingRoleError if the user is not allowed to delete the app", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: ["app-manager:different-appId"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanDeleteApp("appId")).to.throw(
-                MissingRoleError
-            );
-        });
-        it("doesn't throw if the user is allowed to delete the app", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: ["app-manager:appId"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanDeleteApp("appId")).not.to.throw();
+        it("doesn't throw if the user is allowed to delete the app", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["app-manager:appId"]
+            });
+            await authorizer.ensureCanDeleteApp("appId");
         });
     });
     describe("ensureCanGetApps", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetApps()).to.throw(
-                AuthenticationRequiredError
-            );
-        });
-        it("doesn't throw if the user is allowed to get apps", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: [] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetApps()).not.to.throw();
+        it("doesn't throw if the user is allowed to get apps", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            await authorizer.ensureCanGetApps();
         });
     });
 
     // Bundles
     describe("ensureCanCreateBundle", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
+        it("throws MissingRoleError if the user is not allowed to create the bundle", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["bundle-manager:different-bundleName"]
+            });
+            const ensurePromise = authorizer.ensureCanCreateBundle(
+                "bundleName"
             );
-            expect(() =>
-                authorizer.ensureCanCreateBundle("bundleName")
-            ).to.throw(AuthenticationRequiredError);
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
-        it("throws MissingRoleError if the user is not allowed to create the bundle", () => {
-            const authorizer = new Authorizer(
-                {
-                    id: "userId",
-                    roles: ["bundle-manager:different-bundleName"]
-                },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanCreateBundle("bundleName")
-            ).to.throw(MissingRoleError);
-        });
-        it("doesn't throw if the user is allowed to create the bundle", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: ["bundle-manager:bundleName"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanCreateBundle("bundleName")
-            ).not.to.throw();
+        it("doesn't throw if the user is allowed to create the bundle", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["bundle-manager:bundleName"]
+            });
+            await authorizer.ensureCanCreateBundle("bundleName");
         });
     });
     describe("ensureCanDeleteBundles", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
+        it("throws MissingRoleError if the user is not allowed to delete the bundles", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["bundle-manager:different-bundleName"]
+            });
+            const ensurePromise = authorizer.ensureCanDeleteBundles(
+                "bundleName"
             );
-            expect(() =>
-                authorizer.ensureCanDeleteBundles("bundleName")
-            ).to.throw(AuthenticationRequiredError);
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
-        it("throws MissingRoleError if the user is not allowed to delete the bundles", () => {
-            const authorizer = new Authorizer(
-                {
-                    id: "userId",
-                    roles: ["bundle-manager:different-bundleName"]
-                },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanDeleteBundles("bundleName")
-            ).to.throw(MissingRoleError);
-        });
-        it("doesn't throw if the user is allowed to delete the bundles", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: ["bundle-manager:bundleName"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanDeleteBundles("bundleName")
-            ).not.to.throw();
+        it("doesn't throw if the user is allowed to delete the bundles", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["bundle-manager:bundleName"]
+            });
+            await authorizer.ensureCanDeleteBundles("bundleName");
         });
     });
     describe("ensureCanGetBundles", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetBundles()).to.throw(
-                AuthenticationRequiredError
-            );
-        });
-        it("doesn't throw if the user is allowed to get bundles", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: [] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetBundles()).not.to.throw();
+        it("doesn't throw if the user is allowed to get bundles", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            await authorizer.ensureCanGetBundles();
         });
     });
 
     // Entrypoints
     describe("ensureCanCreateEntrypoint", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
+        it("throws MissingRoleError if the user is not allowed to create the entrypoint", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["app-manager:appId"]
+            });
+            const ensurePromise = authorizer.ensureCanCreateEntrypoint(
+                "appId",
+                "example.com/"
             );
-            expect(() =>
-                authorizer.ensureCanCreateEntrypoint("appId", "example.com/")
-            ).to.throw(AuthenticationRequiredError);
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
-        it("throws MissingRoleError if the user is not allowed to create the entrypoint", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: ["app-manager:appId"] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanCreateEntrypoint("appId", "example.com/")
-            ).to.throw(MissingRoleError);
-        });
-        it("doesn't throw if the user is allowed to create the entrypoint", () => {
-            const authorizer = new Authorizer(
-                {
-                    id: "userId",
-                    roles: [
-                        "entrypoint-creator:example.com/",
-                        "app-manager:appId"
-                    ]
-                },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanCreateEntrypoint("appId", "example.com/")
-            ).not.to.throw();
+        it("doesn't throw if the user is allowed to create the entrypoint", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["entrypoint-creator:example.com/", "app-manager:appId"]
+            });
+            await authorizer.ensureCanCreateEntrypoint("appId", "example.com/");
         });
     });
     describe("ensureCanUpdateEntrypoint", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
+        it("throws MissingRoleError if the user is not allowed to update the entrypoint", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: [
+                    "app-manager:different-appId",
+                    "entrypoint-manager:different-entrypointId"
+                ]
+            });
+            const ensurePromise = authorizer.ensureCanUpdateEntrypoint(
+                "entrypointId",
+                "appId"
             );
-            expect(() =>
-                authorizer.ensureCanUpdateEntrypoint("entrypointId", "appId")
-            ).to.throw(AuthenticationRequiredError);
-        });
-        it("throws MissingRoleError if the user is not allowed to update the entrypoint", () => {
-            const authorizer = new Authorizer(
-                {
-                    id: "userId",
-                    roles: [
-                        "app-manager:different-appId",
-                        "entrypoint-manager:different-entrypointId"
-                    ]
-                },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanUpdateEntrypoint("entrypointId", "appId")
-            ).to.throw(MissingRoleError);
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
         describe("doesn't throw if the user is allowed to update the entrypoint", () => {
-            it("case: has app-manager role", () => {
-                const authorizer = new Authorizer(
-                    { id: "userId", roles: ["app-manager:appId"] },
-                    AuthEnforcementLevel.Authorization
+            it("case: has app-manager role", async () => {
+                const authorizer = getAuthorizerForUser({
+                    id: "id",
+                    roles: ["app-manager:appId"]
+                });
+                await authorizer.ensureCanUpdateEntrypoint(
+                    "entrypointId",
+                    "appId"
                 );
-                expect(() =>
-                    authorizer.ensureCanUpdateEntrypoint(
-                        "entrypointId",
-                        "appId"
-                    )
-                ).not.to.throw();
             });
-            it("case: has entrypoint-manager role", () => {
-                const authorizer = new Authorizer(
-                    {
-                        id: "userId",
-                        roles: ["entrypoint-manager:entrypointId"]
-                    },
-                    AuthEnforcementLevel.Authorization
+            it("case: has entrypoint-manager role", async () => {
+                const authorizer = getAuthorizerForUser({
+                    id: "id",
+                    roles: ["entrypoint-manager:entrypointId"]
+                });
+                await authorizer.ensureCanUpdateEntrypoint(
+                    "entrypointId",
+                    "appId"
                 );
-                expect(() =>
-                    authorizer.ensureCanUpdateEntrypoint(
-                        "entrypointId",
-                        "appId"
-                    )
-                ).not.to.throw();
             });
         });
     });
     describe("ensureCanDeleteEntrypoint", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
+        it("throws MissingRoleError if the user is not allowed to delete the entrypoint", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: [
+                    "app-manager:different-appId",
+                    "entrypoint-manager:different-entrypointId"
+                ]
+            });
+            const ensurePromise = authorizer.ensureCanDeleteEntrypoint(
+                "entrypointId",
+                "appId"
             );
-            expect(() =>
-                authorizer.ensureCanDeleteEntrypoint("entrypointId", "appId")
-            ).to.throw(AuthenticationRequiredError);
-        });
-        it("throws MissingRoleError if the user is not allowed to delete the entrypoint", () => {
-            const authorizer = new Authorizer(
-                {
-                    id: "userId",
-                    roles: [
-                        "app-manager:different-appId",
-                        "entrypoint-manager:different-entrypointId"
-                    ]
-                },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() =>
-                authorizer.ensureCanDeleteEntrypoint("entrypointId", "appId")
-            ).to.throw(MissingRoleError);
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
         describe("doesn't throw if the user is allowed to delete the entrypoint", () => {
-            it("case: has app-manager role", () => {
-                const authorizer = new Authorizer(
-                    { id: "userId", roles: ["app-manager:appId"] },
-                    AuthEnforcementLevel.Authorization
+            it("case: has app-manager role", async () => {
+                const authorizer = getAuthorizerForUser({
+                    id: "id",
+                    roles: ["app-manager:appId"]
+                });
+                await authorizer.ensureCanDeleteEntrypoint(
+                    "entrypointId",
+                    "appId"
                 );
-                expect(() =>
-                    authorizer.ensureCanDeleteEntrypoint(
-                        "entrypointId",
-                        "appId"
-                    )
-                ).not.to.throw();
             });
-            it("case: has entrypoint-manager role", () => {
-                const authorizer = new Authorizer(
-                    {
-                        id: "userId",
-                        roles: ["entrypoint-manager:entrypointId"]
-                    },
-                    AuthEnforcementLevel.Authorization
+            it("case: has entrypoint-manager role", async () => {
+                const authorizer = getAuthorizerForUser({
+                    id: "id",
+                    roles: ["entrypoint-manager:entrypointId"]
+                });
+                await authorizer.ensureCanDeleteEntrypoint(
+                    "entrypointId",
+                    "appId"
                 );
-                expect(() =>
-                    authorizer.ensureCanDeleteEntrypoint(
-                        "entrypointId",
-                        "appId"
-                    )
-                ).not.to.throw();
             });
         });
     });
     describe("ensureCanGetEntrypoints", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetEntrypoints()).to.throw(
-                AuthenticationRequiredError
-            );
+        it("doesn't throw if the user is allowed to get entrypoints", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            await authorizer.ensureCanGetEntrypoints();
         });
-        it("doesn't throw if the user is allowed to get entrypoints", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: [] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetEntrypoints()).not.to.throw();
+    });
+
+    // Groups
+    describe("ensureCanCreateGroup", () => {
+        it("throws MissingRoleError if the user is not allowed to create the group", async () => {
+            const authorizer = getAuthorizerForUser({ id: "id", roles: [] });
+            const ensurePromise = authorizer.ensureCanCreateGroup();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to create the group", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanCreateGroup();
+        });
+    });
+    describe("ensureCanUpdateGroup", () => {
+        it("throws MissingRoleError if the user is not allowed to update the group", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            const ensurePromise = authorizer.ensureCanUpdateGroup();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to update the group", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanUpdateGroup();
+        });
+    });
+    describe("ensureCanDeleteGroup", () => {
+        it("throws MissingRoleError if the user is not allowed to delete the group", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            const ensurePromise = authorizer.ensureCanDeleteGroup();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to delete the group", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanDeleteGroup();
+        });
+    });
+    describe("ensureCanGetGroups", () => {
+        it("doesn't throw if the user is allowed to get groups", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            await authorizer.ensureCanGetGroups();
         });
     });
 
     // Operation logs
     describe("ensureCanGetOperationLogs", () => {
-        it("throws AuthenticationRequiredError if the request is not authenticated", () => {
-            const authorizer = new Authorizer(
-                null,
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetOperationLogs()).to.throw(
-                AuthenticationRequiredError
-            );
+        it("doesn't throw if the user is allowed to get operation logs", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            await authorizer.ensureCanGetOperationLogs();
         });
-        it("doesn't throw if the user is allowed to get operation logs", () => {
-            const authorizer = new Authorizer(
-                { id: "userId", roles: [] },
-                AuthEnforcementLevel.Authorization
-            );
-            expect(() => authorizer.ensureCanGetOperationLogs()).not.to.throw();
+    });
+
+    // Users
+    describe("ensureCanCreateUser", () => {
+        it("throws MissingRoleError if the user is not allowed to create the user", async () => {
+            const authorizer = getAuthorizerForUser({ id: "id", roles: [] });
+            const ensurePromise = authorizer.ensureCanCreateUser();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to create the user", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanCreateUser();
+        });
+    });
+    describe("ensureCanUpdateUser", () => {
+        it("throws MissingRoleError if the user is not allowed to update the user", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            const ensurePromise = authorizer.ensureCanUpdateUser();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to update the user", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanUpdateUser();
+        });
+    });
+    describe("ensureCanDeleteUser", () => {
+        it("throws MissingRoleError if the user is not allowed to delete the user", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            const ensurePromise = authorizer.ensureCanDeleteUser();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to delete the user", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanDeleteUser();
+        });
+    });
+    describe("ensureCanGetUsers", () => {
+        it("doesn't throw if the user is allowed to get users", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            await authorizer.ensureCanGetUsers();
         });
     });
 });

@@ -1,3 +1,5 @@
+import { IIdpUser } from "../entities/User";
+
 // Auth errors
 export class AuthenticationRequiredError extends Error {
     constructor() {
@@ -73,7 +75,7 @@ export class BundlesInUseError extends Error {
         const bundlesIdsString = ids.join(", ");
         const entrypointsIdsString = dependentEntrypointsIds.join(", ");
         super(
-            `Can't delete bundles with ids = ${bundlesIdsString}, as one or more of them are being used by entrypoints with ids = ${entrypointsIdsString}`
+            `Can't delete bundles with ids = [ ${bundlesIdsString} ], as one or more of them are being used by entrypoints with ids = [ ${entrypointsIdsString} ]`
         );
     }
 }
@@ -123,6 +125,45 @@ export class NoBundleOrRedirectToError extends Error {
         super(
             `Entrypoint with urlMatcher = ${matchingEntrypointUrlMatcher} doesn't specify neither a bundle to serve nor a location to redirect to`
         );
+    }
+}
+
+// Group errors
+export class GroupNotFoundError extends Error {
+    constructor(id: string) {
+        super(`No group found with id = ${id}`);
+    }
+}
+export class SomeGroupNotFoundError extends Error {
+    constructor(ids: string[]) {
+        const idsString = ids.join(", ");
+        super(`Not all ids = [ ${idsString} ] correspond to an existing group`);
+    }
+}
+export class ConflictingGroupError extends Error {
+    constructor(name: string) {
+        super(`A group with name = ${name} already exists`);
+    }
+}
+export class GroupHasUsersError extends Error {
+    constructor(id: string) {
+        super(`Can't delete group with id = ${id} because it has linked users`);
+    }
+}
+
+// User errors
+export class UserNotFoundError extends Error {
+    constructor(idOrIdpUser: IIdpUser | string) {
+        super(
+            typeof idOrIdpUser === "string"
+                ? `No user found with id = ${idOrIdpUser}`
+                : `No user found corresponding to user of idp = ${idOrIdpUser.idp} with id = ${idOrIdpUser.id}`
+        );
+    }
+}
+export class ConflictingUserError extends Error {
+    constructor(idp: string, idpId: string) {
+        super(`A user with idp = ${idp} and idpId = ${idpId} already exists`);
     }
 }
 

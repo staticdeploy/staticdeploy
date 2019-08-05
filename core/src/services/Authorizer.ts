@@ -1,68 +1,79 @@
 import {
     AuthenticationRequiredError,
-    MissingRoleError
+    MissingRoleError,
+    UserNotFoundError
 } from "../common/errors";
 import { AuthEnforcementLevel } from "../dependencies/IUsecaseConfig";
+import IUsersStorage from "../dependencies/IUsersStorage";
 import { oneOfRolesMatchesRole, RoleName, RoleTuple } from "../entities/Role";
-import { IUser } from "../entities/User";
+import { IIdpUser, IUser, IUserWithRoles } from "../entities/User";
 
 export default class Authorizer {
+    private user: IUserWithRoles | null = null;
+
     constructor(
-        private user: IUser | null,
+        private usersStorage: IUsersStorage,
+        private idpUser: IIdpUser | null,
         private authEnforcementLevel: AuthEnforcementLevel
     ) {}
 
-    isAuthenticated(): boolean {
-        return !!this.user;
+    // Health
+    async canSeeHealtCheckDetails(): Promise<boolean> {
+        try {
+            await this.enforceAuth();
+            return true;
+        } catch {
+            return false;
+        }
     }
 
     // Apps
-    ensureCanCreateApp(): void {
-        this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+    ensureCanCreateApp(): Promise<void> {
+        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
     }
-    ensureCanUpdateApp(appId: string): void {
-        this.enforceAuth(
+    ensureCanUpdateApp(appId: string): Promise<void> {
+        return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
-    ensureCanDeleteApp(appId: string): void {
-        this.enforceAuth(
+    ensureCanDeleteApp(appId: string): Promise<void> {
+        return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
-    ensureCanGetApps(): void {
-        this.enforceAuth();
+    ensureCanGetApps(): Promise<void> {
+        return this.enforceAuth();
     }
 
     // Bundles
-    ensureCanCreateBundle(bundleName: string): void {
-        this.enforceAuth(
+    ensureCanCreateBundle(bundleName: string): Promise<void> {
+        return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundleName])
         );
     }
-    ensureCanDeleteBundles(bundlesName: string): void {
-        this.enforceAuth(
+    ensureCanDeleteBundles(bundlesName: string): Promise<void> {
+        return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundlesName])
         );
     }
-    ensureCanGetBundles(): void {
-        this.enforceAuth();
+    ensureCanGetBundles(): Promise<void> {
+        return this.enforceAuth();
     }
 
     // Entrypoints
     ensureCanCreateEntrypoint(
         entrypointAppId: string,
         entrypointUrlMatcher: string
-    ): void {
-        this.enforceAuth(
+    ): Promise<void> {
+        return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 (this.matchesRole([RoleName.AppManager, entrypointAppId]) &&
@@ -75,8 +86,8 @@ export default class Authorizer {
     ensureCanUpdateEntrypoint(
         entrypointId: string,
         entrypointAppId: string
-    ): void {
-        this.enforceAuth(
+    ): Promise<void> {
+        return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, entrypointAppId]) ||
@@ -86,35 +97,72 @@ export default class Authorizer {
     ensureCanDeleteEntrypoint(
         entrypointId: string,
         entrypointAppId: string
-    ): void {
-        this.enforceAuth(
+    ): Promise<void> {
+        return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, entrypointAppId]) ||
                 this.matchesRole([RoleName.EntrypointManager, entrypointId])
         );
     }
-    ensureCanGetEntrypoints(): void {
-        this.enforceAuth();
+    ensureCanGetEntrypoints(): Promise<void> {
+        return this.enforceAuth();
+    }
+
+    // Groups
+    ensureCanCreateGroup(): Promise<void> {
+        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanUpdateGroup(): Promise<void> {
+        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanDeleteGroup(): Promise<void> {
+        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanGetGroups(): Promise<void> {
+        return this.enforceAuth();
     }
 
     // Operation logs
-    ensureCanGetOperationLogs(): void {
-        this.enforceAuth();
+    ensureCanGetOperationLogs(): Promise<void> {
+        return this.enforceAuth();
+    }
+    getUser(): IUser | null {
+        return this.user;
     }
 
-    private enforceAuth(authorizer?: () => boolean): void {
-        if (
-            this.authEnforcementLevel >= AuthEnforcementLevel.Authentication &&
-            !this.isAuthenticated()
-        ) {
+    // Users
+    ensureCanCreateUser(): Promise<void> {
+        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanUpdateUser(): Promise<void> {
+        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanDeleteUser(): Promise<void> {
+        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanGetUsers(): Promise<void> {
+        return this.enforceAuth();
+    }
+
+    private async enforceAuth(authorizer?: () => boolean): Promise<void> {
+        if (this.authEnforcementLevel === AuthEnforcementLevel.None) {
+            return;
+        }
+
+        if (!this.idpUser) {
             throw new AuthenticationRequiredError();
         }
-        if (
-            this.authEnforcementLevel >= AuthEnforcementLevel.Authorization &&
-            authorizer &&
-            !authorizer()
-        ) {
+
+        this.user = await this.usersStorage.findOneWithRolesByIdpAndIdpId(
+            this.idpUser.idp,
+            this.idpUser.id
+        );
+        if (!this.user) {
+            throw new UserNotFoundError(this.idpUser);
+        }
+
+        if (authorizer && !authorizer()) {
             throw new MissingRoleError();
         }
     }

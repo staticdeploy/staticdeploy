@@ -7,7 +7,7 @@ import { Operation } from "../entities/OperationLog";
 export default class DeleteBundlesByNameAndTag extends Usecase {
     async exec(name: string, tag: string): Promise<void> {
         // Auth check
-        this.authorizer.ensureCanDeleteBundles(name);
+        await this.authorizer.ensureCanDeleteBundles(name);
 
         // Find bundles to be deleted
         const toBeDeletedBundles = await this.storages.bundles.findManyByNameAndTag(
@@ -31,7 +31,7 @@ export default class DeleteBundlesByNameAndTag extends Usecase {
         await this.storages.bundles.deleteMany(toBeDeletedBundleIds);
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.deleteBundle, {
+        await this.operationLogger.logOperation(Operation.DeleteBundle, {
             deletedBundles: toBeDeletedBundles
         });
     }

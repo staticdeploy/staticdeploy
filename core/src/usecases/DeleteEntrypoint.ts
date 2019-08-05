@@ -14,7 +14,7 @@ export default class DeleteEntrypoint extends Usecase {
         }
 
         // Auth check
-        this.authorizer.ensureCanDeleteEntrypoint(
+        await this.authorizer.ensureCanDeleteEntrypoint(
             id,
             toBeDeletedEntrypoint.appId
         );
@@ -23,7 +23,7 @@ export default class DeleteEntrypoint extends Usecase {
         await this.storages.entrypoints.deleteOne(id);
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.deleteEntrypoint, {
+        await this.operationLogger.logOperation(Operation.DeleteEntrypoint, {
             deletedEntrypoint: toBeDeletedEntrypoint
         });
     }

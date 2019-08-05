@@ -4,12 +4,14 @@ import IAppsStorage from "../src/dependencies/IAppsStorage";
 import IArchiver from "../src/dependencies/IArchiver";
 import IBundlesStorage from "../src/dependencies/IBundlesStorage";
 import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
+import IGroupsStorage from "../src/dependencies/IGroupsStorage";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
 import IRequestContext from "../src/dependencies/IRequestContext";
 import IStorages from "../src/dependencies/IStorages";
 import IUsecaseConfig, {
     AuthEnforcementLevel
 } from "../src/dependencies/IUsecaseConfig";
+import IUsersStorage from "../src/dependencies/IUsersStorage";
 
 // Dependencies mock
 interface IMockDependencies {
@@ -40,10 +42,22 @@ interface IMockDependencies {
                 ReturnType<IEntrypointsStorage[method]>
             >;
         };
+        groups: {
+            [method in keyof IGroupsStorage]: SinonStub<
+                Parameters<IGroupsStorage[method]>,
+                ReturnType<IGroupsStorage[method]>
+            >;
+        };
         operationLogs: {
             [method in keyof IOperationLogsStorage]: SinonStub<
                 Parameters<IOperationLogsStorage[method]>,
                 ReturnType<IOperationLogsStorage[method]>
+            >;
+        };
+        users: {
+            [method in keyof IUsersStorage]: SinonStub<
+                Parameters<IUsersStorage[method]>,
+                ReturnType<IUsersStorage[method]>
             >;
         };
         checkHealth: SinonStub<
@@ -62,7 +76,7 @@ export function getMockDependencies(): IMockDependencies {
             authEnforcementLevel: AuthEnforcementLevel.None
         },
         requestContext: {
-            user: null
+            idpUser: null
         },
         storages: {
             apps: {
@@ -96,9 +110,29 @@ export function getMockDependencies(): IMockDependencies {
                 updateOne: sinon.stub(),
                 deleteOne: sinon.stub()
             },
+            groups: {
+                findOne: sinon.stub(),
+                findMany: sinon.stub(),
+                oneExistsWithName: sinon.stub(),
+                allExistWithIds: sinon.stub(),
+                createOne: sinon.stub(),
+                updateOne: sinon.stub(),
+                deleteOne: sinon.stub()
+            },
             operationLogs: {
                 findMany: sinon.stub(),
                 createOne: sinon.stub()
+            },
+            users: {
+                findOne: sinon.stub(),
+                findOneWithGroups: sinon.stub(),
+                findOneWithRolesByIdpAndIdpId: sinon.stub(),
+                findMany: sinon.stub(),
+                oneExistsWithIdpAndIdpId: sinon.stub(),
+                anyExistsWithGroupId: sinon.stub(),
+                createOne: sinon.stub(),
+                updateOne: sinon.stub(),
+                deleteOne: sinon.stub()
             },
             checkHealth: sinon.stub()
         }

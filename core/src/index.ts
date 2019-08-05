@@ -7,11 +7,15 @@ export { default as CheckHealth } from "./usecases/CheckHealth";
 export { default as CreateApp } from "./usecases/CreateApp";
 export { default as CreateBundle } from "./usecases/CreateBundle";
 export { default as CreateEntrypoint } from "./usecases/CreateEntrypoint";
+export { default as CreateGroup } from "./usecases/CreateGroup";
+export { default as CreateUser } from "./usecases/CreateUser";
 export { default as DeleteApp } from "./usecases/DeleteApp";
 export {
     default as DeleteBundlesByNameAndTag
 } from "./usecases/DeleteBundlesByNameAndTag";
 export { default as DeleteEntrypoint } from "./usecases/DeleteEntrypoint";
+export { default as DeleteGroup } from "./usecases/DeleteGroup";
+export { default as DeleteUser } from "./usecases/DeleteUser";
 export { default as DeployBundle } from "./usecases/DeployBundle";
 export { default as GetApp } from "./usecases/GetApp";
 export { default as GetApps } from "./usecases/GetApps";
@@ -28,12 +32,18 @@ export { default as GetEntrypoint } from "./usecases/GetEntrypoint";
 export {
     default as GetEntrypointsByAppId
 } from "./usecases/GetEntrypointsByAppId";
+export { default as GetGroup } from "./usecases/GetGroup";
+export { default as GetGroups } from "./usecases/GetGroups";
 export { default as GetOperationLogs } from "./usecases/GetOperationLogs";
+export { default as GetUser } from "./usecases/GetUser";
+export { default as GetUsers } from "./usecases/GetUsers";
 export {
     default as RespondToEndpointRequest
 } from "./usecases/RespondToEndpointRequest";
 export { default as UpdateApp } from "./usecases/UpdateApp";
 export { default as UpdateEntrypoint } from "./usecases/UpdateEntrypoint";
+export { default as UpdateGroup } from "./usecases/UpdateGroup";
+export { default as UpdateUser } from "./usecases/UpdateUser";
 
 // External dependencies
 export { default as IAppsStorage } from "./dependencies/IAppsStorage";
@@ -42,6 +52,7 @@ export { default as IBundlesStorage } from "./dependencies/IBundlesStorage";
 export {
     default as IEntrypointsStorage
 } from "./dependencies/IEntrypointsStorage";
+export { default as IGroupsStorage } from "./dependencies/IGroupsStorage";
 export {
     default as IOperationLogsStorage
 } from "./dependencies/IOperationLogsStorage";
@@ -52,6 +63,7 @@ export {
     default as IUsecaseConfig,
     AuthEnforcementLevel
 } from "./dependencies/IUsecaseConfig";
+export { default as IUsersStorage } from "./dependencies/IUsersStorage";
 
 // Entity types
 export { IApp } from "./entities/App";
@@ -70,6 +82,13 @@ export { IEndpointRequest } from "./entities/EndpointRequest";
 export { IEndpointResponse } from "./entities/EndpointResponse";
 export { IEntrypoint } from "./entities/Entrypoint";
 export { IFile } from "./entities/File";
+export { IGroup } from "./entities/Group";
 export { IHealthCheckResult } from "./entities/HealthCheckResult";
 export { IOperationLog, Operation } from "./entities/OperationLog";
-export { IUser } from "./entities/User";
+export {
+    IUser,
+    IIdpUser,
+    IUserWithGroups,
+    IUserWithRoles,
+    UserType
+} from "./entities/User";

@@ -1,6 +1,5 @@
 export enum AuthEnforcementLevel {
     None,
-    Authentication,
     Authorization
 }
 

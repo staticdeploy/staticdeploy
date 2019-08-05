@@ -11,22 +11,22 @@ export enum RoleName {
 export type RoleTuple = [RoleName, string?];
 
 export function roleMatchesRole(
-    inputRole: string,
-    targetRole: RoleTuple
+    heldRole: string,
+    requiredRole: RoleTuple
 ): boolean {
-    const [inputRoleName, inputRoleTarget] = inputRole.split(":");
-    const [targetRoleName, targetRoleTarget] = targetRole;
-    switch (targetRoleName) {
+    const [heldRoleName, heldRoleTarget] = heldRole.split(":");
+    const [requiredRoleName, requiredRoleTarget] = requiredRole;
+    switch (requiredRoleName) {
         /*
          *  The Root role has no target. It allows the user to perform every
          *  operation
          */
         case RoleName.Root:
-            return inputRoleName === targetRoleName;
+            return heldRoleName === requiredRoleName;
 
         /*
          *  The target of the AppManager, BundleManager, and EntrypointManager
-         *  roles is respectively an app id, a bundle id, or an entrypoint id.
+         *  roles is respectively an app id, a bundle name, or an entrypoint id.
          *  The target specifies the resource the role allows access to.
          *  Example:
          *
@@ -36,8 +36,8 @@ export function roleMatchesRole(
         case RoleName.EntrypointManager:
         case RoleName.BundleManager:
             return (
-                inputRoleName === targetRoleName &&
-                inputRoleTarget === targetRoleTarget
+                heldRoleName === requiredRoleName &&
+                heldRoleTarget === requiredRoleTarget
             );
 
         /*
@@ -87,8 +87,8 @@ export function roleMatchesRole(
          */
         case RoleName.EntrypointCreator:
             return (
-                inputRoleName === targetRoleName &&
-                matchesUrlMatcher(inputRoleTarget, targetRoleTarget!)
+                heldRoleName === requiredRoleName &&
+                matchesUrlMatcher(heldRoleTarget, requiredRoleTarget!)
             );
 
         default:
@@ -97,8 +97,10 @@ export function roleMatchesRole(
 }
 
 export function oneOfRolesMatchesRole(
-    inputRoles: string[],
-    targetRole: RoleTuple
+    heldRoles: string[],
+    requiredRole: RoleTuple
 ): boolean {
-    return inputRoles.some(inputRole => roleMatchesRole(inputRole, targetRole));
+    return heldRoles.some(inputRole =>
+        roleMatchesRole(inputRole, requiredRole)
+    );
 }

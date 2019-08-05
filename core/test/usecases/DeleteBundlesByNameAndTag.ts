@@ -21,7 +21,7 @@ describe("usecase DeleteBundlesByNameAndTag", () => {
             BundlesInUseError
         );
         await expect(deleteBundlesPromise).to.be.rejectedWith(
-            "Can't delete bundles with ids = bundleId, as one or more of them are being used by entrypoints with ids = entrypointId"
+            "Can't delete bundles with ids = [ bundleId ], as one or more of them are being used by entrypoints with ids = [ entrypointId ]"
         );
     });
 
@@ -47,7 +47,7 @@ describe("usecase DeleteBundlesByNameAndTag", () => {
         expect(
             deps.storages.operationLogs.createOne
         ).to.have.been.calledOnceWith(
-            sinon.match.has("operation", Operation.deleteBundle)
+            sinon.match.has("operation", Operation.DeleteBundle)
         );
     });
 });

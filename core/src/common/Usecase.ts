@@ -6,10 +6,12 @@ import Authorizer from "../services/Authorizer";
 import OperationLogger from "../services/OperationLogger";
 
 export default abstract class Usecase {
+    // Dependencies
     protected archiver: IArchiver;
     protected config: IUsecaseConfig;
     protected requestContext: IRequestContext;
     protected storages: IStorages;
+    // Services
     protected authorizer: Authorizer;
     protected operationLogger: OperationLogger;
 
@@ -24,12 +26,13 @@ export default abstract class Usecase {
         this.requestContext = options.requestContext;
         this.storages = options.storages;
         this.authorizer = new Authorizer(
-            this.requestContext.user,
+            this.storages.users,
+            this.requestContext.idpUser,
             this.config.authEnforcementLevel
         );
         this.operationLogger = new OperationLogger(
             this.storages.operationLogs,
-            this.requestContext
+            this.authorizer
         );
     }
 

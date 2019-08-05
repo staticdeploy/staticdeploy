@@ -82,7 +82,7 @@ describe("usecase UpdateEntrypoint", () => {
         expect(
             deps.storages.operationLogs.createOne
         ).to.have.been.calledOnceWith(
-            sinon.match.has("operation", Operation.updateEntrypoint)
+            sinon.match.has("operation", Operation.UpdateEntrypoint)
         );
     });
 

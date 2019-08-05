@@ -24,7 +24,10 @@ export default class UpdateEntrypoint extends Usecase {
         }
 
         // Auth check
-        this.authorizer.ensureCanUpdateEntrypoint(id, existingEntrypoint.appId);
+        await this.authorizer.ensureCanUpdateEntrypoint(
+            id,
+            existingEntrypoint.appId
+        );
 
         // Validate the configuration
         if (patch.configuration) {
@@ -33,6 +36,7 @@ export default class UpdateEntrypoint extends Usecase {
 
         // Ensure the linked bundle exists
         if (patch.bundleId) {
+            // TODO: use bundles.oneExistsWithId()
             const linkedBundle = await this.storages.bundles.findOne(
                 patch.bundleId
             );
@@ -53,7 +57,7 @@ export default class UpdateEntrypoint extends Usecase {
         );
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.updateEntrypoint, {
+        await this.operationLogger.logOperation(Operation.UpdateEntrypoint, {
             oldEntrypoint: existingEntrypoint,
             newEntrypoint: updatedEntrypoint
         });

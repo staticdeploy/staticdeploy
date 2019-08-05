@@ -65,7 +65,7 @@ describe("usecase CreateApp", () => {
         expect(
             deps.storages.operationLogs.createOne
         ).to.have.been.calledOnceWith(
-            sinon.match.has("operation", Operation.createApp)
+            sinon.match.has("operation", Operation.CreateApp)
         );
     });
 

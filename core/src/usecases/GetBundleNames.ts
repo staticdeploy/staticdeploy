@@ -3,7 +3,7 @@ import Usecase from "../common/Usecase";
 export default class GetBundleNames extends Usecase {
     async exec(): Promise<string[]> {
         // Auth check
-        this.authorizer.ensureCanGetBundles();
+        await this.authorizer.ensureCanGetBundles();
 
         return this.storages.bundles.findManyNames();
     }

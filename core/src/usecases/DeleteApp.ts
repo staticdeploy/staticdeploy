@@ -7,7 +7,7 @@ import { Operation } from "../entities/OperationLog";
 export default class DeleteApp extends Usecase {
     async exec(id: string): Promise<void> {
         // Auth check
-        this.authorizer.ensureCanDeleteApp(id);
+        await this.authorizer.ensureCanDeleteApp(id);
 
         const toBeDeletedApp = await this.storages.apps.findOne(id);
 
@@ -17,6 +17,7 @@ export default class DeleteApp extends Usecase {
         }
 
         // Ensure the app has no linked entrypoints
+        // TODO: use entrypoints.anyExistsWithAppId
         const linkedEntrypoints = await this.storages.entrypoints.findManyByAppId(
             id
         );
@@ -28,7 +29,7 @@ export default class DeleteApp extends Usecase {
         await this.storages.apps.deleteOne(id);
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.deleteApp, {
+        await this.operationLogger.logOperation(Operation.DeleteApp, {
             deletedApp: toBeDeletedApp
         });
     }
