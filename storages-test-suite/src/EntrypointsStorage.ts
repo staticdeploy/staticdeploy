@@ -83,7 +83,7 @@ export default (storages: IStorages) => {
                 id: "id",
                 urlMatcher: "example.com/",
                 appId: "id",
-                bundleId: null,
+                bundleId: "id",
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),

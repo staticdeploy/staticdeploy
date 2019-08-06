@@ -5,7 +5,7 @@ export default interface IGroupsStorage {
     findMany(): Promise<IGroup[]>;
     oneExistsWithName(name: string): Promise<boolean>;
     allExistWithIds(ids: string[]): Promise<boolean>;
-    createOne(role: {
+    createOne(group: {
         id: string;
         name: string;
         roles: string[];

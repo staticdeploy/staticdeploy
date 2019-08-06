@@ -66,6 +66,11 @@ export default class BundlesStorage implements IBundlesStorage {
         return uniq(map(filter(this.bundles, { name }), "tag"));
     }
 
+    async oneExistsWithId(id: string): Promise<boolean> {
+        const bundle = await this.findOne(id);
+        return bundle !== null;
+    }
+
     async createOne(toBeCreatedBundle: {
         id: string;
         name: string;
@@ -79,10 +84,6 @@ export default class BundlesStorage implements IBundlesStorage {
     }): Promise<IBundleWithoutAssetsContent> {
         this.bundles[toBeCreatedBundle.id] = toBeCreatedBundle;
         return this.removeAssetsContent(toBeCreatedBundle);
-    }
-
-    async deleteOne(id: string): Promise<void> {
-        delete this.bundles[id];
     }
 
     async deleteMany(ids: string[]): Promise<void> {

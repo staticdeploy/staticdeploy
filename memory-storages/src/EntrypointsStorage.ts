@@ -26,24 +26,31 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
         return filter(this.entrypoints, { appId });
     }
 
-    async findManyByBundleId(bundleId: string): Promise<IEntrypoint[]> {
-        return filter(this.entrypoints, { bundleId });
-    }
-
-    async findManyByBundleIds(bundleIds: string[]): Promise<IEntrypoint[]> {
-        return filter(this.entrypoints, entrypoint =>
-            entrypoint.bundleId
-                ? bundleIds.includes(entrypoint.bundleId)
-                : false
-        );
-    }
-
     async findManyByUrlMatcherHostname(
         urlMatcherHostname: string
     ): Promise<IEntrypoint[]> {
         return filter(this.entrypoints, entrypoint =>
             entrypoint.urlMatcher.startsWith(urlMatcherHostname)
         );
+    }
+
+    async oneExistsWithUrlMatcher(urlMatcher: string): Promise<boolean> {
+        const entrypoint = await this.findOneByUrlMatcher(urlMatcher);
+        return entrypoint !== null;
+    }
+
+    async anyExistsWithAppId(appId: string): Promise<boolean> {
+        const entrypoint = find(this.entrypoints, { appId }) || null;
+        return entrypoint !== null;
+    }
+
+    async anyExistsWithBundleIdIn(bundleIds: string[]): Promise<boolean> {
+        const entrypoint =
+            find(
+                this.entrypoints,
+                e => e.bundleId !== null && bundleIds.includes(e.bundleId)
+            ) || null;
+        return entrypoint !== null;
     }
 
     async createOne(toBeCreatedEntrypoint: {
