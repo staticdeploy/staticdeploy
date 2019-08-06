@@ -46,7 +46,7 @@ describe("usecase UpdateApp", () => {
     it("throws ConflictingAppError if an app with the same (to be updated) name exists", async () => {
         const deps = getMockDependencies();
         deps.storages.apps.findOne.resolves({} as any);
-        deps.storages.apps.findOneByName.resolves({} as any);
+        deps.storages.apps.oneExistsWithName.resolves(true);
         const updateApp = new UpdateApp(deps);
         const updateAppPromise = updateApp.exec("appId", { name: "name" });
         await expect(updateAppPromise).to.be.rejectedWith(ConflictingAppError);

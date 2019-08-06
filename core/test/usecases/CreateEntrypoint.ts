@@ -44,7 +44,7 @@ describe("usecase CreateEntrypoint", () => {
 
     it("throws AppNotFoundError if the entrypoint links to a non-existing app", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves(null);
+        deps.storages.apps.oneExistsWithId.resolves(false);
         const createEntrypoint = new CreateEntrypoint(deps);
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
@@ -60,8 +60,8 @@ describe("usecase CreateEntrypoint", () => {
 
     it("throws BundleNotFoundError if the entrypoint links to a non-existing bundle", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({} as any);
-        deps.storages.bundles.findOne.resolves(null);
+        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.bundles.oneExistsWithId.resolves(false);
         const createEntrypoint = new CreateEntrypoint(deps);
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
@@ -78,8 +78,8 @@ describe("usecase CreateEntrypoint", () => {
 
     it("throws ConflictingEntrypointError if an entrypoint with the same urlMatcher exists", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({} as any);
-        deps.storages.entrypoints.findOneByUrlMatcher.resolves({} as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.entrypoints.oneExistsWithUrlMatcher.resolves(true);
         const createEntrypoint = new CreateEntrypoint(deps);
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
@@ -95,7 +95,7 @@ describe("usecase CreateEntrypoint", () => {
 
     it("creates an entrypoint", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({} as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
         const createEntrypoint = new CreateEntrypoint(deps);
         await createEntrypoint.exec({
             appId: "appId",
@@ -117,7 +117,7 @@ describe("usecase CreateEntrypoint", () => {
 
     it("logs the create entrypoint operation", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({} as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
         const createEntrypoint = new CreateEntrypoint(deps);
         await createEntrypoint.exec({
             appId: "appId",
@@ -133,7 +133,7 @@ describe("usecase CreateEntrypoint", () => {
     it("returns the created entrypoint", async () => {
         const deps = getMockDependencies();
         const mockCreatedEntrypoint = {} as any;
-        deps.storages.apps.findOne.resolves({} as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
         deps.storages.entrypoints.createOne.resolves(mockCreatedEntrypoint);
         const createEntrypoint = new CreateEntrypoint(deps);
         const createdEntrypoint = await createEntrypoint.exec({

@@ -87,10 +87,8 @@ describe("usecase DeployBundle", () => {
         } as any);
         // Stub deps used by other usecases called by DeployBundle
         deps.storages.apps.createOne.resolves({ id: "appId" } as any);
-        deps.storages.apps.findOne.resolves({ id: "appId" } as any);
-        deps.storages.bundles.findOne.resolves({
-            id: "bundleId"
-        } as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
@@ -126,10 +124,8 @@ describe("usecase DeployBundle", () => {
             id: "bundleId"
         } as any);
         // Stub deps used by other usecases called by DeployBundle
-        deps.storages.apps.findOne.resolves({ id: "appId" } as any);
-        deps.storages.bundles.findOne.resolves({
-            id: "bundleId"
-        } as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
@@ -165,9 +161,7 @@ describe("usecase DeployBundle", () => {
         deps.storages.entrypoints.findOne.resolves({
             id: "entrypointId"
         } as any);
-        deps.storages.bundles.findOne.resolves({
-            id: "bundleId"
-        } as any);
+        deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",

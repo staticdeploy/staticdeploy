@@ -18,6 +18,7 @@ export default interface IBundlesStorage {
     ): Promise<IBundleWithoutAssetsContent[]>;
     findManyNames(): Promise<string[]>;
     findManyTagsByName(name: string): Promise<string[]>;
+    oneExistsWithId(id: string): Promise<boolean>;
     createOne(bundle: {
         id: string;
         name: string;
@@ -29,6 +30,5 @@ export default interface IBundlesStorage {
         fallbackStatusCode: number;
         createdAt: Date;
     }): Promise<IBundleWithoutAssetsContent>;
-    deleteOne(id: string): Promise<void>;
     deleteMany(ids: string[]): Promise<void>;
 }

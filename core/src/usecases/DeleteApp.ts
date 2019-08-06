@@ -1,5 +1,3 @@
-import { isEmpty } from "lodash";
-
 import { AppHasEntrypointsError, AppNotFoundError } from "../common/errors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
@@ -17,11 +15,10 @@ export default class DeleteApp extends Usecase {
         }
 
         // Ensure the app has no linked entrypoints
-        // TODO: use entrypoints.anyExistsWithAppId
-        const linkedEntrypoints = await this.storages.entrypoints.findManyByAppId(
+        const hasLinkedEntrypoints = await this.storages.entrypoints.anyExistsWithAppId(
             id
         );
-        if (!isEmpty(linkedEntrypoints)) {
+        if (hasLinkedEntrypoints) {
             throw new AppHasEntrypointsError(id);
         }
 

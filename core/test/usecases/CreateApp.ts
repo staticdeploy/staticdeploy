@@ -36,7 +36,7 @@ describe("usecase CreateApp", () => {
 
     it("throws ConflictingAppError if an app with the same name exists", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOneByName.resolves({} as any);
+        deps.storages.apps.oneExistsWithName.resolves(true);
         const createApp = new CreateApp(deps);
         const createAppPromise = createApp.exec({ name: "name" });
         await expect(createAppPromise).to.be.rejectedWith(ConflictingAppError);

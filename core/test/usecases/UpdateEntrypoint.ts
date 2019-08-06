@@ -43,6 +43,7 @@ describe("usecase UpdateEntrypoint", () => {
     it("throws BundleNotFoundError if no bundle with the specified id exists", async () => {
         const deps = getMockDependencies();
         deps.storages.entrypoints.findOne.resolves({} as any);
+        deps.storages.bundles.oneExistsWithId.resolves(false);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         const updateEntrypointPromise = updateEntrypoint.exec("entrypointId", {
             bundleId: "bundleId"
@@ -58,7 +59,7 @@ describe("usecase UpdateEntrypoint", () => {
     it("updates the entrypoint", async () => {
         const deps = getMockDependencies();
         deps.storages.entrypoints.findOne.resolves({} as any);
-        deps.storages.bundles.findOne.resolves({} as any);
+        deps.storages.bundles.oneExistsWithId.resolves(true);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         await updateEntrypoint.exec("entrypointId", {
             bundleId: "bundleId"

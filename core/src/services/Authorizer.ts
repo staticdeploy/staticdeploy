@@ -12,7 +12,7 @@ export default class Authorizer {
     private user: IUserWithRoles | null = null;
 
     constructor(
-        private usersStorage: IUsersStorage,
+        private users: IUsersStorage,
         private idpUser: IIdpUser | null,
         private authEnforcementLevel: AuthEnforcementLevel
     ) {}
@@ -154,7 +154,7 @@ export default class Authorizer {
             throw new AuthenticationRequiredError();
         }
 
-        this.user = await this.usersStorage.findOneWithRolesByIdpAndIdpId(
+        this.user = await this.users.findOneWithRolesByIdpAndIdpId(
             this.idpUser.idp,
             this.idpUser.id
         );

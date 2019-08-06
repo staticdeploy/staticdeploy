@@ -5,11 +5,12 @@ export default interface IEntrypointsStorage {
     findOne(id: string): Promise<IEntrypoint | null>;
     findOneByUrlMatcher(urlMatcher: string): Promise<IEntrypoint | null>;
     findManyByAppId(appId: string): Promise<IEntrypoint[]>;
-    findManyByBundleId(bundleId: string): Promise<IEntrypoint[]>;
-    findManyByBundleIds(bundleIds: string[]): Promise<IEntrypoint[]>;
     findManyByUrlMatcherHostname(
         urlMatcherHostname: string
     ): Promise<IEntrypoint[]>;
+    oneExistsWithUrlMatcher(urlMatcher: string): Promise<boolean>;
+    anyExistsWithAppId(appId: string): Promise<boolean>;
+    anyExistsWithBundleId(bundleIds: string[]): Promise<boolean>;
     createOne(entrypoint: {
         id: string;
         appId: string;

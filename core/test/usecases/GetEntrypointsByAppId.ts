@@ -7,7 +7,7 @@ import { getMockDependencies } from "../testUtils";
 describe("usecase GetEntrypointsByAppId", () => {
     it("throws AppNotFoundError if no app exists with the specified appId", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves(null);
+        deps.storages.apps.oneExistsWithId.resolves(false);
         const getEntrypoints = new GetEntrypointsByAppId(deps);
         const getEntrypointsPromise = getEntrypoints.exec("appId");
         await expect(getEntrypointsPromise).to.be.rejectedWith(
@@ -20,7 +20,7 @@ describe("usecase GetEntrypointsByAppId", () => {
 
     it("returns the entrypoints with the specified appId", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({} as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
         const mockEntrypoints = [] as any;
         deps.storages.entrypoints.findManyByAppId.resolves(mockEntrypoints);
         const getEntrypoints = new GetEntrypointsByAppId(deps);

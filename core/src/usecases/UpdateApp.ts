@@ -38,11 +38,10 @@ export default class UpdateApp extends Usecase {
 
         // Ensure no app with the same name exists
         if (patch.name && patch.name !== existingApp.name) {
-            // TODO: use apps.oneExistsWithName()
-            const conflictingApp = await this.storages.apps.findOneByName(
+            const conflictingAppExists = await this.storages.apps.oneExistsWithName(
                 patch.name
             );
-            if (conflictingApp) {
+            if (conflictingAppExists) {
                 throw new ConflictingAppError(patch.name);
             }
         }

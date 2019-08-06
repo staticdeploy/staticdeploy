@@ -8,8 +8,8 @@ export default class GetEntrypointsByAppId extends Usecase {
         await this.authorizer.ensureCanGetEntrypoints();
 
         // Ensure the app with the specified id exists
-        const app = await this.storages.apps.findOne(appId);
-        if (!app) {
+        const appExists = await this.storages.apps.oneExistsWithId(appId);
+        if (!appExists) {
             throw new AppNotFoundError(appId, "id");
         }
 

@@ -83,6 +83,8 @@ export function getMockDependencies(): IMockDependencies {
                 findOne: sinon.stub(),
                 findOneByName: sinon.stub(),
                 findMany: sinon.stub(),
+                oneExistsWithId: sinon.stub(),
+                oneExistsWithName: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
                 deleteOne: sinon.stub()
@@ -95,17 +97,18 @@ export function getMockDependencies(): IMockDependencies {
                 findManyByNameAndTag: sinon.stub(),
                 findManyNames: sinon.stub(),
                 findManyTagsByName: sinon.stub(),
+                oneExistsWithId: sinon.stub(),
                 createOne: sinon.stub(),
-                deleteOne: sinon.stub(),
                 deleteMany: sinon.stub()
             },
             entrypoints: {
                 findOne: sinon.stub(),
                 findOneByUrlMatcher: sinon.stub(),
                 findManyByAppId: sinon.stub(),
-                findManyByBundleId: sinon.stub(),
-                findManyByBundleIds: sinon.stub(),
                 findManyByUrlMatcherHostname: sinon.stub(),
+                oneExistsWithUrlMatcher: sinon.stub(),
+                anyExistsWithAppId: sinon.stub(),
+                anyExistsWithBundleId: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
                 deleteOne: sinon.stub()

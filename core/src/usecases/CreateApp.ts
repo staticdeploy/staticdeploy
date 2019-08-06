@@ -26,11 +26,10 @@ export default class CreateApp extends Usecase {
         }
 
         // Ensure no app with the same name exists
-        // TODO: use apps.oneExistsWithName()
-        const conflictingApp = await this.storages.apps.findOneByName(
+        const conflictingAppExists = await this.storages.apps.oneExistsWithName(
             partial.name
         );
-        if (conflictingApp) {
+        if (conflictingAppExists) {
             throw new ConflictingAppError(partial.name);
         }
 

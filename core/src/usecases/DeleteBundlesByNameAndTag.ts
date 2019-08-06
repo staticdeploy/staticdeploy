@@ -1,4 +1,4 @@
-import { isEmpty, map } from "lodash";
+import { map } from "lodash";
 
 import { BundlesInUseError } from "../common/errors";
 import Usecase from "../common/Usecase";
@@ -17,14 +17,11 @@ export default class DeleteBundlesByNameAndTag extends Usecase {
         const toBeDeletedBundleIds = map(toBeDeletedBundles, "id");
 
         // Ensure the bundles are not used by any entrypoint
-        const dependentEntrypoints = await this.storages.entrypoints.findManyByBundleIds(
+        const hasLinkedEntrypoints = await this.storages.entrypoints.anyExistsWithBundleId(
             toBeDeletedBundleIds
         );
-        if (!isEmpty(dependentEntrypoints)) {
-            throw new BundlesInUseError(
-                toBeDeletedBundleIds,
-                map(dependentEntrypoints, "id")
-            );
+        if (hasLinkedEntrypoints) {
+            throw new BundlesInUseError(toBeDeletedBundleIds);
         }
 
         // Delete the bundles

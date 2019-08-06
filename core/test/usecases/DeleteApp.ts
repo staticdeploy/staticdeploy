@@ -22,7 +22,7 @@ describe("usecase DeleteApp", () => {
     it("throws AppHasEntrypointsError if the app has linked entrypoints", async () => {
         const deps = getMockDependencies();
         deps.storages.apps.findOne.resolves({} as any);
-        deps.storages.entrypoints.findManyByAppId.resolves([{}] as any);
+        deps.storages.entrypoints.anyExistsWithAppId.resolves(true);
         const deleteApp = new DeleteApp(deps);
         const deleteAppPromise = deleteApp.exec("appId");
         await expect(deleteAppPromise).to.be.rejectedWith(

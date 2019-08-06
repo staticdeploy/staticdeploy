@@ -5,7 +5,7 @@ import Authorizer from "./Authorizer";
 
 export default class OperationLogger {
     constructor(
-        private operationLogsStorage: IOperationLogsStorage,
+        private operationLogs: IOperationLogsStorage,
         private authorizer: Authorizer
     ) {}
 
@@ -14,7 +14,7 @@ export default class OperationLogger {
         parameters: IOperationLog["parameters"]
     ): Promise<void> {
         const user = this.authorizer.getUser();
-        await this.operationLogsStorage.createOne({
+        await this.operationLogs.createOne({
             id: generateId(),
             operation: operation,
             parameters: parameters,

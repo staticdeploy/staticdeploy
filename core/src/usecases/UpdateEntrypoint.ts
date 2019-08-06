@@ -36,11 +36,10 @@ export default class UpdateEntrypoint extends Usecase {
 
         // Ensure the linked bundle exists
         if (patch.bundleId) {
-            // TODO: use bundles.oneExistsWithId()
-            const linkedBundle = await this.storages.bundles.findOne(
+            const linkedBundleExists = await this.storages.bundles.oneExistsWithId(
                 patch.bundleId
             );
-            if (!linkedBundle) {
+            if (!linkedBundleExists) {
                 throw new BundleNotFoundError(patch.bundleId, "id");
             }
         }
