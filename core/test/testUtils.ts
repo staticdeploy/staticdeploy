@@ -108,7 +108,7 @@ export function getMockDependencies(): IMockDependencies {
                 findManyByUrlMatcherHostname: sinon.stub(),
                 oneExistsWithUrlMatcher: sinon.stub(),
                 anyExistsWithAppId: sinon.stub(),
-                anyExistsWithBundleId: sinon.stub(),
+                anyExistsWithBundleIdIn: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
                 deleteOne: sinon.stub()

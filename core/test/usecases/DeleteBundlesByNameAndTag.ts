@@ -12,7 +12,7 @@ describe("usecase DeleteBundlesByNameAndTag", () => {
         deps.storages.bundles.findManyByNameAndTag.resolves([
             { id: "bundleId" } as any
         ]);
-        deps.storages.entrypoints.anyExistsWithBundleId.resolves(true);
+        deps.storages.entrypoints.anyExistsWithBundleIdIn.resolves(true);
         const deleteBundles = new DeleteBundlesByNameAndTag(deps);
         const deleteBundlesPromise = deleteBundles.exec("name", "tag");
         await expect(deleteBundlesPromise).to.be.rejectedWith(

@@ -10,7 +10,7 @@ export default interface IEntrypointsStorage {
     ): Promise<IEntrypoint[]>;
     oneExistsWithUrlMatcher(urlMatcher: string): Promise<boolean>;
     anyExistsWithAppId(appId: string): Promise<boolean>;
-    anyExistsWithBundleId(bundleIds: string[]): Promise<boolean>;
+    anyExistsWithBundleIdIn(bundleIds: string[]): Promise<boolean>;
     createOne(entrypoint: {
         id: string;
         appId: string;

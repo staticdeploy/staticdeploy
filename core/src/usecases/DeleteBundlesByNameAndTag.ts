@@ -17,7 +17,7 @@ export default class DeleteBundlesByNameAndTag extends Usecase {
         const toBeDeletedBundleIds = map(toBeDeletedBundles, "id");
 
         // Ensure the bundles are not used by any entrypoint
-        const hasLinkedEntrypoints = await this.storages.entrypoints.anyExistsWithBundleId(
+        const hasLinkedEntrypoints = await this.storages.entrypoints.anyExistsWithBundleIdIn(
             toBeDeletedBundleIds
         );
         if (hasLinkedEntrypoints) {
