@@ -30,6 +30,78 @@ export default (storages: IStorages) => {
             });
         });
 
+        it("create an entrypoint and verify that one entrypoint with its urlMatcher exists", async () => {
+            await storages.entrypoints.createOne({
+                id: "id",
+                urlMatcher: "example.com/",
+                appId: "id",
+                bundleId: null,
+                redirectTo: null,
+                configuration: null,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            });
+            const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(
+                "example.com/"
+            );
+            expect(entrypointExists).to.equal(true);
+        });
+
+        it("check if one entrypoint with a non-existing urlMatcher exists and get false", async () => {
+            const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(
+                "example.com/"
+            );
+            expect(entrypointExists).to.equal(false);
+        });
+
+        it("create an entrypoint and verify that (at least) one entrypoint with its appId exists", async () => {
+            await storages.entrypoints.createOne({
+                id: "id",
+                urlMatcher: "example.com/",
+                appId: "id",
+                bundleId: null,
+                redirectTo: null,
+                configuration: null,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            });
+            const anyEntrypointExists = await storages.entrypoints.anyExistsWithAppId(
+                "id"
+            );
+            expect(anyEntrypointExists).to.equal(true);
+        });
+
+        it("check if (at least) one entrypoint with a non-existing appId exists and get false", async () => {
+            const anyEntrypointExists = await storages.entrypoints.anyExistsWithAppId(
+                "id"
+            );
+            expect(anyEntrypointExists).to.equal(false);
+        });
+
+        it("create an entrypoint and verify that (at least) one entrypoint with its bundleId exists", async () => {
+            await storages.entrypoints.createOne({
+                id: "id",
+                urlMatcher: "example.com/",
+                appId: "id",
+                bundleId: null,
+                redirectTo: null,
+                configuration: null,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            });
+            const anyEntrypointExists = await storages.entrypoints.anyExistsWithBundleIdIn(
+                ["id"]
+            );
+            expect(anyEntrypointExists).to.equal(true);
+        });
+
+        it("check if (at least) one entrypoint with a non-existing bundleId exists and get false", async () => {
+            const anyEntrypointExists = await storages.entrypoints.anyExistsWithBundleIdIn(
+                ["id"]
+            );
+            expect(anyEntrypointExists).to.equal(false);
+        });
+
         it("create an entrypoint and find it by id", async () => {
             const entrypoint = {
                 id: "id",
@@ -90,42 +162,6 @@ export default (storages: IStorages) => {
             await storages.entrypoints.createOne(entrypoint);
             const foundEntrypoints = await storages.entrypoints.findManyByAppId(
                 "id"
-            );
-            expect(foundEntrypoints).to.deep.equal([entrypoint]);
-        });
-
-        it("create an entrypoint and get it back when finding many by bundleId", async () => {
-            const entrypoint = {
-                id: "id",
-                urlMatcher: "example.com/",
-                appId: "id",
-                bundleId: "id",
-                redirectTo: null,
-                configuration: null,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            };
-            await storages.entrypoints.createOne(entrypoint);
-            const foundEntrypoints = await storages.entrypoints.findManyByBundleId(
-                "id"
-            );
-            expect(foundEntrypoints).to.deep.equal([entrypoint]);
-        });
-
-        it("create an entrypoint and get it back when finding many by bundleId-s", async () => {
-            const entrypoint = {
-                id: "id",
-                urlMatcher: "example.com/",
-                appId: "id",
-                bundleId: "id",
-                redirectTo: null,
-                configuration: null,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            };
-            await storages.entrypoints.createOne(entrypoint);
-            const foundEntrypoints = await storages.entrypoints.findManyByBundleIds(
-                ["id"]
             );
             expect(foundEntrypoints).to.deep.equal([entrypoint]);
         });
@@ -268,7 +304,7 @@ export default (storages: IStorages) => {
             );
         });
 
-        it("create an entrypoint, delete it by id, try to find it and get null", async () => {
+        it("create an entrypoint, delete it, and verify it doesn't exist (anymore)", async () => {
             await storages.entrypoints.createOne({
                 id: "id",
                 urlMatcher: "example.com/",
@@ -280,8 +316,10 @@ export default (storages: IStorages) => {
                 updatedAt: new Date()
             });
             await storages.entrypoints.deleteOne("id");
-            const notFoundEntrypoint = await storages.entrypoints.findOne("id");
-            expect(notFoundEntrypoint).to.equal(null);
+            const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(
+                "example.com/"
+            );
+            expect(entrypointExists).to.equal(false);
         });
     });
 };

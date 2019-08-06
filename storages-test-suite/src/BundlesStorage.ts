@@ -11,6 +11,27 @@ function removeAssetsContent(bundle: IBundle): IBundle {
 
 export default (storages: IStorages) => {
     describe("BundlesStorage", () => {
+        it("create a bundle and verify that one bundle with its id exists", async () => {
+            await storages.bundles.createOne({
+                id: "id",
+                name: "name",
+                tag: "tag",
+                description: "description",
+                hash: "hash",
+                assets: [],
+                fallbackAssetPath: "/file",
+                fallbackStatusCode: 200,
+                createdAt: new Date()
+            });
+            const bundleExists = await storages.bundles.oneExistsWithId("id");
+            expect(bundleExists).to.equal(true);
+        });
+
+        it("check if one bundle with a non-existing id exists and get false", async () => {
+            const bundleExists = await storages.bundles.oneExistsWithId("id");
+            expect(bundleExists).to.equal(false);
+        });
+
         it("create a bundle and find it by id", async () => {
             const bundle = {
                 id: "id",
@@ -295,24 +316,7 @@ export default (storages: IStorages) => {
             expect(file1Content).to.deep.equal(Buffer.from("/file/1"));
         });
 
-        it("create a bundle, delete it by id, try to find it and get null", async () => {
-            await storages.bundles.createOne({
-                id: "id",
-                name: "name",
-                tag: "tag",
-                description: "description",
-                hash: "hash",
-                assets: [],
-                fallbackAssetPath: "/file",
-                fallbackStatusCode: 200,
-                createdAt: new Date()
-            });
-            await storages.bundles.deleteOne("id");
-            const notFoundBundle = await storages.bundles.findOne("id");
-            expect(notFoundBundle).to.equal(null);
-        });
-
-        it("create a bundle, delete it by id-s, try to find it and get null", async () => {
+        it("create a bundle, delete it by id-s, and verify it doesn't exist (anymore)", async () => {
             await storages.bundles.createOne({
                 id: "id",
                 name: "name",
@@ -325,8 +329,8 @@ export default (storages: IStorages) => {
                 createdAt: new Date()
             });
             await storages.bundles.deleteMany(["id"]);
-            const notFoundBundle = await storages.bundles.findOne("id");
-            expect(notFoundBundle).to.equal(null);
+            const bundleExists = await storages.bundles.oneExistsWithId("id");
+            expect(bundleExists).to.equal(false);
         });
     });
 };

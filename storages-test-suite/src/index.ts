@@ -4,7 +4,9 @@ import registerAppsStorageTests from "./AppsStorage";
 import registerBundlesStorageTests from "./BundlesStorage";
 import registerCheckHealthTests from "./checkHealth";
 import registerEntrypointsStorageTests from "./EntrypointsStorage";
+import registerGroupsStorageTests from "./GroupsStorage";
 import registerOperationLogsStorageTests from "./OperationLogsStorage";
+import registerUsersStorageTests from "./UsersStorage";
 
 interface IOptions {
     storagesName: string;
@@ -24,6 +26,8 @@ export default function registerStoragesTests(options: IOptions): void {
         registerAppsStorageTests(options.storages);
         registerBundlesStorageTests(options.storages);
         registerEntrypointsStorageTests(options.storages);
+        registerGroupsStorageTests(options.storages);
         registerOperationLogsStorageTests(options.storages);
+        registerUsersStorageTests(options.storages);
     });
 }

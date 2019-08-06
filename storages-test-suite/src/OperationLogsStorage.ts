@@ -7,7 +7,7 @@ export default (storages: IStorages) => {
             it("case: parameters is an empty object", async () => {
                 const operationLog = {
                     id: "id",
-                    operation: Operation.createApp,
+                    operation: Operation.CreateApp,
                     parameters: {},
                     performedBy: "performedBy",
                     performedAt: new Date()
@@ -20,7 +20,7 @@ export default (storages: IStorages) => {
             it("case: parameters is a non-empty object", async () => {
                 const operationLog = {
                     id: "id",
-                    operation: Operation.createApp,
+                    operation: Operation.CreateApp,
                     parameters: { key: "value" },
                     performedBy: "performedBy",
                     performedAt: new Date()
