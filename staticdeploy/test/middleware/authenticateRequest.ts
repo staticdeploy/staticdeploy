@@ -65,8 +65,8 @@ describe("middleware authenticateRequest", () => {
             .expect("OK");
     });
 
-    it("adds the user property to the request object", async () => {
-        const token = sign({ sub: "sub" } as object, JWT_SECRET);
+    it("adds the idpUser property to the request object", async () => {
+        const token = sign({ sub: "sub", iss: "iss" } as object, JWT_SECRET);
         let requestObject: any;
         const srv = express()
             .use(authenticateRequest(JWT_SECRET))
@@ -78,6 +78,7 @@ describe("middleware authenticateRequest", () => {
             .get("/")
             .set("Authorization", `Bearer ${token}`)
             .expect(200);
-        expect(requestObject).to.have.nested.property("user.id", "sub");
+        expect(requestObject).to.have.nested.property("idpUser.id", "sub");
+        expect(requestObject).to.have.nested.property("idpUser.idp", "iss");
     });
 });

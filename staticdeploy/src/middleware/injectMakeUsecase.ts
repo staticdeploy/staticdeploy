@@ -19,9 +19,7 @@ export default function injectMakeUsecase(
             return new UsecaseClass({
                 archiver: archiver,
                 config: config,
-                requestContext: {
-                    user: req.user ? req.user : null
-                },
+                requestContext: { idpUser: req.idpUser },
                 storages: storages
             }) as InstanceType<IUsecasesByName[Name]>;
         };

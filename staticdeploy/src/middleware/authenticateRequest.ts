@@ -22,13 +22,8 @@ export default function authenticateRequest(jwtSecret: Buffer): RequestHandler {
                     message: "jwt must specify a subject (sub)"
                 });
             } else {
-                req.user = req.jwt
-                    ? {
-                          id: req.jwt.sub,
-                          roles: Array.isArray(req.jwt.roles)
-                              ? req.jwt.roles
-                              : []
-                      }
+                req.idpUser = req.jwt
+                    ? { idp: req.jwt.iss, id: req.jwt.sub }
                     : null;
                 delete req.jwt;
                 next();

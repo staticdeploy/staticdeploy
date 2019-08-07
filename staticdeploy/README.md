@@ -33,7 +33,9 @@ The following environment variables can be used to configure the server:
 
 > Auth configurations
 
-- `JWT_SECRET` _(required)_: jwt secret (not base64 encoded)
+- `AUTH_ENFORCEMENT_LEVEL`: can either be `0`, meaning auth in not enforced, or
+  `1`, meaning auth is enforced. Defaults to `0`
+- `JWT_SECRET`: secret to validate authorization jwt-s (not base64 encoded)
 
 > Storage configurations
 
