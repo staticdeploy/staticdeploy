@@ -95,10 +95,7 @@ describe("EntrypointsClient", () => {
         });
         it("returns the created entrypoint", async () => {
             nock(baseUrl)
-                .post("/entrypoints", {
-                    appId: "appId",
-                    urlMatcher: "urlMatcher"
-                })
+                .post("/entrypoints")
                 .reply(201, {});
             const entrypoint = await staticdeployClient.entrypoints.create({
                 appId: "appId",
@@ -108,10 +105,7 @@ describe("EntrypointsClient", () => {
         });
         it("inflates dates", async () => {
             nock(baseUrl)
-                .post("/entrypoints", {
-                    appId: "appId",
-                    urlMatcher: "urlMatcher"
-                })
+                .post("/entrypoints")
                 .reply(201, {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
@@ -127,16 +121,6 @@ describe("EntrypointsClient", () => {
         });
     });
 
-    describe("delete", () => {
-        it("requests DELETE /entrypoints/:entrypointId", async () => {
-            const scope = nock(baseUrl)
-                .delete("/entrypoints/id")
-                .reply(204);
-            await staticdeployClient.entrypoints.delete("id");
-            scope.done();
-        });
-    });
-
     describe("update", () => {
         it("requests PATCH /entrypoints/:entrypointId", async () => {
             const scope = nock(baseUrl)
@@ -149,7 +133,7 @@ describe("EntrypointsClient", () => {
         });
         it("returns the updated entrypoint", async () => {
             nock(baseUrl)
-                .patch("/entrypoints/id", { bundleId: "newBundleId" })
+                .patch("/entrypoints/id")
                 .reply(200, {});
             const entrypoint = await staticdeployClient.entrypoints.update(
                 "id",
@@ -159,7 +143,7 @@ describe("EntrypointsClient", () => {
         });
         it("inflates dates", async () => {
             nock(baseUrl)
-                .patch("/entrypoints/id", { bundleId: "newBundleId" })
+                .patch("/entrypoints/id")
                 .reply(200, {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
@@ -172,6 +156,16 @@ describe("EntrypointsClient", () => {
                 createdAt: unixEpoch,
                 updatedAt: unixEpoch
             });
+        });
+    });
+
+    describe("delete", () => {
+        it("requests DELETE /entrypoints/:entrypointId", async () => {
+            const scope = nock(baseUrl)
+                .delete("/entrypoints/id")
+                .reply(204);
+            await staticdeployClient.entrypoints.delete("id");
+            scope.done();
         });
     });
 });

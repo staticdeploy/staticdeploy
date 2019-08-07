@@ -1,4 +1,4 @@
-import { IConfiguration, IEntrypoint } from "@staticdeploy/core";
+import { IEntrypoint } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";
@@ -17,29 +17,29 @@ export default class EntrypointsClient {
     }
 
     async create(entrypoint: {
-        appId: string;
-        bundleId?: string | null;
-        redirectTo?: string | null;
-        urlMatcher: string;
-        configuration?: IConfiguration | null;
+        appId: IEntrypoint["appId"];
+        bundleId?: IEntrypoint["bundleId"];
+        redirectTo?: IEntrypoint["redirectTo"];
+        urlMatcher: IEntrypoint["urlMatcher"];
+        configuration?: IEntrypoint["configuration"];
     }): Promise<IEntrypoint> {
         const result = await this.axios.post("/entrypoints", entrypoint);
         return parseDates(result.data);
     }
 
-    async delete(id: string): Promise<void> {
-        await this.axios.delete(`/entrypoints/${id}`);
-    }
-
     async update(
         id: string,
         patch: {
-            bundleId?: string | null;
-            redirectTo?: string | null;
-            configuration?: IConfiguration | null;
+            bundleId?: IEntrypoint["bundleId"];
+            redirectTo?: IEntrypoint["redirectTo"];
+            configuration?: IEntrypoint["configuration"];
         }
     ): Promise<IEntrypoint> {
         const result = await this.axios.patch(`/entrypoints/${id}`, patch);
         return parseDates(result.data);
+    }
+
+    async delete(id: string): Promise<void> {
+        await this.axios.delete(`/entrypoints/${id}`);
     }
 }
