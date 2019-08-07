@@ -3,30 +3,31 @@ import convroute from "../convroute";
 
 interface IRequest extends IBaseRequest {
     params: {
-        entrypointId: string;
+        groupId: string;
     };
 }
 
 export default convroute({
-    path: "/entrypoints/:entrypointId",
+    path: "/groups/:groupId",
     method: "delete",
-    description: "Delete entrypoint",
-    tags: ["entrypoints"],
+    description: "Delete group",
+    tags: ["groups"],
     parameters: [
         {
-            name: "entrypointId",
+            name: "groupId",
             in: "path",
             required: true,
             type: "string"
         }
     ],
     responses: {
-        "204": { description: "Entrypoint deleted, returns nothing" },
-        "404": { description: "Entrypoint not found" }
+        "204": { description: "Group deleted, returns nothing" },
+        "404": { description: "Group not found" },
+        "409": { description: "Group has users" }
     },
     handler: async (req: IRequest, res) => {
-        const deleteEntrypoint = req.makeUsecase("deleteEntrypoint");
-        await deleteEntrypoint.exec(req.params.entrypointId);
+        const deleteGroup = req.makeUsecase("deleteGroup");
+        await deleteGroup.exec(req.params.groupId);
         res.status(204).send();
     }
 });

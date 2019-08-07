@@ -22,7 +22,6 @@ export default convroute({
     ],
     responses: {
         "200": { description: "Returns an array of all entrypoints" },
-        "401": { description: "Authentication required" },
         "404": { description: "Filter app not found" }
     },
     handler: async (req: IRequest, res) => {

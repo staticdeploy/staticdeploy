@@ -3,30 +3,30 @@ import convroute from "../convroute";
 
 interface IRequest extends IBaseRequest {
     params: {
-        entrypointId: string;
+        userId: string;
     };
 }
 
 export default convroute({
-    path: "/entrypoints/:entrypointId",
+    path: "/users/:userId",
     method: "delete",
-    description: "Delete entrypoint",
-    tags: ["entrypoints"],
+    description: "Delete user",
+    tags: ["users"],
     parameters: [
         {
-            name: "entrypointId",
+            name: "userId",
             in: "path",
             required: true,
             type: "string"
         }
     ],
     responses: {
-        "204": { description: "Entrypoint deleted, returns nothing" },
-        "404": { description: "Entrypoint not found" }
+        "204": { description: "User deleted, returns nothing" },
+        "404": { description: "User not found" }
     },
     handler: async (req: IRequest, res) => {
-        const deleteEntrypoint = req.makeUsecase("deleteEntrypoint");
-        await deleteEntrypoint.exec(req.params.entrypointId);
+        const deleteUser = req.makeUsecase("deleteUser");
+        await deleteUser.exec(req.params.userId);
         res.status(204).send();
     }
 });

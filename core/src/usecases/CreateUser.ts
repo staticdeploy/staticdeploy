@@ -1,3 +1,5 @@
+import { isEmpty } from "lodash";
+
 import { ConflictingUserError, SomeGroupNotFoundError } from "../common/errors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
@@ -10,7 +12,7 @@ export default class CreateUser extends Usecase {
         idpId: string;
         type: UserType;
         name: string;
-        groupsIds?: string[];
+        groupsIds: string[];
     }): Promise<IUser> {
         // Auth check
         await this.authorizer.ensureCanCreateUser();
@@ -26,7 +28,7 @@ export default class CreateUser extends Usecase {
 
         // Ensure all the linked groups exist
         if (
-            partial.groupsIds &&
+            !isEmpty(partial.groupsIds) &&
             !(await this.storages.groups.allExistWithIds(partial.groupsIds))
         ) {
             throw new SomeGroupNotFoundError(partial.groupsIds);
@@ -40,7 +42,7 @@ export default class CreateUser extends Usecase {
             idp: partial.idp,
             idpId: partial.idpId,
             type: partial.type,
-            groupsIds: partial.groupsIds || [],
+            groupsIds: [],
             createdAt: now,
             updatedAt: now
         });

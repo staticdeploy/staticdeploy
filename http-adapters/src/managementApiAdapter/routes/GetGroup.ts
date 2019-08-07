@@ -3,30 +3,30 @@ import convroute from "../convroute";
 
 interface IRequest extends IBaseRequest {
     params: {
-        appId: string;
+        groupId: string;
     };
 }
 
 export default convroute({
-    path: "/apps/:appId",
+    path: "/groups/:groupId",
     method: "get",
-    description: "Get app",
-    tags: ["apps"],
+    description: "Get group",
+    tags: ["groups"],
     parameters: [
         {
-            name: "appId",
+            name: "groupId",
             in: "path",
             required: true,
             type: "string"
         }
     ],
     responses: {
-        "200": { description: "Returns the app" },
-        "404": { description: "App not found" }
+        "200": { description: "Returns the group" },
+        "404": { description: "Group not found" }
     },
     handler: async (req: IRequest, res) => {
-        const getApp = req.makeUsecase("getApp");
-        const app = await getApp.exec(req.params.appId);
-        res.status(200).send(app);
+        const getGroup = req.makeUsecase("getGroup");
+        const group = await getGroup.exec(req.params.groupId);
+        res.status(200).send(group);
     }
 });

@@ -6,8 +6,7 @@ export default convroute({
     description: "Get all bundle names",
     tags: ["bundles"],
     responses: {
-        "200": { description: "Returns an array of bundle names" },
-        "401": { description: "Authentication required" }
+        "200": { description: "Returns an array of bundle names" }
     },
     handler: async (req, res) => {
         const getBundleNames = req.makeUsecase("getBundleNames");

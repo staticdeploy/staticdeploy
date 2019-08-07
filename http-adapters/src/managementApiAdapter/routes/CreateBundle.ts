@@ -78,10 +78,7 @@ export default convroute({
         }
     ],
     responses: {
-        "201": { description: "Bundle created, returns the bundle" },
-        "400": { description: "Body validation failed" },
-        "401": { description: "Authentication required" },
-        "403": { description: "Missing authorization roles" }
+        "201": { description: "Bundle created, returns the bundle" }
     },
     handler: async (req: IRequest, res) => {
         const createBundle = req.makeUsecase("createBundle");

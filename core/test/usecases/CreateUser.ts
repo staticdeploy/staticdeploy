@@ -19,7 +19,8 @@ describe("usecase CreateUser", () => {
             idp: "idp",
             idpId: "idpId",
             type: UserType.Human,
-            name: "name"
+            name: "name",
+            groupsIds: []
         });
         await expect(createUserPromise).to.be.rejectedWith(
             ConflictingUserError
@@ -55,7 +56,8 @@ describe("usecase CreateUser", () => {
             idp: "idp",
             idpId: "idpId",
             type: UserType.Human,
-            name: "name"
+            name: "name",
+            groupsIds: []
         });
         expect(deps.storages.users.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
@@ -76,7 +78,8 @@ describe("usecase CreateUser", () => {
             idp: "idp",
             idpId: "idpId",
             type: UserType.Human,
-            name: "name"
+            name: "name",
+            groupsIds: []
         });
         expect(
             deps.storages.operationLogs.createOne
@@ -94,7 +97,8 @@ describe("usecase CreateUser", () => {
             idp: "idp",
             idpId: "idpId",
             type: UserType.Human,
-            name: "name"
+            name: "name",
+            groupsIds: []
         });
         expect(createdUser).to.equal(mockCreatedUser);
     });

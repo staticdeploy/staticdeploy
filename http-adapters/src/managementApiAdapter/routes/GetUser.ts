@@ -3,30 +3,30 @@ import convroute from "../convroute";
 
 interface IRequest extends IBaseRequest {
     params: {
-        appId: string;
+        userId: string;
     };
 }
 
 export default convroute({
-    path: "/apps/:appId",
+    path: "/users/:userId",
     method: "get",
-    description: "Get app",
-    tags: ["apps"],
+    description: "Get user",
+    tags: ["users"],
     parameters: [
         {
-            name: "appId",
+            name: "userId",
             in: "path",
             required: true,
             type: "string"
         }
     ],
     responses: {
-        "200": { description: "Returns the app" },
-        "404": { description: "App not found" }
+        "200": { description: "Returns the user" },
+        "404": { description: "User not found" }
     },
     handler: async (req: IRequest, res) => {
-        const getApp = req.makeUsecase("getApp");
-        const app = await getApp.exec(req.params.appId);
-        res.status(200).send(app);
+        const getUser = req.makeUsecase("getUser");
+        const user = await getUser.exec(req.params.userId);
+        res.status(200).send(user);
     }
 });
