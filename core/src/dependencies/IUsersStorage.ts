@@ -14,7 +14,7 @@ export default interface IUsersStorage {
     ): Promise<IUserWithRoles | null>;
     findMany(): Promise<IUser[]>;
     oneExistsWithIdpAndIdpId(idp: string, idpId: string): Promise<boolean>;
-    anyExistsWithGroupId(groupId: string): Promise<boolean>;
+    anyExistsWithGroup(groupId: string): Promise<boolean>;
     createOne(user: {
         id: string;
         idp: string;

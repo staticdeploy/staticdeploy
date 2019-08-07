@@ -35,22 +35,18 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     }
 
     async oneExistsWithUrlMatcher(urlMatcher: string): Promise<boolean> {
-        const entrypoint = await this.findOneByUrlMatcher(urlMatcher);
-        return entrypoint !== null;
+        return !!find(this.entrypoints, { urlMatcher });
     }
 
     async anyExistsWithAppId(appId: string): Promise<boolean> {
-        const entrypoint = find(this.entrypoints, { appId }) || null;
-        return entrypoint !== null;
+        return !!find(this.entrypoints, { appId });
     }
 
     async anyExistsWithBundleIdIn(bundleIds: string[]): Promise<boolean> {
-        const entrypoint =
-            find(
-                this.entrypoints,
-                e => e.bundleId !== null && bundleIds.includes(e.bundleId)
-            ) || null;
-        return entrypoint !== null;
+        return !!find(
+            this.entrypoints,
+            e => e.bundleId !== null && bundleIds.includes(e.bundleId)
+        );
     }
 
     async createOne(toBeCreatedEntrypoint: {

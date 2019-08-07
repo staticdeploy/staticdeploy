@@ -1,5 +1,5 @@
 import { IGroup, IGroupsStorage } from "@staticdeploy/core";
-import { defaults, find, isNil, toArray } from "lodash";
+import { defaults, find, toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
 import convertErrors from "./common/convertErrors";
@@ -19,12 +19,11 @@ export default class GroupsStorage implements IGroupsStorage {
     }
 
     async oneExistsWithName(name: string): Promise<boolean> {
-        const group = find(this.groups, { name }) || null;
-        return group !== null;
+        return !!find(this.groups, { name });
     }
 
     async allExistWithIds(ids: string[]): Promise<boolean> {
-        return ids.every(id => !isNil(this.groups[id]));
+        return ids.every(id => !!this.groups[id]);
     }
 
     async createOne(toBeCreatedGroup: {

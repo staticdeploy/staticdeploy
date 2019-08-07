@@ -11,7 +11,9 @@ import AppsStorage from "./AppsStorage";
 import BundlesStorage from "./BundlesStorage";
 import { StorageSetupError } from "./common/errors";
 import EntrypointsStorage from "./EntrypointsStorage";
+import GroupsStorage from "./GroupsStorage";
 import OperationLogsStorage from "./OperationLogsStorage";
+import UsersStorage from "./UsersStorage";
 
 export default class SqlS3Storages implements IStoragesModule {
     private knex: Knex;
@@ -54,7 +56,9 @@ export default class SqlS3Storages implements IStoragesModule {
                 this.s3Bucket
             ),
             entrypoints: new EntrypointsStorage(this.knex),
+            groups: new GroupsStorage(this.knex),
             operationLogs: new OperationLogsStorage(this.knex),
+            users: new UsersStorage(this.knex),
             checkHealth: this.checkHealth.bind(this)
         };
     }

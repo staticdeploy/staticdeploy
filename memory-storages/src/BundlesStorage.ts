@@ -17,28 +17,28 @@ export default class BundlesStorage implements IBundlesStorage {
     constructor(private bundles: ICollection<IBundle>) {}
 
     async findOne(id: string): Promise<IBundleWithoutAssetsContent | null> {
-        const matchingBundle = this.bundles[id];
-        return matchingBundle ? this.removeAssetsContent(matchingBundle) : null;
+        const bundle = this.bundles[id];
+        return bundle ? this.removeAssetsContent(bundle) : null;
     }
 
     async findLatestByNameAndTag(
         name: string,
         tag: string
     ): Promise<IBundleWithoutAssetsContent | null> {
-        const matchingBundles = filter(this.bundles, { name, tag });
-        const matchingBundle = last(sortBy(matchingBundles, "createdAt"));
-        return matchingBundle ? this.removeAssetsContent(matchingBundle) : null;
+        const bundles = filter(this.bundles, { name, tag });
+        const latestBundle = last(sortBy(bundles, "createdAt"));
+        return latestBundle ? this.removeAssetsContent(latestBundle) : null;
     }
 
     async getBundleAssetContent(
         bundleId: string,
         assetPath: string
     ): Promise<Buffer | null> {
-        const matchingBundle = this.bundles[bundleId];
-        if (!matchingBundle) {
+        const bundle = this.bundles[bundleId];
+        if (!bundle) {
             return null;
         }
-        const matchingAsset = find(matchingBundle.assets, { path: assetPath });
+        const matchingAsset = find(bundle.assets, { path: assetPath });
         return matchingAsset ? matchingAsset.content! : null;
     }
 
@@ -67,8 +67,7 @@ export default class BundlesStorage implements IBundlesStorage {
     }
 
     async oneExistsWithId(id: string): Promise<boolean> {
-        const bundle = await this.findOne(id);
-        return bundle !== null;
+        return !!this.bundles[id];
     }
 
     async createOne(toBeCreatedBundle: {

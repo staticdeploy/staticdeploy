@@ -15,9 +15,7 @@ export default class DeleteUser extends Usecase {
         }
 
         // Ensure the group has no linked users
-        const hasLinkedUsers = await this.storages.users.anyExistsWithGroupId(
-            id
-        );
+        const hasLinkedUsers = await this.storages.users.anyExistsWithGroup(id);
         if (hasLinkedUsers) {
             throw new GroupHasUsersError(id);
         }

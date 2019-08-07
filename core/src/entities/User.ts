@@ -20,7 +20,6 @@ export interface IUser {
     idpId: string;
     type: UserType;
     name: string;
-    groupsIds: string[];
     createdAt: Date;
     updatedAt: Date;
 }

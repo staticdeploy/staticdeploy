@@ -6,56 +6,65 @@ import {
 import Knex from "knex";
 
 import convertErrors from "./common/convertErrors";
-
-export const ENTRYPOINTS_TABLE = "entrypoints";
+import tables from "./common/tables";
 
 @convertErrors
 export default class EntrypointsStorage implements IEntrypointsStorage {
     constructor(private knex: Knex) {}
 
     async findOne(id: string): Promise<IEntrypoint | null> {
-        const [entrypoint = null] = await this.knex(ENTRYPOINTS_TABLE).where({
+        const [entrypoint = null] = await this.knex(tables.entrypoints).where({
             id
         });
         return entrypoint;
     }
 
     async findOneByUrlMatcher(urlMatcher: string): Promise<IEntrypoint | null> {
-        const [entrypoint = null] = await this.knex(ENTRYPOINTS_TABLE).where({
+        const [entrypoint = null] = await this.knex(tables.entrypoints).where({
             urlMatcher
         });
         return entrypoint;
     }
 
     async findManyByAppId(appId: string): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).where({ appId });
-        return entrypoints;
-    }
-
-    async findManyByBundleId(bundleId: string): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).where({
-            bundleId
+        const entrypoints = await this.knex(tables.entrypoints).where({
+            appId
         });
-        return entrypoints;
-    }
-
-    async findManyByBundleIds(bundleIds: string[]): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).whereIn(
-            "bundleId",
-            bundleIds
-        );
         return entrypoints;
     }
 
     async findManyByUrlMatcherHostname(
         urlMatcherHostname: string
     ): Promise<IEntrypoint[]> {
-        const entrypoints = await this.knex(ENTRYPOINTS_TABLE).where(
+        const entrypoints = await this.knex(tables.entrypoints).where(
             "urlMatcher",
             "like",
             `${urlMatcherHostname}%`
         );
         return entrypoints;
+    }
+
+    async oneExistsWithUrlMatcher(urlMatcher: string): Promise<boolean> {
+        const [entrypoint = null] = await this.knex(tables.entrypoints)
+            .select("id")
+            .where({ urlMatcher });
+        return entrypoint !== null;
+    }
+
+    async anyExistsWithAppId(appId: string): Promise<boolean> {
+        const [entrypoint = null] = await this.knex(tables.entrypoints)
+            .select("id")
+            .where({ appId })
+            .limit(1);
+        return entrypoint !== null;
+    }
+
+    async anyExistsWithBundleIdIn(bundleIds: string[]): Promise<boolean> {
+        const [entrypoint = null] = await this.knex(tables.entrypoints)
+            .select("id")
+            .whereIn("bundleId", bundleIds)
+            .limit(1);
+        return entrypoint !== null;
     }
 
     async createOne(toBeCreatedEntrypoint: {
@@ -68,7 +77,7 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
         createdAt: Date;
         updatedAt: Date;
     }): Promise<IEntrypoint> {
-        const [createdApp] = await this.knex(ENTRYPOINTS_TABLE)
+        const [createdApp] = await this.knex(tables.entrypoints)
             .insert(toBeCreatedEntrypoint)
             .returning("*");
         return createdApp;
@@ -83,7 +92,7 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
             updatedAt: Date;
         }
     ): Promise<IEntrypoint> {
-        const [updatedApp] = await this.knex(ENTRYPOINTS_TABLE)
+        const [updatedApp] = await this.knex(tables.entrypoints)
             .where({ id })
             .update(patch)
             .returning("*");
@@ -91,7 +100,7 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     }
 
     async deleteOne(id: string): Promise<void> {
-        await this.knex(ENTRYPOINTS_TABLE)
+        await this.knex(tables.entrypoints)
             .where({ id })
             .delete();
     }

@@ -24,7 +24,7 @@ interface IDb {
     entrypoints: ICollection<IEntrypoint>;
     groups: ICollection<IGroup>;
     operationLogs: ICollection<IOperationLog>;
-    users: ICollection<IUser>;
+    users: ICollection<IUser & { groupsIds: string[] }>;
 }
 
 export default class MemoryStorages implements IStoragesModule {

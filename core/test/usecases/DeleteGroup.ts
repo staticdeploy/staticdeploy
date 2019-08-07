@@ -22,7 +22,7 @@ describe("usecase DeleteGroup", () => {
     it("throws GroupHasUsersError if the group has linked users", async () => {
         const deps = getMockDependencies();
         deps.storages.groups.findOne.resolves({} as any);
-        deps.storages.users.anyExistsWithGroupId.resolves(true);
+        deps.storages.users.anyExistsWithGroup.resolves(true);
         const deleteGroup = new DeleteGroup(deps);
         const deleteGroupPromise = deleteGroup.exec("groupId");
         await expect(deleteGroupPromise).to.be.rejectedWith(GroupHasUsersError);

@@ -132,7 +132,7 @@ export function getMockDependencies(): IMockDependencies {
                 findOneWithRolesByIdpAndIdpId: sinon.stub(),
                 findMany: sinon.stub(),
                 oneExistsWithIdpAndIdpId: sinon.stub(),
-                anyExistsWithGroupId: sinon.stub(),
+                anyExistsWithGroup: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
                 deleteOne: sinon.stub()

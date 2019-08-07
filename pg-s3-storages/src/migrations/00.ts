@@ -1,13 +1,10 @@
 import Knex from "knex";
 
-import { APPS_TABLE } from "../AppsStorage";
-import { BUNDLES_TABLE } from "../BundlesStorage";
-import { ENTRYPOINTS_TABLE } from "../EntrypointsStorage";
-import { OPERATION_LOGS_TABLE } from "../OperationLogsStorage";
+import tables from "../common/tables";
 
 export function up(knex: Knex) {
     return knex.schema
-        .createTable(APPS_TABLE, table => {
+        .createTable(tables.apps, table => {
             table.string("id").primary();
             table
                 .string("name")
@@ -17,7 +14,7 @@ export function up(knex: Knex) {
             table.timestamp("createdAt").notNullable();
             table.timestamp("updatedAt").notNullable();
         })
-        .createTable(BUNDLES_TABLE, table => {
+        .createTable(tables.bundles, table => {
             table.string("id").primary();
             table.string("name").notNullable();
             table.string("tag").notNullable();
@@ -29,7 +26,7 @@ export function up(knex: Knex) {
             table.integer("fallbackStatusCode").notNullable();
             table.timestamp("createdAt").notNullable();
         })
-        .createTable(ENTRYPOINTS_TABLE, table => {
+        .createTable(tables.entrypoints, table => {
             table.string("id").primary();
             table
                 .string("urlMatcher")
@@ -40,18 +37,18 @@ export function up(knex: Knex) {
                 .notNullable()
                 .index()
                 .references("id")
-                .inTable(APPS_TABLE);
+                .inTable(tables.apps);
             table
                 .string("bundleId")
                 .index()
                 .references("id")
-                .inTable(BUNDLES_TABLE);
+                .inTable(tables.bundles);
             table.string("redirectTo");
             table.json("configuration");
             table.timestamp("createdAt").notNullable();
             table.timestamp("updatedAt").notNullable();
         })
-        .createTable(OPERATION_LOGS_TABLE, table => {
+        .createTable(tables.operationLogs, table => {
             table.string("id").primary();
             table.string("operation").notNullable();
             table.json("parameters").notNullable();

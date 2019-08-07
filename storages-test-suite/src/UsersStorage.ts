@@ -1,5 +1,12 @@
-import { IStorages, UserType } from "@staticdeploy/core";
+import { IStorages, IUser, UserType } from "@staticdeploy/core";
 import { expect } from "chai";
+import { omit } from "lodash";
+
+function omitGroupsIds(
+    userWithGroupsIds: IUser & { groupsIds: string[] }
+): IUser {
+    return omit(userWithGroupsIds, "groupsIds");
+}
 
 export default (storages: IStorages) => {
     describe("UsersStorage", () => {
@@ -64,14 +71,14 @@ export default (storages: IStorages) => {
                 createdAt: new Date(),
                 updatedAt: new Date()
             });
-            const anyUserExists = await storages.users.anyExistsWithGroupId(
+            const anyUserExists = await storages.users.anyExistsWithGroup(
                 "id0"
             );
             expect(anyUserExists).to.equal(true);
         });
 
         it("check if (at least) one user with a non-existing groupId exists and get false", async () => {
-            const anyUserExists = await storages.users.anyExistsWithGroupId(
+            const anyUserExists = await storages.users.anyExistsWithGroup(
                 "id0"
             );
             expect(anyUserExists).to.equal(false);
@@ -90,7 +97,7 @@ export default (storages: IStorages) => {
             };
             await storages.users.createOne(user);
             const foundUser = await storages.users.findOne("id");
-            expect(foundUser).to.deep.equal(user);
+            expect(foundUser).to.deep.equal(omitGroupsIds(user));
         });
 
         it("try to find a user by a non-existing id and get null", async () => {
@@ -111,7 +118,7 @@ export default (storages: IStorages) => {
             };
             await storages.users.createOne(user);
             const foundUser = await storages.users.findOneWithGroups("id");
-            expect(foundUser).to.deep.equal({ ...user, groups });
+            expect(foundUser).to.deep.equal({ ...omitGroupsIds(user), groups });
         });
 
         it("try to find a user, with groups, by a non-existing id and get null", async () => {
@@ -136,7 +143,7 @@ export default (storages: IStorages) => {
                 "idpId"
             );
             expect(foundUser).to.deep.equal({
-                ...user,
+                ...omitGroupsIds(user),
                 roles: ["role0", "role1"]
             });
         });
@@ -162,7 +169,7 @@ export default (storages: IStorages) => {
             };
             await storages.users.createOne(user);
             const foundUsers = await storages.users.findMany();
-            expect(foundUsers).to.deep.equal([user]);
+            expect(foundUsers).to.deep.equal([omitGroupsIds(user)]);
         });
 
         describe("create many users and, finding them by id, get them back as expected", () => {
@@ -179,7 +186,7 @@ export default (storages: IStorages) => {
                 };
                 await storages.users.createOne(user);
                 const foundUser = await storages.users.findOne("id");
-                expect(foundUser).to.deep.equal(user);
+                expect(foundUser).to.deep.equal(omitGroupsIds(user));
             });
 
             it("case: groupsIds is a non-empty array", async () => {
@@ -195,7 +202,7 @@ export default (storages: IStorages) => {
                 };
                 await storages.users.createOne(user);
                 const foundUser = await storages.users.findOne("id");
-                expect(foundUser).to.deep.equal(user);
+                expect(foundUser).to.deep.equal(omitGroupsIds(user));
             });
         });
 
@@ -215,13 +222,13 @@ export default (storages: IStorages) => {
                 groupsIds: ["id0"],
                 updatedAt: new Date()
             });
-            const foundUser = await storages.users.findOne("id");
+            const foundUser = await storages.users.findOneWithGroups("id");
             // Test to see if undefined values passed to updateOne are correctly
             // ignored
             expect(foundUser).to.have.property("name", "name");
             expect(foundUser)
-                .to.have.property("groupsIds")
-                .that.deep.equals(["id0"]);
+                .to.have.property("groups")
+                .that.deep.equals([groups[0]]);
         });
 
         it("create a user, delete it, and verify it doesn't exist (anymore)", async () => {

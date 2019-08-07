@@ -3,10 +3,7 @@ import { S3 } from "aws-sdk";
 import Knex from "knex";
 
 import PgS3Storages from "../src";
-import { APPS_TABLE } from "../src/AppsStorage";
-import { BUNDLES_TABLE } from "../src/BundlesStorage";
-import { ENTRYPOINTS_TABLE } from "../src/EntrypointsStorage";
-import { OPERATION_LOGS_TABLE } from "../src/OperationLogsStorage";
+import tables from "../src/common/tables";
 
 // Create a pgS3Storages object with test configurations
 const pgS3Storages = new PgS3Storages({
@@ -30,10 +27,13 @@ registerStoragesTests({
 
         // Empty the database, starting from entrypoints since they reference apps
         // and bundles
-        await knex(ENTRYPOINTS_TABLE).delete();
-        await knex(APPS_TABLE).delete();
-        await knex(BUNDLES_TABLE).delete();
-        await knex(OPERATION_LOGS_TABLE).delete();
+        await knex(tables.entrypoints).delete();
+        await knex(tables.apps).delete();
+        await knex(tables.bundles).delete();
+        await knex(tables.operationLogs).delete();
+        await knex(tables.usersAndGroups).delete();
+        await knex(tables.groups).delete();
+        await knex(tables.users).delete();
 
         // Empty the S3 bucket
         const objects = await s3Client

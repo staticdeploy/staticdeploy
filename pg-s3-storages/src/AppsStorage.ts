@@ -2,26 +2,39 @@ import { IApp, IAppsStorage, IConfiguration } from "@staticdeploy/core";
 import Knex from "knex";
 
 import convertErrors from "./common/convertErrors";
-
-export const APPS_TABLE = "apps";
+import tables from "./common/tables";
 
 @convertErrors
 export default class AppsStorage implements IAppsStorage {
     constructor(private knex: Knex) {}
 
     async findOne(id: string): Promise<IApp | null> {
-        const [app = null] = await this.knex(APPS_TABLE).where({ id });
+        const [app = null] = await this.knex(tables.apps).where({ id });
         return app;
     }
 
     async findOneByName(name: string): Promise<IApp | null> {
-        const [app = null] = await this.knex(APPS_TABLE).where({ name });
+        const [app = null] = await this.knex(tables.apps).where({ name });
         return app;
     }
 
     async findMany(): Promise<IApp[]> {
-        const apps = await this.knex(APPS_TABLE);
+        const apps = await this.knex(tables.apps);
         return apps;
+    }
+
+    async oneExistsWithId(id: string): Promise<boolean> {
+        const [app = null] = await this.knex(tables.apps)
+            .select("id")
+            .where({ id });
+        return app !== null;
+    }
+
+    async oneExistsWithName(name: string): Promise<boolean> {
+        const [app = null] = await this.knex(tables.apps)
+            .select("id")
+            .where({ name });
+        return app !== null;
     }
 
     async createOne(toBeCreatedApp: {
@@ -31,7 +44,7 @@ export default class AppsStorage implements IAppsStorage {
         createdAt: Date;
         updatedAt: Date;
     }): Promise<IApp> {
-        const [createdApp] = await this.knex(APPS_TABLE)
+        const [createdApp] = await this.knex(tables.apps)
             .insert(toBeCreatedApp)
             .returning("*");
         return createdApp;
@@ -45,7 +58,7 @@ export default class AppsStorage implements IAppsStorage {
             updatedAt: Date;
         }
     ): Promise<IApp> {
-        const [updatedApp] = await this.knex(APPS_TABLE)
+        const [updatedApp] = await this.knex(tables.apps)
             .where({ id })
             .update(patch)
             .returning("*");
@@ -53,7 +66,7 @@ export default class AppsStorage implements IAppsStorage {
     }
 
     async deleteOne(id: string): Promise<void> {
-        await this.knex(APPS_TABLE)
+        await this.knex(tables.apps)
             .where({ id })
             .delete();
     }

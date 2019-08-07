@@ -23,13 +23,11 @@ export default class AppsStorage implements IAppsStorage {
     }
 
     async oneExistsWithId(id: string): Promise<boolean> {
-        const app = await this.findOne(id);
-        return app !== null;
+        return !!this.apps[id];
     }
 
     async oneExistsWithName(name: string): Promise<boolean> {
-        const app = await this.findOneByName(name);
-        return app !== null;
+        return !!find(this.apps, { name });
     }
 
     async createOne(toBeCreatedApp: {
