@@ -1,5 +1,5 @@
-import Icon from "antd/lib/icon";
-import Table, { ColumnProps } from "antd/lib/table";
+import Icon from "antd/es/icon";
+import Table, { ColumnProps } from "antd/es/table";
 import React from "react";
 import { NavLink } from "react-router-dom";
 

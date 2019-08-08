@@ -1,4 +1,4 @@
-import Modal from "antd/lib/modal";
+import Modal from "antd/es/modal";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";

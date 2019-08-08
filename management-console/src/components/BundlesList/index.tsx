@@ -1,7 +1,7 @@
 import { IBundle } from "@staticdeploy/core";
-import Table, { ColumnProps } from "antd/lib/table";
-import Tooltip from "antd/lib/tooltip";
-import { sortBy } from "lodash";
+import Table, { ColumnProps } from "antd/es/table";
+import Tooltip from "antd/es/tooltip";
+import sortBy from "lodash/sortBy";
 import moment from "moment";
 import React from "react";
 

@@ -1,4 +1,4 @@
-import Layout from "antd/lib/layout";
+import Layout from "antd/es/layout";
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 

@@ -1,5 +1,5 @@
-import Icon from "antd/lib/icon";
-import Menu from "antd/lib/menu";
+import Icon from "antd/es/icon";
+import Menu from "antd/es/menu";
 import * as React from "react";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 

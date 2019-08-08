@@ -1,7 +1,7 @@
-import Form, { FormItemProps } from "antd/lib/form";
-import Icon from "antd/lib/icon";
-import Input, { InputProps } from "antd/lib/input";
-import Tooltip from "antd/lib/tooltip";
+import Form, { FormItemProps } from "antd/es/form";
+import Icon from "antd/es/icon";
+import Input, { InputProps } from "antd/es/input";
+import Tooltip from "antd/es/tooltip";
 import classnames from "classnames";
 import React from "react";
 import { Field, WrappedFieldProps } from "redux-form";

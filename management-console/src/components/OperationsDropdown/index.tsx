@@ -1,6 +1,6 @@
-import Dropdown from "antd/lib/dropdown";
-import Icon from "antd/lib/icon";
-import Menu from "antd/lib/menu";
+import Dropdown from "antd/es/dropdown";
+import Icon from "antd/es/icon";
+import Menu from "antd/es/menu";
 import React from "react";
 
 import "./index.css";
@@ -38,6 +38,7 @@ export default class OperationsDropdown extends React.Component<IProps> {
                 trigger={["click"]}
                 placement="bottomRight"
             >
+                {/* eslint-disable-next-line */}
                 <a className="c-OperationsDropdown-link ant-dropdown-link">
                     {"Actions "}
                     <Icon type="down" />

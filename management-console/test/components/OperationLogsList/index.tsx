@@ -1,5 +1,5 @@
 import { IOperationLog, Operation } from "@staticdeploy/core";
-import Table from "antd/lib/table";
+import Table from "antd/es/table";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";

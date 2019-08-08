@@ -22,8 +22,15 @@
             "@types/sinon-chai",
             "@types/validator"
         ],
-        "jsx": "react",
+        "jsx": "preserve",
         "allowSyntheticDefaultImports": true,
-        "suppressImplicitAnyIndexErrors": true
-    }
+        "suppressImplicitAnyIndexErrors": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true
+    },
+    "include": ["src"]
 }

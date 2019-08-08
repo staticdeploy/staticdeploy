@@ -52,7 +52,7 @@ class EntrypointDetail extends React.Component<Props> {
                         <a
                             href={`http://${entrypoint.urlMatcher}`}
                             target="_blank"
-                            rel="noopener"
+                            rel="noopener noreferrer"
                         >
                             {entrypoint.urlMatcher}
                         </a>
@@ -73,7 +73,7 @@ class EntrypointDetail extends React.Component<Props> {
                             <a
                                 href={entrypoint.redirectTo}
                                 target="_blank"
-                                rel="noopener"
+                                rel="noopener noreferrer"
                             >
                                 {entrypoint.redirectTo}
                             </a>

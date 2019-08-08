@@ -5,10 +5,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "lib/index.d.js",
   "files": [
-    "lib"
+    "lib",
+    "es"
   ],
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "license": "MIT",
@@ -21,7 +23,9 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
-    "compile": "rimraf lib && tsc",
+    "compile:node": "rimraf lib && tsc",
+    "compile:browser": "rimraf es && tsc -p tsconfig.browser.json",
+    "compile": "yarn compile:node && yarn compile:browser",
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",

@@ -1,5 +1,5 @@
-import Alert from "antd/lib/alert";
-import Spin from "antd/lib/spin";
+import Alert from "antd/es/alert";
+import Spin from "antd/es/spin";
 import React from "react";
 
 import IAuthTokenService, { IStatus } from "../../common/IAuthTokenService";

@@ -1,7 +1,7 @@
 import { IOperationLog, Operation } from "@staticdeploy/core";
-import Table, { ColumnProps } from "antd/lib/table";
-import Tag from "antd/lib/tag";
-import { sortBy } from "lodash";
+import Table, { ColumnProps } from "antd/es/table";
+import Tag from "antd/es/tag";
+import sortBy from "lodash/sortBy";
 import moment from "moment";
 import React from "react";
 import JSONTree from "react-json-tree";

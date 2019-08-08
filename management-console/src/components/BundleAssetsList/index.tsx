@@ -1,6 +1,6 @@
 import { IAsset, IBundle } from "@staticdeploy/core";
-import Table from "antd/lib/table";
-import { sortBy } from "lodash";
+import Table from "antd/es/table";
+import sortBy from "lodash/sortBy";
 import React from "react";
 
 import "./index.css";

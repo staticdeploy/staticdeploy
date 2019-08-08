@@ -1,8 +1,13 @@
 import { IBundle } from "@staticdeploy/core";
-import Cascader, { CascaderOptionType, CascaderProps } from "antd/lib/cascader";
-import Form, { FormItemProps } from "antd/lib/form";
+import Cascader, { CascaderOptionType, CascaderProps } from "antd/es/cascader";
+import Form, { FormItemProps } from "antd/es/form";
 import classnames from "classnames";
-import { find, keys, map, setWith, sortBy, values } from "lodash";
+import find from "lodash/find";
+import keys from "lodash/keys";
+import map from "lodash/map";
+import setWith from "lodash/setWith";
+import sortBy from "lodash/sortBy";
+import values from "lodash/values";
 import moment from "moment";
 import React from "react";
 import { Field, WrappedFieldProps } from "redux-form";
