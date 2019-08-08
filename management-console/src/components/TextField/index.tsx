@@ -33,7 +33,11 @@ export class WrappedTextField extends React.Component<
             >
                 <Icon type="question-circle-o" />
             </Tooltip>
-        ) : null;
+        ) : (
+            // Empty span used to preserve focus when dynamically adding or
+            // removing the suffix. See https://ant.design/components/input/#FAQ
+            <span />
+        );
         return (
             <Form.Item
                 label={this.props.label}
@@ -59,9 +63,8 @@ export default class TextField extends React.Component<IProps> {
         return (
             <Field
                 name={this.props.name}
-                // Untyped as typing it only complicates the code for no benefit
-                component={WrappedTextField as any}
-                props={this.props as any}
+                component={WrappedTextField}
+                props={this.props}
             />
         );
     }

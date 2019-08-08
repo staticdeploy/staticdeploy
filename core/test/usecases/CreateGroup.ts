@@ -1,12 +1,27 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { ConflictingGroupError } from "../../src/common/errors";
+import {
+    ConflictingGroupError,
+    RoleNotValidError
+} from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateGroup from "../../src/usecases/CreateGroup";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase CreateGroup", () => {
+    it("throws RoleNotValidError if one of the roles is not valid", async () => {
+        const createGroup = new CreateGroup(getMockDependencies());
+        const createGroupPromise = createGroup.exec({
+            name: "name",
+            roles: ["not-valid"]
+        });
+        await expect(createGroupPromise).to.be.rejectedWith(RoleNotValidError);
+        await expect(createGroupPromise).to.be.rejectedWith(
+            "not-valid is not a valid role"
+        );
+    });
+
     it("throws ConflictingGroupError if a group with the same name exists", async () => {
         const deps = getMockDependencies();
         deps.storages.groups.oneExistsWithName.resolves(true);
@@ -26,11 +41,11 @@ describe("usecase CreateGroup", () => {
     it("creates a group", async () => {
         const deps = getMockDependencies();
         const createGroup = new CreateGroup(deps);
-        await createGroup.exec({ name: "name", roles: [] });
+        await createGroup.exec({ name: "name", roles: ["root"] });
         expect(deps.storages.groups.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
             name: "name",
-            roles: [],
+            roles: ["root"],
             createdAt: sinon.match.date,
             updatedAt: sinon.match.date
         });

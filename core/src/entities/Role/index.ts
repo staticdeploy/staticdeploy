@@ -1,3 +1,6 @@
+import { values } from "lodash";
+
+import { RoleNotValidError } from "../../common/errors";
 import matchesUrlMatcher from "./matchesUrlMatcher";
 
 export enum RoleName {
@@ -10,11 +13,33 @@ export enum RoleName {
 
 export type RoleTuple = [RoleName, string?];
 
+export function isRoleValid(role: string): boolean {
+    const tokens = role.split(":");
+    const [name] = tokens;
+    return (
+        values(RoleName).includes(name) &&
+        (name === RoleName.Root ? tokens.length === 1 : tokens.length === 2)
+    );
+}
+export function validateRole(role: string): void {
+    if (!isRoleValid(role)) {
+        throw new RoleNotValidError(role);
+    }
+}
+
+export function fromRoleTuple(roleTuple: RoleTuple): string {
+    return roleTuple.join(":");
+}
+
+export function toRoleTuple(role: string): RoleTuple {
+    return role.split(":") as RoleTuple;
+}
+
 export function roleMatchesRole(
     heldRole: string,
     requiredRole: RoleTuple
 ): boolean {
-    const [heldRoleName, heldRoleTarget] = heldRole.split(":");
+    const [heldRoleName, heldRoleTarget] = toRoleTuple(heldRole);
     const [requiredRoleName, requiredRoleTarget] = requiredRole;
     switch (requiredRoleName) {
         /*
@@ -88,7 +113,7 @@ export function roleMatchesRole(
         case RoleName.EntrypointCreator:
             return (
                 heldRoleName === requiredRoleName &&
-                matchesUrlMatcher(heldRoleTarget, requiredRoleTarget!)
+                matchesUrlMatcher(heldRoleTarget!, requiredRoleTarget!)
             );
 
         default:

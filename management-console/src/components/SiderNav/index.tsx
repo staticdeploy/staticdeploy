@@ -1,11 +1,11 @@
 import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 
-export default class SiderNav extends React.Component {
+class SiderNav extends React.Component<RouteComponentProps> {
     render() {
-        const firstLevelPath = window.location.pathname
+        const firstLevelPath = this.props.location.pathname
             .split("/")
             .slice(0, 2)
             .join("/");
@@ -27,6 +27,12 @@ export default class SiderNav extends React.Component {
                         <span>{"Bundles"}</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="/groups">
+                    <Link to="/groups">
+                        <Icon type="team" />
+                        <span>{"Groups"}</span>
+                    </Link>
+                </Menu.Item>
                 <Menu.Item key="/operationLogs">
                     <Link to="/operationLogs">
                         <Icon type="profile" />
@@ -37,3 +43,4 @@ export default class SiderNav extends React.Component {
         );
     }
 }
+export default withRouter(SiderNav);

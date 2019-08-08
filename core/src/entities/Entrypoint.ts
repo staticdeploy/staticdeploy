@@ -1,5 +1,5 @@
 import { isAbsolute, normalize } from "path";
-import { isFQDN } from "validator";
+import isFQDN from "validator/lib/isFQDN";
 
 import { EntrypointUrlMatcherNotValidError } from "../common/errors";
 import { IConfiguration } from "./Configuration";

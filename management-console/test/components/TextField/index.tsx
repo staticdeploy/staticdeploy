@@ -30,7 +30,10 @@ describe("TextField", () => {
                 "error"
             );
             expect(textField.find(Form.Item).prop("help")).to.equal("error");
-            expect(textField.find(Input).prop("suffix")).to.equal(null);
+            expect(textField.find(Input).prop("suffix")).to.have.property(
+                "type",
+                "span"
+            );
         });
 
         it("if it has been touched and prop inlineError is true, displays no help but a suffix on the Input component", () => {
@@ -44,7 +47,10 @@ describe("TextField", () => {
                 "error"
             );
             expect(textField.find(Form.Item).prop("help")).to.equal(undefined);
-            expect(textField.find(Input).prop("suffix")).not.to.equal(null);
+            expect(textField.find(Input).prop("suffix")).not.to.have.property(
+                "type",
+                "span"
+            );
         });
     });
 });

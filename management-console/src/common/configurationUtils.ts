@@ -1,5 +1,5 @@
 import { IConfiguration } from "@staticdeploy/core";
-import set from "lodash/set";
+import { set } from "lodash";
 
 export interface IKVPair {
     key: string;

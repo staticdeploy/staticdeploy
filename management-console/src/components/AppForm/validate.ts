@@ -1,3 +1,5 @@
+import { isAppNameValid } from "@staticdeploy/core";
+
 import { getErrors } from "../../common/configurationUtils";
 import { IInternalFormValues } from "./IFormValues";
 
@@ -7,7 +9,7 @@ export default function validate(values: Partial<IInternalFormValues>) {
     // Validate name
     if (!values.name) {
         errors.name = "Required";
-    } else if (!/^[\w-\.\/]{1,255}$/.test(values.name)) {
+    } else if (!isAppNameValid(values.name)) {
         errors.name =
             "Can only contain letters, numbers, underscores, dashes, dots, and slashes";
     }

@@ -55,11 +55,15 @@ export const entrypoint = (supplied: any = {}) => ({
 export const group = (supplied: any = {}) => ({
     id: id(),
     name: lowerCase(faker.commerce.productName()).replace(/ /g, "-"),
-    roles: faker.random.arrayElement([
-        "root",
-        `app-manager:${id()}`,
-        `entrypoint-manager:${id()}`
-    ]),
+    roles: times(3, () =>
+        faker.random.arrayElement([
+            "root",
+            `app-manager:${id()}`,
+            `bundle-manager:${id()}`,
+            `entrypoint-creator:${id()}`,
+            `entrypoint-manager:${id()}`
+        ])
+    ),
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
     ...supplied

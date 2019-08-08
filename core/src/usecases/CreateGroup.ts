@@ -3,11 +3,15 @@ import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import { IGroup } from "../entities/Group";
 import { Operation } from "../entities/OperationLog";
+import { validateRole } from "../entities/Role";
 
 export default class CreateGroup extends Usecase {
     async exec(partial: { name: string; roles: string[] }): Promise<IGroup> {
         // Auth check
         await this.authorizer.ensureCanCreateGroup();
+
+        // Validate roles
+        partial.roles.forEach(validateRole);
 
         // Ensure no group with the same name exists
         const conflictingGroupExists = await this.storages.groups.oneExistsWithName(

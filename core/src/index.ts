@@ -65,8 +65,8 @@ export {
 } from "./dependencies/IUsecaseConfig";
 export { default as IUsersStorage } from "./dependencies/IUsersStorage";
 
-// Entity types
-export { IApp } from "./entities/App";
+// Entities
+export { IApp, isAppNameValid } from "./entities/App";
 export {
     IAsset,
     IAssetWithContent,
@@ -75,16 +75,30 @@ export {
 export {
     IBaseBundle,
     IBundle,
-    IBundleWithoutAssetsContent
+    IBundleWithoutAssetsContent,
+    isBundleNameOrTagValid,
+    isBundleNameTagCombinationValid,
+    formNameTagCombination,
+    splitNameTagCombination
 } from "./entities/Bundle";
-export { IConfiguration } from "./entities/Configuration";
+export { IConfiguration, isConfigurationValid } from "./entities/Configuration";
 export { IEndpointRequest } from "./entities/EndpointRequest";
 export { IEndpointResponse } from "./entities/EndpointResponse";
-export { IEntrypoint } from "./entities/Entrypoint";
+export {
+    IEntrypoint,
+    isEntrypointUrlMatcherValid
+} from "./entities/Entrypoint";
 export { IFile } from "./entities/File";
 export { IGroup } from "./entities/Group";
 export { IHealthCheckResult } from "./entities/HealthCheckResult";
 export { IOperationLog, Operation } from "./entities/OperationLog";
+export {
+    RoleName,
+    RoleTuple,
+    isRoleValid,
+    fromRoleTuple,
+    toRoleTuple
+} from "./entities/Role";
 export {
     IUser,
     IIdpUser,

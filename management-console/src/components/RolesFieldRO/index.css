@@ -1,0 +1,20 @@
+.c-RolesFieldRO {
+    margin-bottom: 16px;
+}
+
+.c-RolesFieldRO-role {
+    border-style: solid;
+    border-color: var(--grey-4);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 8px;
+    line-height: 21px;
+}
+
+.c-RolesFieldRO-role code {
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

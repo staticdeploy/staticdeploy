@@ -1,0 +1,17 @@
+.c-RolesField {
+    margin-bottom: 29px;
+}
+
+.c-RolesField .ant-form-item {
+    margin: 0;
+}
+
+.c-RolesField-remove-button {
+    width: 100%;
+    margin-top: 3.5px;
+}
+
+.c-RolesField-add-button {
+    display: block;
+    margin-top: 3.5px;
+}

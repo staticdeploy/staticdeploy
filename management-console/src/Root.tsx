@@ -9,6 +9,7 @@ import LogoutButton from "./components/LogoutButton";
 import SiderNav from "./components/SiderNav";
 import Apps from "./pages/Apps";
 import Bundles from "./pages/Bundles";
+import Groups from "./pages/Groups";
 import OperationLogs from "./pages/OperationLogs";
 import "./Root.css";
 
@@ -40,6 +41,7 @@ export default class Root extends React.Component {
                         />
                         <Route path="/apps" component={Apps} />
                         <Route path="/bundles" component={Bundles} />
+                        <Route path="/groups" component={Groups} />
                         <Route
                             path="/operationLogs"
                             component={OperationLogs}

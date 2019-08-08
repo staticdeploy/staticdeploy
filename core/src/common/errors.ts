@@ -127,7 +127,7 @@ export class NoBundleOrRedirectToError extends Error {
     }
 }
 
-// Group errors
+// Group and role errors
 export class GroupNotFoundError extends Error {
     constructor(id: string) {
         super(`No group found with id = ${id}`);
@@ -147,6 +147,11 @@ export class ConflictingGroupError extends Error {
 export class GroupHasUsersError extends Error {
     constructor(id: string) {
         super(`Can't delete group with id = ${id} because it has linked users`);
+    }
+}
+export class RoleNotValidError extends Error {
+    constructor(role: string) {
+        super(`${role} is not a valid role`);
     }
 }
 

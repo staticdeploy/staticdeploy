@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil";
+import { isNil } from "lodash";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 

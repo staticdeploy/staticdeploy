@@ -8,7 +8,6 @@ import {
     WrappedFieldArrayProps
 } from "redux-form";
 
-import { IKVPair } from "../../common/configurationUtils";
 import TextField from "../TextField";
 import "./index.css";
 
@@ -17,8 +16,8 @@ interface IProps {
     label?: string;
 }
 
-export class WrappedConfigurationField extends React.Component<
-    IProps & WrappedFieldArrayProps<IKVPair>
+export class WrappedRolesField extends React.Component<
+    IProps & WrappedFieldArrayProps<string>
 > {
     renderLabel() {
         return this.props.label ? (
@@ -27,29 +26,19 @@ export class WrappedConfigurationField extends React.Component<
             </div>
         ) : null;
     }
-    renderKVPairFields(
+    renderRoleField(
         fieldName: string,
         index: number,
-        fields: FieldArrayFieldsProps<IKVPair>
+        fields: FieldArrayFieldsProps<string>
     ) {
         return (
             <Row key={index} gutter={8}>
-                <Col span={9}>
-                    <TextField
-                        name={`${fieldName}.key`}
-                        placeholder="Variable name"
-                        inlineError={true}
-                    />
-                </Col>
-                <Col span={13}>
-                    <TextField
-                        name={`${fieldName}.value`}
-                        placeholder="Value"
-                    />
+                <Col span={22}>
+                    <TextField name={fieldName} inlineError={true} />
                 </Col>
                 <Col span={2}>
                     <Button
-                        className="c-ConfigurationField-remove-button"
+                        className="c-RolesField-remove-button"
                         icon="delete"
                         onClick={() => fields.remove(index)}
                     />
@@ -60,26 +49,26 @@ export class WrappedConfigurationField extends React.Component<
     render() {
         const { fields } = this.props;
         return (
-            <div className="c-ConfigurationField">
+            <div className="c-RolesField">
                 {this.renderLabel()}
-                {fields.map(this.renderKVPairFields)}
+                {fields.map(this.renderRoleField)}
                 <Button
-                    className="c-ConfigurationField-add-button"
-                    onClick={() => fields.push({ key: "", value: "" })}
+                    className="c-RolesField-add-button"
+                    onClick={() => fields.push("")}
                 >
-                    {"Add variable"}
+                    {"Add role"}
                 </Button>
             </div>
         );
     }
 }
 
-export default class ConfigurationField extends React.Component<IProps> {
+export default class RolesField extends React.Component<IProps> {
     render() {
         return (
             <FieldArray
                 name={this.props.name}
-                component={WrappedConfigurationField}
+                component={WrappedRolesField}
                 props={this.props}
             />
         );

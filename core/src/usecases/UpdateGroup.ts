@@ -2,6 +2,7 @@ import { ConflictingGroupError, GroupNotFoundError } from "../common/errors";
 import Usecase from "../common/Usecase";
 import { IGroup } from "../entities/Group";
 import { Operation } from "../entities/OperationLog";
+import { validateRole } from "../entities/Role";
 
 export default class UpdateGroup extends Usecase {
     async exec(
@@ -13,6 +14,11 @@ export default class UpdateGroup extends Usecase {
     ): Promise<IGroup> {
         // Auth check
         await this.authorizer.ensureCanUpdateGroup();
+
+        // Validate roles
+        if (patch.roles) {
+            patch.roles.forEach(validateRole);
+        }
 
         const existingGroup = await this.storages.groups.findOne(id);
 
