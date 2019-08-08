@@ -1,16 +1,13 @@
 import { RequestHandler } from "express";
-import faker from "faker";
+
+import { entrypoint } from "../../generators";
 
 export default ((req, res) => {
-    res.status(200).send({
-        appId: faker.random.alphaNumeric(8),
-        urlMatcher: `${faker.internet.domainName()}/${faker.hacker.noun()}`,
-        bundleId: null,
-        redirectTo: null,
-        configuration: null,
-        ...req.body,
-        id: req.params.entrypointId,
-        createdAt: faker.date.past(),
-        updatedAt: faker.date.past()
-    });
+    res.status(200).send(
+        entrypoint({
+            id: req.params.entrypointId,
+            updatedAt: new Date().toISOString(),
+            ...req.body
+        })
+    );
 }) as RequestHandler;

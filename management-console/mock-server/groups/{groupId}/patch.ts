@@ -1,12 +1,11 @@
 import { RequestHandler } from "express";
 
-import { app } from "../generators";
+import { group } from "../../generators";
 
 export default ((req, res) => {
-    res.status(201).send(
-        app({
-            defaultConfiguration: {},
-            createdAt: new Date().toISOString(),
+    res.status(200).send(
+        group({
+            id: req.params.groupId,
             updatedAt: new Date().toISOString(),
             ...req.body
         })

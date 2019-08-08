@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@staticdeploy/core": "^0.12.0",
-    "aws-sdk": "^2.503.0",
+    "aws-sdk": "^2.505.0",
     "bluebird": "^3.5.5",
     "knex": "^0.19.1",
     "lodash": "^4.17.15",

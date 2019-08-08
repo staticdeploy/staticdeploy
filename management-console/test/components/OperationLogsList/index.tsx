@@ -9,7 +9,7 @@ import OperationLogsList from "../../../src/components/OperationLogsList";
 function getOperationLog(partial: Partial<IOperationLog>) {
     return {
         id: "0",
-        operation: Operation.createApp,
+        operation: Operation.CreateApp,
         parameters: {},
         performedBy: "performedBy",
         performedAt: new Date(),

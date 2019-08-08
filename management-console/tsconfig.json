@@ -4,7 +4,6 @@
         "target": "es5",
         "module": "esnext",
         "lib": ["es2017", "dom"],
-
         "types": [
             "@types/chai",
             "@types/classnames",
