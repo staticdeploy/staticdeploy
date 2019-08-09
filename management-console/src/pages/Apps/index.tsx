@@ -1,5 +1,5 @@
-import Col from "antd/es/col";
-import Row from "antd/es/row";
+import Col from "antd/lib/col";
+import Row from "antd/lib/row";
 import React from "react";
 import { Route } from "react-router-dom";
 

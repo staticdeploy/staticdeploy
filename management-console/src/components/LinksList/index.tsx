@@ -1,5 +1,5 @@
-import Icon from "antd/es/icon";
-import Table, { ColumnProps } from "antd/es/table";
+import Icon from "antd/lib/icon";
+import Table, { ColumnProps } from "antd/lib/table";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -32,7 +32,10 @@ export default class LinksList<Item extends IItem> extends React.Component<
                             <div className="c-LinksList-item-description">
                                 {this.props.getDescription(item)}
                             </div>
-                            <Icon type="right" />
+                            <Icon
+                                className="c-LinksList-item-arrow"
+                                type="right"
+                            />
                         </NavLink>
                     );
                 }

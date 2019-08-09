@@ -1,6 +1,6 @@
-import Alert from "antd/es/alert";
-import Divider from "antd/es/divider";
-import Spin from "antd/es/spin";
+import Alert from "antd/lib/alert";
+import Divider from "antd/lib/divider";
+import Spin from "antd/lib/spin";
 import React from "react";
 
 import "./index.css";

@@ -1,6 +1,6 @@
 import { IBundle } from "@staticdeploy/core";
-import Cascader, { CascaderOptionType, CascaderProps } from "antd/es/cascader";
-import Form, { FormItemProps } from "antd/es/form";
+import Cascader, { CascaderOptionType, CascaderProps } from "antd/lib/cascader";
+import Form, { FormItemProps } from "antd/lib/form";
 import classnames from "classnames";
 import find from "lodash/find";
 import keys from "lodash/keys";

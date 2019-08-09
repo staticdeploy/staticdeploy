@@ -16,7 +16,7 @@ import { IExternalFormValues, IInternalFormValues } from "./IFormValues";
 import validate from "./validate";
 
 interface IProps {
-    showUrlMatcherField?: boolean;
+    isEditForm?: boolean;
 }
 
 interface IState {
@@ -54,18 +54,17 @@ class EntrypointForm extends React.Component<
     }
 
     render() {
-        const { showUrlMatcherField } = this.props;
+        const { isEditForm } = this.props;
         const { bundles, loadingBundles, errorLoadingBundles } = this.state;
         return (
             <form onSubmit={this.props.handleSubmit}>
-                {showUrlMatcherField !== false ? (
-                    <TextField
-                        label="Url matcher"
-                        name="urlMatcher"
-                        placeholder="sub.example.com/path/"
-                        inlineError={true}
-                    />
-                ) : null}
+                <TextField
+                    label="Url matcher"
+                    name="urlMatcher"
+                    placeholder="sub.example.com/path/"
+                    inlineError={true}
+                    disabled={isEditForm}
+                />
                 <TextField
                     label="Redirect to"
                     name="redirectTo"

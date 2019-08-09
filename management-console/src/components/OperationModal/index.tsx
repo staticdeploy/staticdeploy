@@ -1,9 +1,9 @@
-import Button from "antd/es/button";
-import Col from "antd/es/col";
-import Icon from "antd/es/icon";
-import Modal from "antd/es/modal";
-import Row from "antd/es/row";
-import Spin from "antd/es/spin";
+import Button from "antd/lib/button";
+import Col from "antd/lib/col";
+import Icon from "antd/lib/icon";
+import Modal from "antd/lib/modal";
+import Row from "antd/lib/row";
+import Spin from "antd/lib/spin";
 import classnames from "classnames";
 import React from "react";
 

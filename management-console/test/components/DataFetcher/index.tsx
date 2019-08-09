@@ -1,5 +1,5 @@
-import Alert from "antd/es/alert";
-import Spin from "antd/es/spin";
+import Alert from "antd/lib/alert";
+import Spin from "antd/lib/spin";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";

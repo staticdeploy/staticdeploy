@@ -1,0 +1,9 @@
+/* Reduce FormItem label vertical spacing */
+.ant-form-item-label {
+    line-height: 24px;
+}
+
+/* Reduce FormItem bottom margin and error text font size */
+.ant-form-item {
+    margin-bottom: 8px;
+}

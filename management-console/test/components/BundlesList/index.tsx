@@ -1,5 +1,5 @@
 import { IBundle } from "@staticdeploy/core";
-import Table from "antd/es/table";
+import Table from "antd/lib/table";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";

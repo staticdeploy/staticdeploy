@@ -1,5 +1,5 @@
-import Icon from "antd/es/icon";
-import Tooltip from "antd/es/tooltip";
+import Icon from "antd/lib/icon";
+import Tooltip from "antd/lib/tooltip";
 import React from "react";
 
 import IAuthTokenService from "../../common/IAuthTokenService";

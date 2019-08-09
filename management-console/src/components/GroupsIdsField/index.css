@@ -1,0 +1,4 @@
+/* Distance the user name from the icon */
+.c-UserTypeField-option-name {
+    margin-left: 8px;
+}

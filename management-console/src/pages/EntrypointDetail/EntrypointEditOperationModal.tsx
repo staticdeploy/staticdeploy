@@ -49,12 +49,8 @@ export default class EntrypointEditOperationModal extends React.Component<
                 successMessage="Entrypoint saved"
             >
                 <EntrypointForm
-                    showUrlMatcherField={false}
-                    initialValues={{
-                        bundleId: this.props.entrypoint.bundleId,
-                        redirectTo: this.props.entrypoint.redirectTo,
-                        configuration: this.props.entrypoint.configuration
-                    }}
+                    isEditForm={true}
+                    initialValues={this.props.entrypoint}
                     ref={form => (this.form = form!)}
                 />
             </OperationModal>

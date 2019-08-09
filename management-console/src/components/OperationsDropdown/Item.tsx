@@ -1,5 +1,5 @@
-import Divider from "antd/es/divider";
-import Icon from "antd/es/icon";
+import Divider from "antd/lib/divider";
+import Icon from "antd/lib/icon";
 import React from "react";
 
 import "./index.css";

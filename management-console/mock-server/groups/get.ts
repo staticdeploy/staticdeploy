@@ -6,6 +6,6 @@ export default ((_req, res) => {
     if (Math.random() > 0.9) {
         res.status(400).send({ message: "Random error" });
     } else {
-        res.status(200).send(times(10, group));
+        res.status(200).send(times(100, group));
     }
 }) as RequestHandler;

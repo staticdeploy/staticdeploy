@@ -1,4 +1,4 @@
-import Tooltip, { TooltipProps } from "antd/es/tooltip";
+import Tooltip, { TooltipProps } from "antd/lib/tooltip";
 import classnames from "classnames";
 import React from "react";
 

@@ -1,5 +1,5 @@
-import Col from "antd/es/col";
-import Row from "antd/es/row";
+import Col from "antd/lib/col";
+import Row from "antd/lib/row";
 import React from "react";
 import { Route } from "react-router-dom";
 
@@ -10,10 +10,10 @@ export default class Groups extends React.Component {
     render() {
         return (
             <Row gutter={32}>
-                <Col span={6}>
+                <Col xl={6} xs={8}>
                     <Route path="/groups/:groupId?" component={GroupsList} />
                 </Col>
-                <Col span={6}>
+                <Col xl={6} xs={8}>
                     <Route path="/groups/:groupId" component={GroupDetail} />
                 </Col>
             </Row>

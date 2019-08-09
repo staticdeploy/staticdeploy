@@ -95,7 +95,7 @@ export const user = (supplied: any = {}) => ({
     id: id(),
     idp: faker.internet.domainName(),
     idpId: id(),
-    type: faker.random.arrayElement(["human", "bot"]),
+    type: faker.random.arrayElement(["human", "machine"]),
     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),

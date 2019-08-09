@@ -1,5 +1,5 @@
-import Form from "antd/es/form";
-import Input from "antd/es/input";
+import Form from "antd/lib/form";
+import Input from "antd/lib/input";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";

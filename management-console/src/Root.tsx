@@ -1,4 +1,4 @@
-import Layout from "antd/es/layout";
+import Layout from "antd/lib/layout";
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
@@ -11,6 +11,7 @@ import Apps from "./pages/Apps";
 import Bundles from "./pages/Bundles";
 import Groups from "./pages/Groups";
 import OperationLogs from "./pages/OperationLogs";
+import Users from "./pages/Users";
 import "./Root.css";
 
 export default class Root extends React.Component {
@@ -46,6 +47,7 @@ export default class Root extends React.Component {
                             path="/operationLogs"
                             component={OperationLogs}
                         />
+                        <Route path="/users" component={Users} />
                     </Layout.Content>
                 </Layout>
             </LoginMask>

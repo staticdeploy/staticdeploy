@@ -64,11 +64,11 @@
 }
 
 /* Show the right arrow on hover and on link active */
-.c-LinksList-item .anticon {
+.c-LinksList-item .c-LinksList-item-arrow {
     visibility: hidden;
 }
-.c-LinksList-item a:hover .anticon,
-.c-LinksList-item a.active .anticon {
+.c-LinksList-item a:hover .c-LinksList-item-arrow,
+.c-LinksList-item a.active .c-LinksList-item-arrow {
     visibility: visible;
 }
 

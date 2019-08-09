@@ -1,5 +1,5 @@
-import Icon from "antd/es/icon";
-import Menu from "antd/es/menu";
+import Icon from "antd/lib/icon";
+import Menu from "antd/lib/menu";
 import * as React from "react";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 
@@ -25,6 +25,12 @@ class SiderNav extends React.Component<RouteComponentProps> {
                     <Link to="/bundles">
                         <Icon type="folder" />
                         <span>{"Bundles"}</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="/users">
+                    <Link to="/users">
+                        <Icon type="user" />
+                        <span>{"Users"}</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="/groups">

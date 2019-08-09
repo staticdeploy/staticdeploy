@@ -1,5 +1,5 @@
-import Button from "antd/es/button";
-import Card from "antd/es/card";
+import Button from "antd/lib/button";
+import Card from "antd/lib/card";
 import React from "react";
 import { InjectedFormProps } from "redux-form";
 
