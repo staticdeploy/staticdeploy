@@ -8,8 +8,6 @@ WORKDIR /opt/staticdeploy
 COPY package.json lerna.json yarn.lock tsconfig.json ./
 
 COPY management-console/package.json management-console/tsconfig.json ./management-console/
-COPY management-console/webpack ./management-console/webpack/
-COPY management-console/typings ./management-console/typings/
 COPY management-console/public ./management-console/public/
 COPY management-console/src ./management-console/src/
 COPY core/package.json core/tsconfig.json core/tsconfig.browser.json ./core/
@@ -41,7 +39,7 @@ RUN yarn install && \
     yarn install --production && \
     # Remove unecessary files
     rm yarn.lock tsconfig.json && \
-    rm -r management-console/tsconfig.json management-console/webpack management-console/typings management-console/public management-console/src && \
+    rm -r management-console/tsconfig.json management-console/public management-console/src && \
     rm -r core/tsconfig.json core/tsconfig.browser.json core/src && \
     rm -r http-adapters/tsconfig.json http-adapters/src && \
     rm -r memory-storages/tsconfig.json memory-storages/src && \
