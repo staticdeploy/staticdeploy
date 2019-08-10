@@ -51,13 +51,14 @@ describe("usecase CreateUser", () => {
 
     it("creates a user", async () => {
         const deps = getMockDependencies();
+        deps.storages.groups.allExistWithIds.resolves(true);
         const createUser = new CreateUser(deps);
         await createUser.exec({
             idp: "idp",
             idpId: "idpId",
             type: UserType.Human,
             name: "name",
-            groupsIds: []
+            groupsIds: ["groupId"]
         });
         expect(deps.storages.users.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
@@ -65,7 +66,7 @@ describe("usecase CreateUser", () => {
             idpId: "idpId",
             type: UserType.Human,
             name: "name",
-            groupsIds: [],
+            groupsIds: ["groupId"],
             createdAt: sinon.match.date,
             updatedAt: sinon.match.date
         });

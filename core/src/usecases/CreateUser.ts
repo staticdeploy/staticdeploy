@@ -42,7 +42,7 @@ export default class CreateUser extends Usecase {
             idp: partial.idp,
             idpId: partial.idpId,
             type: partial.type,
-            groupsIds: [],
+            groupsIds: partial.groupsIds,
             createdAt: now,
             updatedAt: now
         });
