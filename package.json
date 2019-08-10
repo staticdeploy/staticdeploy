@@ -8,6 +8,7 @@
     "cli",
     "core",
     "http-adapters",
+    "jwt-authentication-strategy",
     "memory-storages",
     "pg-s3-storages",
     "sdk",

@@ -15,7 +15,7 @@ import GroupsStorage from "./GroupsStorage";
 import OperationLogsStorage from "./OperationLogsStorage";
 import UsersStorage from "./UsersStorage";
 
-export default class SqlS3Storages implements IStoragesModule {
+export default class PgS3Storages implements IStoragesModule {
     private knex: Knex;
     private s3Client: S3;
     private s3Bucket: string;
