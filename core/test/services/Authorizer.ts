@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import sinon from "sinon";
 
 import {
     AuthenticationRequiredError,
@@ -6,15 +7,23 @@ import {
     UserNotFoundError
 } from "../../src/common/errors";
 import { AuthEnforcementLevel } from "../../src/dependencies/IUsecaseConfig";
+import { IIdpUser } from "../../src/entities/User";
+import Authenticator from "../../src/services/Authenticator";
 import Authorizer from "../../src/services/Authorizer";
 import { getMockDependencies } from "../testUtils";
+
+function getMockAuthenticator(idpUser: IIdpUser | null): Authenticator {
+    return {
+        getIdpUser: sinon.stub().resolves(idpUser)
+    } as any;
+}
 
 function getAuthorizerForUser(user: any) {
     const deps = getMockDependencies();
     deps.storages.users.findOneWithRolesByIdpAndIdpId.resolves(user);
     return new Authorizer(
         deps.storages.users,
-        { id: "id", idp: "idp" },
+        getMockAuthenticator({ id: "id", idp: "idp" }),
         AuthEnforcementLevel.Authorization
     );
 }
@@ -26,7 +35,7 @@ describe("service Authorizer", () => {
             const deps = getMockDependencies();
             const authorizer = new Authorizer(
                 deps.storages.users,
-                null,
+                getMockAuthenticator(null),
                 AuthEnforcementLevel.None
             );
             await authorizer.ensureCanCreateApp();
@@ -35,7 +44,7 @@ describe("service Authorizer", () => {
             const deps = getMockDependencies();
             const authorizer = new Authorizer(
                 deps.storages.users,
-                null,
+                getMockAuthenticator(null),
                 AuthEnforcementLevel.Authorization
             );
             const ensurePromise = authorizer.ensureCanCreateApp();
@@ -47,7 +56,7 @@ describe("service Authorizer", () => {
             const deps = getMockDependencies();
             const authorizer = new Authorizer(
                 deps.storages.users,
-                { id: "id", idp: "idp" },
+                getMockAuthenticator({ id: "id", idp: "idp" }),
                 AuthEnforcementLevel.Authorization
             );
             const ensurePromise = authorizer.ensureCanCreateApp();

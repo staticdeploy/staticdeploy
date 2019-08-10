@@ -6,14 +6,15 @@ import {
 import { AuthEnforcementLevel } from "../dependencies/IUsecaseConfig";
 import IUsersStorage from "../dependencies/IUsersStorage";
 import { oneOfRolesMatchesRole, RoleName, RoleTuple } from "../entities/Role";
-import { IIdpUser, IUser, IUserWithRoles } from "../entities/User";
+import { IUser, IUserWithRoles } from "../entities/User";
+import Authenticator from "./Authenticator";
 
 export default class Authorizer {
     private user: IUserWithRoles | null = null;
 
     constructor(
         private users: IUsersStorage,
-        private idpUser: IIdpUser | null,
+        private authenticator: Authenticator,
         private authEnforcementLevel: AuthEnforcementLevel
     ) {}
 
@@ -145,24 +146,25 @@ export default class Authorizer {
         return this.enforceAuth();
     }
 
-    private async enforceAuth(authorizer?: () => boolean): Promise<void> {
+    private async enforceAuth(hasRequiredRoles?: () => boolean): Promise<void> {
         if (this.authEnforcementLevel === AuthEnforcementLevel.None) {
             return;
         }
 
-        if (!this.idpUser) {
+        const idpUser = await this.authenticator.getIdpUser();
+        if (!idpUser) {
             throw new AuthenticationRequiredError();
         }
 
         this.user = await this.users.findOneWithRolesByIdpAndIdpId(
-            this.idpUser.idp,
-            this.idpUser.id
+            idpUser.idp,
+            idpUser.id
         );
         if (!this.user) {
-            throw new UserNotFoundError(this.idpUser);
+            throw new UserNotFoundError(idpUser);
         }
 
-        if (authorizer && !authorizer()) {
+        if (hasRequiredRoles && !hasRequiredRoles()) {
             throw new MissingRoleError();
         }
     }

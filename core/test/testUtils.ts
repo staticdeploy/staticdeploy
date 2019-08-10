@@ -2,6 +2,7 @@ import sinon, { SinonStub } from "sinon";
 
 import IAppsStorage from "../src/dependencies/IAppsStorage";
 import IArchiver from "../src/dependencies/IArchiver";
+import IAuthenticationStrategy from "../src/dependencies/IAuthenticationStrategy";
 import IBundlesStorage from "../src/dependencies/IBundlesStorage";
 import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
 import IGroupsStorage from "../src/dependencies/IGroupsStorage";
@@ -21,6 +22,12 @@ interface IMockDependencies {
             ReturnType<IArchiver[method]>
         >;
     };
+    authenticationStrategies: {
+        [method in keyof IAuthenticationStrategy]: SinonStub<
+            Parameters<IAuthenticationStrategy[method]>,
+            ReturnType<IAuthenticationStrategy[method]>
+        >;
+    }[];
     config: IUsecaseConfig;
     requestContext: IRequestContext;
     storages: {
@@ -72,11 +79,12 @@ export function getMockDependencies(): IMockDependencies {
             extractFiles: sinon.stub(),
             makeArchive: sinon.stub()
         },
+        authenticationStrategies: [],
         config: {
             authEnforcementLevel: AuthEnforcementLevel.None
         },
         requestContext: {
-            idpUser: null
+            authToken: null
         },
         storages: {
             apps: {

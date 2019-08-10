@@ -1,33 +1,45 @@
 import IArchiver from "../dependencies/IArchiver";
+import IAuthenticationStrategy from "../dependencies/IAuthenticationStrategy";
 import IRequestContext from "../dependencies/IRequestContext";
 import IStorages from "../dependencies/IStorages";
 import IUsecaseConfig from "../dependencies/IUsecaseConfig";
+import Authenticator from "../services/Authenticator";
 import Authorizer from "../services/Authorizer";
 import OperationLogger from "../services/OperationLogger";
 
 export default abstract class Usecase {
-    // Dependencies
-    protected archiver: IArchiver;
-    protected config: IUsecaseConfig;
-    protected requestContext: IRequestContext;
-    protected storages: IStorages;
     // Services
     protected authorizer: Authorizer;
     protected operationLogger: OperationLogger;
+    // Dependencies
+    protected archiver: IArchiver;
+    protected storages: IStorages;
+    private config: IUsecaseConfig;
+    private requestContext: IRequestContext;
+    private authenticationStrategies: IAuthenticationStrategy[];
 
     constructor(options: {
         archiver: IArchiver;
+        authenticationStrategies: IAuthenticationStrategy[];
         config: IUsecaseConfig;
         requestContext: IRequestContext;
         storages: IStorages;
     }) {
+        // Dependencies
+        this.authenticationStrategies = options.authenticationStrategies;
         this.archiver = options.archiver;
         this.config = options.config;
         this.requestContext = options.requestContext;
         this.storages = options.storages;
+
+        // Services
+        const authenticator = new Authenticator(
+            options.authenticationStrategies,
+            this.requestContext.authToken
+        );
         this.authorizer = new Authorizer(
             this.storages.users,
-            this.requestContext.idpUser,
+            authenticator,
             this.config.authEnforcementLevel
         );
         this.operationLogger = new OperationLogger(
@@ -41,6 +53,7 @@ export default abstract class Usecase {
     protected makeUsecase<U extends Usecase>(UsecaseClass: {
         new (dependencies: {
             archiver: IArchiver;
+            authenticationStrategies: IAuthenticationStrategy[];
             config: IUsecaseConfig;
             requestContext: IRequestContext;
             storages: IStorages;
@@ -48,6 +61,7 @@ export default abstract class Usecase {
     }): U {
         return new UsecaseClass({
             archiver: this.archiver,
+            authenticationStrategies: this.authenticationStrategies,
             config: this.config,
             requestContext: this.requestContext,
             storages: this.storages

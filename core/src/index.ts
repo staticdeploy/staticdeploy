@@ -51,6 +51,9 @@ export { default as UpdateUser } from "./usecases/UpdateUser";
 // External dependencies
 export { default as IAppsStorage } from "./dependencies/IAppsStorage";
 export { default as IArchiver } from "./dependencies/IArchiver";
+export {
+    default as IAuthenticationStrategy
+} from "./dependencies/IAuthenticationStrategy";
 export { default as IBundlesStorage } from "./dependencies/IBundlesStorage";
 export {
     default as IEntrypointsStorage

@@ -12,12 +12,12 @@ import { getMockDependencies } from "../testUtils";
 
 describe("usecase CreateRootUserAndGroup", () => {
     it("creates the root group if it doesn't exist", async () => {
-        const deps = getMockDependencies();
-        deps.storages.groups.findOneByName.resolves(null);
-        deps.storages.groups.createOne.resolves({ id: "groupId" } as any);
-        const createRootUserAndGroup = new CreateRootUserAndGroup(deps);
+        const { storages } = getMockDependencies();
+        storages.groups.findOneByName.resolves(null);
+        storages.groups.createOne.resolves({ id: "groupId" } as any);
+        const createRootUserAndGroup = new CreateRootUserAndGroup(storages);
         await createRootUserAndGroup.exec("idp");
-        expect(deps.storages.groups.createOne).to.have.been.calledOnceWith({
+        expect(storages.groups.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
             name: ROOT_GROUP_NAME,
             roles: [RoleName.Root],
@@ -27,20 +27,20 @@ describe("usecase CreateRootUserAndGroup", () => {
     });
 
     it("doesn't create the root group if it exists", async () => {
-        const deps = getMockDependencies();
-        deps.storages.groups.findOneByName.resolves({ id: "groupId" } as any);
-        const createRootUserAndGroup = new CreateRootUserAndGroup(deps);
+        const { storages } = getMockDependencies();
+        storages.groups.findOneByName.resolves({ id: "groupId" } as any);
+        const createRootUserAndGroup = new CreateRootUserAndGroup(storages);
         await createRootUserAndGroup.exec("idp");
-        expect(deps.storages.groups.createOne).to.have.callCount(0);
+        expect(storages.groups.createOne).to.have.callCount(0);
     });
 
     it("creates the root user if it doesn't exist", async () => {
-        const deps = getMockDependencies();
-        deps.storages.groups.findOneByName.resolves({ id: "groupId" } as any);
-        deps.storages.users.oneExistsWithIdpAndIdpId.resolves(false);
-        const createRootUserAndGroup = new CreateRootUserAndGroup(deps);
+        const { storages } = getMockDependencies();
+        storages.groups.findOneByName.resolves({ id: "groupId" } as any);
+        storages.users.oneExistsWithIdpAndIdpId.resolves(false);
+        const createRootUserAndGroup = new CreateRootUserAndGroup(storages);
         await createRootUserAndGroup.exec("idp");
-        expect(deps.storages.users.createOne).to.have.been.calledOnceWith({
+        expect(storages.users.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
             idp: "idp",
             idpId: ROOT_USER_IDP_ID,
@@ -53,11 +53,11 @@ describe("usecase CreateRootUserAndGroup", () => {
     });
 
     it("doesn't create the root user if it exists", async () => {
-        const deps = getMockDependencies();
-        deps.storages.groups.findOneByName.resolves({ id: "groupId" } as any);
-        deps.storages.users.oneExistsWithIdpAndIdpId.resolves(true);
-        const createRootUserAndGroup = new CreateRootUserAndGroup(deps);
+        const { storages } = getMockDependencies();
+        storages.groups.findOneByName.resolves({ id: "groupId" } as any);
+        storages.users.oneExistsWithIdpAndIdpId.resolves(true);
+        const createRootUserAndGroup = new CreateRootUserAndGroup(storages);
         await createRootUserAndGroup.exec("idp");
-        expect(deps.storages.users.createOne).to.have.callCount(0);
+        expect(storages.users.createOne).to.have.callCount(0);
     });
 });
