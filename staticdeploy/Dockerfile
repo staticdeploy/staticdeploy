@@ -12,7 +12,7 @@ COPY management-console/webpack ./management-console/webpack/
 COPY management-console/typings ./management-console/typings/
 COPY management-console/public ./management-console/public/
 COPY management-console/src ./management-console/src/
-COPY core/package.json core/tsconfig.json ./core/
+COPY core/package.json core/tsconfig.json core/tsconfig.browser.json ./core/
 COPY core/src ./core/src/
 COPY http-adapters/package.json http-adapters/tsconfig.json ./http-adapters/
 COPY http-adapters/src ./http-adapters/src/
@@ -20,7 +20,7 @@ COPY memory-storages/package.json memory-storages/tsconfig.json ./memory-storage
 COPY memory-storages/src ./memory-storages/src/
 COPY pg-s3-storages/package.json pg-s3-storages/tsconfig.json ./pg-s3-storages/
 COPY pg-s3-storages/src ./pg-s3-storages/src/
-COPY sdk/package.json sdk/tsconfig.json ./sdk/
+COPY sdk/package.json sdk/tsconfig.json sdk/tsconfig.browser.json ./sdk/
 COPY sdk/src ./sdk/src/
 COPY serve-static/package.json serve-static/tsconfig.json ./serve-static/
 COPY serve-static/src ./serve-static/src/
@@ -42,11 +42,11 @@ RUN yarn install && \
     # Remove unecessary files
     rm yarn.lock tsconfig.json && \
     rm -r management-console/tsconfig.json management-console/webpack management-console/typings management-console/public management-console/src && \
-    rm -r core/tsconfig.json core/src && \
+    rm -r core/tsconfig.json core/tsconfig.browser.json core/src && \
     rm -r http-adapters/tsconfig.json http-adapters/src && \
     rm -r memory-storages/tsconfig.json memory-storages/src && \
     rm -r pg-s3-storages/tsconfig.json pg-s3-storages/src && \
-    rm -r sdk/tsconfig.json sdk/src && \
+    rm -r sdk/tsconfig.json sdk/tsconfig.browser.json sdk/src && \
     rm -r serve-static/tsconfig.json serve-static/src && \
     rm -r storages-test-suite && \
     rm -r tar-archiver/tsconfig.json tar-archiver/src && \

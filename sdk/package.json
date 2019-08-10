@@ -12,6 +12,7 @@
     "lib",
     "es"
   ],
+  "sideEffects": false,
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "license": "MIT",
   "repository": {

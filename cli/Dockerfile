@@ -6,9 +6,9 @@ WORKDIR /opt/staticdeploy
 
 # Copy files
 COPY package.json lerna.json yarn.lock tsconfig.json ./
-COPY core/package.json core/tsconfig.json ./core/
+COPY core/package.json core/tsconfig.json core/tsconfig.browser.json ./core/
 COPY core/src ./core/src/
-COPY sdk/package.json sdk/tsconfig.json ./sdk/
+COPY sdk/package.json sdk/tsconfig.json sdk/tsconfig.browser.json ./sdk/
 COPY sdk/src ./sdk/src/
 COPY tar-archiver/package.json tar-archiver/tsconfig.json ./tar-archiver/
 COPY tar-archiver/src ./tar-archiver/src/
@@ -25,8 +25,8 @@ RUN yarn install && \
     yarn install --production && \
     # Remove unecessary files
     rm yarn.lock tsconfig.json && \
-    rm -r core/tsconfig.json core/src && \
-    rm -r sdk/tsconfig.json sdk/src && \
+    rm -r core/tsconfig.json core/tsconfig.browser.json core/src && \
+    rm -r sdk/tsconfig.json sdk/tsconfig.browser.json sdk/src && \
     rm -r tar-archiver/tsconfig.json tar-archiver/src && \
     rm -r cli/tsconfig.json cli/src && \
     # Install staticdeploy executable

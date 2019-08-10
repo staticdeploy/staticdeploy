@@ -12,6 +12,7 @@
     "lib",
     "es"
   ],
+  "sideEffects": false,
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -67,6 +68,5 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3",
     "vm2": "^3.8.3"
-  },
-  "sideEffects": false
+  }
 }
