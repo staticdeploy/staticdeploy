@@ -2,6 +2,7 @@ import { IGroup } from "../entities/Group";
 
 export default interface IGroupsStorage {
     findOne(id: string): Promise<IGroup | null>;
+    findOneByName(name: string): Promise<IGroup | null>;
     findMany(): Promise<IGroup[]>;
     oneExistsWithName(name: string): Promise<boolean>;
     allExistWithIds(ids: string[]): Promise<boolean>;

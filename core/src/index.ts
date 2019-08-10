@@ -8,6 +8,9 @@ export { default as CreateApp } from "./usecases/CreateApp";
 export { default as CreateBundle } from "./usecases/CreateBundle";
 export { default as CreateEntrypoint } from "./usecases/CreateEntrypoint";
 export { default as CreateGroup } from "./usecases/CreateGroup";
+export {
+    default as CreateRootUserAndGroup
+} from "./usecases/CreateRootUserAndGroup";
 export { default as CreateUser } from "./usecases/CreateUser";
 export { default as DeleteApp } from "./usecases/DeleteApp";
 export {

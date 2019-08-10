@@ -115,6 +115,7 @@ export function getMockDependencies(): IMockDependencies {
             },
             groups: {
                 findOne: sinon.stub(),
+                findOneByName: sinon.stub(),
                 findMany: sinon.stub(),
                 oneExistsWithName: sinon.stub(),
                 allExistWithIds: sinon.stub(),
