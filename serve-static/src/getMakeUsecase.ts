@@ -1,5 +1,6 @@
 import {
     IArchiver,
+    IAuthenticationStrategy,
     IRequestContext,
     IStorages,
     IUsecaseConfig
@@ -10,6 +11,7 @@ export default function getMakeUsecase(
     usecases: IUsecasesByName,
     dependencies: {
         archiver: IArchiver;
+        authenticationStrategies: IAuthenticationStrategy[];
         config: IUsecaseConfig;
         storages: IStorages;
         requestContext: IRequestContext;

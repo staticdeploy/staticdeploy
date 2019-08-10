@@ -26,8 +26,9 @@ export default async function serveStatic(options: {
 
     const makeUsecase = getMakeUsecase(usecases, {
         archiver: tarArchiver,
+        authenticationStrategies: [],
         config: { authEnforcementLevel: AuthEnforcementLevel.None },
-        requestContext: { idpUser: null },
+        requestContext: { authToken: null },
         storages: storagesModule.getStorages()
     });
 
