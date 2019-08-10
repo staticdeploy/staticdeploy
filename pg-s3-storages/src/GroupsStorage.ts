@@ -13,6 +13,11 @@ export default class GroupsStorage implements IGroupsStorage {
         return group;
     }
 
+    async findOneByName(name: string): Promise<IGroup | null> {
+        const [group = null] = await this.knex(tables.groups).where({ name });
+        return group;
+    }
+
     async findMany(): Promise<IGroup[]> {
         const groups = await this.knex(tables.groups);
         return groups;

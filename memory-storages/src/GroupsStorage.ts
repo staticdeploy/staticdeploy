@@ -14,6 +14,10 @@ export default class GroupsStorage implements IGroupsStorage {
         return this.groups[id] || null;
     }
 
+    async findOneByName(name: string): Promise<IGroup | null> {
+        return find(this.groups, { name }) || null;
+    }
+
     async findMany(): Promise<IGroup[]> {
         return toArray(this.groups);
     }

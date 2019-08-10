@@ -75,6 +75,24 @@ export default (storages: IStorages) => {
             expect(notFoundGroup).to.equal(null);
         });
 
+        it("create a group and find it by name", async () => {
+            const group = {
+                id: "id",
+                name: "name",
+                roles: [],
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+            await storages.groups.createOne(group);
+            const foundGroup = await storages.groups.findOneByName("name");
+            expect(foundGroup).to.deep.equal(group);
+        });
+
+        it("try to find a group by a non-existing name and get null", async () => {
+            const notFoundGroup = await storages.groups.findOneByName("name");
+            expect(notFoundGroup).to.equal(null);
+        });
+
         it("create a group and get it back when finding many", async () => {
             const group = {
                 id: "id",
