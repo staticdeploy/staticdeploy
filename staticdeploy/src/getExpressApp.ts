@@ -14,6 +14,8 @@ import { dirname } from "path";
 import vhost from "vhost";
 
 import IConfig from "./common/IConfig";
+import createRootUserAndGroup from "./init/createRootUserAndGroup";
+import setupStorages from "./init/setupStorages";
 import authenticateRequest from "./middleware/authenticateRequest";
 import injectMakeUsecase from "./middleware/injectMakeUsecase";
 
@@ -25,7 +27,12 @@ export default async function getExpressApp(options: {
 }): Promise<express.Express> {
     const { config, logger, storagesModule, usecases } = options;
 
-    await storagesModule.setup();
+    // Run init functions
+    await setupStorages(storagesModule);
+    await createRootUserAndGroup(
+        storagesModule.getStorages(),
+        config.managementHostname
+    );
 
     const managementConsoleStaticServer = await serveStatic({
         root: dirname(require.resolve("@staticdeploy/management-console")),
