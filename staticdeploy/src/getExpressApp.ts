@@ -4,6 +4,7 @@ import {
     managementApiAdapter,
     staticServerAdapter
 } from "@staticdeploy/http-adapters";
+import JwtAuthenticationStrategy from "@staticdeploy/jwt-authentication-strategy";
 import serveStatic from "@staticdeploy/serve-static";
 import tarArchiver from "@staticdeploy/tar-archiver";
 import Logger from "bunyan";
@@ -16,7 +17,7 @@ import vhost from "vhost";
 import IConfig from "./common/IConfig";
 import createRootUserAndGroup from "./init/createRootUserAndGroup";
 import setupStorages from "./init/setupStorages";
-import authenticateRequest from "./middleware/authenticateRequest";
+import extractAuthToken from "./middleware/extractAuthToken";
 import injectMakeUsecase from "./middleware/injectMakeUsecase";
 
 export default async function getExpressApp(options: {
@@ -29,10 +30,23 @@ export default async function getExpressApp(options: {
 
     // Run init functions
     await setupStorages(storagesModule);
-    await createRootUserAndGroup(
-        storagesModule.getStorages(),
-        config.managementHostname
-    );
+    if (config.createRootUser) {
+        await createRootUserAndGroup(
+            storagesModule.getStorages(),
+            config.managementHostname
+        );
+    }
+
+    // Create authentication strategies
+    const authenticationStrategies = compact([
+        config.jwtSecretOrPublicKey
+            ? new JwtAuthenticationStrategy(
+                  config.jwtSecretOrPublicKey,
+                  config.managementHostname,
+                  config.managementHostname
+              )
+            : null
+    ]);
 
     const managementConsoleStaticServer = await serveStatic({
         root: dirname(require.resolve("@staticdeploy/management-console")),
@@ -57,20 +71,19 @@ export default async function getExpressApp(options: {
         )
         .use(managementConsoleStaticServer);
 
-    return express().use(
-        compact([
-            bunyanMiddleware({
-                logger: logger,
-                obscureHeaders: ["Authorization"]
-            }),
-            config.jwtSecret ? authenticateRequest(config.jwtSecret) : null,
-            injectMakeUsecase(usecases, {
-                archiver: tarArchiver,
-                config: { authEnforcementLevel: config.authEnforcementLevel },
-                storages: storagesModule.getStorages()
-            }),
-            vhost(config.managementHostname, managementRouter),
-            staticServerAdapter({ hostnameHeader: config.hostnameHeader })
-        ])
-    );
+    return express().use([
+        bunyanMiddleware({
+            logger: logger,
+            obscureHeaders: ["Authorization"]
+        }),
+        extractAuthToken(),
+        injectMakeUsecase(usecases, {
+            archiver: tarArchiver,
+            authenticationStrategies: authenticationStrategies,
+            config: { authEnforcementLevel: config.authEnforcementLevel },
+            storages: storagesModule.getStorages()
+        }),
+        vhost(config.managementHostname, managementRouter),
+        staticServerAdapter({ hostnameHeader: config.hostnameHeader })
+    ]);
 }

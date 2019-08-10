@@ -1,25 +1,37 @@
-import { IArchiver, IStorages, IUsecaseConfig } from "@staticdeploy/core";
+import {
+    IArchiver,
+    IAuthenticationStrategy,
+    IStorages,
+    IUsecaseConfig
+} from "@staticdeploy/core";
 import { IUsecasesByName } from "@staticdeploy/http-adapters";
 import { RequestHandler } from "express";
 
-import IAuthenticatedRequest from "../common/IAuthenticatedRequest";
+import IRequestWithAuthToken from "../common/IRequestWithAuthToken";
 
 export default function injectMakeUsecase(
     usecases: IUsecasesByName,
     dependencies: {
         archiver: IArchiver;
+        authenticationStrategies: IAuthenticationStrategy[];
         config: IUsecaseConfig;
         storages: IStorages;
     }
 ): RequestHandler {
-    const { archiver, config, storages } = dependencies;
-    return (req: IAuthenticatedRequest, _res, next) => {
+    const {
+        archiver,
+        authenticationStrategies,
+        config,
+        storages
+    } = dependencies;
+    return (req: IRequestWithAuthToken, _res, next) => {
         req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
             const UsecaseClass = usecases[name];
             return new UsecaseClass({
                 archiver: archiver,
+                authenticationStrategies: authenticationStrategies,
                 config: config,
-                requestContext: { idpUser: req.idpUser },
+                requestContext: { authToken: req.authToken },
                 storages: storages
             }) as InstanceType<IUsecasesByName[Name]>;
         };

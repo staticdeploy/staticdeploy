@@ -35,9 +35,16 @@ The following environment variables can be used to configure the server:
 
 - `AUTH_ENFORCEMENT_LEVEL`: can either be `0`, meaning auth in not enforced, or
   `1`, meaning auth is enforced. Defaults to `0`
-- `JWT_SECRET`: secret to validate authorization jwt-s (not base64 encoded)
+- `CREATE_ROOT_USER`: on startup, create (if they don't already exist) a root
+  user and group with the `root` role. Defaults to `true`
+- `JWT_SECRET_OR_PUBLIC_KEY`: by setting this config the JWT authentication
+  strategy will be enabled. The config is the secret or public key (base64
+  encoded) to validate authorization JWT-s
 
-> Storage configurations
+> pg-s3 storages configurations
+
+When setting these config (all of them), the pg-s3 storages module will be
+enabled (the memory one is used otherwise):
 
 - `POSTGRES_URL`: connection string for the
   [PostgreSQL](https://www.postgresql.org/) database

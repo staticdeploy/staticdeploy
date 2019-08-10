@@ -4,10 +4,7 @@
     "compilerOptions": {
         "types": [
             "@types/bunyan",
-            "@types/chai",
             "@types/express",
-            "@types/express-jwt",
-            "@types/jsonwebtoken",
             "@types/lodash",
             "@types/mocha",
             "@types/supertest"

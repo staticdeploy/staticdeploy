@@ -25,7 +25,13 @@ const config: IConfig = {
         default: "0",
         parse: value => parseInt(value, 10)
     }),
-    jwtSecret: env("JWT_SECRET", { parse: Buffer.from }),
+    createRootUser: env("CREATE_ROOT_USER", {
+        default: "true",
+        parse: value => value === "true"
+    }),
+    jwtSecretOrPublicKey: env("JWT_SECRET_OR_PUBLIC_KEY", {
+        parse: value => Buffer.from(value, "base64")
+    }),
 
     // pg-s3-storages configurations
     postgresUrl: env("POSTGRES_URL"),
