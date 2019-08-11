@@ -17,6 +17,8 @@ export default interface IConfig {
     authEnforcementLevel: AuthEnforcementLevel;
     createRootUser: boolean;
     jwtSecretOrPublicKey?: Buffer;
+    oidcConfigurationUrl?: string;
+    oidcClientId?: string;
 
     // pg-s3-storages configurations
     postgresUrl?: string;

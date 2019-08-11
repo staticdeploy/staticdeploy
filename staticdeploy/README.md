@@ -40,6 +40,11 @@ The following environment variables can be used to configure the server:
 - `JWT_SECRET_OR_PUBLIC_KEY`: by setting this config the JWT authentication
   strategy will be enabled. The config is the secret or public key (base64
   encoded) to validate authorization JWT-s
+- `OIDC_CONFIGURATION_URL`: by setting this config (and the following one) the
+  OpenID Connect authentication strategy will be enabled. The config is the
+  configuration url of the OpenID Connect provider (e.g.
+  `https://example.com/.well-known/openid-configuration`)
+- `OIDC_CLIENT_ID`: the client id of the OpenID Connect application
 
 > pg-s3 storages configurations
 

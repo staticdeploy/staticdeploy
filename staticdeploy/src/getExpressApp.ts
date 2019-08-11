@@ -1,34 +1,41 @@
-import { IStoragesModule } from "@staticdeploy/core";
+import { IAuthenticationStrategy, IStoragesModule } from "@staticdeploy/core";
 import {
     IUsecasesByName,
     managementApiAdapter,
     staticServerAdapter
 } from "@staticdeploy/http-adapters";
-import JwtAuthenticationStrategy from "@staticdeploy/jwt-authentication-strategy";
 import serveStatic from "@staticdeploy/serve-static";
 import tarArchiver from "@staticdeploy/tar-archiver";
 import Logger from "bunyan";
 import bunyanMiddleware from "bunyan-middleware";
 import express from "express";
-import { compact } from "lodash";
 import { dirname } from "path";
 import vhost from "vhost";
 
 import IConfig from "./common/IConfig";
 import createRootUserAndGroup from "./init/createRootUserAndGroup";
+import setupAuthenticationStrategies from "./init/setupAuthenticationStrategies";
 import setupStorages from "./init/setupStorages";
 import extractAuthToken from "./middleware/extractAuthToken";
 import injectMakeUsecase from "./middleware/injectMakeUsecase";
 
 export default async function getExpressApp(options: {
     config: IConfig;
+    authenticationStrategies: IAuthenticationStrategy[];
     storagesModule: IStoragesModule;
     usecases: IUsecasesByName;
     logger: Logger;
 }): Promise<express.Express> {
-    const { config, logger, storagesModule, usecases } = options;
+    const {
+        config,
+        authenticationStrategies,
+        logger,
+        storagesModule,
+        usecases
+    } = options;
 
     // Run init functions
+    await setupAuthenticationStrategies(authenticationStrategies);
     await setupStorages(storagesModule);
     if (config.createRootUser) {
         await createRootUserAndGroup(
@@ -36,17 +43,6 @@ export default async function getExpressApp(options: {
             config.managementHostname
         );
     }
-
-    // Create authentication strategies
-    const authenticationStrategies = compact([
-        config.jwtSecretOrPublicKey
-            ? new JwtAuthenticationStrategy(
-                  config.jwtSecretOrPublicKey,
-                  config.managementHostname,
-                  config.managementHostname
-              )
-            : null
-    ]);
 
     const managementConsoleStaticServer = await serveStatic({
         root: dirname(require.resolve("@staticdeploy/management-console")),

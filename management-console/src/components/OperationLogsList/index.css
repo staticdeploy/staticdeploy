@@ -52,21 +52,27 @@
 }
 /* Color tags differently depending on operation */
 .c-OperationLogsList-operation-cell .apps-create,
+.c-OperationLogsList-operation-cell .bundles-create,
 .c-OperationLogsList-operation-cell .entrypoints-create,
-.c-OperationLogsList-operation-cell .bundles-create {
+.c-OperationLogsList-operation-cell .groups-create,
+.c-OperationLogsList-operation-cell .users-create {
     color: var(--green-6);
     background: var(--green-1);
     border-color: var(--green-3);
 }
 .c-OperationLogsList-operation-cell .apps-update,
-.c-OperationLogsList-operation-cell .entrypoints-update {
+.c-OperationLogsList-operation-cell .entrypoints-update,
+.c-OperationLogsList-operation-cell .groups-update,
+.c-OperationLogsList-operation-cell .users-update {
     color: var(--blue-6);
     background: var(--blue-1);
     border-color: var(--blue-3);
 }
 .c-OperationLogsList-operation-cell .apps-delete,
+.c-OperationLogsList-operation-cell .bundles-delete,
 .c-OperationLogsList-operation-cell .entrypoints-delete,
-.c-OperationLogsList-operation-cell .bundles-delete {
+.c-OperationLogsList-operation-cell .groups-delete,
+.c-OperationLogsList-operation-cell .users-delete {
     color: var(--red-6);
     background: var(--red-1);
     border-color: var(--red-3);

@@ -2,16 +2,17 @@ import tarArchiver from "@staticdeploy/tar-archiver";
 import request from "supertest";
 
 import usecases from "../src/common/usecases";
+import getLogger from "../src/components/logger";
+import getStoragesModule from "../src/components/storagesModule";
 import config from "../src/config";
 import getExpressApp from "../src/getExpressApp";
-import getLogger from "../src/services/logger";
-import getStoragesModule from "../src/services/storagesModule";
 
 describe("staticdeploy server", () => {
     it("serves the management console at $HOST/", async () => {
         const logger = getLogger(config);
         const app = await getExpressApp({
             config: config,
+            authenticationStrategies: [],
             storagesModule: getStoragesModule(config, logger),
             usecases: usecases,
             logger: logger
@@ -27,6 +28,7 @@ describe("staticdeploy server", () => {
         const logger = getLogger(config);
         const app = await getExpressApp({
             config: config,
+            authenticationStrategies: [],
             storagesModule: getStoragesModule(config, logger),
             usecases: usecases,
             logger: logger
@@ -42,6 +44,7 @@ describe("staticdeploy server", () => {
         const logger = getLogger(config);
         const app = await getExpressApp({
             config: config,
+            authenticationStrategies: [],
             storagesModule: getStoragesModule(config, logger),
             usecases: usecases,
             logger: logger

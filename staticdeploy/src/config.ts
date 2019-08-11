@@ -32,6 +32,8 @@ const config: IConfig = {
     jwtSecretOrPublicKey: env("JWT_SECRET_OR_PUBLIC_KEY", {
         parse: value => Buffer.from(value, "base64")
     }),
+    oidcConfigurationUrl: env("OIDC_CONFIGURATION_URL"),
+    oidcClientId: env("OIDC_CLIENT_ID"),
 
     // pg-s3-storages configurations
     postgresUrl: env("POSTGRES_URL"),
