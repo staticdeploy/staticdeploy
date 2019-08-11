@@ -18,6 +18,8 @@ COPY jwt-authentication-strategy/package.json jwt-authentication-strategy/tsconf
 COPY jwt-authentication-strategy/src ./jwt-authentication-strategy/src/
 COPY memory-storages/package.json memory-storages/tsconfig.json ./memory-storages/
 COPY memory-storages/src ./memory-storages/src/
+COPY oidc-authentication-strategy/package.json oidc-authentication-strategy/tsconfig.json ./oidc-authentication-strategy/
+COPY oidc-authentication-strategy/src ./oidc-authentication-strategy/src/
 COPY pg-s3-storages/package.json pg-s3-storages/tsconfig.json ./pg-s3-storages/
 COPY pg-s3-storages/src ./pg-s3-storages/src/
 COPY sdk/package.json sdk/tsconfig.json sdk/tsconfig.browser.json ./sdk/
@@ -46,6 +48,7 @@ RUN yarn install && \
     rm -r http-adapters/tsconfig.json http-adapters/src && \
     rm -r jwt-authentication-strategy/tsconfig.json jwt-authentication-strategy/src && \
     rm -r memory-storages/tsconfig.json memory-storages/src && \
+    rm -r oidc-authentication-strategy/tsconfig.json oidc-authentication-strategy/src && \
     rm -r pg-s3-storages/tsconfig.json pg-s3-storages/src && \
     rm -r sdk/tsconfig.json sdk/tsconfig.browser.json sdk/src && \
     rm -r serve-static/tsconfig.json serve-static/src && \

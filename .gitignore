@@ -17,5 +17,5 @@ yarn-error.log*
 lerna-debug.log*
 lerna-error.log*
 
-# Ignore subprojects' dotenv files. Don't ignore /.env used by docker-compose
-*/.env
+# Ignore dotenv files
+.env
