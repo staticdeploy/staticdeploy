@@ -4,7 +4,7 @@ import { join } from "path";
 import {
     NoBundleOrRedirectToError,
     NoMatchingEntrypointError,
-    StorageInconsistencyError
+    StoragesInconsistencyError
 } from "../../common/errors";
 import removePrefix from "../../common/removePrefix";
 import Usecase from "../../common/Usecase";
@@ -104,7 +104,7 @@ export default class RespondToEndpointRequest extends Usecase {
             matchingEntrypoint.bundleId
         );
         if (!linkedBundle) {
-            throw new StorageInconsistencyError(
+            throw new StoragesInconsistencyError(
                 `Entrypoint with id = ${matchingEntrypoint.id} links to a non-existing bundle with id = ${matchingEntrypoint.bundleId}`
             );
         }
@@ -112,7 +112,7 @@ export default class RespondToEndpointRequest extends Usecase {
             path: linkedBundle.fallbackAssetPath
         });
         if (!fallbackAsset) {
-            throw new StorageInconsistencyError(
+            throw new StoragesInconsistencyError(
                 `Bundle with id = ${linkedBundle.id} specifies a non-existing fallback asset with path = ${linkedBundle.fallbackAssetPath}`
             );
         }
@@ -143,7 +143,7 @@ export default class RespondToEndpointRequest extends Usecase {
             matchingAsset.path
         );
         if (!content) {
-            throw new StorageInconsistencyError(
+            throw new StoragesInconsistencyError(
                 `Asset with path = ${matchingAsset.path} specified in bundle with id = ${linkedBundle.id} has no content`
             );
         }
@@ -158,7 +158,7 @@ export default class RespondToEndpointRequest extends Usecase {
                     matchingEntrypoint.appId
                 );
                 if (!linkedApp) {
-                    throw new StorageInconsistencyError(
+                    throw new StoragesInconsistencyError(
                         `Entrypoint with id = ${matchingEntrypoint.id} links to a non-existing app with id = ${matchingEntrypoint.appId}`
                     );
                 }

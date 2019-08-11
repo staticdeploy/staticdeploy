@@ -36,8 +36,8 @@ const errorStatusMappings: [any, number][] = [
     [sd.UserNotFoundError, 404],
     [sd.ConflictingUserError, 409],
     // Storage errors
-    [sd.GenericStorageError, 500],
-    [sd.StorageInconsistencyError, 500]
+    [sd.GenericStoragesError, 500],
+    [sd.StoragesInconsistencyError, 500]
 ];
 
 export default (

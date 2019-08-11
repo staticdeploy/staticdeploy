@@ -10,6 +10,7 @@
     "http-adapters",
     "jwt-authentication-strategy",
     "memory-storages",
+    "oidc-authentication-strategy",
     "pg-s3-storages",
     "sdk",
     "serve-static",

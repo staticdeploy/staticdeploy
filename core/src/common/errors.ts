@@ -1,6 +1,15 @@
 import { IIdpUser } from "../entities/User";
 
 // Auth errors
+export class AuthenticationStrategySetupError extends Error {
+    constructor(
+        public authenticationStrategy: string,
+        message: string,
+        public originalError: any
+    ) {
+        super(message);
+    }
+}
 export class AuthenticationRequiredError extends Error {
     constructor() {
         super("This operation requires the request to be authenticated");
@@ -171,10 +180,15 @@ export class ConflictingUserError extends Error {
     }
 }
 
-// Storage errors
-export class GenericStorageError extends Error {
+// Storages errors
+export class StoragesSetupError extends Error {
+    constructor(message: string, public originalError: any) {
+        super(message);
+    }
+}
+export class GenericStoragesError extends Error {
     constructor(public originalError: Error) {
         super("An error occurred while accessing StaticDeploy's storage");
     }
 }
-export class StorageInconsistencyError extends Error {}
+export class StoragesInconsistencyError extends Error {}
