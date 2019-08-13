@@ -1,10 +1,22 @@
 import React from "react";
 
 import "./index.css";
-import logoSrc from "./logo.png";
+import logoBlueSrc from "./logoBlue.png";
+import logoWhiteSrc from "./logoWhite.png";
 
-export default class Logo extends React.Component {
+interface IProps {
+    color: "blue" | "white";
+}
+
+export default class Logo extends React.Component<IProps> {
     render() {
-        return <img className="c-Logo" src={logoSrc} alt="logo" />;
+        const { color } = this.props;
+        return (
+            <img
+                className="c-Logo"
+                src={color === "blue" ? logoBlueSrc : logoWhiteSrc}
+                alt="logo"
+            />
+        );
     }
 }

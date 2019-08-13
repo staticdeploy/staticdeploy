@@ -16,6 +16,7 @@ interface IProps<ExternalValues> {
 
 interface IConfig<ExternalValues, InternalValues> {
     form: string;
+    touchOnBlur?: boolean;
     validate?: (values: InternalValues) => FormErrors<InternalValues>;
     toInternal?: (values: any) => InternalValues;
     toExternal?: (values: InternalValues) => ExternalValues;
@@ -39,7 +40,8 @@ export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
     ) => {
         const DecoratedForm = wrappedReduxForm({
             form: config.form,
-            validate: config.validate
+            validate: config.validate,
+            touchOnBlur: config.touchOnBlur !== false
         })(Form as any);
         return class ConverterForm
             extends React.Component<IProps<ExternalValues> & AdditionalProps>

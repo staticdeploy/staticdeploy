@@ -6,7 +6,7 @@ import Logo from "../../../src/components/Logo";
 
 describe("Logo", () => {
     it("renders an img", () => {
-        const logo = shallow(<Logo />);
+        const logo = shallow(<Logo color="blue" />);
         expect(logo.find("img")).to.have.length(1);
     });
 });

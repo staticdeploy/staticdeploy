@@ -1,95 +1,109 @@
-import Alert from "antd/lib/alert";
 import Spin from "antd/lib/spin";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import React from "react";
 import sinon from "sinon";
 
+import ErrorAlert from "../../../src/components/ErrorAlert";
 import LoginMask from "../../../src/components/LoginMask";
-import LoginForm from "../../../src/components/LoginMask/LoginForm";
+import JwtLogin from "../../../src/components/LoginMask/JwtLogin";
+import OidcLogin from "../../../src/components/LoginMask/OidcLogin";
 
 describe("LoginMask", () => {
-    const authTokenService = {
-        onStatusChange: sinon.spy(),
-        offStatusChange: sinon.spy(),
+    const getMockAuthService = () => ({
+        onStatusChange: sinon.stub(),
+        offStatusChange: sinon.stub(),
         getStatus: sinon.stub(),
-        setAuthToken: sinon.spy()
-    };
-    beforeEach(() => {
-        authTokenService.onStatusChange.resetHistory();
-        authTokenService.offStatusChange.resetHistory();
-        authTokenService.getStatus.reset();
-        authTokenService.getStatus.returns({});
-        authTokenService.setAuthToken.resetHistory();
+        getAuthEnforcementLevel: sinon.stub(),
+        hasAuthStrategy: sinon.stub()
     });
 
-    it("on mount, registers a listener for status changes", () => {
-        shallow(<LoginMask authTokenService={authTokenService} />);
-        expect(authTokenService.onStatusChange).to.have.callCount(1);
-        expect(authTokenService.onStatusChange).to.have.been.calledWithMatch(
-            sinon.match.func
-        );
+    describe("when the user is not logged in", () => {
+        it("when the oidc auth strategy is used, renders an OidcLogin", () => {
+            const mockAuthService = getMockAuthService();
+            mockAuthService.hasAuthStrategy.withArgs("oidc").returns(true);
+            mockAuthService.getStatus.returns({
+                authToken: null,
+                isLoggingIn: false,
+                loginError: null
+            });
+            const loginMask = shallow(
+                <LoginMask authService={mockAuthService as any} />
+            );
+            expect(loginMask.find(OidcLogin)).to.have.length(1);
+        });
+
+        it("when the jwt auth strategy is used, renders an JwtLogin", () => {
+            const mockAuthService = getMockAuthService();
+            mockAuthService.hasAuthStrategy.withArgs("jwt").returns(true);
+            mockAuthService.getStatus.returns({
+                authToken: null,
+                isLoggingIn: false,
+                loginError: null
+            });
+            const loginMask = shallow(
+                <LoginMask authService={mockAuthService as any} />
+            );
+            expect(loginMask.find(JwtLogin)).to.have.length(1);
+        });
     });
 
-    it("on unmount, de-registers the previously-registered listener for status changes", () => {
+    it("when the user is logging in, renders a spinner", () => {
+        const mockAuthService = getMockAuthService();
+        mockAuthService.getStatus.returns({
+            authToken: null,
+            isLoggingIn: true,
+            loginError: null
+        });
         const loginMask = shallow(
-            <LoginMask authTokenService={authTokenService} />
+            <LoginMask authService={mockAuthService as any} />
         );
-        const listener = authTokenService.onStatusChange.getCall(0).args[0];
-        loginMask.unmount();
-        expect(authTokenService.offStatusChange).to.have.callCount(1);
-        expect(authTokenService.offStatusChange).to.have.been.calledWith(
-            listener
+        expect(loginMask.find(Spin)).to.have.length(1);
+    });
+
+    it("when an error occurred logging in, renders an error message", () => {
+        const mockAuthService = getMockAuthService();
+        mockAuthService.getStatus.returns({
+            authToken: null,
+            isLoggingIn: false,
+            loginError: new Error("Error logging in")
+        });
+        const loginMask = shallow(
+            <LoginMask authService={mockAuthService as any} />
+        );
+        expect(loginMask.find(ErrorAlert).prop("message")).to.equal(
+            "Error logging in"
         );
     });
 
-    it("when the auth token is set, renders its children", () => {
-        authTokenService.getStatus.returns({ isSet: true });
+    it("when auth is not enforced, renders its children", () => {
+        const mockAuthService = getMockAuthService();
+        mockAuthService.getStatus.returns({
+            authToken: null,
+            isLoggingIn: false,
+            loginError: null
+        });
+        mockAuthService.getAuthEnforcementLevel.returns(0);
         const loginMask = shallow(
-            <LoginMask authTokenService={authTokenService}>
+            <LoginMask authService={mockAuthService as any}>
                 <div id="child" />
             </LoginMask>
         );
         expect(loginMask.find("div#child")).to.have.length(1);
     });
 
-    it("when the auth token is being retrieved, renders a spinner", () => {
-        authTokenService.getStatus.returns({ isRetrieving: true });
-        const loginMask = shallow(
-            <LoginMask authTokenService={authTokenService} />
-        );
-        expect(loginMask.find(Spin)).to.have.length(1);
-    });
-
-    it("when an error occurred retrieving the auth token, renders the error message", () => {
-        authTokenService.getStatus.returns({
-            retrievingError: new Error("Retrieving error message")
+    it("when the user is logged in, renders its children", () => {
+        const mockAuthService = getMockAuthService();
+        mockAuthService.getStatus.returns({
+            authToken: "authToken",
+            isLoggingIn: false,
+            loginError: null
         });
         const loginMask = shallow(
-            <LoginMask authTokenService={authTokenService} />
+            <LoginMask authService={mockAuthService as any}>
+                <div id="child" />
+            </LoginMask>
         );
-        expect(loginMask.find(Alert).prop("description")).to.equal(
-            "Retrieving error message"
-        );
-    });
-
-    it("when the token is not set, it is not being retrieved, and there were no errors retrieving it, renders the login form", () => {
-        const loginMask = shallow(
-            <LoginMask authTokenService={authTokenService} />
-        );
-        expect(loginMask.find(LoginForm)).to.have.length(1);
-    });
-
-    it("when the user submits the login form, sets the auth token to the value entered by the user", () => {
-        const loginMask = shallow(
-            <LoginMask authTokenService={authTokenService} />
-        );
-        loginMask
-            .find(LoginForm)
-            .simulate("submit", { authToken: "authToken" });
-        expect(authTokenService.setAuthToken).to.have.callCount(1);
-        expect(authTokenService.setAuthToken).to.have.been.calledWith(
-            "authToken"
-        );
+        expect(loginMask.find("div#child")).to.have.length(1);
     });
 });

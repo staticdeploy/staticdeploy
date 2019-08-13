@@ -1,65 +1,90 @@
-import Alert from "antd/lib/alert";
+import { AuthEnforcementLevel } from "@staticdeploy/core";
+import Card from "antd/lib/card";
+import Divider from "antd/lib/divider";
 import Spin from "antd/lib/spin";
+import compact from "lodash/compact";
 import React from "react";
 
-import IAuthTokenService, { IStatus } from "../../common/IAuthTokenService";
+import AuthService, { IStatus } from "../../common/authService/AuthService";
+import intersperseNodes from "../../common/intersperseNodes";
+import ErrorAlert from "../ErrorAlert";
+import Logo from "../Logo";
 import "./index.css";
-import LoginForm from "./LoginForm";
+import JwtLogin from "./JwtLogin";
+import OidcLogin from "./OidcLogin";
 
 interface IProps {
-    authTokenService: IAuthTokenService;
+    authService: AuthService;
+    oidcProviderName?: string;
 }
 
 export default class LoginMask extends React.Component<IProps> {
     boundForceUpdate = () => this.forceUpdate();
     componentWillMount() {
-        this.props.authTokenService.onStatusChange(this.boundForceUpdate);
+        this.props.authService.onStatusChange(this.boundForceUpdate);
     }
     componentWillUnmount() {
-        this.props.authTokenService.offStatusChange(this.boundForceUpdate);
-    }
-    renderLoginMask() {
-        return (
-            <div className="c-LoginMask">
-                <div className="c-LoginMask-container">
-                    <LoginForm
-                        onSubmit={({ authToken }) => {
-                            this.props.authTokenService.setAuthToken(authToken);
-                        }}
-                    />
-                </div>
-            </div>
-        );
+        this.props.authService.offStatusChange(this.boundForceUpdate);
     }
     renderSpinner() {
         return (
-            <div className="c-LoginMask">
+            <div className="c-LoginMask-spinner">
                 <Spin size="large" tip="Logging in" />
             </div>
         );
     }
-    renderError(authTokenStatus: IStatus) {
+    renderError(error: Error) {
+        return <ErrorAlert message={error.message} />;
+    }
+    renderLogins() {
+        const { authService, oidcProviderName } = this.props;
+        return intersperseNodes(
+            compact([
+                authService.hasAuthStrategy("oidc") ? (
+                    <OidcLogin
+                        key="oidc"
+                        onLogin={() => authService.loginWith("oidc")}
+                        providerName={oidcProviderName}
+                    />
+                ) : null,
+                authService.hasAuthStrategy("jwt") ? (
+                    <JwtLogin
+                        key="jwt"
+                        onLogin={jwt => authService.loginWith("jwt", jwt)}
+                    />
+                ) : null
+            ]),
+            <Divider>{"or"}</Divider>
+        );
+    }
+    renderLoginMask(authStatus: IStatus) {
+        const content = authStatus.isLoggingIn
+            ? this.renderSpinner()
+            : authStatus.loginError
+            ? this.renderError(authStatus.loginError!)
+            : this.renderLogins();
         return (
             <div className="c-LoginMask">
-                <div className="c-LoginMask-container">
-                    <Alert
-                        type="error"
-                        message="Error logging in"
-                        description={authTokenStatus.retrievingError!.message}
-                        showIcon={true}
-                    />
-                </div>
+                <Card className="c-LoginMask-card">
+                    <div className="c-LoginMask-card-header">
+                        <Logo color="blue" />
+                        <h3 className="c-LoginMask-card-title">
+                            {"StaticDeploy"}
+                            <br />
+                            {"Management Console"}
+                        </h3>
+                    </div>
+                    {content}
+                </Card>
             </div>
         );
     }
     render() {
-        const authTokenStatus = this.props.authTokenService.getStatus();
-        return authTokenStatus.isSet
+        const authEnforcementLevel = this.props.authService.getAuthEnforcementLevel();
+        const authStatus = this.props.authService.getStatus();
+        return authEnforcementLevel === AuthEnforcementLevel.None ||
+            authStatus.authToken
             ? this.props.children
-            : authTokenStatus.isRetrieving
-            ? this.renderSpinner()
-            : authTokenStatus.retrievingError
-            ? this.renderError(authTokenStatus)
-            : this.renderLoginMask();
+            : this.renderLoginMask(authStatus);
     }
 }

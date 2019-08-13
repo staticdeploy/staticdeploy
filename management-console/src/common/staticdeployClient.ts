@@ -1,14 +1,14 @@
 import StaticdeployClient from "@staticdeploy/sdk";
 
 import { API_URL } from "../config";
-import authTokenService from "./authTokenService";
+import authService from "./authService";
 
 const staticdeployClient = new StaticdeployClient({
     apiUrl: API_URL,
-    apiToken: authTokenService.getStatus().authToken || undefined
+    apiToken: authService.getStatus().authToken || undefined
 });
 
-authTokenService.onStatusChange(status => {
+authService.onStatusChange(status => {
     staticdeployClient.setApiToken(status.authToken);
 });
 

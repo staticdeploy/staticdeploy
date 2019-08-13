@@ -6,13 +6,12 @@ import sinon from "sinon";
 import LogoutButton from "../../../src/components/LogoutButton";
 
 describe("LogoutButton", () => {
-    it("on click, sets the auth token to null", () => {
-        const authTokenService: any = { setAuthToken: sinon.spy() };
+    it("on click, calls the authService logout method", () => {
+        const authService = { logout: sinon.spy() };
         const logoutButton = shallow(
-            <LogoutButton authTokenService={authTokenService} />
+            <LogoutButton authService={authService as any} />
         );
         logoutButton.find("div").simulate("click");
-        expect(authTokenService.setAuthToken).to.have.callCount(1);
-        expect(authTokenService.setAuthToken).to.have.been.calledWith(null);
+        expect(authService.logout).to.have.callCount(1);
     });
 });

@@ -1,8 +1,7 @@
-import Alert from "antd/lib/alert";
-import Divider from "antd/lib/divider";
 import Spin from "antd/lib/spin";
 import React from "react";
 
+import ErrorAlert from "../ErrorAlert";
 import "./index.css";
 
 interface IAddedProps<FecthDataResult> {
@@ -102,23 +101,10 @@ export default class DataFetcher<
         );
     }
     renderError() {
-        const description = (
-            <div className="c-DataFetcher-error">
-                {/* eslint-disable-next-line */}
-                <a onClick={() => this.fetchData(this.props)}>{"Retry"}</a>
-                <Divider type="vertical" />
-                {/* eslint-disable-next-line */}
-                <a onClick={() => window.location.reload()}>
-                    {"Reload the page"}
-                </a>
-            </div>
-        );
         return (
-            <Alert
+            <ErrorAlert
                 message={this.state.error!.message}
-                description={description}
-                type="error"
-                showIcon={true}
+                onRetry={() => this.fetchData(this.props)}
             />
         );
     }
