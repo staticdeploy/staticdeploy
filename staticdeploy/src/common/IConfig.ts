@@ -19,6 +19,7 @@ export default interface IConfig {
     jwtSecretOrPublicKey?: Buffer;
     oidcConfigurationUrl?: string;
     oidcClientId?: string;
+    oidcProviderName?: string;
 
     // pg-s3-storages configurations
     postgresUrl?: string;

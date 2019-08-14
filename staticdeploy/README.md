@@ -45,6 +45,7 @@ The following environment variables can be used to configure the server:
   configuration url of the OpenID Connect provider (e.g.
   `https://example.com/.well-known/openid-configuration`)
 - `OIDC_CLIENT_ID`: the client id of the OpenID Connect application
+- `OIDC_PROVIDER_NAME`: the name to show in the "Login with" interface
 
 > pg-s3 storages configurations
 

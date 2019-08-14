@@ -13,6 +13,7 @@ import { dirname } from "path";
 import vhost from "vhost";
 
 import IConfig from "./common/IConfig";
+import removeUndefs from "./common/removeUndefs";
 import createRootUserAndGroup from "./init/createRootUserAndGroup";
 import setupAuthenticationStrategies from "./init/setupAuthenticationStrategies";
 import setupStorages from "./init/setupStorages";
@@ -48,10 +49,18 @@ export default async function getExpressApp(options: {
         root: dirname(require.resolve("@staticdeploy/management-console")),
         fallbackAssetPath: "/index.html",
         fallbackStatusCode: 200,
-        configuration: {
+        configuration: removeUndefs({
             API_URL: `//${config.managementHostname}/api`,
-            AUTH_ENFORCEMENT_LEVEL: config.authEnforcementLevel.toString()
-        },
+            AUTH_ENFORCEMENT_LEVEL: config.authEnforcementLevel.toString(),
+            OIDC_ENABLED: (
+                !!config.oidcConfigurationUrl && !!config.oidcClientId
+            ).toString(),
+            OIDC_CONFIGURATION_URL: config.oidcConfigurationUrl,
+            OIDC_CLIENT_ID: config.oidcClientId,
+            OIDC_REDIRECT_URL: `https://${config.managementHostname}`,
+            OIDC_PROVIDER_NAME: config.oidcProviderName,
+            JWT_ENABLED: (!!config.jwtSecretOrPublicKey).toString()
+        }),
         headers: {}
     });
 

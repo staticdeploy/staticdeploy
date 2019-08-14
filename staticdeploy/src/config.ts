@@ -34,6 +34,7 @@ const config: IConfig = {
     }),
     oidcConfigurationUrl: env("OIDC_CONFIGURATION_URL"),
     oidcClientId: env("OIDC_CLIENT_ID"),
+    oidcProviderName: env("OIDC_PROVIDER_NAME"),
 
     // pg-s3-storages configurations
     postgresUrl: env("POSTGRES_URL"),
