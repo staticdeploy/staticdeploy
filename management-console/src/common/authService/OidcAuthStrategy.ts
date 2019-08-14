@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from "axios";
+import jwtDecode from "jwt-decode";
+import nanoid from "nanoid";
 
 import IAuthStrategy from "./IAuthStrategy";
 
@@ -7,6 +9,7 @@ interface IOpenidConfiguration {
 }
 
 const AUTH_TOKEN_STORAGE_KEY = "oidc:authToken";
+const NONCE_STORAGE_KEY = "oidc:nonce";
 
 export default class OidcAuthnStrategy implements IAuthStrategy {
     name = "oidc";
@@ -28,6 +31,9 @@ export default class OidcAuthnStrategy implements IAuthStrategy {
             throw new Error("Error retrieving openid configuration");
         }
 
+        const nonce = nanoid();
+        localStorage.setItem(NONCE_STORAGE_KEY, nonce);
+
         // Redirect the user to the provider authorization endpoint
         window.location.href = axios.getUri({
             url: response.data.authorization_endpoint,
@@ -35,7 +41,8 @@ export default class OidcAuthnStrategy implements IAuthStrategy {
                 client_id: this.clientId,
                 redirect_uri: this.redirectUrl,
                 response_type: "id_token",
-                scope: "openid"
+                scope: "openid",
+                nonce: nonce
             }
         });
     }
@@ -50,7 +57,14 @@ export default class OidcAuthnStrategy implements IAuthStrategy {
         );
         const idTokenInUrl = search.get("id_token");
         if (idTokenInUrl) {
-            window.localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, idTokenInUrl);
+            const jwt = jwtDecode<{ nonce?: string }>(idTokenInUrl);
+            const nonce = localStorage.getItem(NONCE_STORAGE_KEY);
+            if (nonce && jwt.nonce === nonce) {
+                window.localStorage.setItem(
+                    AUTH_TOKEN_STORAGE_KEY,
+                    idTokenInUrl
+                );
+            }
         }
         return window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
     }
