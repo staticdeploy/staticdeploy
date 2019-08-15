@@ -10,12 +10,15 @@
             "guides-deploying-staticdeploy-with-docker",
             "guides-deploying-static-apps",
             "guides-serving-assets-with-custom-headers",
-            "guides-using-a-fallback-asset"
+            "guides-using-a-fallback-asset",
+            "guides-jwt-providers",
+            "guides-openid-connect-providers"
         ],
         "Reference": [
+            "reference-entities",
+            "reference-authentication-and-authorization",
             "reference-cli",
             "reference-requests-routing",
-            "reference-entities",
             "reference-architecture"
         ]
     }
