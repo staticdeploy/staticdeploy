@@ -1,8 +1,13 @@
 import { CreateRootUserAndGroup, IStorages } from "@staticdeploy/core";
+import IConfig from "../common/IConfig";
 
 export default async function createRootUserAndGroup(
-    storages: IStorages,
-    idp: string
+    config: IConfig,
+    storages: IStorages
 ): Promise<void> {
-    await new CreateRootUserAndGroup(storages).exec(idp);
+    if (config.createRootUser) {
+        await new CreateRootUserAndGroup(storages).exec(
+            config.managementHostname
+        );
+    }
 }

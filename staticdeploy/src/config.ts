@@ -12,12 +12,16 @@ const config: IConfig = {
     nodeEnv: env("NODE_ENV", { default: "development" }),
     logLevel: env("LOG_LEVEL", { default: "info" }) as LogLevelString,
     port: env("PORT", { default: "3000" }),
-
-    // Routing configuration
     managementHostname: env("MANAGEMENT_HOSTNAME", {
         required: true,
         nonProductionDefault: "localhost"
     }),
+    enableManagementEndpoints: env("ENABLE_MANAGEMENT_ENDPOINTS", {
+        default: "true",
+        parse: value => value === "true"
+    }),
+
+    // Routing configuration
     hostnameHeader: env("HOSTNAME_HEADER"),
 
     // Auth configurations

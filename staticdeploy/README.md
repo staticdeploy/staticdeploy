@@ -20,11 +20,13 @@ The following environment variables can be used to configure the server:
 > General service configurations
 
 - `LOG_LEVEL` (defaults to `info`)
+- `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the management
+  console and api will be served
 
 > Routing configuration
 
-- `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the management
-  console and api will be served
+- `ENABLE_MANAGEMENT_ENDPOINTS`: wether to enable or not the management console
+  and API. Defaults to `true`
 - `HOSTNAME_HEADER`: the header from which to retrieve the hostname of requests
   for static assets. By default `Host` - or `X-Forwarded-Host` if present - are
   used. Some proxies however use other headers to pass the information upstream

@@ -8,9 +8,10 @@ export default interface IConfig {
     nodeEnv: string;
     logLevel: LogLevelString;
     port: string;
+    managementHostname: string;
+    enableManagementEndpoints: boolean;
 
     // Routing configuration
-    managementHostname: string;
     hostnameHeader?: string;
 
     // Auth configurations
