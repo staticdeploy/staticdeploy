@@ -8,7 +8,10 @@
  * and buttons white
  */
 .homePage .homeContainer {
-    background: var(--primary-color);
+    background-image: url("../images/home.background.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 440px;
     display: flex;
     align-items: center;
