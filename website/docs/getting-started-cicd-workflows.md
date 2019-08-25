@@ -54,4 +54,4 @@ Then, we could choose to:
     --bundle example-app:master
   ```
 
-- manually deploy to production using StaticDeploy's management console
+- manually deploy to production using StaticDeploy's Management Console

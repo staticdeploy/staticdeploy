@@ -11,12 +11,12 @@ container platform like [Kubernetes](https://kubernetes.io/) or
 
 The image contains the **staticdeploy** service that hosts:
 
-- the **management API**, a RESTful API to manage StaticDeploy's entities like
-  bundles and entrypoints. Clients of this API are the **management console**
+- the **Management API**, a RESTful API to manage StaticDeploy's entities like
+  bundles and entrypoints. Clients of this API are the **Management Console**
   and the StaticDeploy **cli**
-- the **management console**, a web GUI for graphically managing StaticDeploy's
+- the **Management Console**, a web GUI for graphically managing StaticDeploy's
   entities
-- the **static server**, the component responsible for serving the assets
+- the **Static Server**, the component responsible for serving the assets
   deployed on StaticDeploy. Clients of this server are end-users accessing the
   deployed websites
 
@@ -38,7 +38,7 @@ configuration options.
 The **staticdeploy** service accepts the following configuration options:
 
 - `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the management
-  console and the management API will be served
+  console and the Management API will be served
 - `JWT_SECRET` _(required)_: secret to verify jwt signatures (not base64
   encoded)
 - `POSTGRES_URL`: connection string for the
@@ -64,7 +64,7 @@ status
 
 ## Generating authentication tokens
 
-To access the management console, as well as to create and deploy bundles with
+To access the Management Console, as well as to create and deploy bundles with
 the **cli**, we need an authentication token. **staticdeploy** uses JWTs as
 authentication tokens, with the only requirement that tokens must specify a
 `sub` (subject) claim, which is used when logging who's been doing what.
@@ -72,7 +72,7 @@ authentication tokens, with the only requirement that tokens must specify a
 Having chosen a secret to sign tokens with, we can easily generate JWTs with the
 **Debugger** widget on [jwt.io](https://jwt.io).
 
-With a valid authentication token we can access the management console and use
+With a valid authentication token we can access the Management Console and use
 the cli to deploy static apps.
 
 For instructions on how to do that, see the guide on

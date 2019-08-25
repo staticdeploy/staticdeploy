@@ -16,7 +16,7 @@ it.
 Bundles can also specify custom headers to be used by StaticDeploy when serving
 their assets.
 
-Bundles can be created with the `bundle` command of the StaticDeploy cli, by
+Bundles can be created with the `bundle` command of the StaticDeploy CLI, by
 giving it a folder that gets archived into a tar.gz and uploaded to the
 StaticDeploy backend.
 
@@ -33,9 +33,9 @@ bundles. Each entrypoint is usually characterized by two properties:
 Entrypoints may specify a configuration, a `(string, string)` dictionary that is
 injected at serve-time into the html files of the bundle.
 
-Entrypoints can be created manually from StaticDeploy's management console, or
+Entrypoints can be created manually from StaticDeploy's Management Console, or
 automatically when deploying a bundle with the `deploy` command of the
-StaticDeploy cli.
+StaticDeploy CLI.
 
 Entrypoints may specify a `redirectTo`, instead of a `bundleId`. If a
 `redirectTo` is specified, for that entrypoint StaticDeploy doesn't serve a
@@ -46,9 +46,9 @@ static bundle, but instead issues a 302 with the `redirectTo` as `Location`.
 Apps are groups of entrypoints. Apps define a default configuration to be used
 for entrypoints which don't define one.
 
-Apps can be created manually from StaticDeploy's management console, or
+Apps can be created manually from StaticDeploy's Management Console, or
 automatically when deploying a bundle with the `deploy` command of the
-StaticDeploy cli.
+StaticDeploy CLI.
 
 ### Operation Logs
 
@@ -60,7 +60,7 @@ was performed, and additional information that details exactly what was done.
 
 ### Users
 
-Users are the users of the StaticDeploy management console and API. StaticDeploy
+Users are the users of the StaticDeploy Management Console and API. StaticDeploy
 is not an identity provider (IdP), so its users are only **references** to users
 of an external IdP. In fact, when you create a user in StaticDeploy you need to
 specify the IdP that user belogns to, as well as its identifier for the IdP.

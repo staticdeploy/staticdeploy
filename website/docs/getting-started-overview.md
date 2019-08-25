@@ -30,14 +30,14 @@ bundles are equivalent to docker images.
 Bundles must specify a fallback asset, an asset that will be served to requests
 that don't match any other asset.
 
-Bundles can be created with the `bundle` command of the StaticDeploy cli, by
+Bundles can be created with the `bundle` command of the StaticDeploy CLI, by
 giving it a folder that gets archived into a tar.gz and uploaded to the
 StaticDeploy backend.
 
 <div class="paddedDocsImage">
   <img
     src="../images/bundles-screenshot.png"
-    alt="Browsing bundles in the management console"
+    alt="Browsing bundles in the Management Console"
   />
 </div>
 
@@ -54,14 +54,14 @@ content of bundles. Each entrypoint is characterized by two properties:
 Entrypoints may specify a configuration, a `(string, string)` dictionary that is
 injected at serve-time into the html files of the bundle.
 
-Entrypoints can be created manually from StaticDeploy's management console, or
+Entrypoints can be created manually from StaticDeploy's Management Console, or
 automatically when deploying a bundle with the `deploy` command of the
-StaticDeploy cli.
+StaticDeploy CLI.
 
 <div class="paddedDocsImage">
   <img
     src="../images/entrypoints-screenshot.png"
-    alt="Browsing apps and entrypoints in the management console"
+    alt="Browsing apps and entrypoints in the Management Console"
   />
 </div>
 
@@ -70,9 +70,9 @@ StaticDeploy cli.
 Apps are groups of entrypoints. Apps define a default configuration to be used
 for entrypoints which don't define one.
 
-Apps can be created manually from StaticDeploy's management console, or
+Apps can be created manually from StaticDeploy's Management Console, or
 automatically when deploying a bundle with the `deploy` command of the
-StaticDeploy cli.
+StaticDeploy CLI.
 
 ## Reaching the goals
 

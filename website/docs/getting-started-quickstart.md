@@ -31,7 +31,7 @@ title: Quickstart
   ```
 
 - visit [local.staticdeploy.io](http://local.staticdeploy.io/) and log into the
-  management console using the following token:
+  Management Console using the following token:
 
   ```sh
   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbi1jb25zb2xlLXVzZXIifQ.yGQzbu3CAIGuxnEhEAKrqv9W8cXuBiCnPIwN_kmmzlQ
@@ -44,7 +44,7 @@ title: Quickstart
 > Note: we'll be publishing a demo app taken from the StaticDeploy repository,
 > but you can publish any directory on your computer just as easily
 
-- install the StaticDeploy cli:
+- install the StaticDeploy CLI:
 
   ```sh
   npm install --global @staticdeploy/cli
@@ -87,7 +87,7 @@ title: Quickstart
   [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io/)
   (note: `demo-static-app.staticdeploy.io` points to `127.0.0.1`)
 
-- check out the deployment on the management console at
+- check out the deployment on the Management Console at
   [local.staticdeploy.io](http://local.staticdeploy.io/). Try modifying the
   entrypoint configuration and see how
   [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io/)
