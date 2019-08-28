@@ -1,3 +1,9 @@
+## 0.12.2 (August 28, 2019)
+
+Fixes:
+
+- disable x-powered-by in all express apps
+
 ## 0.12.1 (August 28, 2019)
 
 Fixes:
