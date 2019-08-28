@@ -37,7 +37,7 @@ export function getStaticServerAdapterServer(
 
 function getServer(
     execMocks: IExecMocks,
-    app: express.Express,
+    app: express.Application,
     mountPath = "/"
 ) {
     return express()

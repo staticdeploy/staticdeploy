@@ -8,7 +8,7 @@ export default function managementApiAdapter(options: {
     serviceName: string;
     serviceVersion: string;
     serviceHost: string;
-}): express.Express {
+}): express.Application {
     const convexpressOptions = {
         info: {
             title: options.serviceName,
@@ -25,5 +25,8 @@ export default function managementApiAdapter(options: {
         .loadFrom(
             `${__dirname}/routes/*.${IS_CURRENT_FILE_TYPESCRIPT ? "ts" : "js"}`
         );
-    return express().use(router);
+
+    return express()
+        .disable("x-powered-by")
+        .use(router);
 }

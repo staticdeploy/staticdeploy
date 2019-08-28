@@ -20,7 +20,7 @@ export default async function getExpressApp(options: {
     storagesModule: IStoragesModule;
     usecases: IUsecasesByName;
     logger: Logger;
-}): Promise<express.Express> {
+}): Promise<express.Application> {
     const { config, logger, storagesModule, usecases } = options;
 
     await storagesModule.setup();
@@ -48,6 +48,7 @@ export default async function getExpressApp(options: {
         .use(managementConsoleStaticServer);
 
     return express()
+        .disable("x-powered-by")
         .use(
             bunyanMiddleware({
                 logger: logger,
