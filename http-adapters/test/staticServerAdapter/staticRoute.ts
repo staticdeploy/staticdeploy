@@ -22,6 +22,41 @@ describe("staticServerAdapter staticRoute", () => {
     });
 
     describe("calls the RespondToEndpointRequest usecase with the correct hostname", () => {
+        it("case: staticServerAdapter mounted at /", async () => {
+            const execMock = sinon
+                .stub()
+                .resolves({ statusCode: 200, headers: {} });
+            const server = getStaticServerAdapterServer({
+                respondToEndpointRequest: execMock
+            });
+            await request(server)
+                .get("/")
+                .set("host", "example.com")
+                .expect(200);
+            expect(execMock).to.have.been.calledOnceWith({
+                hostname: "example.com",
+                path: "/"
+            });
+        });
+
+        it("case: staticServerAdapter mounted at /basePath/", async () => {
+            const execMock = sinon
+                .stub()
+                .resolves({ statusCode: 200, headers: {} });
+            const server = getStaticServerAdapterServer(
+                { respondToEndpointRequest: execMock },
+                { mountPath: "/basePath/" }
+            );
+            await request(server)
+                .get("/basePath/")
+                .set("host", "example.com")
+                .expect(200);
+            expect(execMock).to.have.been.calledOnceWith({
+                hostname: "example.com",
+                path: "/basePath/"
+            });
+        });
+
         it("case: no hostnameHeader option specified", async () => {
             const execMock = sinon
                 .stub()

@@ -3,6 +3,7 @@ import { IBaseRequest, staticServerAdapter } from "@staticdeploy/http-adapters";
 import MemoryStorages from "@staticdeploy/memory-storages";
 import tarArchiver from "@staticdeploy/tar-archiver";
 import { Router } from "express";
+import { join } from "path";
 
 import getMakeUsecase from "./getMakeUsecase";
 import usecases from "./usecases";
@@ -20,6 +21,7 @@ export default async function serveStatic(options: {
             [headerName: string]: string;
         };
     };
+    basePath?: string;
 }): Promise<Router> {
     const storagesModule = new MemoryStorages();
     await storagesModule.setup();
@@ -39,9 +41,12 @@ export default async function serveStatic(options: {
     const createApp = makeUsecase("createApp");
     const app = await createApp.exec({ name: "default" });
     const createEntrypoint = makeUsecase("createEntrypoint");
+    const urlMatcherPath = options.basePath
+        ? join("/", options.basePath, "/")
+        : "/";
     createEntrypoint.exec({
         appId: app.id,
-        urlMatcher: `${APP_SERVER_LOCALHOST}/`,
+        urlMatcher: `${APP_SERVER_LOCALHOST}${urlMatcherPath}`,
         bundleId: bundle.id,
         configuration: options.configuration
     });
