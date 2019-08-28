@@ -1,3 +1,9 @@
+## 0.12.1 (August 28, 2019)
+
+Fixes:
+
+- fix redirects when serve-static is not mounted at /
+
 ## 0.12.0 (July 23, 2019)
 
 Refactors:
