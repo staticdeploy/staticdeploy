@@ -22,21 +22,18 @@ authentication token that certifies their identity. StaticDeploy is not an
 identity provider (IdP), so an external IdP is needed to issue such tokens, that
 StaticDeploy is then able to verify.
 
-Currently two types of identity providers are supported:
+Currently StaticDeploy ships with two strategies for verifying tokens, that
+enable support for two types of identity providers:
 
-- **OpenID Connect IdPs**, such as Azure Active Directory or GitHub, that issue
-  JWT `id_token`-s. Users can obtain such tokens via the StaticDeploy Management
-  Console, by simply clicking on the _Login with external provider_ button.
-  StaticDeploy is able to validate these tokens by verifying their cryptographic
-  signature with the public key of the IdP (for details, see the
-  [guide to configure StaticDeploy to use an OpenID Connect provider](/docs/guides-openid-connect-providers))
-
-- **IdPs that issue JWTs _in some other way_**. Users have to manually obtain
-  such tokens, which they can then use with the StaticDeploy Management Console,
-  or with the StaticDeploy CLI. To enable StaticDeploy to validate these tokens,
-  it must be configured with the private or public key used to sign the tokens
-  (for details, see the
-  [guide to configure StaticDeploy to use JWT-issuing providers](/docs/guides-jwt-providers))
+- **OpenID Connect IdPs** - such as Azure Active Directory or GitHub - that
+  issue Json Web Tokens (JWTs) using the OpenID Connect protocol. These tokens
+  are verified by StaticDeploy with its OpenID Connect strategy. Users can
+  obtain such tokens via the StaticDeploy Management Console, simply by clicking
+  on the _Login with \${provider}_ button
+- **IdPs that issue JWTs _in some other way_**. These tokens are verified by
+  StaticDeploy with its JWT strategy. Users have to manually obtain such tokens,
+  which they can then use with the StaticDeploy Management Console, or with the
+  StaticDeploy CLI
 
 ## Authorization
 
@@ -47,19 +44,24 @@ Currently two types of identity providers are supported:
   />
 </div>
 
-Once the user has an authentication token, they can call the Management API. The
-authentication token contains two key pieces of information:
+Once the user has an authentication token, they can call the Management API
+(using the Management Console or the CLI). The authentication token contains two
+key pieces of information:
 
-- the name of the identity provider that issued the token
-- the user id for the identity provider
+- `idp`: the name of the identity provider that issued the token
+- `idpId`: the user id for the identity provider
 
 StaticDeploy uses these two parameters to find the _user object_ corresponding
-to the user. The user object contains some StaticDeploy-specific information
-about the user, such as the groups the user belongs to. Groups are collections
-of roles, simple strings that allow performing certain operations (see below for
-details). The user groups, and therefore roles, are then used by the authorizer
-to determine wether the user is allowed or not to perform the operation for
-which they have called the Management API.
+to the user.
+
+> **Note**: if no corresponding user object is found, one is created on the fly.
+
+The user object contains some StaticDeploy-specific information about the user,
+such as the groups the user belongs to. Groups are collections of roles, simple
+strings that allow performing certain operations (see below for details). The
+user groups, and therefore roles, are then used by the authorizer to determine
+wether the user is allowed or not to perform the operation for which they have
+called the Management API.
 
 ## Roles
 
@@ -77,7 +79,7 @@ StaticDeploy authorizes operations using the following roles:
 - `entrypoint-manager:urlMatcher`: allows performing the following operations on
   the entrypoint with the specified url matcher:
   - creating the entrypoint (provided the necessary `app-manager` role for the
-    app the entrypoint is linked to)
+    app the entrypoint links to)
   - updating the entrypoint
   - deleting the entrypoint
 - `bundle-manager:name`: allows performing the following operations on bundles
@@ -85,8 +87,8 @@ StaticDeploy authorizes operations using the following roles:
   - creating a bundle
   - deleting a bundle
 
-> Note on the `entrypoint-manager` role: the target `urlMatcher` is actually a
-> pattern matching many url matchers (a url-matcher matcher). For example:
+> **Note on the `entrypoint-manager` role**: the target `urlMatcher` is actually
+> a pattern matching many url matchers (a url-matcher matcher). For example:
 >
 > - the pattern `example.com/` allows managing entrypoints with url matcher:
 >   - `example.com/`
@@ -102,7 +104,7 @@ StaticDeploy authorizes operations using the following roles:
 >   - `foo.example.com/foo/`
 >   - `foo.bar.example.com/`
 >   - etc
-> - the pattern `*example.com/` allows managing entrypoitns with utl matchers:
+> - the pattern `*example.com/` allows managing entrypoints with utl matchers:
 >   - `example.com/`
 >   - `example.com/foo/`
 >   - `foo.example.com/`

@@ -22,7 +22,7 @@ const HomeSplash = () => (
                 <div className="inner">
                     <img
                         className="staticdeployLogo"
-                        src={withBaseUrl("/images/logo-white.png")}
+                        src={withBaseUrl("/images/logo.svg")}
                         width="100px"
                     />
                     <h2 className="projectTitle">
@@ -73,7 +73,7 @@ const MainFeaturesRow = () => (
                     title: "Runtime Configuration",
                     content: stripIndent(`
                         Configuration at build time be gone! Define your app's
-                        configuration in the StaticDeploy console, and have it
+                        configuration in the StaticDeploy Console, and have it
                         injected into your bundles at runtime
                     `)
                 },

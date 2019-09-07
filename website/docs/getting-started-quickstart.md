@@ -20,7 +20,7 @@ title: Quickstart
 
 ## Set up StaticDeploy with docker
 
-- start staticdeploy:
+- start StaticDeploy:
 
   ```sh
   docker run --rm --init \
@@ -30,14 +30,9 @@ title: Quickstart
     staticdeploy/staticdeploy
   ```
 
-- visit [local.staticdeploy.io](http://local.staticdeploy.io/) and log into the
-  Management Console using the following token:
-
-  ```sh
-  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbi1jb25zb2xlLXVzZXIifQ.yGQzbu3CAIGuxnEhEAKrqv9W8cXuBiCnPIwN_kmmzlQ
-  ```
-
-  (note: `local.staticdeploy.io` points to `127.0.0.1`)
+- visit the Management Console at
+  [local.staticdeploy.io](http://local.staticdeploy.io/) (which points to
+  `127.0.0.1`)
 
 ## Publish a static app
 
@@ -54,7 +49,6 @@ title: Quickstart
 
   ```sh
   export STATICDEPLOY_API_URL=http://local.staticdeploy.io/api
-  export STATICDEPLOY_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGktdXNlciJ9.5Afzq7hN9GoLzlKCJwxGpi1RnQeCSF705vRxuqXPZkU
   ```
 
 - clone the StaticDeploy repository and `cd` into it:

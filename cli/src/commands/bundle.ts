@@ -127,7 +127,7 @@ const command: CommandModule<any, any> = {
             // Parse the object here instead of specifying a coerce function for
             // the option to avoid yargs transforming the parsed object
             // (staticdeploy issue #24)
-            // : verify whether yargs behaviour is intended or not and - if
+            // TODO: verify whether yargs behaviour is intended or not and - if
             // not - open an issue
             headers: JSON.parse(argv.headers)
         });
