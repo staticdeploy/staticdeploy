@@ -26,17 +26,25 @@ export function getManagementApiAdapter(
 
 export function getStaticServerAdapterServer(
     execMocks: IExecMocks,
-    options?: { hostnameHeader?: string }
+    options?: { mountPath?: string; hostnameHeader?: string }
 ): express.Express {
-    return getServer(execMocks, staticServerAdapter(options || {}));
+    return getServer(
+        execMocks,
+        staticServerAdapter(options || {}),
+        options && options.mountPath
+    );
 }
 
-function getServer(execMocks: IExecMocks, app: express.Express) {
+function getServer(
+    execMocks: IExecMocks,
+    app: express.Application,
+    mountPath = "/"
+) {
     return express()
         .use((req: IBaseRequest, _res, next) => {
             req.makeUsecase = (name: string) =>
                 ({ exec: execMocks[name] } as any);
             next();
         })
-        .use(app);
+        .use(mountPath, app);
 }

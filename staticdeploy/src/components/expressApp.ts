@@ -20,7 +20,7 @@ export default function getExpressApp(options: {
     managementRouter: express.Router;
     storagesModule: IStoragesModule;
     usecases: IUsecasesByName;
-}): express.Express {
+}): express.Application {
     const {
         authenticationStrategies,
         config,
@@ -30,19 +30,21 @@ export default function getExpressApp(options: {
         usecases
     } = options;
 
-    return express().use([
-        bunyanMiddleware({
-            logger: logger,
-            obscureHeaders: ["Authorization"]
-        }),
-        extractAuthToken(),
-        injectMakeUsecase(usecases, {
-            archiver: tarArchiver,
-            authenticationStrategies: authenticationStrategies,
-            config: { authEnforcementLevel: config.authEnforcementLevel },
-            storages: storagesModule.getStorages()
-        }),
-        vhost(config.managementHostname, managementRouter),
-        staticServerAdapter({ hostnameHeader: config.hostnameHeader })
-    ]);
+    return express()
+        .disable("x-powered-by")
+        .use([
+            bunyanMiddleware({
+                logger: logger,
+                obscureHeaders: ["Authorization"]
+            }),
+            extractAuthToken(),
+            injectMakeUsecase(usecases, {
+                archiver: tarArchiver,
+                authenticationStrategies: authenticationStrategies,
+                config: { authEnforcementLevel: config.authEnforcementLevel },
+                storages: storagesModule.getStorages()
+            }),
+            vhost(config.managementHostname, managementRouter),
+            staticServerAdapter({ hostnameHeader: config.hostnameHeader })
+        ]);
 }
