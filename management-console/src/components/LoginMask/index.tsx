@@ -67,7 +67,7 @@ export default class LoginMask extends React.Component<IProps> {
             <div className="c-LoginMask">
                 <Card className="c-LoginMask-card">
                     <div className="c-LoginMask-card-header">
-                        <Logo color="blue" />
+                        <Logo withShadow={true} />
                         <h3 className="c-LoginMask-card-title">
                             {"StaticDeploy"}
                             <br />

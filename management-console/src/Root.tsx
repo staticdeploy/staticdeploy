@@ -31,7 +31,7 @@ export default class Root extends React.Component {
                         trigger={null}
                     >
                         <div className="c-Root-logo-container">
-                            <Logo color="blue" />
+                            <Logo withShadow={false} />
                         </div>
                         <SiderNav />
                         <div className="c-Root-logout-button-container">

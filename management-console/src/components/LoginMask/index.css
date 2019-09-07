@@ -4,7 +4,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--primary-color);
+    background: var(--primary-blue);
+    background-image: url("./background.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     padding-top: 150px;
 }
 
@@ -25,7 +29,7 @@
 }
 
 .c-LoginMask-card-header .c-Logo {
-    width: 100px;
+    width: 150px;
     margin-bottom: 16px;
 }
 

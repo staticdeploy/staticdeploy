@@ -46,6 +46,7 @@
     "redux-form": "^8.2.5"
   },
   "devDependencies": {
+    "@panva/jose": "^1.9.0",
     "@staticdeploy/mock-server": "^1.10.0",
     "@types/chai": "^4.1.7",
     "@types/classnames": "^2.2.9",

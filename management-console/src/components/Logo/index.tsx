@@ -1,20 +1,20 @@
 import React from "react";
 
 import "./index.css";
-import logoBlueSrc from "./logoBlue.png";
-import logoWhiteSrc from "./logoWhite.png";
+import logoWithoutShadow from "./logoWithoutShadow.svg";
+import logoWithShadow from "./logoWithShadow.svg";
 
 interface IProps {
-    color: "blue" | "white";
+    withShadow: boolean;
 }
 
 export default class Logo extends React.Component<IProps> {
     render() {
-        const { color } = this.props;
+        const { withShadow } = this.props;
         return (
             <img
                 className="c-Logo"
-                src={color === "blue" ? logoBlueSrc : logoWhiteSrc}
+                src={withShadow ? logoWithShadow : logoWithoutShadow}
                 alt="logo"
             />
         );

@@ -15,6 +15,6 @@ export const OIDC_CLIENT_ID = APP_CONFIG.OIDC_CLIENT_ID || "clientId";
 export const OIDC_REDIRECT_URL =
     APP_CONFIG.OIDC_REDIRECT_URL || "http://localhost:3000";
 export const OIDC_PROVIDER_NAME =
-    APP_CONFIG.OIDC_PROVIDER_NAME || "custom provider";
+    APP_CONFIG.OIDC_PROVIDER_NAME || "OpenID Connect";
 
 export const JWT_ENABLED = APP_CONFIG.JWT_ENABLED === "true";

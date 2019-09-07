@@ -11,7 +11,7 @@ interface IOpenidConfiguration {
 const AUTH_TOKEN_STORAGE_KEY = "oidc:authToken";
 const NONCE_STORAGE_KEY = "oidc:nonce";
 
-export default class OidcAuthnStrategy implements IAuthStrategy {
+export default class OidcAuthStrategy implements IAuthStrategy {
     name = "oidc";
 
     constructor(
@@ -52,20 +52,25 @@ export default class OidcAuthnStrategy implements IAuthStrategy {
     }
 
     getAuthToken(): string | null {
-        const search = new URLSearchParams(
-            window.location.hash.replace(/^#/, "")
-        );
-        const idTokenInUrl = search.get("id_token");
-        if (idTokenInUrl) {
-            const jwt = jwtDecode<{ nonce?: string }>(idTokenInUrl);
-            const nonce = localStorage.getItem(NONCE_STORAGE_KEY);
-            if (nonce && jwt.nonce === nonce) {
-                window.localStorage.setItem(
-                    AUTH_TOKEN_STORAGE_KEY,
-                    idTokenInUrl
-                );
+        try {
+            const search = new URLSearchParams(
+                window.location.hash.replace(/^#/, "")
+            );
+            const idTokenInUrl = search.get("id_token");
+            if (idTokenInUrl) {
+                const jwt = jwtDecode<{ nonce?: string }>(idTokenInUrl);
+                const nonce = localStorage.getItem(NONCE_STORAGE_KEY);
+                if (nonce && jwt.nonce === nonce) {
+                    window.localStorage.setItem(
+                        AUTH_TOKEN_STORAGE_KEY,
+                        idTokenInUrl
+                    );
+                }
             }
+            return window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+        } catch {
+            // If errors occur, just return null
+            return null;
         }
-        return window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
     }
 }
