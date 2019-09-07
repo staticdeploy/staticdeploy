@@ -17,7 +17,7 @@ export function isRoleValid(role: string): boolean {
     const tokens = role.split(":");
     const [name] = tokens;
     return (
-        values(RoleName).includes(name) &&
+        (values(RoleName) as string[]).includes(name) &&
         (name === RoleName.Root ? tokens.length === 1 : tokens.length === 2)
     );
 }
