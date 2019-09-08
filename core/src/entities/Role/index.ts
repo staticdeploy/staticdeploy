@@ -5,8 +5,8 @@ import matchesUrlMatcher from "./matchesUrlMatcher";
 
 export enum RoleName {
     Root = "root",
+    Reader = "reader",
     AppManager = "app-manager",
-    EntrypointCreator = "entrypoint-creator",
     EntrypointManager = "entrypoint-manager",
     BundleManager = "bundle-manager"
 }
@@ -43,22 +43,24 @@ export function roleMatchesRole(
     const [requiredRoleName, requiredRoleTarget] = requiredRole;
     switch (requiredRoleName) {
         /*
-         *  The Root role has no target. It allows the user to perform every
-         *  operation
+         *  The Root and Reader roles have no target. The Root role allows the
+         *  user to perform every operation, the Reader role allows the user to
+         *  perform every read operation
          */
         case RoleName.Root:
+        case RoleName.Reader:
             return heldRoleName === requiredRoleName;
 
         /*
-         *  The target of the AppManager, BundleManager, and EntrypointManager
-         *  roles is respectively an app id, a bundle name, or an entrypoint id.
-         *  The target specifies the resource the role allows access to.
-         *  Example:
+         *  The target of the AppManager and BundleManager roles is respectively
+         *  an app id or a bundle name. The target specifies the resource the
+         *  role allows access to. Example:
          *
          *  - role app-manager:12345678 allows managing app with id 12345678
+         *  - role bundle-manager:my-app allows managing bundles with name
+         *    my-app
          */
         case RoleName.AppManager:
-        case RoleName.EntrypointManager:
         case RoleName.BundleManager:
             return (
                 heldRoleName === requiredRoleName &&
@@ -66,9 +68,9 @@ export function roleMatchesRole(
             );
 
         /*
-         *  The target of the EntrypointCreator role is a urlMatcher-matcher,
+         *  The target of the EntrypointManager role is a urlMatcher-matcher,
          *  that is, a string that matches urlMatchers. urlMatcher-matchers are
-         *  required so that roles can allow creating entrypoints:
+         *  required so that roles can allow managing entrypoints:
          *
          *  - for a certain hostname and all of its sub-hostnames
          *  - for a certain hostname and all other hostnames ending with that
@@ -77,7 +79,7 @@ export function roleMatchesRole(
          *
          *  Examples:
          *
-         *  - role entrypoint-creator:example.com/
+         *  - role entrypoint-manager:example.com/
          *    - can create entrypoints for:
          *      - example.com/
          *      - example.com/sub/
@@ -85,14 +87,14 @@ export function roleMatchesRole(
          *      - sub.example.com/
          *      - pre-example.com/
          *
-         *  - role entrypoint-creator:*.example.com/
+         *  - role entrypoint-manager:*.example.com/
          *    - can create entrypoints for:
          *      - sub.example.com/
          *      - sub.example.com/sub/
          *    - can't create entrypoints for:
          *      - example.com/
          *
-         *  - role entrypoint-creator:*example.com/
+         *  - role entrypoint-manager:*example.com/
          *    - can create entrypoints for:
          *      - example.com/
          *      - example.com/sub/
@@ -110,7 +112,7 @@ export function roleMatchesRole(
          *  - *.example.com matches every hostname that ends in .example.com
          *    (sub.example.com, but not pre-example.com, nor example.com)
          */
-        case RoleName.EntrypointCreator:
+        case RoleName.EntrypointManager:
             return (
                 heldRoleName === requiredRoleName &&
                 matchesUrlMatcher(heldRoleTarget!, requiredRoleTarget!)

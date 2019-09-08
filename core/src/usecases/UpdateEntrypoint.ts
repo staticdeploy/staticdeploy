@@ -25,8 +25,7 @@ export default class UpdateEntrypoint extends Usecase {
 
         // Auth check
         await this.authorizer.ensureCanUpdateEntrypoint(
-            id,
-            existingEntrypoint.appId
+            existingEntrypoint.urlMatcher
         );
 
         // Validate the configuration

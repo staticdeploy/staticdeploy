@@ -15,8 +15,7 @@ export default class DeleteEntrypoint extends Usecase {
 
         // Auth check
         await this.authorizer.ensureCanDeleteEntrypoint(
-            id,
-            toBeDeletedEntrypoint.appId
+            toBeDeletedEntrypoint.urlMatcher
         );
 
         // Delete the entrypoint

@@ -25,8 +25,8 @@ export default class CreateEntrypoint extends Usecase {
     }): Promise<IEntrypoint> {
         // Auth check
         await this.authorizer.ensureCanCreateEntrypoint(
-            partial.appId,
-            partial.urlMatcher
+            partial.urlMatcher,
+            partial.appId
         );
 
         // Validate the urlMatcher and the configuration

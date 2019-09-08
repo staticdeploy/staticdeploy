@@ -24,7 +24,9 @@ describe("usecase CheckHealth", () => {
                 .stub<any, any>()
                 .resolves({ idp: "idp", id: "idpId" })
         });
-        deps.storages.users.findOneWithRolesByIdpAndIdpId.resolves({} as any);
+        deps.storages.users.findOneWithRolesByIdpAndIdpId.resolves({
+            roles: ["reader"]
+        } as any);
         deps.storages.checkHealth.resolves({ isHealthy: false, details: {} });
         const checkHealth = new CheckHealth(deps);
         const result = await checkHealth.exec();

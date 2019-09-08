@@ -21,7 +21,7 @@ export default class Authorizer {
     // Health
     async canSeeHealtCheckDetails(): Promise<boolean> {
         try {
-            await this.enforceAuth();
+            await this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
             return true;
         } catch {
             return false;
@@ -47,7 +47,7 @@ export default class Authorizer {
         );
     }
     ensureCanGetApps(): Promise<void> {
-        return this.enforceAuth();
+        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Bundles
@@ -66,48 +66,46 @@ export default class Authorizer {
         );
     }
     ensureCanGetBundles(): Promise<void> {
-        return this.enforceAuth();
+        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Entrypoints
     ensureCanCreateEntrypoint(
-        entrypointAppId: string,
-        entrypointUrlMatcher: string
+        entrypointUrlMatcher: string,
+        entrypointAppId: string
     ): Promise<void> {
         return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 (this.matchesRole([RoleName.AppManager, entrypointAppId]) &&
                     this.matchesRole([
-                        RoleName.EntrypointCreator,
+                        RoleName.EntrypointManager,
                         entrypointUrlMatcher
                     ]))
         );
     }
-    ensureCanUpdateEntrypoint(
-        entrypointId: string,
-        entrypointAppId: string
-    ): Promise<void> {
+    ensureCanUpdateEntrypoint(entrypointUrlMatcher: string): Promise<void> {
         return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
-                this.matchesRole([RoleName.AppManager, entrypointAppId]) ||
-                this.matchesRole([RoleName.EntrypointManager, entrypointId])
+                this.matchesRole([
+                    RoleName.EntrypointManager,
+                    entrypointUrlMatcher
+                ])
         );
     }
-    ensureCanDeleteEntrypoint(
-        entrypointId: string,
-        entrypointAppId: string
-    ): Promise<void> {
+    ensureCanDeleteEntrypoint(entrypointUrlMatcher: string): Promise<void> {
         return this.enforceAuth(
             () =>
                 this.matchesRole([RoleName.Root]) ||
-                this.matchesRole([RoleName.AppManager, entrypointAppId]) ||
-                this.matchesRole([RoleName.EntrypointManager, entrypointId])
+                this.matchesRole([
+                    RoleName.EntrypointManager,
+                    entrypointUrlMatcher
+                ])
         );
     }
     ensureCanGetEntrypoints(): Promise<void> {
-        return this.enforceAuth();
+        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Groups
@@ -121,12 +119,12 @@ export default class Authorizer {
         return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetGroups(): Promise<void> {
-        return this.enforceAuth();
+        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Operation logs
     ensureCanGetOperationLogs(): Promise<void> {
-        return this.enforceAuth();
+        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
     }
     getUser(): IUser | null {
         return this.user;
@@ -143,7 +141,7 @@ export default class Authorizer {
         return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetUsers(): Promise<void> {
-        return this.enforceAuth();
+        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
     }
 
     private async enforceAuth(hasRequiredRoles?: () => boolean): Promise<void> {

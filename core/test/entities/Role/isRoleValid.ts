@@ -8,13 +8,13 @@ describe("Role entity util isRoleValid", () => {
             // Invalid cases
             ["root:example.com/", false],
             ["app-manager:appId:entrypointId", false],
-            ["entrypoint-creator:https://example.com/", false],
+            ["entrypoint-manager:https://example.com/", false],
             ["invalid-role", false],
             ["invalid-role:appId", false],
             // Valid cases
             ["root", true],
             ["app-manager:appId", true],
-            ["entrypoint-creator:example.com/", true]
+            ["entrypoint-manager:example.com/", true]
         ];
         testCases.forEach(([role, expectedResult]) => {
             const validOrNot = expectedResult ? "valid" : "not valid";

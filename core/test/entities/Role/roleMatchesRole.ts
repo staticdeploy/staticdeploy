@@ -7,7 +7,9 @@ describe("Role entity function roleMatchesRole", () => {
         const testCases: [string, [RoleName, string?], boolean][] = [
             // RoleName.Root
             ["root", [RoleName.Root], true],
-            ["admin", [RoleName.Root], false],
+
+            // RoleName.Reader
+            ["reader", [RoleName.Reader], true],
 
             // RoleName.AppManager
             ["app-manager:appId", [RoleName.AppManager, "appId"], true],
@@ -17,27 +19,15 @@ describe("Role entity function roleMatchesRole", () => {
                 false
             ],
 
-            // RoleName.EntrypointCreator
-            [
-                "entrypoint-creator:example.com/",
-                [RoleName.EntrypointCreator, "example.com/"],
-                true
-            ],
-            [
-                "entrypoint-creator:sub.example.com/",
-                [RoleName.EntrypointCreator, "example.com/"],
-                false
-            ],
-
             // RoleName.EntrypointManager
             [
-                "entrypoint-manager:entrypointId",
-                [RoleName.EntrypointManager, "entrypointId"],
+                "entrypoint-manager:example.com/",
+                [RoleName.EntrypointManager, "example.com/"],
                 true
             ],
             [
-                "entrypoint-manager:different-entrypointId",
-                [RoleName.EntrypointManager, "entrypointId"],
+                "entrypoint-manager:sub.example.com/",
+                [RoleName.EntrypointManager, "example.com/"],
                 false
             ],
 
