@@ -3,16 +3,6 @@ id: getting-started-quickstart
 title: Quickstart
 ---
 
-<div class="paddedDocsImage" style="text-align: center; padding-bottom: 32px;">
-  <a href="https://www.youtube.com/watch?v=ZysrB1uYKu0" target="_blank" rel="noopener">
-    <img
-      src="../images/quickstart-video-link.png"
-      alt="Quickstart Video"
-      style="width: 560px; text-align: center;"
-    />
-  </a>
-</div>
-
 > For this quickstart you'll need:
 >
 > - a recent version of [docker](https://docs.docker.com/install/)
