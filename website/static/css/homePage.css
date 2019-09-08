@@ -3,6 +3,7 @@
  * and buttons white
  */
 .homePage .homeContainer {
+    background-color: var(--primary-color);
     background-image: url("../images/home.background.svg");
     background-position: center;
     background-repeat: no-repeat;
