@@ -3,15 +3,26 @@ id: guides-openid-connect-providers
 title: Configuring OpenID Connect identity providers
 ---
 
+> **Note**: to use OpenID Connect identity providers our StaticDeploy instance
+> must be reachable via https
+
 StaticDeploy can authenticate users using [OpenID Connect](https://openid.net/)
-providers, such as Azure Active Directory, Google, or GitHub.
+identity providers, such as Azure Active Directory, Google, or GitHub.
 
 In order to enable this authentication strategy, first of all we need to create
 a client application in our identity provider. Each identity provider has its
-own way of creating the client application, but it's generally a fairly simple
-process, at the end of which the provider will give us:
+own way of creating the client application (a generally simple process), but in
+any case we'll need to:
 
-- a **client id**, a random string identifying the application
+- set the **redirect (or callback) uri** to `https://$MANAGEMENT_HOSTNAME`,
+  where `MANAGEMENT_HOSTNAME` is the hostname we used when starting the
+  **staticdeploy** service
+- enable the [implicit grant flow](https://oauth.net/2/grant-types/implicit/)
+  (if not enabled by default)
+
+Once the client application has been created, the provider will give us:
+
+- a **client id**, an identifier for the application
 - a **configuration url** (something like
   `https://example.com/.well-known/openid-configuration`), where StaticDeploy
   will be able to find the necessary configurations to use the identity provider
