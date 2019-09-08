@@ -166,11 +166,14 @@ export class RoleNotValidError extends Error {
 
 // User errors
 export class UserNotFoundError extends Error {
-    constructor(idOrIdpUser: IIdpUser | string) {
+    constructor(id: string) {
+        super(`No user found with id = ${id}`);
+    }
+}
+export class NoUserCorrespondingToIdpUserError extends Error {
+    constructor(idpUser: IIdpUser) {
         super(
-            typeof idOrIdpUser === "string"
-                ? `No user found with id = ${idOrIdpUser}`
-                : `No user found corresponding to user of idp = ${idOrIdpUser.idp} with id = ${idOrIdpUser.id}`
+            `Access denied. To gain access, ask an admin to create a user with idp = ${idpUser.idp} and idpId = ${idpUser.id}`
         );
     }
 }

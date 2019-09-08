@@ -4,6 +4,7 @@ import { IConvRoute } from "convexpress";
 const errorStatusMappings: [any, number][] = [
     // Auth errors
     [sd.AuthenticationRequiredError, 401],
+    [sd.NoUserCorrespondingToIdpUserError, 403],
     [sd.MissingRoleError, 403],
     // Configuration errors
     [sd.ConfigurationNotValidError, 400],

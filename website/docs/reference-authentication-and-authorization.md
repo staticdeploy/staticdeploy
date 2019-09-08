@@ -54,8 +54,6 @@ key pieces of information:
 StaticDeploy uses these two parameters to find the _user object_ corresponding
 to the user.
 
-> **Note**: if no corresponding user object is found, one is created on the fly.
-
 The user object contains some StaticDeploy-specific information about the user,
 such as the groups the user belongs to. Groups are collections of roles, simple
 strings that allow performing certain operations (see below for details). The
@@ -63,13 +61,16 @@ user groups, and therefore roles, are then used by the authorizer to determine
 whether the user is allowed or not to perform the operation for which they have
 called the Management API.
 
+> **Note**: if no corresponding user object is found, the user is denied access.
+> Therefore, before a user can perform any operation, the corresponding user
+> object must be created by an admin
+
 ## Roles
 
-StaticDeploy authorizes operations using the following roles:
+Every user that has access to StaticDeploy can perform read operations on all
+resources. For authorizing write operations, the following roles are used:
 
-- `root`: allows performing all operations
-- `reader`: allows performing all read operations (currently there are no
-  finer-grained roles for read access)
+- `root`: allows performing all operations finer-grained roles for read access)
 - `app-manager:id`: allows performing the following operations on the app with
   the specified id:
   - updating the app

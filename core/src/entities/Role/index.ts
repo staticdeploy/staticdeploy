@@ -5,7 +5,6 @@ import matchesUrlMatcher from "./matchesUrlMatcher";
 
 export enum RoleName {
     Root = "root",
-    Reader = "reader",
     AppManager = "app-manager",
     EntrypointManager = "entrypoint-manager",
     BundleManager = "bundle-manager"
@@ -43,12 +42,10 @@ export function roleMatchesRole(
     const [requiredRoleName, requiredRoleTarget] = requiredRole;
     switch (requiredRoleName) {
         /*
-         *  The Root and Reader roles have no target. The Root role allows the
-         *  user to perform every operation, the Reader role allows the user to
-         *  perform every read operation
+         *  The Roo role has no target, and it allows the user to perform every
+         *  operation
          */
         case RoleName.Root:
-        case RoleName.Reader:
             return heldRoleName === requiredRoleName;
 
         /*

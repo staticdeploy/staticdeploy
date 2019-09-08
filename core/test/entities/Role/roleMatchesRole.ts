@@ -8,9 +8,6 @@ describe("Role entity function roleMatchesRole", () => {
             // RoleName.Root
             ["root", [RoleName.Root], true],
 
-            // RoleName.Reader
-            ["reader", [RoleName.Reader], true],
-
             // RoleName.AppManager
             ["app-manager:appId", [RoleName.AppManager, "appId"], true],
             [

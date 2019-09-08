@@ -1,7 +1,7 @@
 import {
     AuthenticationRequiredError,
     MissingRoleError,
-    UserNotFoundError
+    NoUserCorrespondingToIdpUserError
 } from "../common/errors";
 import IUsersStorage from "../dependencies/IUsersStorage";
 import { oneOfRolesMatchesRole, RoleName, RoleTuple } from "../entities/Role";
@@ -20,7 +20,7 @@ export default class Authorizer {
     // Misc
     async canSeeHealtCheckDetails(): Promise<boolean> {
         try {
-            await this.ensure(() => this.matchesRole([RoleName.Reader]));
+            await this.ensure();
             return true;
         } catch {
             return false;
@@ -49,7 +49,7 @@ export default class Authorizer {
         );
     }
     ensureCanGetApps(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure();
     }
 
     // Bundles
@@ -68,7 +68,7 @@ export default class Authorizer {
         );
     }
     ensureCanGetBundles(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure();
     }
 
     // Entrypoints
@@ -107,7 +107,7 @@ export default class Authorizer {
         );
     }
     ensureCanGetEntrypoints(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure();
     }
 
     // Groups
@@ -121,12 +121,12 @@ export default class Authorizer {
         return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetGroups(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure();
     }
 
     // Operation logs
     ensureCanGetOperationLogs(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure();
     }
 
     // Users
@@ -140,7 +140,7 @@ export default class Authorizer {
         return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetUsers(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure();
     }
 
     private async ensure(hasRequiredRoles?: () => boolean): Promise<void> {
@@ -158,7 +158,7 @@ export default class Authorizer {
             idpUser.id
         );
         if (!this.user) {
-            throw new UserNotFoundError(idpUser);
+            throw new NoUserCorrespondingToIdpUserError(idpUser);
         }
 
         if (hasRequiredRoles && !hasRequiredRoles()) {

@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     AuthenticationRequiredError,
     MissingRoleError,
-    UserNotFoundError
+    NoUserCorrespondingToIdpUserError
 } from "../../src/common/errors";
 import { IIdpUser } from "../../src/entities/User";
 import Authenticator from "../../src/services/Authenticator";
@@ -59,7 +59,9 @@ describe("service Authorizer", () => {
                 true
             );
             const ensurePromise = authorizer.ensureCanCreateApp();
-            await expect(ensurePromise).to.be.rejectedWith(UserNotFoundError);
+            await expect(ensurePromise).to.be.rejectedWith(
+                NoUserCorrespondingToIdpUserError
+            );
         });
     });
 
@@ -113,18 +115,10 @@ describe("service Authorizer", () => {
         });
     });
     describe("ensureCanGetApps", () => {
-        it("throws MissingRoleError if the user is not allowed to get apps", async () => {
-            const authorizer = getAuthorizerForUser({
-                id: "id",
-                roles: []
-            });
-            const ensurePromise = authorizer.ensureCanGetApps();
-            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
-        });
         it("doesn't throw if the user is allowed to get apps", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["reader"]
+                roles: []
             });
             await authorizer.ensureCanGetApps();
         });
@@ -170,18 +164,10 @@ describe("service Authorizer", () => {
         });
     });
     describe("ensureCanGetBundles", () => {
-        it("throws MissingRoleError if the user is not allowed to get bundles", async () => {
-            const authorizer = getAuthorizerForUser({
-                id: "id",
-                roles: []
-            });
-            const ensurePromise = authorizer.ensureCanGetBundles();
-            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
-        });
         it("doesn't throw if the user is allowed to get bundles", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["reader"]
+                roles: []
             });
             await authorizer.ensureCanGetBundles();
         });
@@ -264,18 +250,10 @@ describe("service Authorizer", () => {
         });
     });
     describe("ensureCanGetEntrypoints", () => {
-        it("throws MissingRoleError if the user is not allowed to get entrypoints", async () => {
-            const authorizer = getAuthorizerForUser({
-                id: "id",
-                roles: []
-            });
-            const ensurePromise = authorizer.ensureCanGetEntrypoints();
-            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
-        });
         it("doesn't throw if the user is allowed to get entrypoints", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["reader"]
+                roles: []
             });
             await authorizer.ensureCanGetEntrypoints();
         });
@@ -331,18 +309,10 @@ describe("service Authorizer", () => {
         });
     });
     describe("ensureCanGetGroups", () => {
-        it("throws MissingRoleError if the user is not allowed to get groups", async () => {
-            const authorizer = getAuthorizerForUser({
-                id: "id",
-                roles: []
-            });
-            const ensurePromise = authorizer.ensureCanGetGroups();
-            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
-        });
         it("doesn't throw if the user is allowed to get groups", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["reader"]
+                roles: []
             });
             await authorizer.ensureCanGetGroups();
         });
@@ -350,18 +320,10 @@ describe("service Authorizer", () => {
 
     // Operation logs
     describe("ensureCanGetOperationLogs", () => {
-        it("throws MissingRoleError if the user is not allowed to get operation logs", async () => {
-            const authorizer = getAuthorizerForUser({
-                id: "id",
-                roles: []
-            });
-            const ensurePromise = authorizer.ensureCanGetOperationLogs();
-            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
-        });
         it("doesn't throw if the user is allowed to get operation logs", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["reader"]
+                roles: []
             });
             await authorizer.ensureCanGetOperationLogs();
         });
@@ -417,18 +379,10 @@ describe("service Authorizer", () => {
         });
     });
     describe("ensureCanGetUsers", () => {
-        it("throws MissingRoleError if the user is not allowed to get users", async () => {
-            const authorizer = getAuthorizerForUser({
-                id: "id",
-                roles: []
-            });
-            const ensurePromise = authorizer.ensureCanGetUsers();
-            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
-        });
         it("doesn't throw if the user is allowed to get users", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["reader"]
+                roles: []
             });
             await authorizer.ensureCanGetUsers();
         });
