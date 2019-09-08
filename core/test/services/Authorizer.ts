@@ -6,7 +6,6 @@ import {
     MissingRoleError,
     UserNotFoundError
 } from "../../src/common/errors";
-import { AuthEnforcementLevel } from "../../src/dependencies/IUsecaseConfig";
 import { IIdpUser } from "../../src/entities/User";
 import Authenticator from "../../src/services/Authenticator";
 import Authorizer from "../../src/services/Authorizer";
@@ -24,19 +23,19 @@ function getAuthorizerForUser(user: any) {
     return new Authorizer(
         deps.storages.users,
         getMockAuthenticator({ id: "id", idp: "idp" }),
-        AuthEnforcementLevel.Authorization
+        true
     );
 }
 
 describe("service Authorizer", () => {
     // General
     describe("ensure* methods", () => {
-        it("don't throw anything if AuthEnforcementLevel = None (0)", async () => {
+        it("don't throw anything if enforceAuth = false", async () => {
             const deps = getMockDependencies();
             const authorizer = new Authorizer(
                 deps.storages.users,
                 getMockAuthenticator(null),
-                AuthEnforcementLevel.None
+                false
             );
             await authorizer.ensureCanCreateApp();
         });
@@ -45,7 +44,7 @@ describe("service Authorizer", () => {
             const authorizer = new Authorizer(
                 deps.storages.users,
                 getMockAuthenticator(null),
-                AuthEnforcementLevel.Authorization
+                true
             );
             const ensurePromise = authorizer.ensureCanCreateApp();
             await expect(ensurePromise).to.be.rejectedWith(
@@ -57,7 +56,7 @@ describe("service Authorizer", () => {
             const authorizer = new Authorizer(
                 deps.storages.users,
                 getMockAuthenticator({ id: "id", idp: "idp" }),
-                AuthEnforcementLevel.Authorization
+                true
             );
             const ensurePromise = authorizer.ensureCanCreateApp();
             await expect(ensurePromise).to.be.rejectedWith(UserNotFoundError);

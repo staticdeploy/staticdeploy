@@ -11,15 +11,16 @@ interface IProps {
 
 export default class LogoutButton extends React.Component<IProps> {
     render() {
-        return (
+        const { authService } = this.props;
+        return authService.authEnforced ? (
             <Tooltip title="Logout" placement="right">
                 <div
                     className="c-LogoutButton"
-                    onClick={() => this.props.authService.logout()}
+                    onClick={() => authService.logout()}
                 >
                     <Icon type="logout" />
                 </div>
             </Tooltip>
-        );
+        ) : null;
     }
 }

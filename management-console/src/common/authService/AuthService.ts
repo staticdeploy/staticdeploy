@@ -1,4 +1,3 @@
-import { AuthEnforcementLevel } from "@staticdeploy/core";
 import EventEmitter from "eventemitter3";
 
 import IAuthStrategy from "./IAuthStrategy";
@@ -14,12 +13,12 @@ export default class AuthService {
     private statusEmitter: EventEmitter;
 
     constructor(
-        private authEnforcementLevel: AuthEnforcementLevel,
+        public authEnforced: boolean,
         private authStrategies: IAuthStrategy[]
     ) {
         this.statusEmitter = new EventEmitter();
 
-        if (authEnforcementLevel === AuthEnforcementLevel.None) {
+        if (!authEnforced) {
             this.status = {
                 authToken: null,
                 isLoggingIn: false,
@@ -46,10 +45,6 @@ export default class AuthService {
 
     hasAuthStrategy(strategy: string): boolean {
         return !!this.authStrategies.find(a => a.name === strategy);
-    }
-
-    getAuthEnforcementLevel(): AuthEnforcementLevel {
-        return this.authEnforcementLevel;
     }
 
     getStatus(): IStatus {

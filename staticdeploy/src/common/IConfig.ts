@@ -1,4 +1,3 @@
-import { AuthEnforcementLevel } from "@staticdeploy/core";
 import { LogLevelString } from "bunyan";
 
 export default interface IConfig {
@@ -15,7 +14,7 @@ export default interface IConfig {
     hostnameHeader?: string;
 
     // Auth configurations
-    authEnforcementLevel: AuthEnforcementLevel;
+    enforceAuth: boolean;
     createRootUser: boolean;
     jwtSecretOrPublicKey?: Buffer;
     oidcConfigurationUrl?: string;

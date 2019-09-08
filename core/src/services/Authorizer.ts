@@ -3,7 +3,6 @@ import {
     MissingRoleError,
     UserNotFoundError
 } from "../common/errors";
-import { AuthEnforcementLevel } from "../dependencies/IUsecaseConfig";
 import IUsersStorage from "../dependencies/IUsersStorage";
 import { oneOfRolesMatchesRole, RoleName, RoleTuple } from "../entities/Role";
 import { IUser, IUserWithRoles } from "../entities/User";
@@ -15,58 +14,61 @@ export default class Authorizer {
     constructor(
         private users: IUsersStorage,
         private authenticator: Authenticator,
-        private authEnforcementLevel: AuthEnforcementLevel
+        private enforceAuth: boolean
     ) {}
 
-    // Health
+    // Misc
     async canSeeHealtCheckDetails(): Promise<boolean> {
         try {
-            await this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
+            await this.ensure(() => this.matchesRole([RoleName.Reader]));
             return true;
         } catch {
             return false;
         }
     }
+    getUser(): IUser | null {
+        return this.user;
+    }
 
     // Apps
     ensureCanCreateApp(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+        return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanUpdateApp(appId: string): Promise<void> {
-        return this.enforceAuth(
+        return this.ensure(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
     ensureCanDeleteApp(appId: string): Promise<void> {
-        return this.enforceAuth(
+        return this.ensure(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
     ensureCanGetApps(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Bundles
     ensureCanCreateBundle(bundleName: string): Promise<void> {
-        return this.enforceAuth(
+        return this.ensure(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundleName])
         );
     }
     ensureCanDeleteBundles(bundlesName: string): Promise<void> {
-        return this.enforceAuth(
+        return this.ensure(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundlesName])
         );
     }
     ensureCanGetBundles(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Entrypoints
@@ -74,7 +76,7 @@ export default class Authorizer {
         entrypointUrlMatcher: string,
         entrypointAppId: string
     ): Promise<void> {
-        return this.enforceAuth(
+        return this.ensure(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 (this.matchesRole([RoleName.AppManager, entrypointAppId]) &&
@@ -85,7 +87,7 @@ export default class Authorizer {
         );
     }
     ensureCanUpdateEntrypoint(entrypointUrlMatcher: string): Promise<void> {
-        return this.enforceAuth(
+        return this.ensure(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([
@@ -95,7 +97,7 @@ export default class Authorizer {
         );
     }
     ensureCanDeleteEntrypoint(entrypointUrlMatcher: string): Promise<void> {
-        return this.enforceAuth(
+        return this.ensure(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([
@@ -105,47 +107,44 @@ export default class Authorizer {
         );
     }
     ensureCanGetEntrypoints(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Groups
     ensureCanCreateGroup(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+        return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanUpdateGroup(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+        return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanDeleteGroup(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+        return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetGroups(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Operation logs
     ensureCanGetOperationLogs(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
-    }
-    getUser(): IUser | null {
-        return this.user;
+        return this.ensure(() => this.matchesRole([RoleName.Reader]));
     }
 
     // Users
     ensureCanCreateUser(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+        return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanUpdateUser(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+        return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanDeleteUser(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Root]));
+        return this.ensure(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetUsers(): Promise<void> {
-        return this.enforceAuth(() => this.matchesRole([RoleName.Reader]));
+        return this.ensure(() => this.matchesRole([RoleName.Reader]));
     }
 
-    private async enforceAuth(hasRequiredRoles?: () => boolean): Promise<void> {
-        if (this.authEnforcementLevel === AuthEnforcementLevel.None) {
+    private async ensure(hasRequiredRoles?: () => boolean): Promise<void> {
+        if (!this.enforceAuth) {
             return;
         }
 

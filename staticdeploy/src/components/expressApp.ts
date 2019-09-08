@@ -41,7 +41,7 @@ export default function getExpressApp(options: {
             injectMakeUsecase(usecases, {
                 archiver: tarArchiver,
                 authenticationStrategies: authenticationStrategies,
-                config: { authEnforcementLevel: config.authEnforcementLevel },
+                config: { enforceAuth: config.enforceAuth },
                 storages: storagesModule.getStorages()
             }),
             vhost(config.managementHostname, managementRouter),

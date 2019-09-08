@@ -18,20 +18,20 @@ const config: IConfig = {
     }),
     enableManagementEndpoints: env("ENABLE_MANAGEMENT_ENDPOINTS", {
         default: "true",
-        parse: value => value === "true"
+        parse: value => value !== "false"
     }),
 
     // Routing configuration
     hostnameHeader: env("HOSTNAME_HEADER"),
 
     // Auth configurations
-    authEnforcementLevel: env("AUTH_ENFORCEMENT_LEVEL", {
-        default: "0",
-        parse: value => parseInt(value, 10)
+    enforceAuth: env("ENFORCE_AUTH", {
+        default: "true",
+        parse: value => value !== "false"
     }),
     createRootUser: env("CREATE_ROOT_USER", {
         default: "true",
-        parse: value => value === "true"
+        parse: value => value !== "false"
     }),
     jwtSecretOrPublicKey: env("JWT_SECRET_OR_PUBLIC_KEY", {
         parse: value => Buffer.from(value, "base64")

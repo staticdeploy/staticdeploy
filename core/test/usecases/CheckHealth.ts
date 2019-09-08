@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { AuthEnforcementLevel } from "../../src/dependencies/IUsecaseConfig";
 import CheckHealth from "../../src/usecases/CheckHealth";
 import { getMockDependencies } from "../testUtils";
 
@@ -16,7 +15,7 @@ describe("usecase CheckHealth", () => {
 
     it("when the request is authenticated, returns the details returned by storage healthchecks", async () => {
         const deps = getMockDependencies();
-        deps.config.authEnforcementLevel = AuthEnforcementLevel.Authorization;
+        deps.config.enforceAuth = true;
         deps.requestContext.authToken = "authToken";
         deps.authenticationStrategies.push({
             setup: sinon.stub(),
@@ -37,7 +36,7 @@ describe("usecase CheckHealth", () => {
 
     it("when the request is NOT authenticated, doesn't return any details", async () => {
         const deps = getMockDependencies();
-        deps.config.authEnforcementLevel = AuthEnforcementLevel.Authorization;
+        deps.config.enforceAuth = true;
         deps.requestContext.authToken = null;
         deps.storages.checkHealth.resolves({ isHealthy: false, details: {} });
         const checkHealth = new CheckHealth(deps);

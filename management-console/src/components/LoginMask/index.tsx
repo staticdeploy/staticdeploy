@@ -1,4 +1,3 @@
-import { AuthEnforcementLevel } from "@staticdeploy/core";
 import Card from "antd/lib/card";
 import Divider from "antd/lib/divider";
 import Spin from "antd/lib/spin";
@@ -80,10 +79,9 @@ export default class LoginMask extends React.Component<IProps> {
         );
     }
     render() {
-        const authEnforcementLevel = this.props.authService.getAuthEnforcementLevel();
-        const authStatus = this.props.authService.getStatus();
-        return authEnforcementLevel === AuthEnforcementLevel.None ||
-            authStatus.authToken
+        const { authService } = this.props;
+        const authStatus = authService.getStatus();
+        return !authService.authEnforced || authStatus.authToken
             ? this.props.children
             : this.renderLoginMask(authStatus);
     }

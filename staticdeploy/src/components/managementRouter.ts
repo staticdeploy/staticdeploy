@@ -23,7 +23,7 @@ export default async (config: IConfig): Promise<express.Router> => {
                 config.managementHostname === "localhost"
                     ? `http://localhost:${config.port}/api`
                     : `//${config.managementHostname}/api`,
-            AUTH_ENFORCEMENT_LEVEL: config.authEnforcementLevel.toString(),
+            AUTH_ENFORCED: config.enforceAuth.toString(),
             OIDC_ENABLED: (
                 !!config.oidcConfigurationUrl && !!config.oidcClientId
             ).toString(),

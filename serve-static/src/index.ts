@@ -1,4 +1,4 @@
-import { AuthEnforcementLevel, IConfiguration } from "@staticdeploy/core";
+import { IConfiguration } from "@staticdeploy/core";
 import { IBaseRequest, staticServerAdapter } from "@staticdeploy/http-adapters";
 import MemoryStorages from "@staticdeploy/memory-storages";
 import tarArchiver from "@staticdeploy/tar-archiver";
@@ -29,7 +29,7 @@ export default async function serveStatic(options: {
     const makeUsecase = getMakeUsecase(usecases, {
         archiver: tarArchiver,
         authenticationStrategies: [],
-        config: { authEnforcementLevel: AuthEnforcementLevel.None },
+        config: { enforceAuth: false },
         requestContext: { authToken: null },
         storages: storagesModule.getStorages()
     });

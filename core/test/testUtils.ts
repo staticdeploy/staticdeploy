@@ -9,9 +9,7 @@ import IGroupsStorage from "../src/dependencies/IGroupsStorage";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
 import IRequestContext from "../src/dependencies/IRequestContext";
 import IStorages from "../src/dependencies/IStorages";
-import IUsecaseConfig, {
-    AuthEnforcementLevel
-} from "../src/dependencies/IUsecaseConfig";
+import IUsecaseConfig from "../src/dependencies/IUsecaseConfig";
 import IUsersStorage from "../src/dependencies/IUsersStorage";
 
 // Dependencies mock
@@ -81,7 +79,7 @@ export function getMockDependencies(): IMockDependencies {
         },
         authenticationStrategies: [],
         config: {
-            authEnforcementLevel: AuthEnforcementLevel.None
+            enforceAuth: false
         },
         requestContext: {
             authToken: null

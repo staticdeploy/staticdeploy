@@ -65,10 +65,7 @@ export {
 export { default as IRequestContext } from "./dependencies/IRequestContext";
 export { default as IStorages } from "./dependencies/IStorages";
 export { default as IStoragesModule } from "./dependencies/IStoragesModule";
-export {
-    default as IUsecaseConfig,
-    AuthEnforcementLevel
-} from "./dependencies/IUsecaseConfig";
+export { default as IUsecaseConfig } from "./dependencies/IUsecaseConfig";
 export { default as IUsersStorage } from "./dependencies/IUsersStorage";
 
 // Entities

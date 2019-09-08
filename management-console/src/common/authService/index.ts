@@ -6,7 +6,7 @@ import JwtAuthStrategy from "./JwtAuthStrategy";
 import OidcAuthStrategy from "./OidcAuthStrategy";
 
 export default new AuthService(
-    config.AUTH_ENFORCEMENT_LEVEL,
+    config.AUTH_ENFORCED,
     compact([
         config.JWT_ENABLED ? new JwtAuthStrategy() : null,
         config.OIDC_ENABLED

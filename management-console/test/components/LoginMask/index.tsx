@@ -14,7 +14,7 @@ describe("LoginMask", () => {
         onStatusChange: sinon.stub(),
         offStatusChange: sinon.stub(),
         getStatus: sinon.stub(),
-        getAuthEnforcementLevel: sinon.stub(),
+        authEnforced: true,
         hasAuthStrategy: sinon.stub()
     });
 
@@ -83,7 +83,7 @@ describe("LoginMask", () => {
             isLoggingIn: false,
             loginError: null
         });
-        mockAuthService.getAuthEnforcementLevel.returns(0);
+        mockAuthService.authEnforced = false;
         const loginMask = shallow(
             <LoginMask authService={mockAuthService as any}>
                 <div id="child" />
