@@ -5,6 +5,7 @@ import sortBy from "lodash/sortBy";
 import moment from "moment";
 import React from "react";
 import JSONTree from "react-json-tree";
+import { Link } from "react-router-dom";
 
 import "./index.css";
 
@@ -43,7 +44,12 @@ export default class OperationLogsList extends React.Component<IProps> {
                 key: "performedBy",
                 title: "Performed by",
                 dataIndex: "performedBy",
-                className: "c-OperationLogsList-performedBy-cell"
+                className: "c-OperationLogsList-performedBy-cell",
+                render: (performedBy: string) => (
+                    <Link to={`/users/${performedBy}`}>
+                        <code>{performedBy}</code>
+                    </Link>
+                )
             }
         ];
     }

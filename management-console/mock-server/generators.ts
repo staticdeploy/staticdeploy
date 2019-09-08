@@ -86,7 +86,7 @@ export const operationLog = () => ({
         oldApp: { name: "oldApp" },
         newApp: { name: "newApp" }
     },
-    performedBy: faker.internet.email(),
+    performedBy: id(),
     performedAt: faker.date.past()
 });
 
