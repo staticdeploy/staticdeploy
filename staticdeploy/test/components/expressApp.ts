@@ -88,7 +88,10 @@ describe("staticdeploy expressApp", () => {
     it("serves deployed bundles at $ENDPOINT", async () => {
         const logger = getLogger(config);
         const expressApp = getExpressApp({
-            config: config,
+            config: {
+                ...config,
+                enforceAuth: false
+            },
             authenticationStrategies: [],
             storagesModule: getStoragesModule(config, logger),
             managementRouter: await getManagementRouter(config),
