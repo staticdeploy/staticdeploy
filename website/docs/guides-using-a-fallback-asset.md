@@ -9,10 +9,10 @@ StaticDeploy receives a request to a certain entrypoint that doesn't match any
 asset in the entrypoint's bundle, the bundle's fallback asset is served instead.
 
 A bundle's fallback asset is specified when creating the bundle, using the
-`--fallbackAssetPath` option of the StaticDeploy **cli** `bundle` command. The
-value of the option must be the absolute path - relative to the bundled
-directory - of one of the bundle's assets. The default value is `/index.html`,
-which assumes the existence of an `/index.html` asset.
+`--fallbackAssetPath` option of the StaticDeploy CLI `bundle` command. The value
+of the option must be the absolute path - relative to the bundled directory - of
+one of the bundle's assets. The default value is `/index.html`, which assumes
+the existence of an `/index.html` asset.
 
 It's also possible to specify the HTTP status code that StaticDeploy uses when
 serving the fallback asset by setting the `--fallbackStatusCode` option (the

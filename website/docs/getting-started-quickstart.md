@@ -25,7 +25,7 @@ title: Quickstart
   ```sh
   docker run --rm --init \
     -e MANAGEMENT_HOSTNAME=local.staticdeploy.io \
-    -e JWT_SECRET=secret \
+    -e ENFORCE_AUTH=false \
     -p 80:80 \
     staticdeploy/staticdeploy
   ```
@@ -45,7 +45,7 @@ title: Quickstart
   npm install --global @staticdeploy/cli
   ```
 
-- configure the cli using environment variables:
+- configure the CLI using environment variables:
 
   ```sh
   export STATICDEPLOY_API_URL=http://local.staticdeploy.io/api
@@ -79,7 +79,7 @@ title: Quickstart
 
 - visit
   [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io/)
-  (note: `demo-static-app.staticdeploy.io` points to `127.0.0.1`)
+  (which also points to `127.0.0.1`)
 
 - check out the deployment on the Management Console at
   [local.staticdeploy.io](http://local.staticdeploy.io/). Try modifying the

@@ -20,12 +20,12 @@ The following environment variables can be used to configure the server:
 > General service configurations
 
 - `LOG_LEVEL` (defaults to `info`)
-- `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the management
-  console and api will be served
+- `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the Management
+  Console and API will be served
 
-> Routing configuration
+> Routing configurations
 
-- `ENABLE_MANAGEMENT_ENDPOINTS`: wether to enable or not the management console
+- `ENABLE_MANAGEMENT_ENDPOINTS`: whether to enable or not the Management Console
   and API. Defaults to `true`
 - `HOSTNAME_HEADER`: the header from which to retrieve the hostname of requests
   for static assets. By default `Host` - or `X-Forwarded-Host` if present - are
@@ -35,9 +35,10 @@ The following environment variables can be used to configure the server:
 
 > Auth configurations
 
-- `AUTH_ENFORCEMENT_LEVEL`: can either be `0`, meaning auth in not enforced, or
-  `1`, meaning auth is enforced. Defaults to `0`
-- `CREATE_ROOT_USER`: on startup, create (if they don't already exist) a root
+- `ENFORCE_AUTH`: `true` or `false`, determines whether authentication and
+  authorization are enforced (i.e. requests must be authenticated, and the user
+  performing the request must have the appropriate roles). Defaults to `true`
+- `CREATE_ROOT_USER`: on startup, create (if they don't already exist) a `root`
   user and group with the `root` role. Defaults to `true`
 - `JWT_SECRET_OR_PUBLIC_KEY`: by setting this config the JWT authentication
   strategy will be enabled. The config is the secret or public key (base64

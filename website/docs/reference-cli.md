@@ -3,7 +3,7 @@ id: reference-cli
 title: Using StaticDeploy's CLI
 ---
 
-The StaticDeploy **cli** is distributed via [npm](https://npmjs.com), and we can
+The StaticDeploy CLI is distributed via [npm](https://npmjs.com), and we can
 install it with a simple `npm install --global @staticdeploy/cli`. After running
 the command, the `staticdeploy` executable will be available in our shell's
 `$PATH`.

@@ -60,7 +60,7 @@ The user object contains some StaticDeploy-specific information about the user,
 such as the groups the user belongs to. Groups are collections of roles, simple
 strings that allow performing certain operations (see below for details). The
 user groups, and therefore roles, are then used by the authorizer to determine
-wether the user is allowed or not to perform the operation for which they have
+whether the user is allowed or not to perform the operation for which they have
 called the Management API.
 
 ## Roles

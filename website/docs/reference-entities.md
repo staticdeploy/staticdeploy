@@ -5,7 +5,7 @@ title: Entities
 
 ### Bundles
 
-Bundles are tar.gz archives of static content (assets), plus associated metadata
+Bundles are archives of static content (assets), plus associated metadata
 describing the archives (a name, a tag, a description, etc.). Conceptually
 bundles are equivalent to docker images.
 
@@ -17,7 +17,7 @@ Bundles can also specify custom headers to be used by StaticDeploy when serving
 their assets.
 
 Bundles can be created with the `bundle` command of the StaticDeploy CLI, by
-giving it a folder that gets archived into a tar.gz and uploaded to the
+giving it a folder that gets packed into an archive and uploaded to the
 StaticDeploy backend.
 
 ### Entrypoints
@@ -27,8 +27,8 @@ bundles. Each entrypoint is usually characterized by two properties:
 
 - `bundleId`: the id of the bundle to serve
 - `urlMatcher`: a domain + path combination against which incoming requests are
-  matched to determine wether or not they should be served the static content of
-  the entrypoint's bundle
+  matched to determine whether or not they should be served the static content
+  of the entrypoint's bundle
 
 Entrypoints may specify a configuration, a `(string, string)` dictionary that is
 injected at serve-time into the html files of the bundle.
@@ -63,7 +63,8 @@ was performed, and additional information that details exactly what was done.
 Users are the users of the StaticDeploy Management Console and API. StaticDeploy
 is not an identity provider (IdP), so its users are only **references** to users
 of an external IdP. In fact, when you create a user in StaticDeploy you need to
-specify the IdP that user belogns to, as well as its identifier for the IdP.
+specify the IdP that user belongs to (`idp`), as well as the user identifier for
+the IdP (`idpId`).
 
 These user references have additional information attached to them, which are
 used for organization and authorization purposes:
