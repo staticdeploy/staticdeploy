@@ -11,11 +11,7 @@ export default (config: IConfig, logger: Logger): IAuthenticationStrategy[] => {
     if (config.jwtSecretOrPublicKey) {
         logger.info("Using JwtAuthenticationStrategy authentication strategy");
         authenticationStrategies.push(
-            new JwtAuthenticationStrategy(
-                config.jwtSecretOrPublicKey,
-                config.managementHostname,
-                config.managementHostname
-            )
+            new JwtAuthenticationStrategy(config.jwtSecretOrPublicKey)
         );
     }
 

@@ -11,12 +11,9 @@ describe("JwtAuthenticationStrategy", () => {
             secretOrPrivateKey: Buffer
         ) {
             const iss = "iss";
-            const aud = "aud";
             const sub = "sub";
             const jwtAuthenticationStrategy = new JwtAuthenticationStrategy(
-                secretOrPublicKey,
-                iss,
-                aud
+                secretOrPublicKey
             );
             const signingKey = JWK.asKey(secretOrPrivateKey);
             describe(`cases with ${type} as signing key`, () => {
@@ -27,33 +24,8 @@ describe("JwtAuthenticationStrategy", () => {
                     expect(idpUser).to.equal(null);
                 });
 
-                it("returns null on jwt of wrong issuer", async () => {
-                    const authToken = JWT.sign(
-                        { sub: sub, iss: "different-iss", aud: aud },
-                        signingKey
-                    );
-                    const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
-                        authToken
-                    );
-                    expect(idpUser).to.equal(null);
-                });
-
-                it("returns null on jwt of wrong audience", async () => {
-                    const authToken = JWT.sign(
-                        { sub: sub, iss: iss, aud: "different-aud" },
-                        signingKey
-                    );
-                    const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
-                        authToken
-                    );
-                    expect(idpUser).to.equal(null);
-                });
-
                 it("returns null on jwt without sub", async () => {
-                    const authToken = JWT.sign(
-                        { iss: iss, aud: aud },
-                        signingKey
-                    );
+                    const authToken = JWT.sign({}, signingKey);
                     const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
                         authToken
                     );
@@ -61,10 +33,7 @@ describe("JwtAuthenticationStrategy", () => {
                 });
 
                 it("returns null on jwt without iss", async () => {
-                    const authToken = JWT.sign(
-                        { sub: sub, aud: aud },
-                        signingKey
-                    );
+                    const authToken = JWT.sign({ sub: sub }, signingKey);
                     const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
                         authToken
                     );
@@ -73,7 +42,7 @@ describe("JwtAuthenticationStrategy", () => {
 
                 it("returns null jwt with wrong signature", async () => {
                     const authToken = JWT.sign(
-                        { sub: sub, iss: iss, aud: aud },
+                        { sub: sub, iss: iss },
                         JWK.asKey(Buffer.from("different-secret"))
                     );
                     const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
@@ -84,7 +53,7 @@ describe("JwtAuthenticationStrategy", () => {
 
                 it("returns the idp user on valid jwt", async () => {
                     const authToken = JWT.sign(
-                        { sub: sub, iss: iss, aud: aud },
+                        { sub: sub, iss: iss },
                         signingKey
                     );
                     const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(

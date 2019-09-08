@@ -5,11 +5,7 @@ import { has, isString } from "lodash";
 export default class JwtAuthenticationStrategy
     implements IAuthenticationStrategy {
     private verifyingKey: JWK.Key;
-    constructor(
-        secretOrPublicKey: Buffer,
-        private issuer: string,
-        private audience: string
-    ) {
+    constructor(secretOrPublicKey: Buffer) {
         this.verifyingKey = JWK.asKey(secretOrPublicKey);
     }
 
@@ -19,11 +15,11 @@ export default class JwtAuthenticationStrategy
 
     async getIdpUserFromAuthToken(authToken: string): Promise<IIdpUser | null> {
         try {
-            const jwt: any = JWT.verify(authToken, this.verifyingKey, {
-                issuer: this.issuer,
-                audience: this.audience
-            });
-            return has(jwt, "sub") && isString(jwt.sub)
+            const jwt: any = JWT.verify(authToken, this.verifyingKey);
+            return has(jwt, "sub") &&
+                isString(jwt.sub) &&
+                has(jwt, "iss") &&
+                isString(jwt.iss)
                 ? { idp: jwt.iss, id: jwt.sub }
                 : null;
         } catch {
