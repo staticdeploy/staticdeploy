@@ -25,7 +25,7 @@ StaticDeploy is then able to verify.
 Currently StaticDeploy ships with two strategies for verifying tokens, that
 enable support for two types of identity providers:
 
-- **OpenID Connect IdPs** - such as Azure Active Directory or GitHub - that
+- **OpenID Connect IdPs** - such as Azure Active Directory or Google - that
   issue Json Web Tokens (JWTs) using the OpenID Connect protocol. These tokens
   are verified by StaticDeploy with its OpenID Connect strategy. Users can
   obtain such tokens via the StaticDeploy Management Console, simply by clicking

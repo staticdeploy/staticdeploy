@@ -7,7 +7,7 @@ title: Configuring OpenID Connect identity providers
 > must be reachable via https
 
 StaticDeploy can authenticate users using [OpenID Connect](https://openid.net/)
-identity providers, such as Azure Active Directory, Google, or GitHub.
+identity providers, such as Azure Active Directory or Google.
 
 In order to enable this authentication strategy, first of all we need to create
 a client application in our identity provider. Each identity provider has its

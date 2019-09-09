@@ -5,7 +5,7 @@ import {
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
 import Knex from "knex";
-import { join } from "path";
+import { extname, join } from "path";
 
 import AppsStorage from "./AppsStorage";
 import BundlesStorage from "./BundlesStorage";
@@ -94,10 +94,11 @@ export default class PgS3Storages implements IStoragesModule {
     }
 
     private async runSqlMigrations() {
+        const isCurrentFileTs = extname(__filename) === ".ts";
         try {
             await this.knex.migrate.latest({
                 directory: join(__dirname, "./migrations"),
-                loadExtensions: [".js", ".ts"]
+                loadExtensions: [isCurrentFileTs ? ".ts" : ".js"]
             } as any);
         } catch (err) {
             throw new StorageSetupError("Error running sql migration", err);
