@@ -63,7 +63,7 @@ ENV PORT 80
 EXPOSE 80
 
 # Configure healthcheck
-HEALTHCHECK CMD curl -f http://$MANAGEMENT_HOSTNAME:$PORT/api/health || exit 1
+HEALTHCHECK CMD curl -f -H "Host: $MANAGEMENT_HOSTNAME" http://localhost:$PORT/api/health || exit 1
 
 # Set start command
 WORKDIR /opt/staticdeploy/staticdeploy
