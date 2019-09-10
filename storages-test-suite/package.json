@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/storages-test-suite",
   "description": "Test suite for StaticDeploy storages",
-  "version": "0.12.2",
+  "version": "0.13.0",
   "private": true,
   "main": "lib/index.js",
   "typings": "lib/index.d.js",
@@ -26,7 +26,7 @@
     "lint": "yarn lint:prettier && yarn lint:tslint"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.12.2",
+    "@staticdeploy/core": "^0.13.0",
     "chai": "^4.2.0",
     "lodash": "^4.17.15",
     "mocha": "^6.2.0"

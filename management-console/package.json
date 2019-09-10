@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/management-console",
   "description": "staticdeploy management console",
-  "version": "0.12.2",
+  "version": "0.13.0",
   "private": true,
   "main": "build/index.html",
   "files": [
@@ -29,8 +29,8 @@
     "compile": "PUBLIC_URL=. react-scripts build"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.12.2",
-    "@staticdeploy/sdk": "^0.12.2",
+    "@staticdeploy/core": "^0.13.0",
+    "@staticdeploy/sdk": "^0.13.0",
     "antd": "^3.20.5",
     "classnames": "^2.2.6",
     "eventemitter3": "^4.0.0",
