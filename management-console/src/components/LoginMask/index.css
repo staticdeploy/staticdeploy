@@ -2,11 +2,49 @@
     height: 100vh;
     width: 100vw;
     display: flex;
-    justify-content: center;
-    background: var(--grey-2);
-    padding-top: 200px;
+    flex-direction: column;
+    align-items: center;
+    background: var(--primary-blue);
+    background-image: url("./background.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 150px;
 }
 
-.c-LoginMask-container {
-    width: 520px;
+.c-LoginMask-card {
+    width: 360px;
+}
+
+.c-LoginMask-card-header {
+    margin-bottom: 48px;
+    text-align: center;
+}
+
+.c-LoginMask-card-title {
+    color: var(--grey-8);
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 400;
+}
+
+.c-LoginMask-card-header .c-Logo {
+    width: 150px;
+    margin-bottom: 16px;
+}
+
+.c-LoginMask-spinner {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.c-LoginMask-login-button {
+    width: 100%;
+}
+
+.c-LoginMask-JwtLogin-text-field {
+    margin-bottom: 0px;
 }

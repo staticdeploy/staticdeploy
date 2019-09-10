@@ -5,6 +5,8 @@ export default interface IAppsStorage {
     findOne(id: string): Promise<IApp | null>;
     findOneByName(name: string): Promise<IApp | null>;
     findMany(): Promise<IApp[]>;
+    oneExistsWithId(id: string): Promise<boolean>;
+    oneExistsWithName(name: string): Promise<boolean>;
     createOne(app: {
         id: string;
         name: string;

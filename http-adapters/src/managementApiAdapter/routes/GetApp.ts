@@ -22,7 +22,6 @@ export default convroute({
     ],
     responses: {
         "200": { description: "Returns the app" },
-        "401": { description: "Authentication required" },
         "404": { description: "App not found" }
     },
     handler: async (req: IRequest, res) => {

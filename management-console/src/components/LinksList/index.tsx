@@ -16,7 +16,7 @@ interface IProps<Item extends IItem> {
     getHref: (item: Item) => string;
 }
 
-export default class LinksList<Item extends IItem> extends React.PureComponent<
+export default class LinksList<Item extends IItem> extends React.Component<
     IProps<Item>
 > {
     getColumns(): ColumnProps<Item>[] {
@@ -32,7 +32,10 @@ export default class LinksList<Item extends IItem> extends React.PureComponent<
                             <div className="c-LinksList-item-description">
                                 {this.props.getDescription(item)}
                             </div>
-                            <Icon type="right" />
+                            <Icon
+                                className="c-LinksList-item-arrow"
+                                type="right"
+                            />
                         </NavLink>
                     );
                 }

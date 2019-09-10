@@ -2,35 +2,14 @@ import { expect } from "chai";
 import sinon from "sinon";
 
 import {
-    AppNameNotValidError,
-    AuthenticationRequiredError,
     BundleNameTagCombinationNotValidError,
     BundleNotFoundError,
-    EntrypointMismatchedAppIdError,
-    EntrypointUrlMatcherNotValidError
+    EntrypointMismatchedAppIdError
 } from "../../src/common/errors";
-import { Operation } from "../../src/entities/OperationLog";
 import DeployBundle from "../../src/usecases/DeployBundle";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase DeployBundle", () => {
-    it("throws AuthenticationRequiredError if the request is not authenticated", async () => {
-        const deps = getMockDependencies();
-        deps.requestContext.userId = null;
-        const deployBundle = new DeployBundle(deps);
-        const deployBundlePromise = deployBundle.exec({
-            bundleNameTagCombination: "name:tag",
-            appName: "appName",
-            entrypointUrlMatcher: "example.com/"
-        });
-        await expect(deployBundlePromise).to.be.rejectedWith(
-            AuthenticationRequiredError
-        );
-        await expect(deployBundlePromise).to.be.rejectedWith(
-            "This operation requires the request to be authenticated"
-        );
-    });
-
     it("throws BundleNameTagCombinationNotValidError if the name:tag combination is not valid", async () => {
         const deployBundle = new DeployBundle(getMockDependencies());
         const deployBundlePromise = deployBundle.exec({
@@ -100,47 +79,16 @@ describe("usecase DeployBundle", () => {
         );
     });
 
-    it("throws AppNameNotValidError if an app needs to be created, but the specified name is not valid", async () => {
-        const deps = getMockDependencies();
-        deps.storages.bundles.findLatestByNameAndTag.resolves({} as any);
-        const deployBundle = new DeployBundle(deps);
-        const deployBundlePromise = deployBundle.exec({
-            bundleNameTagCombination: "name:tag",
-            appName: "*",
-            entrypointUrlMatcher: "example.com/"
-        });
-        await expect(deployBundlePromise).to.be.rejectedWith(
-            AppNameNotValidError
-        );
-        await expect(deployBundlePromise).to.be.rejectedWith(
-            "* is not a valid name for an app"
-        );
-    });
-
-    it("throws EntrypointUrlMatcherNotValidError if an entrypoint needs to be created, but the specified urlMatcher is not valid", async () => {
-        const deps = getMockDependencies();
-        deps.storages.apps.findOneByName.resolves({} as any);
-        deps.storages.bundles.findLatestByNameAndTag.resolves({} as any);
-        const deployBundle = new DeployBundle(deps);
-        const deployBundlePromise = deployBundle.exec({
-            bundleNameTagCombination: "name:tag",
-            appName: "appName",
-            entrypointUrlMatcher: "*"
-        });
-        await expect(deployBundlePromise).to.be.rejectedWith(
-            EntrypointUrlMatcherNotValidError
-        );
-        await expect(deployBundlePromise).to.be.rejectedWith(
-            "* is not a valid urlMatcher for an entrypoint"
-        );
-    });
-
     it("creates the app and the entrypoint if they don't exist", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.createOne.resolves({ id: "appId" } as any);
+        // Stub deps used directly by DeployBundle
         deps.storages.bundles.findLatestByNameAndTag.resolves({
             id: "bundleId"
         } as any);
+        // Stub deps used by other usecases called by DeployBundle
+        deps.storages.apps.createOne.resolves({ id: "appId" } as any);
+        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
@@ -170,10 +118,14 @@ describe("usecase DeployBundle", () => {
 
     it("creates the entrypoint if it doesn't exist", async () => {
         const deps = getMockDependencies();
+        // Stub deps used directly by DeployBundle
         deps.storages.apps.findOneByName.resolves({ id: "appId" } as any);
         deps.storages.bundles.findLatestByNameAndTag.resolves({
             id: "bundleId"
         } as any);
+        // Stub deps used by other usecases called by DeployBundle
+        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
@@ -196,6 +148,7 @@ describe("usecase DeployBundle", () => {
 
     it("updates the entrypoint if it exist", async () => {
         const deps = getMockDependencies();
+        // Stub deps used directly by DeployBundle
         deps.storages.apps.findOneByName.resolves({ id: "appId" } as any);
         deps.storages.entrypoints.findOneByUrlMatcher.resolves({
             id: "entrypointId",
@@ -204,6 +157,11 @@ describe("usecase DeployBundle", () => {
         deps.storages.bundles.findLatestByNameAndTag.resolves({
             id: "bundleId"
         } as any);
+        // Stub deps used by other usecases called by DeployBundle
+        deps.storages.entrypoints.findOne.resolves({
+            id: "entrypointId"
+        } as any);
+        deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
@@ -214,76 +172,10 @@ describe("usecase DeployBundle", () => {
             "entrypointId",
             {
                 bundleId: "bundleId",
+                redirectTo: undefined,
+                configuration: undefined,
                 updatedAt: sinon.match.date
             }
         );
-    });
-
-    describe("logs the performed operations", () => {
-        it("case: app and entrypoint created", async () => {
-            const deps = getMockDependencies();
-            deps.storages.apps.createOne.resolves({ id: "appId" } as any);
-            deps.storages.bundles.findLatestByNameAndTag.resolves({
-                id: "bundleId"
-            } as any);
-            const deployBundle = new DeployBundle(deps);
-            await deployBundle.exec({
-                bundleNameTagCombination: "name:tag",
-                appName: "appName",
-                entrypointUrlMatcher: "example.com/"
-            });
-            expect(
-                deps.storages.operationLogs.createOne
-            ).to.have.been.calledWith(
-                sinon.match.has("operation", Operation.createApp)
-            );
-            expect(
-                deps.storages.operationLogs.createOne
-            ).to.have.been.calledWith(
-                sinon.match.has("operation", Operation.createEntrypoint)
-            );
-        });
-
-        it("case: entrypoint created", async () => {
-            const deps = getMockDependencies();
-            deps.storages.apps.findOneByName.resolves({ id: "appId" } as any);
-            deps.storages.bundles.findLatestByNameAndTag.resolves({
-                id: "bundleId"
-            } as any);
-            const deployBundle = new DeployBundle(deps);
-            await deployBundle.exec({
-                bundleNameTagCombination: "name:tag",
-                appName: "appName",
-                entrypointUrlMatcher: "example.com/"
-            });
-            expect(
-                deps.storages.operationLogs.createOne
-            ).to.have.been.calledOnceWith(
-                sinon.match.has("operation", Operation.createEntrypoint)
-            );
-        });
-
-        it("case: entrypoint updated", async () => {
-            const deps = getMockDependencies();
-            deps.storages.apps.findOneByName.resolves({ id: "appId" } as any);
-            deps.storages.entrypoints.findOneByUrlMatcher.resolves({
-                id: "entrypointId",
-                appId: "appId"
-            } as any);
-            deps.storages.bundles.findLatestByNameAndTag.resolves({
-                id: "bundleId"
-            } as any);
-            const deployBundle = new DeployBundle(deps);
-            await deployBundle.exec({
-                bundleNameTagCombination: "name:tag",
-                appName: "appName",
-                entrypointUrlMatcher: "example.com/"
-            });
-            expect(
-                deps.storages.operationLogs.createOne
-            ).to.have.been.calledOnceWith(
-                sinon.match.has("operation", Operation.updateEntrypoint)
-            );
-        });
     });
 });

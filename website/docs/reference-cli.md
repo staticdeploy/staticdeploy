@@ -3,7 +3,7 @@ id: reference-cli
 title: Using StaticDeploy's CLI
 ---
 
-The StaticDeploy **cli** is distributed via [npm](https://npmjs.com), and we can
+The StaticDeploy CLI is distributed via [npm](https://npmjs.com), and we can
 install it with a simple `npm install --global @staticdeploy/cli`. After running
 the command, the `staticdeploy` executable will be available in our shell's
 `$PATH`.
@@ -19,7 +19,7 @@ following options:
 
 - `--config` (optional): specify the file from which to load options. Defaults
   to `staticdeploy.config.js` (if it exists)
-- `--apiUrl`: URL of the StaticDeploy management API
+- `--apiUrl`: URL of the StaticDeploy Management API
 - `--apiToken`: authentication token for the API
 - `--from`: path of the directory to create the bundle from
 - `--name`: name of the bundle
@@ -39,7 +39,7 @@ Deploys a bundle to an entrypoint. It takes the following options:
 
 - `--config` (optional): specify the file from which to load options. Defaults
   to `staticdeploy.config.js` (if it exists)
-- `--apiUrl`: URL of the StaticDeploy management API
+- `--apiUrl`: URL of the StaticDeploy Management API
 - `--apiToken`: authentication token for the API
 - `--bundle`: name:tag combination of the bundle to deploy
 - `--entrypoint`: urlMatcher of the entrypoint to deploy to

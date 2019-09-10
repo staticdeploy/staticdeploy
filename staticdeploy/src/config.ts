@@ -10,24 +10,35 @@ const config: IConfig = {
     appName: pkg.name,
     appVersion: pkg.version,
     nodeEnv: env("NODE_ENV", { default: "development" }),
-    logLevel: env("LOG_LEVEL", {
-        default: "info"
-    }) as LogLevelString,
+    logLevel: env("LOG_LEVEL", { default: "info" }) as LogLevelString,
     port: env("PORT", { default: "3000" }),
-
-    // Routing configuration
     managementHostname: env("MANAGEMENT_HOSTNAME", {
         required: true,
         nonProductionDefault: "localhost"
     }),
+    enableManagementEndpoints: env("ENABLE_MANAGEMENT_ENDPOINTS", {
+        default: "true",
+        parse: value => value !== "false"
+    }),
+
+    // Routing configuration
     hostnameHeader: env("HOSTNAME_HEADER"),
 
     // Auth configurations
-    jwtSecret: env("JWT_SECRET", {
-        required: true,
-        nonProductionDefault: "secret",
-        parse: Buffer.from
+    enforceAuth: env("ENFORCE_AUTH", {
+        default: "true",
+        parse: value => value !== "false"
     }),
+    createRootUser: env("CREATE_ROOT_USER", {
+        default: "true",
+        parse: value => value !== "false"
+    }),
+    jwtSecretOrPublicKey: env("JWT_SECRET_OR_PUBLIC_KEY", {
+        parse: value => Buffer.from(value, "base64")
+    }),
+    oidcConfigurationUrl: env("OIDC_CONFIGURATION_URL"),
+    oidcClientId: env("OIDC_CLIENT_ID"),
+    oidcProviderName: env("OIDC_PROVIDER_NAME"),
 
     // pg-s3-storages configurations
     postgresUrl: env("POSTGRES_URL"),

@@ -13,8 +13,8 @@ export default class CreateApp extends Usecase {
         name: string;
         defaultConfiguration?: IConfiguration;
     }): Promise<IApp> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        await this.authorizer.ensureCanCreateApp();
 
         // Validate name and defaultConfiguration
         validateAppName(partial.name);
@@ -26,10 +26,10 @@ export default class CreateApp extends Usecase {
         }
 
         // Ensure no app with the same name exists
-        const conflictingApp = await this.storages.apps.findOneByName(
+        const conflictingAppExists = await this.storages.apps.oneExistsWithName(
             partial.name
         );
-        if (conflictingApp) {
+        if (conflictingAppExists) {
             throw new ConflictingAppError(partial.name);
         }
 
@@ -44,7 +44,7 @@ export default class CreateApp extends Usecase {
         });
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.createApp, {
+        await this.operationLogger.logOperation(Operation.CreateApp, {
             createdApp
         });
 

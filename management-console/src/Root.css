@@ -5,11 +5,12 @@
 .c-Root-sider {
     min-height: 100vh;
     overflow: hidden;
+    background-color: var(--black);
 }
 
 .c-Root-logo-container {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
     height: 64px;
@@ -17,6 +18,11 @@
 
 .c-Root .c-SiderNav {
     width: 64px;
+    background-color: var(--black);
+}
+
+.c-Root .c-SiderNav .ant-menu-item-selected {
+    background-color: var(--primary-blue);
 }
 
 .c-Root .c-SiderNav .ant-menu-item {
@@ -32,7 +38,7 @@
     transition: all 0.3s ease;
 }
 .c-Root-logout-button-container:hover {
-    color: var(--grey-1);
+    color: var(--white);
 }
 
 .c-Root-content {

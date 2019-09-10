@@ -8,19 +8,21 @@ WORKDIR /opt/staticdeploy
 COPY package.json lerna.json yarn.lock tsconfig.json ./
 
 COPY management-console/package.json management-console/tsconfig.json ./management-console/
-COPY management-console/webpack ./management-console/webpack/
-COPY management-console/typings ./management-console/typings/
 COPY management-console/public ./management-console/public/
 COPY management-console/src ./management-console/src/
-COPY core/package.json core/tsconfig.json ./core/
+COPY core/package.json core/tsconfig.json core/tsconfig.browser.json ./core/
 COPY core/src ./core/src/
 COPY http-adapters/package.json http-adapters/tsconfig.json ./http-adapters/
 COPY http-adapters/src ./http-adapters/src/
+COPY jwt-authentication-strategy/package.json jwt-authentication-strategy/tsconfig.json ./jwt-authentication-strategy/
+COPY jwt-authentication-strategy/src ./jwt-authentication-strategy/src/
 COPY memory-storages/package.json memory-storages/tsconfig.json ./memory-storages/
 COPY memory-storages/src ./memory-storages/src/
+COPY oidc-authentication-strategy/package.json oidc-authentication-strategy/tsconfig.json ./oidc-authentication-strategy/
+COPY oidc-authentication-strategy/src ./oidc-authentication-strategy/src/
 COPY pg-s3-storages/package.json pg-s3-storages/tsconfig.json ./pg-s3-storages/
 COPY pg-s3-storages/src ./pg-s3-storages/src/
-COPY sdk/package.json sdk/tsconfig.json ./sdk/
+COPY sdk/package.json sdk/tsconfig.json sdk/tsconfig.browser.json ./sdk/
 COPY sdk/src ./sdk/src/
 COPY serve-static/package.json serve-static/tsconfig.json ./serve-static/
 COPY serve-static/src ./serve-static/src/
@@ -41,12 +43,14 @@ RUN yarn install && \
     yarn install --production && \
     # Remove unecessary files
     rm yarn.lock tsconfig.json && \
-    rm -r management-console/tsconfig.json management-console/webpack management-console/typings management-console/public management-console/src && \
-    rm -r core/tsconfig.json core/src && \
+    rm -r management-console/tsconfig.json management-console/public management-console/src && \
+    rm -r core/tsconfig.json core/tsconfig.browser.json core/src && \
     rm -r http-adapters/tsconfig.json http-adapters/src && \
+    rm -r jwt-authentication-strategy/tsconfig.json jwt-authentication-strategy/src && \
     rm -r memory-storages/tsconfig.json memory-storages/src && \
+    rm -r oidc-authentication-strategy/tsconfig.json oidc-authentication-strategy/src && \
     rm -r pg-s3-storages/tsconfig.json pg-s3-storages/src && \
-    rm -r sdk/tsconfig.json sdk/src && \
+    rm -r sdk/tsconfig.json sdk/tsconfig.browser.json sdk/src && \
     rm -r serve-static/tsconfig.json serve-static/src && \
     rm -r storages-test-suite && \
     rm -r tar-archiver/tsconfig.json tar-archiver/src && \
@@ -59,7 +63,7 @@ ENV PORT 80
 EXPOSE 80
 
 # Configure healthcheck
-HEALTHCHECK CMD curl -f http://$MANAGEMENT_HOSTNAME:$PORT/api/health || exit 1
+HEALTHCHECK CMD curl -f -H "Host: $MANAGEMENT_HOSTNAME" http://localhost:$PORT/api/health || exit 1
 
 # Set start command
 WORKDIR /opt/staticdeploy/staticdeploy

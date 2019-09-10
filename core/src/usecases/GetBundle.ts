@@ -4,8 +4,8 @@ import { IBaseBundle } from "../entities/Bundle";
 
 export default class GetBundle extends Usecase {
     async exec(id: string): Promise<IBaseBundle> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        await this.authorizer.ensureCanGetBundles();
 
         const bundle = await this.storages.bundles.findOne(id);
 

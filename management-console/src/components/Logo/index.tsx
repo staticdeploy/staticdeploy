@@ -1,10 +1,22 @@
 import React from "react";
 
 import "./index.css";
-import logoSrc from "./logo.png";
+import logoWithoutShadow from "./logoWithoutShadow.svg";
+import logoWithShadow from "./logoWithShadow.svg";
 
-export default class Logo extends React.PureComponent {
+interface IProps {
+    withShadow: boolean;
+}
+
+export default class Logo extends React.Component<IProps> {
     render() {
-        return <img className="c-Logo" src={logoSrc} alt="logo" />;
+        const { withShadow } = this.props;
+        return (
+            <img
+                className="c-Logo"
+                src={withShadow ? logoWithShadow : logoWithoutShadow}
+                alt="logo"
+            />
+        );
     }
 }

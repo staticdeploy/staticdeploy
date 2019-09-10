@@ -6,8 +6,7 @@ export default convroute({
     description: "Get all apps",
     tags: ["apps"],
     responses: {
-        "200": { description: "Returns an array of all apps" },
-        "401": { description: "Authentication required" }
+        "200": { description: "Returns an array of all apps" }
     },
     handler: async (req, res) => {
         const getApps = req.makeUsecase("getApps");

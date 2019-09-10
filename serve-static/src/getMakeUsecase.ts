@@ -1,17 +1,26 @@
-import { IStoragesModule } from "@staticdeploy/core";
+import {
+    IArchiver,
+    IAuthenticationStrategy,
+    IRequestContext,
+    IStorages,
+    IUsecaseConfig
+} from "@staticdeploy/core";
 import { IUsecasesByName } from "@staticdeploy/http-adapters";
-import tarArchiver from "@staticdeploy/tar-archiver";
 
-export default function getMakeUsecase(options: {
-    storagesModule: IStoragesModule;
-    usecases: IUsecasesByName;
-}) {
+export default function getMakeUsecase(
+    usecases: IUsecasesByName,
+    dependencies: {
+        archiver: IArchiver;
+        authenticationStrategies: IAuthenticationStrategy[];
+        config: IUsecaseConfig;
+        storages: IStorages;
+        requestContext: IRequestContext;
+    }
+) {
     return <Name extends keyof IUsecasesByName>(name: Name) => {
-        const UsecaseClass = options.usecases[name];
-        return new UsecaseClass({
-            storages: options.storagesModule.getStorages(),
-            requestContext: { userId: "default" },
-            archiver: tarArchiver
-        }) as InstanceType<IUsecasesByName[Name]>;
+        const UsecaseClass = usecases[name];
+        return new UsecaseClass(dependencies) as InstanceType<
+            IUsecasesByName[Name]
+        >;
     };
 }

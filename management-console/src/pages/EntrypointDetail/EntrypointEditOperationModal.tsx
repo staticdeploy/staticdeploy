@@ -26,10 +26,11 @@ export default class EntrypointEditOperationModal extends React.Component<
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
-        return staticdeploy.entrypoints.update(
-            this.props.entrypoint.id,
-            values
-        );
+        return staticdeploy.entrypoints.update(this.props.entrypoint.id, {
+            bundleId: values.bundleId,
+            redirectTo: values.redirectTo,
+            configuration: values.configuration
+        });
     };
     refetchEntrypointDetail = () => this.props.refetchEntrypointDetail();
     render() {
@@ -48,12 +49,8 @@ export default class EntrypointEditOperationModal extends React.Component<
                 successMessage="Entrypoint saved"
             >
                 <EntrypointForm
-                    initialValues={{
-                        bundleId: this.props.entrypoint.bundleId,
-                        redirectTo: this.props.entrypoint.redirectTo,
-                        urlMatcher: this.props.entrypoint.urlMatcher,
-                        configuration: this.props.entrypoint.configuration
-                    }}
+                    isEditForm={true}
+                    initialValues={this.props.entrypoint}
                     ref={form => (this.form = form!)}
                 />
             </OperationModal>

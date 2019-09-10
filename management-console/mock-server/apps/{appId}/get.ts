@@ -1,13 +1,7 @@
 import { RequestHandler } from "express";
-import faker from "faker";
-import { lowerCase } from "lodash";
+
+import { app } from "../../generators";
 
 export default ((req, res) => {
-    res.status(200).send({
-        id: req.params.appId,
-        name: lowerCase(faker.commerce.productName()).replace(/ /g, "-"),
-        defaultConfiguration: { KEY: "VALUE" },
-        createdAt: faker.date.past(),
-        updatedAt: faker.date.past()
-    });
+    res.status(200).send(app({ id: req.params.appId }));
 }) as RequestHandler;

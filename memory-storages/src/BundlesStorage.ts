@@ -17,28 +17,28 @@ export default class BundlesStorage implements IBundlesStorage {
     constructor(private bundles: ICollection<IBundle>) {}
 
     async findOne(id: string): Promise<IBundleWithoutAssetsContent | null> {
-        const matchingBundle = this.bundles[id];
-        return matchingBundle ? this.removeAssetsContent(matchingBundle) : null;
+        const bundle = this.bundles[id];
+        return bundle ? this.removeAssetsContent(bundle) : null;
     }
 
     async findLatestByNameAndTag(
         name: string,
         tag: string
     ): Promise<IBundleWithoutAssetsContent | null> {
-        const matchingBundles = filter(this.bundles, { name, tag });
-        const matchingBundle = last(sortBy(matchingBundles, "createdAt"));
-        return matchingBundle ? this.removeAssetsContent(matchingBundle) : null;
+        const bundles = filter(this.bundles, { name, tag });
+        const latestBundle = last(sortBy(bundles, "createdAt"));
+        return latestBundle ? this.removeAssetsContent(latestBundle) : null;
     }
 
     async getBundleAssetContent(
         bundleId: string,
         assetPath: string
     ): Promise<Buffer | null> {
-        const matchingBundle = this.bundles[bundleId];
-        if (!matchingBundle) {
+        const bundle = this.bundles[bundleId];
+        if (!bundle) {
             return null;
         }
-        const matchingAsset = find(matchingBundle.assets, { path: assetPath });
+        const matchingAsset = find(bundle.assets, { path: assetPath });
         return matchingAsset ? matchingAsset.content! : null;
     }
 
@@ -66,6 +66,10 @@ export default class BundlesStorage implements IBundlesStorage {
         return uniq(map(filter(this.bundles, { name }), "tag"));
     }
 
+    async oneExistsWithId(id: string): Promise<boolean> {
+        return !!this.bundles[id];
+    }
+
     async createOne(toBeCreatedBundle: {
         id: string;
         name: string;
@@ -79,10 +83,6 @@ export default class BundlesStorage implements IBundlesStorage {
     }): Promise<IBundleWithoutAssetsContent> {
         this.bundles[toBeCreatedBundle.id] = toBeCreatedBundle;
         return this.removeAssetsContent(toBeCreatedBundle);
-    }
-
-    async deleteOne(id: string): Promise<void> {
-        delete this.bundles[id];
     }
 
     async deleteMany(ids: string[]): Promise<void> {

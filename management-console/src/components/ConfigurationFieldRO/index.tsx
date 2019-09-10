@@ -11,7 +11,7 @@ interface IProps {
     title: React.ReactNode;
 }
 
-export default class ConfigurationFieldRO extends React.PureComponent<IProps> {
+export default class ConfigurationFieldRO extends React.Component<IProps> {
     renderKVPair = (kvPair: IKVPair) => {
         return (
             <Row

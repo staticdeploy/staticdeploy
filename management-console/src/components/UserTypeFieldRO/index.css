@@ -1,0 +1,8 @@
+.c-UserTypeFieldRO {
+    margin-bottom: 16px;
+}
+
+/* Distance the user type from the icon */
+.c-UserTypeFieldRO-type {
+    margin-left: 8px;
+}

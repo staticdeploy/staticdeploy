@@ -5,11 +5,12 @@ export default interface IEntrypointsStorage {
     findOne(id: string): Promise<IEntrypoint | null>;
     findOneByUrlMatcher(urlMatcher: string): Promise<IEntrypoint | null>;
     findManyByAppId(appId: string): Promise<IEntrypoint[]>;
-    findManyByBundleId(bundleId: string): Promise<IEntrypoint[]>;
-    findManyByBundleIds(bundleIds: string[]): Promise<IEntrypoint[]>;
     findManyByUrlMatcherHostname(
         urlMatcherHostname: string
     ): Promise<IEntrypoint[]>;
+    oneExistsWithUrlMatcher(urlMatcher: string): Promise<boolean>;
+    anyExistsWithAppId(appId: string): Promise<boolean>;
+    anyExistsWithBundleIdIn(bundleIds: string[]): Promise<boolean>;
     createOne(entrypoint: {
         id: string;
         appId: string;
@@ -23,14 +24,11 @@ export default interface IEntrypointsStorage {
     updateOne(
         id: string,
         patch: {
-            appId?: string;
             bundleId?: string | null;
             redirectTo?: string | null;
-            urlMatcher?: string;
             configuration?: IConfiguration | null;
             updatedAt: Date;
         }
     ): Promise<IEntrypoint>;
     deleteOne(id: string): Promise<void>;
-    deleteManyByAppId(appId: string): Promise<void>;
 }

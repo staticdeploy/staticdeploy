@@ -1,4 +1,4 @@
-import { IApp, IConfiguration } from "@staticdeploy/core";
+import { IApp } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
 import parseDates from "./parseDates";
@@ -17,22 +17,25 @@ export default class AppsClient {
     }
 
     async create(app: {
-        name: string;
-        defaultConfiguration?: IConfiguration;
+        name: IApp["name"];
+        defaultConfiguration?: IApp["defaultConfiguration"];
     }): Promise<IApp> {
         const result = await this.axios.post("/apps", app);
         return parseDates(result.data);
     }
 
-    async delete(id: string): Promise<void> {
-        await this.axios.delete(`/apps/${id}`);
-    }
-
     async update(
         id: string,
-        patch: { name?: string; defaultConfiguration?: IConfiguration }
+        patch: {
+            name?: IApp["name"];
+            defaultConfiguration?: IApp["defaultConfiguration"];
+        }
     ): Promise<IApp> {
         const result = await this.axios.patch(`/apps/${id}`, patch);
         return parseDates(result.data);
+    }
+
+    async delete(id: string): Promise<void> {
+        await this.axios.delete(`/apps/${id}`);
     }
 }

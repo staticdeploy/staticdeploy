@@ -31,7 +31,6 @@ export default convroute({
         "204": {
             description: "Bundles deleted, returns nothing"
         },
-        "401": { description: "Authentication required" },
         "409": {
             description:
                 "Bundles can't be deleted because in use by one or more entrypoints"

@@ -23,7 +23,7 @@ module.exports = {
             href: "./privacyPolicy"
         }
     ],
-    headerIcon: "images/top-bar-logo.png",
+    headerIcon: "images/logo.svg",
     favicon: "images/favicon.png",
     colors: {
         primaryColor: "#4a90e2",

@@ -7,13 +7,19 @@ export default interface IConfig {
     nodeEnv: string;
     logLevel: LogLevelString;
     port: string;
+    managementHostname: string;
+    enableManagementEndpoints: boolean;
 
     // Routing configuration
-    managementHostname: string;
     hostnameHeader?: string;
 
     // Auth configurations
-    jwtSecret: Buffer;
+    enforceAuth: boolean;
+    createRootUser: boolean;
+    jwtSecretOrPublicKey?: Buffer;
+    oidcConfigurationUrl?: string;
+    oidcClientId?: string;
+    oidcProviderName?: string;
 
     // pg-s3-storages configurations
     postgresUrl?: string;

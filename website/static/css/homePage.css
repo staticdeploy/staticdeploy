@@ -1,14 +1,13 @@
-/* Reduce font weight of subtitle */
-.homePage .projectTitle small {
-    font-weight: 300;
-}
-
 /*
  * Increase home "hero" height, color it with primary-color and make its text
  * and buttons white
  */
 .homePage .homeContainer {
-    background: var(--primary-color);
+    background-color: var(--primary-color);
+    background-image: url("../images/home.background.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 440px;
     display: flex;
     align-items: center;
@@ -26,19 +25,27 @@
     font-weight: 500;
 }
 
-/* Align StaticDeploy's D with the D of the logo */
-.homePage .homeContainer .staticdeployTitle {
-    position: relative;
-    left: 13px;
+/* Increase the size of the logo */
+.homePage .staticdeployLogo {
+    height: 150px;
+    width: 150px;
 }
-.homePage .homeContainer .staticdeployLogo {
-    position: relative;
-    right: 5px;
+
+.homePage .projectTitle {
+    /* Reduce the distance from the logo and the title */
+    margin-top: 0px;
+    /* Make the title text bold */
+    font-weight: 600;
 }
 
 /* Make StaticDeploy's Static yellow */
 .homePage .homeContainer .staticdeployTitle > span:first-child {
     color: var(--yellow);
+}
+
+/* Reduce font weight of subtitle */
+.homePage .projectTitle small {
+    font-weight: 300;
 }
 
 /* Style the docker run code block */

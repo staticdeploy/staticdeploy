@@ -2,13 +2,13 @@ import { IBundle } from "@staticdeploy/core";
 import Cascader, { CascaderOptionType, CascaderProps } from "antd/lib/cascader";
 import Form, { FormItemProps } from "antd/lib/form";
 import classnames from "classnames";
-import distanceInWords from "date-fns/distance_in_words";
 import find from "lodash/find";
 import keys from "lodash/keys";
 import map from "lodash/map";
 import setWith from "lodash/setWith";
 import sortBy from "lodash/sortBy";
 import values from "lodash/values";
+import moment from "moment";
 import React from "react";
 import { Field, WrappedFieldProps } from "redux-form";
 
@@ -84,10 +84,9 @@ export class WrappedBundleIdField extends React.Component<
                         label: bundleTag,
                         children: bundles.map(bundle => ({
                             value: bundle.id,
-                            label: `${bundle.id} (${distanceInWords(
-                                new Date(),
+                            label: `${bundle.id} (${moment(
                                 bundle.createdAt
-                            )})`
+                            ).fromNow(true)})`
                         }))
                     };
                 })

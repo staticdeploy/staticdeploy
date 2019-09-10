@@ -5,15 +5,17 @@ import {
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
 import Knex from "knex";
-import { join } from "path";
+import { extname, join } from "path";
 
 import AppsStorage from "./AppsStorage";
 import BundlesStorage from "./BundlesStorage";
 import { StorageSetupError } from "./common/errors";
 import EntrypointsStorage from "./EntrypointsStorage";
+import GroupsStorage from "./GroupsStorage";
 import OperationLogsStorage from "./OperationLogsStorage";
+import UsersStorage from "./UsersStorage";
 
-export default class SqlS3Storages implements IStoragesModule {
+export default class PgS3Storages implements IStoragesModule {
     private knex: Knex;
     private s3Client: S3;
     private s3Bucket: string;
@@ -54,7 +56,9 @@ export default class SqlS3Storages implements IStoragesModule {
                 this.s3Bucket
             ),
             entrypoints: new EntrypointsStorage(this.knex),
+            groups: new GroupsStorage(this.knex),
             operationLogs: new OperationLogsStorage(this.knex),
+            users: new UsersStorage(this.knex),
             checkHealth: this.checkHealth.bind(this)
         };
     }
@@ -90,10 +94,11 @@ export default class SqlS3Storages implements IStoragesModule {
     }
 
     private async runSqlMigrations() {
+        const isCurrentFileTs = extname(__filename) === ".ts";
         try {
             await this.knex.migrate.latest({
                 directory: join(__dirname, "./migrations"),
-                loadExtensions: [".js", ".ts"]
+                loadExtensions: [isCurrentFileTs ? ".ts" : ".js"]
             } as any);
         } catch (err) {
             throw new StorageSetupError("Error running sql migration", err);

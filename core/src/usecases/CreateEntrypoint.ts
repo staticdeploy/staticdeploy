@@ -23,8 +23,11 @@ export default class CreateEntrypoint extends Usecase {
         urlMatcher: string;
         configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        await this.authorizer.ensureCanCreateEntrypoint(
+            partial.urlMatcher,
+            partial.appId
+        );
 
         // Validate the urlMatcher and the configuration
         validateEntrypointUrlMatcher(partial.urlMatcher);
@@ -33,26 +36,28 @@ export default class CreateEntrypoint extends Usecase {
         }
 
         // Ensure the linked app exists
-        const linkedApp = await this.storages.apps.findOne(partial.appId);
-        if (!linkedApp) {
+        const linkedAppExists = await this.storages.apps.oneExistsWithId(
+            partial.appId
+        );
+        if (!linkedAppExists) {
             throw new AppNotFoundError(partial.appId, "id");
         }
 
         // Ensure the linked bundle exists
         if (partial.bundleId) {
-            const linkedBundle = await this.storages.bundles.findOne(
+            const linkedBundleExists = await this.storages.bundles.oneExistsWithId(
                 partial.bundleId
             );
-            if (!linkedBundle) {
+            if (!linkedBundleExists) {
                 throw new BundleNotFoundError(partial.bundleId, "id");
             }
         }
 
         // Ensure no entrypoint with the same urlMatcher exists
-        const conflictingEntrypoint = await this.storages.entrypoints.findOneByUrlMatcher(
+        const conflictingEntrypointExists = await this.storages.entrypoints.oneExistsWithUrlMatcher(
             partial.urlMatcher
         );
-        if (conflictingEntrypoint) {
+        if (conflictingEntrypointExists) {
             throw new ConflictingEntrypointError(partial.urlMatcher);
         }
 
@@ -70,7 +75,7 @@ export default class CreateEntrypoint extends Usecase {
         });
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.createEntrypoint, {
+        await this.operationLogger.logOperation(Operation.CreateEntrypoint, {
             createdEntrypoint
         });
 

@@ -45,7 +45,7 @@ function isSuccessMessageFunction<Result>(
     return typeof fn === "function";
 }
 
-export default class OperationModal<Result> extends React.PureComponent<
+export default class OperationModal<Result> extends React.Component<
     IProps<Result>,
     IState<Result>
 > {

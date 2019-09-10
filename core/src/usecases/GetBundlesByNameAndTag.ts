@@ -3,8 +3,8 @@ import { IBundle } from "../entities/Bundle";
 
 export default class GetBundlesByNameAndTag extends Usecase {
     async exec(name: string, tag: string): Promise<IBundle[]> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        await this.authorizer.ensureCanGetBundles();
 
         return this.storages.bundles.findManyByNameAndTag(name, tag);
     }

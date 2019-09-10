@@ -35,8 +35,6 @@ export default convroute({
     ],
     responses: {
         "204": { description: "Bundle deployed to entrypoint" },
-        "400": { description: "Body validation failed" },
-        "401": { description: "Authentication required" },
         "404": { description: "Bundle not found" },
         "409": { description: "Entrypoint does not link to the app" }
     },

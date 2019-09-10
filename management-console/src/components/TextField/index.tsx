@@ -13,6 +13,7 @@ interface IProps {
     className?: string;
     inlineError?: boolean;
     label?: FormItemProps["label"];
+    addonBefore?: InputProps["addonBefore"];
     disabled?: InputProps["disabled"];
     placeholder?: InputProps["placeholder"];
 }
@@ -33,7 +34,11 @@ export class WrappedTextField extends React.Component<
             >
                 <Icon type="question-circle-o" />
             </Tooltip>
-        ) : null;
+        ) : (
+            // Empty span used to preserve focus when dynamically adding or
+            // removing the suffix. See https://ant.design/components/input/#FAQ
+            <span />
+        );
         return (
             <Form.Item
                 label={this.props.label}
@@ -45,6 +50,7 @@ export class WrappedTextField extends React.Component<
                     value={this.props.input.value}
                     onChange={this.props.input.onChange}
                     onBlur={this.props.input.onBlur}
+                    addonBefore={this.props.addonBefore}
                     disabled={this.props.disabled}
                     placeholder={this.props.placeholder}
                     suffix={suffix}
@@ -59,9 +65,8 @@ export default class TextField extends React.Component<IProps> {
         return (
             <Field
                 name={this.props.name}
-                // Untyped as typing it only complicates the code for no benefit
-                component={WrappedTextField as any}
-                props={this.props as any}
+                component={WrappedTextField}
+                props={this.props}
             />
         );
     }

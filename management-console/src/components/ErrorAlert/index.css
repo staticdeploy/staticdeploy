@@ -1,0 +1,7 @@
+.c-ErrorAlert-actions {
+    padding-top: 15px;
+}
+.c-ErrorAlert-actions a {
+    color: var(--grey-8);
+    text-decoration: underline;
+}

@@ -31,8 +31,7 @@ export default convroute({
         "200": {
             description:
                 "Returns an array of bundles with the specified name and tag"
-        },
-        "401": { description: "Authentication required" }
+        }
     },
     handler: async (req: IRequest, res) => {
         const getBundlesByNameAndTag = req.makeUsecase(

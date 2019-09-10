@@ -8,10 +8,8 @@ interface IRequest extends IBaseRequest {
         entrypointId: string;
     };
     body: {
-        appId?: IEntrypoint["appId"];
         bundleId?: IEntrypoint["bundleId"];
         redirectTo?: IEntrypoint["redirectTo"];
-        urlMatcher?: IEntrypoint["urlMatcher"];
         configuration?: IEntrypoint["configuration"];
     };
 }
@@ -19,17 +17,11 @@ interface IRequest extends IBaseRequest {
 const bodySchema = {
     type: "object",
     properties: {
-        appId: {
-            type: "string"
-        },
         bundleId: {
             $oneOf: [{ type: "string" }, { type: "null" }]
         },
         redirectTo: {
             $oneOf: [{ type: "string" }, { type: "null" }]
-        },
-        urlMatcher: {
-            type: "string"
         },
         configuration: {
             $oneOf: [{ type: "object" }, { type: "null" }]
@@ -59,8 +51,6 @@ export default convroute({
     ],
     responses: {
         "200": { description: "Entrypoint updated, returns the entrypoint" },
-        "400": { description: "Patch validation failed" },
-        "401": { description: "Authentication required" },
         "404": {
             description: "Entrypoint, linked app, or linked bundle not found"
         },

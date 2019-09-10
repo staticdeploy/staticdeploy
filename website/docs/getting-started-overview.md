@@ -23,21 +23,21 @@ the entities StaticDeploy deals with.
 
 ### Bundles
 
-Bundles are tar.gz archives of static content (assets), plus associated metadata
+Bundles are archives of static content (assets), plus associated metadata
 describing the archives (a name, a tag, a description, etc.). Conceptually
 bundles are equivalent to docker images.
 
 Bundles must specify a fallback asset, an asset that will be served to requests
 that don't match any other asset.
 
-Bundles can be created with the `bundle` command of the StaticDeploy cli, by
-giving it a folder that gets archived into a tar.gz and uploaded to the
+Bundles can be created with the `bundle` command of the StaticDeploy CLI, by
+giving it a folder that gets packed into an archive and uploaded to the
 StaticDeploy backend.
 
 <div class="paddedDocsImage">
   <img
     src="../images/bundles-screenshot.png"
-    alt="Browsing bundles in the management console"
+    alt="Browsing bundles in the Management Console"
   />
 </div>
 
@@ -48,20 +48,20 @@ content of bundles. Each entrypoint is characterized by two properties:
 
 - `bundleId`: the id of the bundle to serve
 - `urlMatcher`: a domain + path combination against which incoming requests are
-  matched to determine wether or not they should be served the static content of
-  the entrypoint's bundle
+  matched to determine whether or not they should be served the static content
+  of the entrypoint's bundle
 
 Entrypoints may specify a configuration, a `(string, string)` dictionary that is
 injected at serve-time into the html files of the bundle.
 
-Entrypoints can be created manually from StaticDeploy's management console, or
+Entrypoints can be created manually from StaticDeploy's Management Console, or
 automatically when deploying a bundle with the `deploy` command of the
-StaticDeploy cli.
+StaticDeploy CLI.
 
 <div class="paddedDocsImage">
   <img
     src="../images/entrypoints-screenshot.png"
-    alt="Browsing apps and entrypoints in the management console"
+    alt="Browsing apps and entrypoints in the Management Console"
   />
 </div>
 
@@ -70,9 +70,9 @@ StaticDeploy cli.
 Apps are groups of entrypoints. Apps define a default configuration to be used
 for entrypoints which don't define one.
 
-Apps can be created manually from StaticDeploy's management console, or
+Apps can be created manually from StaticDeploy's Management Console, or
 automatically when deploying a bundle with the `deploy` command of the
-StaticDeploy cli.
+StaticDeploy CLI.
 
 ## Reaching the goals
 
@@ -123,8 +123,7 @@ documentation goes in more details about how configuration works.
 ### Multiple versions
 
 Bundles and entrypoints are very "cheap" objects in StaticDeploy: we can have
-thousands of them without incurring into significant degradations of
-performance.
+thousands of them without incurring into significant performance degradation.
 
 This means we can create bundles for every commit of every app we deploy on
 StaticDeploy. And we could deploy each bundle to a unique entrypoint, though we

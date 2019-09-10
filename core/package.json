@@ -6,10 +6,13 @@
     "access": "public"
   },
   "main": "lib/index.js",
+  "module": "es/index.js",
   "typings": "lib/index.d.js",
   "files": [
-    "lib"
+    "lib",
+    "es"
   ],
+  "sideEffects": false,
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -20,7 +23,9 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
-    "compile": "rimraf lib && tsc",
+    "compile:node": "rimraf lib && tsc",
+    "compile:browser": "rimraf es && tsc -p tsconfig.browser.json",
+    "compile": "yarn compile:node && yarn compile:browser",
     "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",
@@ -30,6 +35,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "escape-string-regexp": "^2.0.0",
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "micromatch": "^4.0.2",
@@ -37,30 +43,30 @@
     "validator": "^11.1.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/chai-as-promised": "^7.1.0",
-    "@types/cheerio": "^0.22.12",
-    "@types/deep-equal-in-any-order": "^1.0.0",
-    "@types/lodash": "^4.14.136",
+    "@types/chai": "^4.2.1",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/cheerio": "^0.22.13",
+    "@types/deep-equal-in-any-order": "^1.0.1",
+    "@types/lodash": "^4.14.138",
     "@types/md5": "^2.1.33",
     "@types/micromatch": "^3.1.0",
     "@types/mime": "^2.0.1",
     "@types/mocha": "^5.2.7",
     "@types/sinon": "^7.0.13",
-    "@types/sinon-chai": "^3.2.2",
-    "@types/validator": "^10.11.1",
+    "@types/sinon-chai": "^3.2.3",
+    "@types/validator": "^10.11.3",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "deep-equal-in-any-order": "^1.0.16",
+    "deep-equal-in-any-order": "^1.0.21",
     "mocha": "^6.2.0",
     "prettier": "^1.18.2",
-    "rimraf": "^2.6.3",
-    "sinon": "^7.3.2",
+    "rimraf": "^3.0.0",
+    "sinon": "^7.4.2",
     "sinon-chai": "^3.3.0",
     "ts-node": "^8.3.0",
-    "tslint": "^5.18.0",
+    "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3",
-    "vm2": "^3.8.2"
+    "typescript": "^3.6.2",
+    "vm2": "^3.8.3"
   }
 }

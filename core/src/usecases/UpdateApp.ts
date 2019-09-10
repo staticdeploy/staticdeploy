@@ -15,8 +15,8 @@ export default class UpdateApp extends Usecase {
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        await this.authorizer.ensureCanUpdateApp(id);
 
         // Validate name and defaultConfiguration
         if (patch.name) {
@@ -38,22 +38,23 @@ export default class UpdateApp extends Usecase {
 
         // Ensure no app with the same name exists
         if (patch.name && patch.name !== existingApp.name) {
-            const conflictingApp = await this.storages.apps.findOneByName(
+            const conflictingAppExists = await this.storages.apps.oneExistsWithName(
                 patch.name
             );
-            if (conflictingApp) {
+            if (conflictingAppExists) {
                 throw new ConflictingAppError(patch.name);
             }
         }
 
         // Update the app
         const updatedApp = await this.storages.apps.updateOne(id, {
-            ...patch,
+            name: patch.name,
+            defaultConfiguration: patch.defaultConfiguration,
             updatedAt: new Date()
         });
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.updateApp, {
+        await this.operationLogger.logOperation(Operation.UpdateApp, {
             oldApp: existingApp,
             newApp: updatedApp
         });

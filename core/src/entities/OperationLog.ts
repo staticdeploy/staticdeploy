@@ -1,17 +1,27 @@
 export enum Operation {
     // Apps
-    createApp = "apps:create",
-    updateApp = "apps:update",
-    deleteApp = "apps:delete",
-
-    // Entrypoints
-    createEntrypoint = "entrypoints:create",
-    updateEntrypoint = "entrypoints:update",
-    deleteEntrypoint = "entrypoints:delete",
+    CreateApp = "apps:create",
+    UpdateApp = "apps:update",
+    DeleteApp = "apps:delete",
 
     // Bundles
-    createBundle = "bundles:create",
-    deleteBundle = "bundles:delete"
+    CreateBundle = "bundles:create",
+    DeleteBundle = "bundles:delete",
+
+    // Entrypoints
+    CreateEntrypoint = "entrypoints:create",
+    UpdateEntrypoint = "entrypoints:update",
+    DeleteEntrypoint = "entrypoints:delete",
+
+    // Groups
+    CreateGroup = "groups:create",
+    UpdateGroup = "groups:update",
+    DeleteGroup = "groups:delete",
+
+    // Users
+    CreateUser = "users:create",
+    UpdateUser = "users:update",
+    DeleteUser = "users:delete"
 }
 
 export interface IOperationLog {

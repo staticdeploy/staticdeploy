@@ -1,7 +1,8 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
-        "module": "commonjs"
+        "module": "commonjs",
+        "jsx": "react"
     },
-    "include": ["**/*.ts?(x)", "../typings/**/*.ts"]
+    "include": ["**/*.ts?(x)", "../typings/*.d.ts"]
 }

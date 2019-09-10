@@ -9,7 +9,7 @@ can tell StaticDeploy to serve `index.html` with header
 `Cache-Control: must-revalidate`, and `index.js` with `Cache-Control: public`.
 
 Custom headers are specified per-asset when creating a bundle, using the
-`headers` options of the StaticDeploy **cli** `bundle` command. Example (using a
+`headers` options of the StaticDeploy CLI `bundle` command. Example (using a
 config file):
 
 ```js

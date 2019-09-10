@@ -9,5 +9,11 @@ interface IConvRouteWithBaseRequest extends IConvRoute {
 }
 export default (convroute: IConvRouteWithBaseRequest): IConvRoute => ({
     ...convroute,
+    responses: {
+        ...convroute.responses,
+        "400": { description: "Incorrect request params, validation failed" },
+        "401": { description: "Authentication required" },
+        "403": { description: "Missing authorization roles" }
+    },
     handler: handleUsecaseErrors(convroute.handler)
 });

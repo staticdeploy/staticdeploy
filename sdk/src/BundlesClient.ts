@@ -36,13 +36,13 @@ export default class BundlesClient {
     }
 
     async create(bundle: {
-        name: string;
-        tag: string;
-        description: string;
+        name: IBundle["name"];
+        tag: IBundle["tag"];
+        description: IBundle["description"];
         /** base64 string of the tar.gz of the directory to deploy */
         content: string;
-        fallbackAssetPath: string;
-        fallbackStatusCode: number;
+        fallbackAssetPath: IBundle["fallbackAssetPath"];
+        fallbackStatusCode: IBundle["fallbackStatusCode"];
         headers: {
             [assetMatcher: string]: {
                 [headerName: string]: string;

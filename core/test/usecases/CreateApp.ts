@@ -3,7 +3,6 @@ import sinon from "sinon";
 
 import {
     AppNameNotValidError,
-    AuthenticationRequiredError,
     ConfigurationNotValidError,
     ConflictingAppError
 } from "../../src/common/errors";
@@ -12,19 +11,6 @@ import CreateApp from "../../src/usecases/CreateApp";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase CreateApp", () => {
-    it("throws AuthenticationRequiredError if the request is not authenticated", async () => {
-        const deps = getMockDependencies();
-        deps.requestContext.userId = null;
-        const createApp = new CreateApp(deps);
-        const createAppPromise = createApp.exec({ name: "name" });
-        await expect(createAppPromise).to.be.rejectedWith(
-            AuthenticationRequiredError
-        );
-        await expect(createAppPromise).to.be.rejectedWith(
-            "This operation requires the request to be authenticated"
-        );
-    });
-
     it("throws AppNameNotValidError if the name is not valid", async () => {
         const createApp = new CreateApp(getMockDependencies());
         const createAppPromise = createApp.exec({ name: "*" });
@@ -50,7 +36,7 @@ describe("usecase CreateApp", () => {
 
     it("throws ConflictingAppError if an app with the same name exists", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOneByName.resolves({} as any);
+        deps.storages.apps.oneExistsWithName.resolves(true);
         const createApp = new CreateApp(deps);
         const createAppPromise = createApp.exec({ name: "name" });
         await expect(createAppPromise).to.be.rejectedWith(ConflictingAppError);
@@ -79,7 +65,7 @@ describe("usecase CreateApp", () => {
         expect(
             deps.storages.operationLogs.createOne
         ).to.have.been.calledOnceWith(
-            sinon.match.has("operation", Operation.createApp)
+            sinon.match.has("operation", Operation.CreateApp)
         );
     });
 

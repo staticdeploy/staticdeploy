@@ -3,8 +3,8 @@ import { IOperationLog } from "../entities/OperationLog";
 
 export default class GetOperationLogs extends Usecase {
     async exec(): Promise<IOperationLog[]> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        await this.authorizer.ensureCanGetOperationLogs();
 
         return this.storages.operationLogs.findMany();
     }

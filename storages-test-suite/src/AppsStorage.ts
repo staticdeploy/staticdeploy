@@ -1,8 +1,42 @@
-import { IStorages } from "@staticdeploy/core/lib";
+import { IStorages } from "@staticdeploy/core";
 import { expect } from "chai";
 
 export default (storages: IStorages) => {
     describe("AppsStorage", () => {
+        it("create an app and verify that one app with its id exists", async () => {
+            await storages.apps.createOne({
+                id: "id",
+                name: "name",
+                defaultConfiguration: {},
+                createdAt: new Date(),
+                updatedAt: new Date()
+            });
+            const appExists = await storages.apps.oneExistsWithId("id");
+            expect(appExists).to.equal(true);
+        });
+
+        it("check if one app with a non-existing id exists and get false", async () => {
+            const appExists = await storages.apps.oneExistsWithId("id");
+            expect(appExists).to.equal(false);
+        });
+
+        it("create an app and verify that one app with its name exists", async () => {
+            await storages.apps.createOne({
+                id: "id",
+                name: "name",
+                defaultConfiguration: {},
+                createdAt: new Date(),
+                updatedAt: new Date()
+            });
+            const appExists = await storages.apps.oneExistsWithName("name");
+            expect(appExists).to.equal(true);
+        });
+
+        it("check if one app with a non-existing name exists and get false", async () => {
+            const appExists = await storages.apps.oneExistsWithName("name");
+            expect(appExists).to.equal(false);
+        });
+
         it("create an app and find it by id", async () => {
             const app = {
                 id: "id",
@@ -89,14 +123,20 @@ export default (storages: IStorages) => {
                 updatedAt: new Date()
             });
             await storages.apps.updateOne("id", {
-                name: "updatedName",
+                name: undefined,
+                defaultConfiguration: { key: "value" },
                 updatedAt: new Date()
             });
             const foundApp = await storages.apps.findOne("id");
-            expect(foundApp).to.have.property("name", "updatedName");
+            // Test to see if undefined values passed to updateOne are correctly
+            // ignored
+            expect(foundApp).to.have.property("name", "name");
+            expect(foundApp)
+                .to.have.property("defaultConfiguration")
+                .that.deep.equals({ key: "value" });
         });
 
-        it("create an app, delete it, try to find it and get null", async () => {
+        it("create an app, delete it, and verify it doesn't exist (anymore)", async () => {
             await storages.apps.createOne({
                 id: "id",
                 name: "name",
@@ -105,8 +145,8 @@ export default (storages: IStorages) => {
                 updatedAt: new Date()
             });
             await storages.apps.deleteOne("id");
-            const notFoundApp = await storages.apps.findOne("id");
-            expect(notFoundApp).to.equal(null);
+            const appExists = await storages.apps.oneExistsWithId("id");
+            expect(appExists).to.equal(false);
         });
     });
 };

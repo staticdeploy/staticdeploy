@@ -110,7 +110,7 @@ asset, StaticDeploy sees that the requested path _looks a lot like_
 `/js/index.js`, assumes that the requester wanted that file, and responds with a
 301, redirecting to the file's _canonical path_, i.e. `/js/index.js`.
 
-This behaviour saves the developer of the app from having to statically specify
+This behavior saves the developer of the app from having to statically specify
 (in the code or at build time) the **exact** paths of the app's assets. In the
 example above, in the `index.html` file the developer can just point to the
 `index.js` file with a relative URL: `./js/index.js`. Now even when

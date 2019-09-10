@@ -2,7 +2,6 @@ import { expect } from "chai";
 import sinon from "sinon";
 
 import {
-    AuthenticationRequiredError,
     BundleFallbackAssetNotFoundError,
     BundleNameOrTagNotValidError
 } from "../../src/common/errors";
@@ -11,27 +10,6 @@ import CreateBundle from "../../src/usecases/CreateBundle";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase CreateBundle", () => {
-    it("throws AuthenticationRequiredError if the request is not authenticated", async () => {
-        const deps = getMockDependencies();
-        deps.requestContext.userId = null;
-        const createBundle = new CreateBundle(deps);
-        const createBundlePromise = createBundle.exec({
-            name: "name",
-            tag: "tag",
-            description: "description",
-            content: Buffer.from(""),
-            fallbackAssetPath: "/file",
-            fallbackStatusCode: 200,
-            headers: {}
-        });
-        await expect(createBundlePromise).to.be.rejectedWith(
-            AuthenticationRequiredError
-        );
-        await expect(createBundlePromise).to.be.rejectedWith(
-            "This operation requires the request to be authenticated"
-        );
-    });
-
     it("throws BundleNameOrTagNotValidError if the name is not valid", async () => {
         const createBundle = new CreateBundle(getMockDependencies());
         const createBundlePromise = createBundle.exec({
@@ -191,7 +169,7 @@ describe("usecase CreateBundle", () => {
         expect(
             deps.storages.operationLogs.createOne
         ).to.have.been.calledOnceWith(
-            sinon.match.has("operation", Operation.createBundle)
+            sinon.match.has("operation", Operation.CreateBundle)
         );
     });
 

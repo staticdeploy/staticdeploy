@@ -1,24 +1,40 @@
-import { IStoragesModule } from "@staticdeploy/core";
+import {
+    IArchiver,
+    IAuthenticationStrategy,
+    IStorages,
+    IUsecaseConfig
+} from "@staticdeploy/core";
 import { IUsecasesByName } from "@staticdeploy/http-adapters";
-import tarArchiver from "@staticdeploy/tar-archiver";
 import { RequestHandler } from "express";
 
-import IAuthenticatedRequest from "../common/IAuthenticatedRequest";
+import IRequestWithAuthToken from "../common/IRequestWithAuthToken";
 
-export default (options: {
-    storagesModule: IStoragesModule;
-    usecases: IUsecasesByName;
-}): RequestHandler => (req: IAuthenticatedRequest, _res, next) => {
-    const { usecases, storagesModule } = options;
-    req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
-        const UsecaseClass = usecases[name];
-        return new UsecaseClass({
-            storages: storagesModule.getStorages(),
-            requestContext: {
-                userId: req.user ? req.user.id : null
-            },
-            archiver: tarArchiver
-        }) as InstanceType<IUsecasesByName[Name]>;
+export default function injectMakeUsecase(
+    usecases: IUsecasesByName,
+    dependencies: {
+        archiver: IArchiver;
+        authenticationStrategies: IAuthenticationStrategy[];
+        config: IUsecaseConfig;
+        storages: IStorages;
+    }
+): RequestHandler {
+    const {
+        archiver,
+        authenticationStrategies,
+        config,
+        storages
+    } = dependencies;
+    return (req: IRequestWithAuthToken, _res, next) => {
+        req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
+            const UsecaseClass = usecases[name];
+            return new UsecaseClass({
+                archiver: archiver,
+                authenticationStrategies: authenticationStrategies,
+                config: config,
+                requestContext: { authToken: req.authToken },
+                storages: storages
+            }) as InstanceType<IUsecasesByName[Name]>;
+        };
+        next();
     };
-    next();
-};
+}

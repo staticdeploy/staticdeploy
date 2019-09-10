@@ -1,12 +1,14 @@
 import { RequestHandler } from "express";
-import faker from "faker";
+
+import { app } from "../generators";
 
 export default ((req, res) => {
-    res.status(201).send({
-        defaultConfiguration: {},
-        ...req.body,
-        id: faker.random.alphaNumeric(8),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    });
+    res.status(201).send(
+        app({
+            defaultConfiguration: {},
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            ...req.body
+        })
+    );
 }) as RequestHandler;

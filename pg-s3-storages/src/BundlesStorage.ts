@@ -11,8 +11,7 @@ import { join } from "path";
 
 import concurrentForEach from "./common/concurrentForEach";
 import convertErrors from "./common/convertErrors";
-
-export const BUNDLES_TABLE = "bundles";
+import tables from "./common/tables";
 
 @convertErrors
 export default class BundlesStorage implements IBundlesStorage {
@@ -23,7 +22,7 @@ export default class BundlesStorage implements IBundlesStorage {
     ) {}
 
     async findOne(id: string): Promise<IBundleWithoutAssetsContent | null> {
-        const [bundle = null] = await this.knex(BUNDLES_TABLE).where({ id });
+        const [bundle = null] = await this.knex(tables.bundles).where({ id });
         return bundle;
     }
 
@@ -31,7 +30,7 @@ export default class BundlesStorage implements IBundlesStorage {
         name: string,
         tag: string
     ): Promise<IBundleWithoutAssetsContent | null> {
-        const [bundle = null] = await this.knex(BUNDLES_TABLE)
+        const [bundle = null] = await this.knex(tables.bundles)
             .where({ name, tag })
             .orderBy("createdAt", "desc")
             .limit(1);
@@ -58,7 +57,7 @@ export default class BundlesStorage implements IBundlesStorage {
     }
 
     async findMany(): Promise<IBaseBundle[]> {
-        const bundles = await this.knex(BUNDLES_TABLE).select(
+        const bundles = await this.knex(tables.bundles).select(
             "id",
             "name",
             "tag",
@@ -71,20 +70,27 @@ export default class BundlesStorage implements IBundlesStorage {
         name: string,
         tag: string
     ): Promise<IBundleWithoutAssetsContent[]> {
-        const bundles = await this.knex(BUNDLES_TABLE).where({ name, tag });
+        const bundles = await this.knex(tables.bundles).where({ name, tag });
         return bundles;
     }
 
     async findManyNames(): Promise<string[]> {
-        const results = await this.knex(BUNDLES_TABLE).distinct("name");
+        const results = await this.knex(tables.bundles).distinct("name");
         return map(results, "name");
     }
 
     async findManyTagsByName(name: string): Promise<string[]> {
-        const results = await this.knex(BUNDLES_TABLE)
+        const results = await this.knex(tables.bundles)
             .where({ name })
             .distinct("tag");
         return map(results, "tag");
+    }
+
+    async oneExistsWithId(id: string): Promise<boolean> {
+        const [app = null] = await this.knex(tables.bundles)
+            .select("id")
+            .where({ id });
+        return app !== null;
     }
 
     async createOne(toBeCreatedBundle: {
@@ -115,7 +121,7 @@ export default class BundlesStorage implements IBundlesStorage {
                 toBeCreatedBundle.assets.map(asset => omit(asset, "content"))
             )
         };
-        const [createdBundle] = await this.knex(BUNDLES_TABLE)
+        const [createdBundle] = await this.knex(tables.bundles)
             .insert(bundleWithoutAssetsContent)
             .returning("*");
         return createdBundle;
@@ -124,7 +130,7 @@ export default class BundlesStorage implements IBundlesStorage {
     async deleteOne(id: string): Promise<void> {
         // const [bundle]: [IBundleWithoutAssetsContent]
         const [bundle] = await this.knex<IBundleWithoutAssetsContent>(
-            BUNDLES_TABLE
+            tables.bundles
         ).where({ id });
         // Delete files from S3
         await this.s3Client
@@ -138,14 +144,14 @@ export default class BundlesStorage implements IBundlesStorage {
             })
             .promise();
         // Delete the bundle from sql
-        await this.knex(BUNDLES_TABLE)
+        await this.knex(tables.bundles)
             .where({ id })
             .delete();
     }
 
     async deleteMany(ids: string[]): Promise<void> {
         const bundles: IBundleWithoutAssetsContent[] = await this.knex(
-            BUNDLES_TABLE
+            tables.bundles
         ).whereIn("id", ids);
         // Delete bundles' files on S3
         await this.s3Client
@@ -163,7 +169,7 @@ export default class BundlesStorage implements IBundlesStorage {
             })
             .promise();
         // Delete the bundles from sql
-        await this.knex(BUNDLES_TABLE)
+        await this.knex(tables.bundles)
             .whereIn("id", ids)
             .delete();
     }

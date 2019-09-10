@@ -22,7 +22,6 @@ export default convroute({
     ],
     responses: {
         "200": { description: "Returns the bundle" },
-        "401": { description: "Authentication required" },
         "404": { description: "Bundle not found" }
     },
     handler: async (req: IRequest, res) => {

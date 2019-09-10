@@ -19,11 +19,11 @@ describe("managementApiAdapter PATCH /entrypoints/:entrypointId", () => {
         const server = getManagementApiAdapter({ updateEntrypoint: execMock });
         await request(server)
             .patch("/entrypoints/id")
-            .send({ urlMatcher: "example.com/" })
+            .send({ bundleId: "bundleId" })
             .expect(200)
             .expect({ urlMatcher: "example.com/" });
         expect(execMock).to.have.been.calledOnceWith("id", {
-            urlMatcher: "example.com/"
+            bundleId: "bundleId"
         });
     });
 });

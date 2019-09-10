@@ -4,7 +4,6 @@
         "target": "es5",
         "module": "esnext",
         "lib": ["es2017", "dom"],
-
         "types": [
             "@types/chai",
             "@types/classnames",
@@ -12,8 +11,10 @@
             "@types/enzyme-adapter-react-16",
             "@types/express",
             "@types/faker",
+            "@types/jwt-decode",
             "@types/lodash",
             "@types/mocha",
+            "@types/nanoid",
             "@types/node",
             "@types/prop-types",
             "@types/react",
@@ -23,8 +24,15 @@
             "@types/sinon-chai",
             "@types/validator"
         ],
-        "jsx": "react",
+        "jsx": "preserve",
         "allowSyntheticDefaultImports": true,
-        "suppressImplicitAnyIndexErrors": true
-    }
+        "suppressImplicitAnyIndexErrors": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true
+    },
+    "include": ["src"]
 }

@@ -8,7 +8,9 @@
     "cli",
     "core",
     "http-adapters",
+    "jwt-authentication-strategy",
     "memory-storages",
+    "oidc-authentication-strategy",
     "pg-s3-storages",
     "sdk",
     "serve-static",
@@ -43,8 +45,8 @@
     "@commitlint/config-conventional": "^8.1.0",
     "@commitlint/config-lerna-scopes": "^8.1.0",
     "codecov": "^3.5.0",
-    "husky": "^3.0.1",
-    "lerna": "^3.16.2",
+    "husky": "^3.0.5",
+    "lerna": "^3.16.4",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2"
   }

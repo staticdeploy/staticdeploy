@@ -8,8 +8,8 @@ import { join } from "path";
 import getMakeUsecase from "./getMakeUsecase";
 import usecases from "./usecases";
 
-const APP_SERVER_LOCALHOST = "app-server.localhost";
-const HOST_HEADER = "x-app-server-host-header";
+const SERVE_STATIC_LOCALHOST = "serve-static.localhost";
+const HOST_HEADER = "x-serve-static-host-header";
 
 export default async function serveStatic(options: {
     root: string;
@@ -26,7 +26,13 @@ export default async function serveStatic(options: {
     const storagesModule = new MemoryStorages();
     await storagesModule.setup();
 
-    const makeUsecase = getMakeUsecase({ storagesModule, usecases });
+    const makeUsecase = getMakeUsecase(usecases, {
+        archiver: tarArchiver,
+        authenticationStrategies: [],
+        config: { enforceAuth: false },
+        requestContext: { authToken: null },
+        storages: storagesModule.getStorages()
+    });
 
     const createBundle = makeUsecase("createBundle");
     const bundle = await createBundle.exec({
@@ -46,7 +52,7 @@ export default async function serveStatic(options: {
         : "/";
     createEntrypoint.exec({
         appId: app.id,
-        urlMatcher: `${APP_SERVER_LOCALHOST}${urlMatcherPath}`,
+        urlMatcher: `${SERVE_STATIC_LOCALHOST}${urlMatcherPath}`,
         bundleId: bundle.id,
         configuration: options.configuration
     });
@@ -56,7 +62,7 @@ export default async function serveStatic(options: {
             // Inject makeUsecase, needed by the staticServerAdapter
             req.makeUsecase = makeUsecase;
             // Inject the header staticServerAdapter uses for routing
-            req.headers[HOST_HEADER] = APP_SERVER_LOCALHOST;
+            req.headers[HOST_HEADER] = SERVE_STATIC_LOCALHOST;
             next();
         })
         .use(staticServerAdapter({ hostnameHeader: HOST_HEADER }));

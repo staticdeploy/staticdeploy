@@ -6,15 +6,14 @@ import {
 import Knex from "knex";
 
 import convertErrors from "./common/convertErrors";
-
-export const OPERATION_LOGS_TABLE = "operationLogs";
+import tables from "./common/tables";
 
 @convertErrors
 export default class OperationLogsStorage implements IOperationLogsStorage {
     constructor(private knex: Knex) {}
 
     async findMany(): Promise<IOperationLog[]> {
-        const operationLogs = await this.knex(OPERATION_LOGS_TABLE);
+        const operationLogs = await this.knex(tables.operationLogs);
         return operationLogs;
     }
 
@@ -27,7 +26,7 @@ export default class OperationLogsStorage implements IOperationLogsStorage {
         performedBy: string;
         performedAt: Date;
     }): Promise<IOperationLog> {
-        const [createdOperationLog] = await this.knex(OPERATION_LOGS_TABLE)
+        const [createdOperationLog] = await this.knex(tables.operationLogs)
             .insert(toBeCreatedOperationLog)
             .returning("*");
         return createdOperationLog;

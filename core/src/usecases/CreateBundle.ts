@@ -24,8 +24,8 @@ export default class CreateBundle extends Usecase {
             };
         };
     }): Promise<IBundle> {
-        // Ensure the request is authenticated
-        this.authorizer.ensureAuthenticated();
+        // Auth check
+        await this.authorizer.ensureCanCreateBundle(partial.name);
 
         // Validate name and tag
         validateBundleNameOrTag(partial.name, "name");
@@ -76,7 +76,7 @@ export default class CreateBundle extends Usecase {
         });
 
         // Log the operation
-        await this.operationLogger.logOperation(Operation.createBundle, {
+        await this.operationLogger.logOperation(Operation.CreateBundle, {
             createdBundle
         });
 

@@ -2,8 +2,6 @@ import convexpress from "convexpress";
 import express from "express";
 import { extname } from "path";
 
-const IS_CURRENT_FILE_TYPESCRIPT = extname(__filename) === ".ts";
-
 export default function managementApiAdapter(options: {
     serviceName: string;
     serviceVersion: string;
@@ -20,11 +18,10 @@ export default function managementApiAdapter(options: {
             strict: false
         }
     };
+    const isCurrentFileTs = extname(__filename) === ".ts";
     const router = convexpress(convexpressOptions)
         .serveSwagger()
-        .loadFrom(
-            `${__dirname}/routes/*.${IS_CURRENT_FILE_TYPESCRIPT ? "ts" : "js"}`
-        );
+        .loadFrom(`${__dirname}/routes/*.${isCurrentFileTs ? "ts" : "js"}`);
 
     return express()
         .disable("x-powered-by")

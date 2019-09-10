@@ -1,4 +1,3 @@
-import Alert from "antd/lib/alert";
 import Spin from "antd/lib/spin";
 import { expect } from "chai";
 import { shallow } from "enzyme";
@@ -6,6 +5,7 @@ import React from "react";
 import sinon from "sinon";
 
 import DataFetcher, { FetchStatus } from "../../../src/components/DataFetcher";
+import ErrorAlert from "../../../src/components/ErrorAlert";
 
 describe("DataFetcher", () => {
     const props = {
@@ -68,56 +68,15 @@ describe("DataFetcher", () => {
         });
     });
 
-    it("when state.status === FetchStatus.FAILED, renders the error message", () => {
+    it("when state.status === FetchStatus.FAILED, renders an error message", () => {
         const dataFetcher = shallow(<DataFetcher {...props} />);
         dataFetcher.setState({
             status: FetchStatus.FAILED,
             error: new Error("Error message")
         });
-        const alert = dataFetcher.find(Alert);
-        expect(alert).to.have.length(1);
-        expect(alert.prop("message")).to.equal("Error message");
-    });
-
-    it("when the retry button is clicked, re-calls fetchData", () => {
-        const dataFetcher = shallow(<DataFetcher {...props} />);
-        dataFetcher.setState({
-            status: FetchStatus.FAILED,
-            error: new Error("Error message")
-        });
-        const description = shallow(dataFetcher
-            .find(Alert)
-            .prop("description") as any);
-        props.fetchData.reset();
-        description
-            .find("a")
-            .first()
-            .simulate("click");
-        expect(props.fetchData).to.have.callCount(1);
-        expect(props.fetchData).to.have.been.calledWith({
-            propKey: "propValue"
-        });
-    });
-
-    it("when the reload button is clicked, reloads the page", () => {
-        const fakeLocation = { reload: sinon.spy() };
-        Object.defineProperty((global as any).window, "location", {
-            get: () => fakeLocation
-        });
-        const dataFetcher = shallow(<DataFetcher {...props} />);
-        dataFetcher.setState({
-            status: FetchStatus.FAILED,
-            error: new Error("Error message")
-        });
-        const description = shallow(dataFetcher
-            .find(Alert)
-            .prop("description") as any);
-        expect(window.location.reload).to.have.callCount(0);
-        description
-            .find("a")
-            .last()
-            .simulate("click");
-        expect(window.location.reload).to.have.callCount(1);
+        const errorAlert = dataFetcher.find(ErrorAlert);
+        expect(errorAlert).to.have.length(1);
+        expect(errorAlert.prop("message")).to.equal("Error message");
     });
 
     describe("when new props are received", () => {

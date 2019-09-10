@@ -1,3 +1,20 @@
+## 0.13.0 (September 11, 2019)
+
+Features:
+
+- role-based access control for write operations (with the option to disable
+  auth enforcement)
+- login with an OpenID Connect Provider
+- new logo and other graphic improvements (credits to
+  [@Pendulla](https://github.com/pendulla))
+- allow not exposing management endpoints
+
+BREAKING CHANGES:
+
+- remove the possibility to update an entrypoint's `appId` and `urlMatcher`
+- remove the possibility to delete an app that has linked entrypoints
+- the new method of authenticating users is not compatible with old auth tokens
+
 ## 0.12.2 (August 28, 2019)
 
 Fixes:

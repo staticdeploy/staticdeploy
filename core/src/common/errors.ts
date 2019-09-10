@@ -1,10 +1,27 @@
+import { IIdpUser } from "../entities/User";
+
 // Auth errors
+export class AuthenticationStrategySetupError extends Error {
+    constructor(
+        public authenticationStrategy: string,
+        message: string,
+        public originalError: any
+    ) {
+        super(message);
+    }
+}
 export class AuthenticationRequiredError extends Error {
     constructor() {
         super("This operation requires the request to be authenticated");
     }
 }
-export class AuthorizationError extends Error {}
+export class MissingRoleError extends Error {
+    constructor() {
+        super(
+            "The user doesn't have the necessary roles to perform this operation"
+        );
+    }
+}
 
 // Configuration errors
 export class ConfigurationNotValidError extends Error {
@@ -27,6 +44,13 @@ export class AppNotFoundError extends Error {
 export class ConflictingAppError extends Error {
     constructor(name: string) {
         super(`An app with name = ${name} already exists`);
+    }
+}
+export class AppHasEntrypointsError extends Error {
+    constructor(id: string) {
+        super(
+            `Can't delete app with id = ${id} because it has linked entrypoints`
+        );
     }
 }
 
@@ -56,11 +80,10 @@ export class BundleNotFoundError extends Error {
     }
 }
 export class BundlesInUseError extends Error {
-    constructor(ids: string[], dependentEntrypointsIds: string[]) {
-        const bundleIdsString = ids.join(", ");
-        const entrypointIdsString = dependentEntrypointsIds.join(", ");
+    constructor(ids: string[]) {
+        const bundlesIdsString = ids.join(", ");
         super(
-            `Can't delete bundles with id = ${bundleIdsString}, as ore or more of them are being used by entrypoints with ids = ${entrypointIdsString}`
+            `Can't delete bundles with ids = [ ${bundlesIdsString} ], as one or more of them are being used by some entrypoints`
         );
     }
 }
@@ -113,10 +136,62 @@ export class NoBundleOrRedirectToError extends Error {
     }
 }
 
-// Storage errors
-export class GenericStorageError extends Error {
+// Group and role errors
+export class GroupNotFoundError extends Error {
+    constructor(id: string) {
+        super(`No group found with id = ${id}`);
+    }
+}
+export class SomeGroupNotFoundError extends Error {
+    constructor(ids: string[]) {
+        const idsString = ids.join(", ");
+        super(`Not all ids = [ ${idsString} ] correspond to an existing group`);
+    }
+}
+export class ConflictingGroupError extends Error {
+    constructor(name: string) {
+        super(`A group with name = ${name} already exists`);
+    }
+}
+export class GroupHasUsersError extends Error {
+    constructor(id: string) {
+        super(`Can't delete group with id = ${id} because it has linked users`);
+    }
+}
+export class RoleNotValidError extends Error {
+    constructor(role: string) {
+        super(`${role} is not a valid role`);
+    }
+}
+
+// User errors
+export class UserNotFoundError extends Error {
+    constructor(id: string) {
+        super(`No user found with id = ${id}`);
+    }
+}
+export class NoUserCorrespondingToIdpUserError extends Error {
+    constructor(idpUser: IIdpUser) {
+        super(
+            `Access denied. To gain access, ask an admin to create a user with idp = ${idpUser.idp} and idpId = ${idpUser.id}`
+        );
+    }
+}
+export class ConflictingUserError extends Error {
+    constructor(idp: string, idpId: string) {
+        super(`A user with idp = ${idp} and idpId = ${idpId} already exists`);
+    }
+}
+
+// Storages errors
+export class StoragesSetupError extends Error {
+    constructor(message: string, public originalError: any) {
+        super(message);
+    }
+}
+export class GenericStoragesError extends Error {
     constructor(public originalError: Error) {
         super("An error occurred while accessing StaticDeploy's storage");
     }
 }
-export class StorageInconsistencyError extends Error {}
+export class StoragesInconsistencyError extends Error {}

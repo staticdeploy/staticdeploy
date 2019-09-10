@@ -1,0 +1,22 @@
+.c-RolesFieldRO {
+    margin-bottom: 16px;
+}
+
+/* Show roles as table rows */
+.c-RolesFieldRO-role {
+    border-style: solid;
+    border-color: var(--grey-4);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 8px;
+    line-height: 21px;
+}
+
+/* Truncate the role name when too long */
+.c-RolesFieldRO-role code {
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

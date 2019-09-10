@@ -43,8 +43,6 @@ export default convroute({
     ],
     responses: {
         "200": { description: "App updated, returns the app" },
-        "400": { description: "Patch validation failed" },
-        "401": { description: "Authentication required" },
         "404": { description: "App not found" },
         "409": { description: "App with same name already exists" }
     },

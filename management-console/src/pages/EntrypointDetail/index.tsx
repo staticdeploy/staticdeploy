@@ -46,14 +46,13 @@ class EntrypointDetail extends React.Component<Props> {
         const { app, entrypoint, bundle } = this.props.result;
         return (
             <Page title="Entrypoint detail" actions={this.getActions()}>
-                <TextFieldRO title="App" value={app.name} />
                 <TextFieldRO
                     title="Url matcher"
                     value={
                         <a
                             href={`http://${entrypoint.urlMatcher}`}
                             target="_blank"
-                            rel="noopener"
+                            rel="noopener noreferrer"
                         >
                             {entrypoint.urlMatcher}
                         </a>
@@ -74,7 +73,7 @@ class EntrypointDetail extends React.Component<Props> {
                             <a
                                 href={entrypoint.redirectTo}
                                 target="_blank"
-                                rel="noopener"
+                                rel="noopener noreferrer"
                             >
                                 {entrypoint.redirectTo}
                             </a>

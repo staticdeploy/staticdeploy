@@ -3,16 +3,6 @@ id: getting-started-quickstart
 title: Quickstart
 ---
 
-<div class="paddedDocsImage" style="text-align: center; padding-bottom: 32px;">
-  <a href="https://www.youtube.com/watch?v=ZysrB1uYKu0" target="_blank" rel="noopener">
-    <img
-      src="../images/quickstart-video-link.png"
-      alt="Quickstart Video"
-      style="width: 560px; text-align: center;"
-    />
-  </a>
-</div>
-
 > For this quickstart you'll need:
 >
 > - a recent version of [docker](https://docs.docker.com/install/)
@@ -20,41 +10,35 @@ title: Quickstart
 
 ## Set up StaticDeploy with docker
 
-- start staticdeploy:
+- start StaticDeploy:
 
   ```sh
   docker run --rm --init \
     -e MANAGEMENT_HOSTNAME=local.staticdeploy.io \
-    -e JWT_SECRET=secret \
+    -e ENFORCE_AUTH=false \
     -p 80:80 \
     staticdeploy/staticdeploy
   ```
 
-- visit [local.staticdeploy.io](http://local.staticdeploy.io/) and log into the
-  management console using the following token:
-
-  ```sh
-  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbi1jb25zb2xlLXVzZXIifQ.yGQzbu3CAIGuxnEhEAKrqv9W8cXuBiCnPIwN_kmmzlQ
-  ```
-
-  (note: `local.staticdeploy.io` points to `127.0.0.1`)
+- visit the Management Console at
+  [local.staticdeploy.io](http://local.staticdeploy.io/) (which points to
+  `127.0.0.1`)
 
 ## Publish a static app
 
 > Note: we'll be publishing a demo app taken from the StaticDeploy repository,
 > but you can publish any directory on your computer just as easily
 
-- install the StaticDeploy cli:
+- install the StaticDeploy CLI:
 
   ```sh
   npm install --global @staticdeploy/cli
   ```
 
-- configure the cli using environment variables:
+- configure the CLI using environment variables:
 
   ```sh
   export STATICDEPLOY_API_URL=http://local.staticdeploy.io/api
-  export STATICDEPLOY_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGktdXNlciJ9.5Afzq7hN9GoLzlKCJwxGpi1RnQeCSF705vRxuqXPZkU
   ```
 
 - clone the StaticDeploy repository and `cd` into it:
@@ -85,9 +69,9 @@ title: Quickstart
 
 - visit
   [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io/)
-  (note: `demo-static-app.staticdeploy.io` points to `127.0.0.1`)
+  (which also points to `127.0.0.1`)
 
-- check out the deployment on the management console at
+- check out the deployment on the Management Console at
   [local.staticdeploy.io](http://local.staticdeploy.io/). Try modifying the
   entrypoint configuration and see how
   [demo-static-app.staticdeploy.io](http://demo-static-app.staticdeploy.io/)

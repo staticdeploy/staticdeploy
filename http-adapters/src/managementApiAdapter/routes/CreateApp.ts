@@ -35,8 +35,6 @@ export default convroute({
     ],
     responses: {
         "201": { description: "App created, returns the app" },
-        "400": { description: "Incorrect request params" },
-        "401": { description: "Authentication required" },
         "409": { description: "App with same name already exists" }
     },
     handler: async (req: IRequest, res) => {

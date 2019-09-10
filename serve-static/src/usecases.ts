@@ -6,9 +6,13 @@ const usecases: IUsecasesByName = {
     createApp: sd.CreateApp,
     createBundle: sd.CreateBundle,
     createEntrypoint: sd.CreateEntrypoint,
+    createGroup: sd.CreateGroup,
+    createUser: sd.CreateUser,
     deleteApp: sd.DeleteApp,
     deleteBundlesByNameAndTag: sd.DeleteBundlesByNameAndTag,
     deleteEntrypoint: sd.DeleteEntrypoint,
+    deleteGroup: sd.DeleteGroup,
+    deleteUser: sd.DeleteUser,
     deployBundle: sd.DeployBundle,
     getApp: sd.GetApp,
     getApps: sd.GetApps,
@@ -19,9 +23,15 @@ const usecases: IUsecasesByName = {
     getBundleTagsByBundleName: sd.GetBundleTagsByBundleName,
     getEntrypoint: sd.GetEntrypoint,
     getEntrypointsByAppId: sd.GetEntrypointsByAppId,
+    getGroup: sd.GetGroup,
+    getGroups: sd.GetGroups,
     getOperationLogs: sd.GetOperationLogs,
+    getUser: sd.GetUser,
+    getUsers: sd.GetUsers,
     respondToEndpointRequest: sd.RespondToEndpointRequest,
     updateApp: sd.UpdateApp,
-    updateEntrypoint: sd.UpdateEntrypoint
+    updateEntrypoint: sd.UpdateEntrypoint,
+    updateGroup: sd.UpdateGroup,
+    updateUser: sd.UpdateUser
 };
 export default usecases;

@@ -1,0 +1,4 @@
+/* Distance the user name from the icon */
+.v-UsersList-user-name {
+    margin-left: 8px;
+}

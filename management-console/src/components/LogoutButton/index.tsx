@@ -2,26 +2,25 @@ import Icon from "antd/lib/icon";
 import Tooltip from "antd/lib/tooltip";
 import React from "react";
 
-import IAuthTokenService from "../../common/IAuthTokenService";
+import AuthService from "../../common/authService/AuthService";
 import "./index.css";
 
 interface IProps {
-    authTokenService: IAuthTokenService;
+    authService: AuthService;
 }
 
-export default class LogoutButton extends React.PureComponent<IProps> {
+export default class LogoutButton extends React.Component<IProps> {
     render() {
-        return (
+        const { authService } = this.props;
+        return authService.authEnforced ? (
             <Tooltip title="Logout" placement="right">
                 <div
                     className="c-LogoutButton"
-                    onClick={() =>
-                        this.props.authTokenService.setAuthToken(null)
-                    }
+                    onClick={() => authService.logout()}
                 >
                     <Icon type="logout" />
                 </div>
             </Tooltip>
-        );
+        ) : null;
     }
 }

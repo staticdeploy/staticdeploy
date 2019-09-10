@@ -1,3 +1,3 @@
 export default interface IRequestContext {
-    userId: string | null;
+    authToken: string | null;
 }

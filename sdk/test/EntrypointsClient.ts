@@ -95,10 +95,7 @@ describe("EntrypointsClient", () => {
         });
         it("returns the created entrypoint", async () => {
             nock(baseUrl)
-                .post("/entrypoints", {
-                    appId: "appId",
-                    urlMatcher: "urlMatcher"
-                })
+                .post("/entrypoints")
                 .reply(201, {});
             const entrypoint = await staticdeployClient.entrypoints.create({
                 appId: "appId",
@@ -108,10 +105,7 @@ describe("EntrypointsClient", () => {
         });
         it("inflates dates", async () => {
             nock(baseUrl)
-                .post("/entrypoints", {
-                    appId: "appId",
-                    urlMatcher: "urlMatcher"
-                })
+                .post("/entrypoints")
                 .reply(201, {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
@@ -127,6 +121,44 @@ describe("EntrypointsClient", () => {
         });
     });
 
+    describe("update", () => {
+        it("requests PATCH /entrypoints/:entrypointId", async () => {
+            const scope = nock(baseUrl)
+                .patch("/entrypoints/id", { bundleId: "newBundleId" })
+                .reply(200);
+            await staticdeployClient.entrypoints.update("id", {
+                bundleId: "newBundleId"
+            });
+            scope.done();
+        });
+        it("returns the updated entrypoint", async () => {
+            nock(baseUrl)
+                .patch("/entrypoints/id")
+                .reply(200, {});
+            const entrypoint = await staticdeployClient.entrypoints.update(
+                "id",
+                { bundleId: "newBundleId" }
+            );
+            expect(entrypoint).to.deep.equal({});
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .patch("/entrypoints/id")
+                .reply(200, {
+                    createdAt: unixEpochISO,
+                    updatedAt: unixEpochISO
+                });
+            const entrypoint = await staticdeployClient.entrypoints.update(
+                "id",
+                { bundleId: "newBundleId" }
+            );
+            expect(entrypoint).to.deep.equal({
+                createdAt: unixEpoch,
+                updatedAt: unixEpoch
+            });
+        });
+    });
+
     describe("delete", () => {
         it("requests DELETE /entrypoints/:entrypointId", async () => {
             const scope = nock(baseUrl)
@@ -134,48 +166,6 @@ describe("EntrypointsClient", () => {
                 .reply(204);
             await staticdeployClient.entrypoints.delete("id");
             scope.done();
-        });
-    });
-
-    describe("update", () => {
-        it("requests PATCH /entrypoints/:entrypointId", async () => {
-            const scope = nock(baseUrl)
-                .patch("/entrypoints/id", { appId: "newAppId" })
-                .reply(200);
-            await staticdeployClient.entrypoints.update("id", {
-                appId: "newAppId"
-            });
-            scope.done();
-        });
-        it("returns the updated entrypoint", async () => {
-            nock(baseUrl)
-                .patch("/entrypoints/id", { appId: "newAppId" })
-                .reply(200, {});
-            const entrypoint = await staticdeployClient.entrypoints.update(
-                "id",
-                {
-                    appId: "newAppId"
-                }
-            );
-            expect(entrypoint).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .patch("/entrypoints/id", { appId: "newAppId" })
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const entrypoint = await staticdeployClient.entrypoints.update(
-                "id",
-                {
-                    appId: "newAppId"
-                }
-            );
-            expect(entrypoint).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
         });
     });
 });

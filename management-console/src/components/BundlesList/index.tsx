@@ -1,9 +1,8 @@
 import { IBundle } from "@staticdeploy/core";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tooltip from "antd/lib/tooltip";
-import distanceInWords from "date-fns/distance_in_words";
-import format from "date-fns/format";
 import sortBy from "lodash/sortBy";
+import moment from "moment";
 import React from "react";
 
 import TruncatedText from "../TruncatedText";
@@ -40,8 +39,12 @@ export default class BundlesList extends React.Component<IProps> {
                 dataIndex: "createdAt",
                 className: "c-BundlesList-createdAt-column",
                 render: (createdAt: string) => (
-                    <Tooltip title={format(createdAt, "YYYY-MM-DD HH:mm:ss Z")}>
-                        {distanceInWords(new Date(), createdAt)}
+                    <Tooltip
+                        title={moment(createdAt).format(
+                            "YYYY-MM-DD HH:mm:ss Z"
+                        )}
+                    >
+                        {moment(createdAt).fromNow(true)}
                     </Tooltip>
                 )
             }

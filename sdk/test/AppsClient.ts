@@ -81,19 +81,53 @@ describe("AppsClient", () => {
         });
         it("returns the created app", async () => {
             nock(baseUrl)
-                .post("/apps", { name: "name" })
+                .post("/apps")
                 .reply(201, {});
             const app = await staticdeployClient.apps.create({ name: "name" });
             expect(app).to.deep.equal({});
         });
         it("inflates dates", async () => {
             nock(baseUrl)
-                .post("/apps", { name: "name" })
+                .post("/apps")
                 .reply(201, {
                     createdAt: unixEpochISO,
                     updatedAt: unixEpochISO
                 });
             const app = await staticdeployClient.apps.create({ name: "name" });
+            expect(app).to.deep.equal({
+                createdAt: unixEpoch,
+                updatedAt: unixEpoch
+            });
+        });
+    });
+
+    describe("update", () => {
+        it("requests PATCH /apps/:appId", async () => {
+            const scope = nock(baseUrl)
+                .patch("/apps/id", { name: "new-name" })
+                .reply(200);
+            await staticdeployClient.apps.update("id", { name: "new-name" });
+            scope.done();
+        });
+        it("returns the updated app", async () => {
+            nock(baseUrl)
+                .patch("/apps/id")
+                .reply(200, {});
+            const app = await staticdeployClient.apps.update("id", {
+                name: "new-name"
+            });
+            expect(app).to.deep.equal({});
+        });
+        it("inflates dates", async () => {
+            nock(baseUrl)
+                .patch("/apps/id")
+                .reply(200, {
+                    createdAt: unixEpochISO,
+                    updatedAt: unixEpochISO
+                });
+            const app = await staticdeployClient.apps.update("id", {
+                name: "new-name"
+            });
             expect(app).to.deep.equal({
                 createdAt: unixEpoch,
                 updatedAt: unixEpoch
@@ -108,40 +142,6 @@ describe("AppsClient", () => {
                 .reply(204);
             await staticdeployClient.apps.delete("id");
             scope.done();
-        });
-    });
-
-    describe("update", () => {
-        it("requests PATCH /apps/:appId", async () => {
-            const scope = nock(baseUrl)
-                .patch("/apps/id", { name: "new-name" })
-                .reply(200);
-            await staticdeployClient.apps.update("id", { name: "new-name" });
-            scope.done();
-        });
-        it("returns the updated app", async () => {
-            nock(baseUrl)
-                .patch("/apps/id", { name: "new-name" })
-                .reply(200, {});
-            const app = await staticdeployClient.apps.update("id", {
-                name: "new-name"
-            });
-            expect(app).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .patch("/apps/id", { name: "new-name" })
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const app = await staticdeployClient.apps.update("id", {
-                name: "new-name"
-            });
-            expect(app).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
         });
     });
 });

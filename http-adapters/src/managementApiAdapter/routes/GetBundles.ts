@@ -9,8 +9,7 @@ export default convroute({
         "200": {
             description:
                 "Returns an array of all bundles with only the most important inforrmation"
-        },
-        "401": { description: "Authentication required" }
+        }
     },
     handler: async (req, res) => {
         const getBundles = req.makeUsecase("getBundles");
