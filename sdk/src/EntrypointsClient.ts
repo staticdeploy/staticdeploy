@@ -1,19 +1,17 @@
 import { IEntrypoint } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
-import parseDates from "./parseDates";
-
 export default class EntrypointsClient {
     constructor(private axios: AxiosInstance) {}
 
     async getAll(filter: { appId: string }): Promise<IEntrypoint[]> {
         const result = await this.axios.get("/entrypoints", { params: filter });
-        return result.data.map(parseDates);
+        return result.data;
     }
 
     async getOne(id: string): Promise<IEntrypoint> {
         const result = await this.axios.get(`/entrypoints/${id}`);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async create(entrypoint: {
@@ -24,7 +22,7 @@ export default class EntrypointsClient {
         configuration?: IEntrypoint["configuration"];
     }): Promise<IEntrypoint> {
         const result = await this.axios.post("/entrypoints", entrypoint);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async update(
@@ -36,7 +34,7 @@ export default class EntrypointsClient {
         }
     ): Promise<IEntrypoint> {
         const result = await this.axios.patch(`/entrypoints/${id}`, patch);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async delete(id: string): Promise<void> {

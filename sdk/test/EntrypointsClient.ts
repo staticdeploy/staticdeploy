@@ -4,9 +4,10 @@ import nock from "nock";
 import StaticdeployClient from "../src";
 
 const baseUrl = "http://localhost";
-const staticdeployClient = new StaticdeployClient({ apiUrl: baseUrl });
-const unixEpoch = new Date(0);
-const unixEpochISO = unixEpoch.toISOString();
+const staticdeployClient = new StaticdeployClient({
+    apiUrl: baseUrl,
+    apiToken: null
+});
 
 beforeEach(() => {
     nock.cleanAll();
@@ -30,19 +31,6 @@ describe("EntrypointsClient", () => {
             });
             expect(entrypoints).to.deep.equal([]);
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/entrypoints?appId=appId")
-                .reply(200, [
-                    { createdAt: unixEpochISO, updatedAt: unixEpochISO }
-                ]);
-            const entrypoints = await staticdeployClient.entrypoints.getAll({
-                appId: "appId"
-            });
-            expect(entrypoints).to.deep.equal([
-                { createdAt: unixEpoch, updatedAt: unixEpoch }
-            ]);
-        });
     });
 
     describe("getOne", () => {
@@ -61,21 +49,6 @@ describe("EntrypointsClient", () => {
                 "id"
             );
             expect(entrypoint).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/entrypoints/id")
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const entrypoint = await staticdeployClient.entrypoints.getOne(
-                "id"
-            );
-            expect(entrypoint).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
         });
     });
 
@@ -103,22 +76,6 @@ describe("EntrypointsClient", () => {
             });
             expect(entrypoint).to.deep.equal({});
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .post("/entrypoints")
-                .reply(201, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const entrypoint = await staticdeployClient.entrypoints.create({
-                appId: "appId",
-                urlMatcher: "urlMatcher"
-            });
-            expect(entrypoint).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
-        });
     });
 
     describe("update", () => {
@@ -140,22 +97,6 @@ describe("EntrypointsClient", () => {
                 { bundleId: "newBundleId" }
             );
             expect(entrypoint).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .patch("/entrypoints/id")
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const entrypoint = await staticdeployClient.entrypoints.update(
-                "id",
-                { bundleId: "newBundleId" }
-            );
-            expect(entrypoint).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
         });
     });
 

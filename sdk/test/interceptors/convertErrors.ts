@@ -1,58 +1,64 @@
 import Axios from "axios";
 import { expect } from "chai";
 import nock from "nock";
-import { stub } from "sinon";
 
-import convertAxiosErrors, {
-    StaticdeployClientError
-} from "../src/convertAxiosErrors";
+import convertErrors from "../../src/interceptors/convertErrors";
+import StaticdeployClientError from "../../src/StaticdeployClientError";
 
 const baseUrl = "http://localhost";
-const axios = Axios.create({ baseURL: baseUrl });
-convertAxiosErrors(axios);
 
 beforeEach(() => {
     nock.cleanAll();
 });
-afterEach(() => {
-    if ((axios.get as any).restore) {
-        (axios.get as any).restore();
-    }
-});
 
-describe("convertAxiosErrors", () => {
+describe("interceptor convertErrors", () => {
     it("converts axios errors into StaticdeployClientError-s", async () => {
-        const scope = nock(baseUrl)
+        nock(baseUrl)
             .get("/")
             .reply(400, { message: "Response error message" });
+        const axios = Axios.create({ baseURL: baseUrl });
+        axios.interceptors.response.use(undefined, convertErrors());
         const getPromise = axios.get("/");
         await expect(getPromise).to.be.rejectedWith(StaticdeployClientError);
-        scope.done();
     });
+
     describe("gives them a message as significant as possible", () => {
         it("case: error response status code and message available", async () => {
-            const scope = nock(baseUrl)
+            nock(baseUrl)
                 .get("/")
                 .reply(400, { message: "Response error message" });
+            const axios = Axios.create({ baseURL: baseUrl });
+            axios.interceptors.response.use(undefined, convertErrors());
             const getPromise = axios.get("/");
+            await expect(getPromise).to.be.rejectedWith(
+                StaticdeployClientError
+            );
             await expect(getPromise).to.be.rejectedWith(
                 "Error 400: Response error message"
             );
-            scope.done();
         });
         it("case: error response status code available, message not available", async () => {
-            const scope = nock(baseUrl)
+            nock(baseUrl)
                 .get("/")
                 .reply(400, {});
+            const axios = Axios.create({ baseURL: baseUrl });
+            axios.interceptors.response.use(undefined, convertErrors());
             const getPromise = axios.get("/");
+            await expect(getPromise).to.be.rejectedWith(
+                StaticdeployClientError
+            );
             await expect(getPromise).to.be.rejectedWith("Error 400");
-            scope.done();
         });
         it("case: error response not available", async () => {
-            stub(axios, "get").returns(
-                Promise.reject(new Error("Generic error"))
-            );
+            const axios = Axios.create({ baseURL: baseUrl });
+            axios.interceptors.request.use(() => {
+                throw new Error("Generic error");
+            });
+            axios.interceptors.response.use(undefined, convertErrors());
             const getPromise = axios.get("/");
+            await expect(getPromise).to.be.rejectedWith(
+                StaticdeployClientError
+            );
             await expect(getPromise).to.be.rejectedWith("Generic error");
         });
     });

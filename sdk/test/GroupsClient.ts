@@ -4,9 +4,10 @@ import nock from "nock";
 import StaticdeployClient from "../src";
 
 const baseUrl = "http://localhost";
-const staticdeployClient = new StaticdeployClient({ apiUrl: baseUrl });
-const unixEpoch = new Date(0);
-const unixEpochISO = unixEpoch.toISOString();
+const staticdeployClient = new StaticdeployClient({
+    apiUrl: baseUrl,
+    apiToken: null
+});
 
 beforeEach(() => {
     nock.cleanAll();
@@ -28,17 +29,6 @@ describe("GroupsClient", () => {
             const groups = await staticdeployClient.groups.getAll();
             expect(groups).to.deep.equal([]);
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/groups")
-                .reply(200, [
-                    { createdAt: unixEpochISO, updatedAt: unixEpochISO }
-                ]);
-            const groups = await staticdeployClient.groups.getAll();
-            expect(groups).to.deep.equal([
-                { createdAt: unixEpoch, updatedAt: unixEpoch }
-            ]);
-        });
     });
 
     describe("getOne", () => {
@@ -55,19 +45,6 @@ describe("GroupsClient", () => {
                 .reply(200, {});
             const group = await staticdeployClient.groups.getOne("id");
             expect(group).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/groups/id")
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const group = await staticdeployClient.groups.getOne("id");
-            expect(group).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
         });
     });
 
@@ -89,22 +66,6 @@ describe("GroupsClient", () => {
             });
             expect(group).to.deep.equal({});
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .post("/groups")
-                .reply(201, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const group = await staticdeployClient.groups.create({
-                name: "name",
-                roles: []
-            });
-            expect(group).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
-        });
     });
 
     describe("update", () => {
@@ -123,21 +84,6 @@ describe("GroupsClient", () => {
                 name: "new-name"
             });
             expect(group).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .patch("/groups/id")
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const group = await staticdeployClient.groups.update("id", {
-                name: "new-name"
-            });
-            expect(group).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
         });
     });
 

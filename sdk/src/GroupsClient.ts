@@ -1,19 +1,17 @@
 import { IGroup } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
-import parseDates from "./parseDates";
-
 export default class GroupsClient {
     constructor(private axios: AxiosInstance) {}
 
     async getAll(): Promise<IGroup[]> {
         const result = await this.axios.get("/groups");
-        return result.data.map(parseDates);
+        return result.data;
     }
 
     async getOne(id: string): Promise<IGroup> {
         const result = await this.axios.get(`/groups/${id}`);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async create(group: {
@@ -21,7 +19,7 @@ export default class GroupsClient {
         roles: IGroup["roles"];
     }): Promise<IGroup> {
         const result = await this.axios.post("/groups", group);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async update(
@@ -32,7 +30,7 @@ export default class GroupsClient {
         }
     ): Promise<IGroup> {
         const result = await this.axios.patch(`/groups/${id}`, patch);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async delete(id: string): Promise<void> {

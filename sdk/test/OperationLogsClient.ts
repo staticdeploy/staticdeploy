@@ -4,9 +4,10 @@ import nock from "nock";
 import StaticdeployClient from "../src";
 
 const baseUrl = "http://localhost";
-const staticdeployClient = new StaticdeployClient({ apiUrl: baseUrl });
-const unixEpoch = new Date(0);
-const unixEpochISO = unixEpoch.toISOString();
+const staticdeployClient = new StaticdeployClient({
+    apiUrl: baseUrl,
+    apiToken: null
+});
 
 beforeEach(() => {
     nock.cleanAll();
@@ -28,13 +29,6 @@ describe("OperationLogsClient", () => {
             const operationLogs = await staticdeployClient.operationLogs.getAll();
             expect(operationLogs).to.deep.equal([]);
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/operationLogs")
-                .reply(200, [{ performedAt: unixEpochISO }]);
-            const operationLogs = await staticdeployClient.operationLogs.getAll();
-            expect(operationLogs).to.deep.equal([{ performedAt: unixEpoch }]);
-        });
     });
 
     describe("getOne", () => {
@@ -53,15 +47,6 @@ describe("OperationLogsClient", () => {
                 "id"
             );
             expect(operationLog).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/operationLogs/id")
-                .reply(200, { performedAt: unixEpochISO });
-            const operationLog = await staticdeployClient.operationLogs.getOne(
-                "id"
-            );
-            expect(operationLog).to.deep.equal({ performedAt: unixEpoch });
         });
     });
 });
