@@ -1,50 +1,60 @@
 import EventEmitter from "eventemitter3";
+import find from "lodash/find";
 
 import IAuthStrategy from "./IAuthStrategy";
 
 export interface IStatus {
-    authToken: string | null;
     isLoggingIn: boolean;
+    isLoggedIn: boolean;
     loginError: Error | null;
 }
 
 export default class AuthService {
-    private status: IStatus;
-    private statusEmitter: EventEmitter;
+    private status: IStatus = {
+        isLoggingIn: true,
+        isLoggedIn: false,
+        loginError: null
+    };
+    private statusEmitter = new EventEmitter();
 
     constructor(
         public authEnforced: boolean,
         private authStrategies: IAuthStrategy[]
-    ) {
-        this.statusEmitter = new EventEmitter();
+    ) {}
 
-        if (!authEnforced) {
-            this.status = {
-                authToken: null,
+    async init() {
+        if (!this.authEnforced) {
+            this.setStatus({
                 isLoggingIn: false,
+                isLoggedIn: true,
                 loginError: null
-            };
+            });
             return;
         }
 
-        // Try to get an auth token from any of the auth strategies
-        const authStrategyWithToken = this.authStrategies.find(a =>
-            a.getAuthToken()
-        );
-        const authToken = authStrategyWithToken
-            ? authStrategyWithToken.getAuthToken()
-            : null;
+        for (const authStrategy of this.authStrategies) {
+            await authStrategy.init();
+        }
 
-        // Set the initial status
-        this.status = {
-            authToken: authToken,
+        this.setStatus({
             isLoggingIn: false,
+            isLoggedIn: !!(await this.getAuthToken()),
             loginError: null
-        };
+        });
     }
 
-    hasAuthStrategy(strategy: string): boolean {
-        return !!this.authStrategies.find(a => a.name === strategy);
+    async getAuthToken(): Promise<string | null> {
+        let authToken: string | null = null;
+
+        // Try to get an auth token from any of the auth strategies
+        for (const authStrategy of this.authStrategies) {
+            authToken = await authStrategy.getAuthToken();
+            if (authToken) {
+                break;
+            }
+        }
+
+        return authToken;
     }
 
     getStatus(): IStatus {
@@ -61,47 +71,58 @@ export default class AuthService {
     async loginWith(strategy: string, ...params: any): Promise<void> {
         try {
             this.setStatus({
-                authToken: null,
                 isLoggingIn: true,
+                isLoggedIn: false,
                 loginError: null
             });
 
-            const authStrategy = this.authStrategies.find(
-                a => a.name === strategy
-            );
+            const authStrategy = this.findAuthStrategy(strategy);
             if (!authStrategy) {
                 throw new Error(`No auth strategy found with name ${strategy}`);
             }
 
             await authStrategy.login(...params);
 
-            const authToken = authStrategy.getAuthToken();
             this.setStatus({
-                authToken: authToken,
                 isLoggingIn: false,
+                isLoggedIn: !!(await this.getAuthToken()),
                 loginError: null
             });
         } catch (err) {
             this.setStatus({
-                authToken: null,
                 isLoggingIn: false,
+                isLoggedIn: false,
                 loginError: err
             });
         }
     }
 
     async logout(): Promise<void> {
-        await Promise.all(this.authStrategies.map(a => a.logout()));
+        await Promise.all(
+            this.authStrategies.map(authStrategy => authStrategy.logout())
+        );
         this.setStatus({
-            authToken: null,
             isLoggingIn: false,
+            isLoggedIn: false,
             loginError: null
         });
+    }
+
+    hasAuthStrategy(strategy: string): boolean {
+        return !!this.findAuthStrategy(strategy);
+    }
+
+    getStrategyDisplayName(strategy: string): string {
+        return this.findAuthStrategy(strategy)!.displayName;
     }
 
     private setStatus(status: IStatus): void {
         this.status = status;
         // Emit a clone
         this.statusEmitter.emit("change", { ...this.status });
+    }
+
+    private findAuthStrategy(strategy: string): IAuthStrategy | null {
+        return find(this.authStrategies, { name: strategy }) || null;
     }
 }

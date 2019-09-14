@@ -4,12 +4,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background: var(--primary-blue);
     background-image: url("./background.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 150px;
+    overflow: hidden;
 }
 
 .c-LoginMask-card {
@@ -22,29 +23,23 @@
 }
 
 .c-LoginMask-card-title {
-    color: var(--grey-8);
+    color: var(--grey-9);
     font-size: 24px;
+    font-weight: 800;
     line-height: 28px;
-    font-weight: 400;
 }
 
 .c-LoginMask-card-header .c-Logo {
     width: 150px;
-    margin-bottom: 16px;
-}
-
-.c-LoginMask-spinner {
-    height: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .c-LoginMask-login-button {
     width: 100%;
 }
 
-.c-LoginMask-JwtLogin-text-field {
+.c-LoginMask-JwtLoginForm-text-field {
     margin-bottom: 0px;
+}
+.c-LoginMask-JwtLoginForm-text-field .anticon {
+    font-size: 13px;
 }

@@ -1,9 +1,9 @@
 import { IApp } from "@staticdeploy/core";
+import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import BaseOperationModal from "../../components/OperationModal";
 
 class OperationModal extends BaseOperationModal<void> {}
@@ -15,7 +15,8 @@ interface IProps {
 }
 
 export default class AppDeleteOperationModal extends React.Component<IProps> {
-    deleteApp = () => staticdeploy.apps.delete(this.props.app.id);
+    deleteApp = (staticdeploy: StaticdeployClient) =>
+        staticdeploy.apps.delete(this.props.app.id);
     goToAppsList = () => this.props.history.push("/apps");
     render() {
         return (

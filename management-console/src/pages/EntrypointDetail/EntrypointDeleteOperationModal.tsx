@@ -1,9 +1,9 @@
 import { IEntrypoint } from "@staticdeploy/core";
+import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import BaseOperationModal from "../../components/OperationModal";
 
 class OperationModal extends BaseOperationModal<void> {}
@@ -17,7 +17,7 @@ interface IProps {
 export default class EntrypointDeleteOperationModal extends React.Component<
     IProps
 > {
-    deleteEntrypoint = () =>
+    deleteEntrypoint = (staticdeploy: StaticdeployClient) =>
         staticdeploy.entrypoints.delete(this.props.entrypoint.id);
     goToAppDetail = () =>
         this.props.history.push(`/apps/${this.props.entrypoint.appId}`);

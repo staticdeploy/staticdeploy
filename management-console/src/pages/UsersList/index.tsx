@@ -4,7 +4,6 @@ import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import staticdeploy from "../../common/staticdeployClient";
 import { withData } from "../../components/DataFetcher";
 import LinksList from "../../components/LinksList";
 import ODItem from "../../components/OperationsDropdown/Item";
@@ -66,7 +65,7 @@ class UsersList extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: async () => {
+    fetchData: async staticdeploy => {
         const [groups, users] = await Promise.all([
             staticdeploy.groups.getAll(),
             staticdeploy.users.getAll()

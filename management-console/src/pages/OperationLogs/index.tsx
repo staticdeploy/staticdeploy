@@ -3,7 +3,6 @@ import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import React from "react";
 
-import staticdeploy from "../../common/staticdeployClient";
 import { withData } from "../../components/DataFetcher";
 import OperationLogsList from "../../components/OperationLogsList";
 import Page from "../../components/Page";
@@ -31,7 +30,7 @@ class OperationLogs extends React.Component<IProps> {
 }
 
 export default withData({
-    fetchData: () => staticdeploy.operationLogs.getAll(),
+    fetchData: staticdeploy => staticdeploy.operationLogs.getAll(),
     spinnerSize: "large",
     spinnerTip: "Fetching operation logs...",
     Component: OperationLogs

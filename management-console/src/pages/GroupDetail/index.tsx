@@ -2,7 +2,6 @@ import { IGroup } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import staticdeploy from "../../common/staticdeployClient";
 import { withData } from "../../components/DataFetcher";
 import ODItem from "../../components/OperationsDropdown/Item";
 import Page from "../../components/Page";
@@ -59,7 +58,7 @@ class GroupDetail extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: async props => {
+    fetchData: async (staticdeploy, props) => {
         const { groupId } = props.match.params;
         const group = await staticdeploy.groups.getOne(groupId);
         return { group };

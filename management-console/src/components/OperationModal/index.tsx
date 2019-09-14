@@ -1,3 +1,4 @@
+import StaticdeployClient from "@staticdeploy/sdk";
 import Button from "antd/lib/button";
 import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
@@ -7,6 +8,7 @@ import Spin from "antd/lib/spin";
 import classnames from "classnames";
 import React from "react";
 
+import StaticdeployClientContext from "../../common/StaticdeployClientContext";
 import { delay } from "../../common/utils";
 import "./index.css";
 
@@ -21,7 +23,7 @@ type SuccessMessageFunction<Result> = (result: Result) => React.ReactNode;
 
 interface IProps<Result> {
     title: React.ReactNode;
-    operation: () => Promise<Result>;
+    operation: (staticdeployClient: StaticdeployClient) => Promise<Result>;
     trigger?: React.ReactNode;
     cancelButtonText?: React.ReactNode;
     startOperationButtonText?: React.ReactNode;
@@ -49,6 +51,7 @@ export default class OperationModal<Result> extends React.Component<
     IProps<Result>,
     IState<Result>
 > {
+    static contextType = StaticdeployClientContext;
     static defaultProps = {
         cancelButtonText: "Cancel",
         startOperationButtonText: "Start operation",
@@ -56,6 +59,7 @@ export default class OperationModal<Result> extends React.Component<
         successMessage: "Operation succeeded",
         width: 780
     };
+    context!: React.ContextType<typeof StaticdeployClientContext>;
     state: IState<Result> = {
         modalOpen: false,
         status: OperationStatus.NotStarted,
@@ -93,7 +97,7 @@ export default class OperationModal<Result> extends React.Component<
             // allowing the c-OperationModal-flush-red css effect to be
             // re-triggered
             await delay(15);
-            const result = await this.props.operation();
+            const result = await this.props.operation(this.context!);
             this.setState({
                 status: OperationStatus.Succeeded,
                 result: result,

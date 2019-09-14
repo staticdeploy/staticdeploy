@@ -2,7 +2,7 @@ import Icon from "antd/lib/icon";
 import Tooltip from "antd/lib/tooltip";
 import React from "react";
 
-import AuthService from "../../common/authService/AuthService";
+import AuthService from "../../common/AuthService";
 import "./index.css";
 
 interface IProps {

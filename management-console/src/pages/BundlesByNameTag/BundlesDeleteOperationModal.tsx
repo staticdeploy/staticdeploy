@@ -1,8 +1,8 @@
+import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import BaseOperationModal from "../../components/OperationModal";
 
 class OperationModal extends BaseOperationModal<void> {}
@@ -17,7 +17,7 @@ interface IProps {
 export default class BundlesDeleteOperationModal extends React.Component<
     IProps
 > {
-    deleteBundles = () =>
+    deleteBundles = (staticdeploy: StaticdeployClient) =>
         staticdeploy.bundles.deleteByNameAndTag(
             this.props.bundleName,
             this.props.bundleTag

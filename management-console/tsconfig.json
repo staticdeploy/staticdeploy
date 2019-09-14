@@ -14,7 +14,6 @@
             "@types/jwt-decode",
             "@types/lodash",
             "@types/mocha",
-            "@types/nanoid",
             "@types/node",
             "@types/prop-types",
             "@types/react",

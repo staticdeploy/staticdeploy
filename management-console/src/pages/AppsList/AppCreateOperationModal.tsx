@@ -1,9 +1,9 @@
 import { IApp } from "@staticdeploy/core";
+import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import AppForm, { IAppFormInstance } from "../../components/AppForm";
 import BaseOperationModal from "../../components/OperationModal";
 
@@ -17,7 +17,7 @@ interface IProps {
 
 export default class AppCreateOperationModal extends React.Component<IProps> {
     form!: IAppFormInstance;
-    createApp = () => {
+    createApp = (staticdeploy: StaticdeployClient) => {
         if (!this.form.isValid()) {
             this.form.submit();
             throw new Error("Invalid form data");

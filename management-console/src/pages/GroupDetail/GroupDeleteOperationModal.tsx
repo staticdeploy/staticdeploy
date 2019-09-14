@@ -1,9 +1,9 @@
 import { IGroup } from "@staticdeploy/core";
+import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import BaseOperationModal from "../../components/OperationModal";
 
 class OperationModal extends BaseOperationModal<void> {}
@@ -15,7 +15,8 @@ interface IProps {
 }
 
 export default class GroupDeleteOperationModal extends React.Component<IProps> {
-    deleteGroup = () => staticdeploy.groups.delete(this.props.group.id);
+    deleteGroup = (staticdeploy: StaticdeployClient) =>
+        staticdeploy.groups.delete(this.props.group.id);
     goToGroupsList = () => this.props.history.push("/groups");
     render() {
         return (

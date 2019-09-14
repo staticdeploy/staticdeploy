@@ -8,6 +8,7 @@ import DataFetcher, { FetchStatus } from "../../../src/components/DataFetcher";
 import ErrorAlert from "../../../src/components/ErrorAlert";
 
 describe("DataFetcher", () => {
+    const staticdeployClient = {} as any;
     const props = {
         fetchData: sinon.stub(),
         shouldRefetch: sinon.stub(),
@@ -27,9 +28,9 @@ describe("DataFetcher", () => {
     });
 
     it("on mount, calls the passed-in fetchData function with proxied props", () => {
-        shallow(<DataFetcher {...props} />);
+        shallow(<DataFetcher {...props} />, { context: staticdeployClient });
         expect(props.fetchData).to.have.callCount(1);
-        expect(props.fetchData).to.have.been.calledWith({
+        expect(props.fetchData).to.have.been.calledWith(staticdeployClient, {
             propKey: "propValue"
         });
     });
@@ -54,7 +55,9 @@ describe("DataFetcher", () => {
     });
 
     it("the re-fetch function passed to Component, when called re-calls fetchData", () => {
-        const dataFetcher = shallow(<DataFetcher {...props} />);
+        const dataFetcher = shallow(<DataFetcher {...props} />, {
+            context: staticdeployClient
+        });
         dataFetcher.setState({
             status: FetchStatus.SUCCEEDED,
             result: "result"
@@ -63,7 +66,7 @@ describe("DataFetcher", () => {
         props.fetchData.reset();
         component.prop<() => any>("refetch")();
         expect(props.fetchData).to.have.callCount(1);
-        expect(props.fetchData).to.have.been.calledWith({
+        expect(props.fetchData).to.have.been.calledWith(staticdeployClient, {
             propKey: "propValue"
         });
     });
@@ -86,9 +89,10 @@ describe("DataFetcher", () => {
             props.fetchData.reset();
             dataFetcher.setProps(props);
             expect(props.fetchData).to.have.callCount(1);
-            expect(props.fetchData).to.have.been.calledWith({
-                propKey: "propValue"
-            });
+            expect(props.fetchData).to.have.been.calledWith(
+                staticdeployClient,
+                { propKey: "propValue" }
+            );
         });
         it("if shouldRefetch returns false, doesn't re-call fetchData", () => {
             props.shouldRefetch.returns(false);
