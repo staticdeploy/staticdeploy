@@ -46,9 +46,9 @@
     "redux-form": "^8.2.6"
   },
   "devDependencies": {
-    "@panva/jose": "^1.9.0",
+    "@panva/jose": "^1.9.1",
     "@staticdeploy/mock-server": "^1.10.0",
-    "@types/chai": "^4.2.1",
+    "@types/chai": "^4.2.2",
     "@types/classnames": "^2.2.9",
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
@@ -57,7 +57,7 @@
     "@types/jwt-decode": "^2.2.1",
     "@types/lodash": "^4.14.138",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.4",
+    "@types/node": "^12.7.5",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/react-json-tree": "^0.6.11",
@@ -82,10 +82,10 @@
     "sinon": "^7.4.2",
     "sinon-chai": "^3.3.0",
     "ts-node": "^8.3.0",
-    "tslint": "^5.19.0",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.6.2"
+    "typescript": "^3.6.3"
   },
   "browserslist": {
     "production": [

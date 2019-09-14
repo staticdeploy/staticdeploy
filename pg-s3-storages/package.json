@@ -31,9 +31,9 @@
   },
   "dependencies": {
     "@staticdeploy/core": "^0.13.0",
-    "aws-sdk": "^2.497.0",
+    "aws-sdk": "^2.528.0",
     "bluebird": "^3.5.5",
-    "knex": "^0.19.3",
+    "knex": "^0.19.4",
     "lodash": "^4.17.15",
     "pg": "^7.12.1"
   },
@@ -46,8 +46,8 @@
     "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
     "ts-node": "^8.3.0",
-    "tslint": "^5.19.0",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.2"
+    "typescript": "^3.6.3"
   }
 }

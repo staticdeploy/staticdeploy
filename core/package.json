@@ -43,7 +43,7 @@
     "validator": "^11.1.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.1",
+    "@types/chai": "^4.2.2",
     "@types/chai-as-promised": "^7.1.2",
     "@types/cheerio": "^0.22.13",
     "@types/deep-equal-in-any-order": "^1.0.1",
@@ -64,9 +64,9 @@
     "sinon": "^7.4.2",
     "sinon-chai": "^3.3.0",
     "ts-node": "^8.3.0",
-    "tslint": "^5.19.0",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.2",
-    "vm2": "^3.8.3"
+    "typescript": "^3.6.3",
+    "vm2": "^3.8.4"
   }
 }
