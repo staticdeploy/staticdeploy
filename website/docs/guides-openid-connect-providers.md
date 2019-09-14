@@ -14,9 +14,10 @@ a client application in our identity provider. Each identity provider has its
 own way of creating the client application (a generally simple process), but in
 any case we'll need to:
 
-- set the **redirect (or callback) uri** to `https://$MANAGEMENT_HOSTNAME`,
-  where `MANAGEMENT_HOSTNAME` is the hostname we used when starting the
-  **staticdeploy** service
+- set `https://$MANAGEMENT_HOSTNAME/?oidcRedirect=true` AND
+  `https://$MANAGEMENT_HOSTNAME/?oidcSilentRedirect=true` as **redirect (or
+  callback) uri-s**, where `MANAGEMENT_HOSTNAME` is the hostname we used when
+  starting the **staticdeploy** service
 - enable the [implicit grant flow](https://oauth.net/2/grant-types/implicit/)
   (if not enabled by default)
 
