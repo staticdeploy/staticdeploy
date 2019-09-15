@@ -20,6 +20,7 @@ export default interface IUsecasesByName {
     getBundles: typeof sd.GetBundles;
     getBundlesByNameAndTag: typeof sd.GetBundlesByNameAndTag;
     getBundleTagsByBundleName: typeof sd.GetBundleTagsByBundleName;
+    getCurrentUser: typeof sd.GetCurrentUser;
     getEntrypoint: typeof sd.GetEntrypoint;
     getEntrypointsByAppId: typeof sd.GetEntrypointsByAppId;
     getGroup: typeof sd.GetGroup;

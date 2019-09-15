@@ -13,7 +13,9 @@ export default (convroute: IConvRouteWithBaseRequest): IConvRoute => ({
         ...convroute.responses,
         "400": { description: "Incorrect request params, validation failed" },
         "401": { description: "Authentication required" },
-        "403": { description: "Missing authorization roles" }
+        "403": {
+            description: "No user corresponding to idp user or missing roles"
+        }
     },
     handler: handleUsecaseErrors(convroute.handler)
 });
