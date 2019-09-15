@@ -1,7 +1,8 @@
 import * as sd from "@staticdeploy/core";
 import { IConvRoute } from "convexpress";
 
-const errorStatusMappings: [any, number][] = [
+type ErrorStatusMapping = [any, number];
+const errorStatusMappings: ErrorStatusMapping[] = [
     // Auth errors
     [sd.AuthenticationRequiredError, 401],
     [sd.NoUserCorrespondingToIdpUserError, 403],
@@ -40,6 +41,12 @@ const errorStatusMappings: [any, number][] = [
     [sd.GenericStoragesError, 500],
     [sd.StoragesInconsistencyError, 500]
 ];
+function findMatchingMapping(err: any): ErrorStatusMapping | null {
+    return (
+        errorStatusMappings.find(([ErrorClass]) => err instanceof ErrorClass) ||
+        null
+    );
+}
 
 export default (
     handler: IConvRoute["handler"]
@@ -47,12 +54,14 @@ export default (
     try {
         await (handler as any)(req, res);
     } catch (err) {
-        const matchingMapping = errorStatusMappings.find(
-            ([ErrorClass]) => err instanceof ErrorClass
-        );
+        const matchingMapping = findMatchingMapping(err);
         if (!matchingMapping) {
             throw err;
         }
-        res.status(matchingMapping[1]).send({ message: err.message });
+        const [ErrorClass, statusCode] = matchingMapping;
+        res.status(statusCode).send({
+            name: ErrorClass.name,
+            message: err.message
+        });
     }
 };
