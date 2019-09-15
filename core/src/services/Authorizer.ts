@@ -9,7 +9,7 @@ import { IUser, IUserWithRoles } from "../entities/User";
 import Authenticator from "./Authenticator";
 
 export default class Authorizer {
-    private user: IUserWithRoles | null = null;
+    private currentUser: IUserWithRoles | null = null;
 
     constructor(
         private users: IUsersStorage,
@@ -20,55 +20,56 @@ export default class Authorizer {
     // Misc
     async canSeeHealtCheckDetails(): Promise<boolean> {
         try {
-            await this.ensure();
+            await this.ensureAuthenticated();
             return true;
         } catch {
             return false;
         }
     }
-    getUser(): IUser | null {
-        return this.user;
+    async getCurrentUser(): Promise<IUser | null> {
+        await this.ensureAuthenticated();
+        return this.currentUser;
     }
 
     // Apps
     ensureCanCreateApp(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Root]));
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanUpdateApp(appId: string): Promise<void> {
-        return this.ensure(
+        return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
     ensureCanDeleteApp(appId: string): Promise<void> {
-        return this.ensure(
+        return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.AppManager, appId])
         );
     }
     ensureCanGetApps(): Promise<void> {
-        return this.ensure();
+        return this.ensureAuthenticated();
     }
 
     // Bundles
     ensureCanCreateBundle(bundleName: string): Promise<void> {
-        return this.ensure(
+        return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundleName])
         );
     }
     ensureCanDeleteBundles(bundlesName: string): Promise<void> {
-        return this.ensure(
+        return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([RoleName.BundleManager, bundlesName])
         );
     }
     ensureCanGetBundles(): Promise<void> {
-        return this.ensure();
+        return this.ensureAuthenticated();
     }
 
     // Entrypoints
@@ -76,7 +77,7 @@ export default class Authorizer {
         entrypointUrlMatcher: string,
         entrypointAppId: string
     ): Promise<void> {
-        return this.ensure(
+        return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 (this.matchesRole([RoleName.AppManager, entrypointAppId]) &&
@@ -87,7 +88,7 @@ export default class Authorizer {
         );
     }
     ensureCanUpdateEntrypoint(entrypointUrlMatcher: string): Promise<void> {
-        return this.ensure(
+        return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([
@@ -97,7 +98,7 @@ export default class Authorizer {
         );
     }
     ensureCanDeleteEntrypoint(entrypointUrlMatcher: string): Promise<void> {
-        return this.ensure(
+        return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([
@@ -107,44 +108,49 @@ export default class Authorizer {
         );
     }
     ensureCanGetEntrypoints(): Promise<void> {
-        return this.ensure();
+        return this.ensureAuthenticated();
     }
 
     // Groups
     ensureCanCreateGroup(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Root]));
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanUpdateGroup(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Root]));
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanDeleteGroup(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Root]));
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetGroups(): Promise<void> {
-        return this.ensure();
+        return this.ensureAuthenticated();
     }
 
     // Operation logs
     ensureCanGetOperationLogs(): Promise<void> {
-        return this.ensure();
+        return this.ensureAuthenticated();
     }
 
     // Users
     ensureCanCreateUser(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Root]));
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanUpdateUser(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Root]));
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanDeleteUser(): Promise<void> {
-        return this.ensure(() => this.matchesRole([RoleName.Root]));
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetUsers(): Promise<void> {
-        return this.ensure();
+        return this.ensureAuthenticated();
     }
 
-    private async ensure(hasRequiredRoles?: () => boolean): Promise<void> {
-        if (!this.enforceAuth) {
+    private async ensureAuthenticated(): Promise<void> {
+        if (
+            !this.enforceAuth ||
+            // If there is a user, this method was already called and made its
+            // checks, no need to re-do them
+            this.currentUser
+        ) {
             return;
         }
 
@@ -153,19 +159,28 @@ export default class Authorizer {
             throw new AuthenticationRequiredError();
         }
 
-        this.user = await this.users.findOneWithRolesByIdpAndIdpId(
+        this.currentUser = await this.users.findOneWithRolesByIdpAndIdpId(
             idpUser.idp,
             idpUser.id
         );
-        if (!this.user) {
+        if (!this.currentUser) {
             throw new NoUserCorrespondingToIdpUserError(idpUser);
         }
+    }
+    private async ensureAuthorized(
+        hasRequiredRoles: () => boolean
+    ): Promise<void> {
+        if (!this.enforceAuth) {
+            return;
+        }
+
+        await this.ensureAuthenticated();
 
         if (hasRequiredRoles && !hasRequiredRoles()) {
             throw new MissingRoleError();
         }
     }
     private matchesRole(targetRole: RoleTuple): boolean {
-        return oneOfRolesMatchesRole(this.user!.roles, targetRole);
+        return oneOfRolesMatchesRole(this.currentUser!.roles, targetRole);
     }
 }
