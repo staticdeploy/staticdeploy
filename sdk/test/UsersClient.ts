@@ -49,6 +49,23 @@ describe("UsersClient", () => {
         });
     });
 
+    describe("getCurrentUser", () => {
+        it("requests GET /currentUser", async () => {
+            const scope = nock(baseUrl)
+                .get("/currentUser")
+                .reply(200);
+            await staticdeployClient.users.getCurrentUser();
+            scope.done();
+        });
+        it("returns the user returned by the endpoint (the current user)", async () => {
+            nock(baseUrl)
+                .get("/currentUser")
+                .reply(200, {});
+            const user = await staticdeployClient.users.getCurrentUser();
+            expect(user).to.deep.equal({});
+        });
+    });
+
     describe("create", () => {
         it("requests POST /users", async () => {
             const scope = nock(baseUrl)

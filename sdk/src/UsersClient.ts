@@ -14,6 +14,11 @@ export default class UsersClient {
         return result.data;
     }
 
+    async getCurrentUser(): Promise<IUserWithGroups> {
+        const result = await this.axios.get("/currentUser");
+        return result.data;
+    }
+
     async create(user: {
         idp: IUser["idp"];
         idpId: IUser["idpId"];
