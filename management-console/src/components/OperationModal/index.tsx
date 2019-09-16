@@ -160,7 +160,7 @@ export default class OperationModal<Result> extends React.Component<
                     <Icon type="close-circle" />
                     {this.state.error && this.state.error.message}
                 </div>
-                <div>
+                <div className="c-OperationModal-footer-buttons">
                     <Button
                         onClick={this.closeModal}
                         disabled={operationStarted}
