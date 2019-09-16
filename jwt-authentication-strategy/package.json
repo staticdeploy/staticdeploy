@@ -27,7 +27,7 @@
     "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@panva/jose": "^1.9.1",
+    "@panva/jose": "^1.9.2",
     "@staticdeploy/core": "^0.13.0",
     "lodash": "^4.17.15"
   },
@@ -39,7 +39,7 @@
     "mocha": "^6.2.0",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
-    "ts-node": "^8.3.0",
+    "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.3"

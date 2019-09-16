@@ -22,7 +22,7 @@
     "compile": "rimraf build && BUILD_FOR_PRODUCTION=true docusaurus-build && node scripts/fixBuild.js"
   },
   "dependencies": {
-    "docusaurus": "^1.12.0"
+    "docusaurus": "^1.13.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
