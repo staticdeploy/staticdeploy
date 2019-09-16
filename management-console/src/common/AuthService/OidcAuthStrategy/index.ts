@@ -31,10 +31,10 @@ export default class OidcAuthStrategy implements IAuthStrategy {
 
     async init() {
         if (urlUtils.isRedirectPage()) {
-            await this.userManager.signinRedirectCallback().catch();
+            await this.userManager.signinRedirectCallback().catch(() => null);
         }
         if (urlUtils.isSilentRedirectPage()) {
-            await this.userManager.signinSilentCallback().catch();
+            await this.userManager.signinSilentCallback().catch(() => null);
         }
     }
 

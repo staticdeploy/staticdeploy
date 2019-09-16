@@ -1,4 +1,4 @@
-import { IAuthenticationStrategy } from "@staticdeploy/core/lib";
+import { IAuthenticationStrategy } from "@staticdeploy/core";
 
 export default async function setupAuthenticationStrategies(
     authenticationStrategies: IAuthenticationStrategy[]

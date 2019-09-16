@@ -20,10 +20,11 @@ export default class StaticdeployClient {
     public operationLogs: OperationLogsClient;
     public users: UsersClient;
     private axios: AxiosInstance;
+    private addAuthorizationHeaderInterceptorId: number | null = null;
 
     constructor(options: {
         apiUrl: string;
-        apiToken: string | null | (() => Promise<string | null>);
+        apiToken?: string | null | (() => Promise<string | null>);
     }) {
         this.axios = Axios.create({
             baseURL: options.apiUrl,
@@ -31,10 +32,11 @@ export default class StaticdeployClient {
             // Increase max request (and response) body length to 100MB
             maxContentLength: 100 * 1024 * 1024
         });
-        this.axios.interceptors.request.use(
-            addAuthorizationHeader(options.apiToken)
-        );
         this.axios.interceptors.response.use(parseDates(), convertErrors());
+
+        if (options.apiToken !== undefined) {
+            this.setApiToken(options.apiToken);
+        }
 
         this.apps = new AppsClient(this.axios);
         this.bundles = new BundlesClient(this.axios);
@@ -42,6 +44,19 @@ export default class StaticdeployClient {
         this.groups = new GroupsClient(this.axios);
         this.operationLogs = new OperationLogsClient(this.axios);
         this.users = new UsersClient(this.axios);
+    }
+
+    setApiToken(
+        apiToken: string | null | (() => Promise<string | null>)
+    ): void {
+        if (this.addAuthorizationHeaderInterceptorId !== null) {
+            this.axios.interceptors.request.eject(
+                this.addAuthorizationHeaderInterceptorId
+            );
+        }
+        this.addAuthorizationHeaderInterceptorId = this.axios.interceptors.request.use(
+            addAuthorizationHeader(apiToken)
+        );
     }
 
     async deploy(options: {

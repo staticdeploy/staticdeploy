@@ -12,6 +12,7 @@ import Logo from "../Logo";
 import "./index.css";
 import JwtLogin from "./JwtLogin";
 import OidcLogin from "./OidcLogin";
+import UserCreationInstructions from "./UserCreationInstructions";
 
 interface IProps {
     authService: AuthService;
@@ -27,6 +28,13 @@ export default class LoginMask extends React.Component<IProps> {
     }
     renderError(error: Error) {
         return <ErrorAlert message={error.message} />;
+    }
+    renderRequiresUserCreationError(requiresUserCreationError: Error) {
+        return (
+            <UserCreationInstructions
+                requiresUserCreationError={requiresUserCreationError}
+            />
+        );
     }
     renderLogins() {
         const { authService } = this.props;
@@ -57,6 +65,10 @@ export default class LoginMask extends React.Component<IProps> {
     renderLoginMask(authStatus: IStatus) {
         const content = authStatus.loginError
             ? this.renderError(authStatus.loginError!)
+            : authStatus.requiresUserCreation
+            ? this.renderRequiresUserCreationError(
+                  authStatus.requiresUserCreationError!
+              )
             : this.renderLogins();
         return (
             <div className="c-LoginMask">
@@ -82,7 +94,8 @@ export default class LoginMask extends React.Component<IProps> {
     render() {
         const { authService } = this.props;
         const authStatus = authService.getStatus();
-        return !authService.authEnforced || authStatus.isLoggedIn
+        return !authService.authEnforced ||
+            (authStatus.isLoggedIn && !authStatus.requiresUserCreation)
             ? this.props.children
             : this.renderLoginMask(authStatus);
     }

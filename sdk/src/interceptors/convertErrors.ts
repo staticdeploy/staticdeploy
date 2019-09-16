@@ -5,12 +5,19 @@ import StaticdeployClientError from "../StaticdeployClientError";
 export default function convertErrors() {
     return async (err: any) => {
         const responseStatusCode = get(err, "response.status");
+        const responseErrorName = get(err, "response.data.name");
         const responseErrorMessage = get(err, "response.data.message");
-        const message = responseStatusCode
+
+        const errorTitle = responseErrorName
+            ? responseErrorName
+            : responseStatusCode
+            ? `Error ${responseStatusCode}`
+            : "Error";
+        const errorDescription = responseErrorMessage
             ? responseErrorMessage
-                ? `Error ${responseStatusCode}: ${responseErrorMessage}`
-                : `Error ${responseStatusCode}`
             : err.message;
-        throw new StaticdeployClientError(message, err);
+        const errorMessage = `${errorTitle}: ${errorDescription}`;
+
+        throw new StaticdeployClientError(errorMessage, err);
     };
 }

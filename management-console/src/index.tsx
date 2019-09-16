@@ -11,7 +11,6 @@ import "./antdStyles";
 import AuthService from "./common/AuthService";
 import JwtAuthStrategy from "./common/AuthService/JwtAuthStrategy";
 import OidcAuthStrategy from "./common/AuthService/OidcAuthStrategy";
-import cacheFor from "./common/cacheFor";
 import StaticdeployClientContext from "./common/StaticdeployClientContext";
 import config from "./config";
 import "./index.css";
@@ -19,6 +18,10 @@ import reduxStore from "./reduxStore";
 import Root from "./Root";
 
 async function start() {
+    const staticdeployClient = new StaticdeployClient({
+        apiUrl: config.apiUrl
+    });
+
     const authService = new AuthService(
         config.authEnforced,
         compact([
@@ -31,7 +34,8 @@ async function start() {
                       config.oidcProviderName
                   )
                 : null
-        ])
+        ]),
+        staticdeployClient
     );
     await authService.init();
     if (OidcAuthStrategy.isSilentRedirectPage()) {
@@ -40,11 +44,6 @@ async function start() {
         // process
         return;
     }
-
-    const staticdeployClient = new StaticdeployClient({
-        apiUrl: config.apiUrl,
-        apiToken: cacheFor(authService.getAuthToken.bind(authService), 5000)
-    });
 
     const App = (
         <StaticdeployClientContext.Provider value={staticdeployClient}>

@@ -23,6 +23,23 @@ describe("interceptor convertErrors", () => {
     });
 
     describe("gives them a message as significant as possible", () => {
+        it("case: error response name and message available", async () => {
+            nock(baseUrl)
+                .get("/")
+                .reply(400, {
+                    name: "NamedError",
+                    message: "Response error message"
+                });
+            const axios = Axios.create({ baseURL: baseUrl });
+            axios.interceptors.response.use(undefined, convertErrors());
+            const getPromise = axios.get("/");
+            await expect(getPromise).to.be.rejectedWith(
+                StaticdeployClientError
+            );
+            await expect(getPromise).to.be.rejectedWith(
+                "NamedError: Response error message"
+            );
+        });
         it("case: error response status code and message available", async () => {
             nock(baseUrl)
                 .get("/")
@@ -59,7 +76,7 @@ describe("interceptor convertErrors", () => {
             await expect(getPromise).to.be.rejectedWith(
                 StaticdeployClientError
             );
-            await expect(getPromise).to.be.rejectedWith("Generic error");
+            await expect(getPromise).to.be.rejectedWith("Error: Generic error");
         });
     });
 });
