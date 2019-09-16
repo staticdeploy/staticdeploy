@@ -30,7 +30,7 @@ function getAuthorizerForUser(user: any) {
 describe("service Authorizer", () => {
     // General
     describe("ensure* methods", () => {
-        it("don't throw anything if enforceAuth = false", async () => {
+        it("don't throw anything when enforceAuth = false", async () => {
             const deps = getMockDependencies();
             const authorizer = new Authorizer(
                 deps.storages.users,
@@ -39,7 +39,7 @@ describe("service Authorizer", () => {
             );
             await authorizer.ensureCanCreateApp();
         });
-        it("throw AuthenticationRequiredError if the request is not authenticated", async () => {
+        it("throw AuthenticationRequiredError when the request is not authenticated", async () => {
             const deps = getMockDependencies();
             const authorizer = new Authorizer(
                 deps.storages.users,
@@ -51,7 +51,7 @@ describe("service Authorizer", () => {
                 AuthenticationRequiredError
             );
         });
-        it("throw UserNotFoundError if no user corresponds to the request idp user", async () => {
+        it("throw UserNotFoundError when no user corresponds to the request idp user", async () => {
             const deps = getMockDependencies();
             const authorizer = new Authorizer(
                 deps.storages.users,
@@ -62,6 +62,50 @@ describe("service Authorizer", () => {
             await expect(ensurePromise).to.be.rejectedWith(
                 NoUserCorrespondingToIdpUserError
             );
+        });
+    });
+
+    // Misc
+    describe("getCurrentUser", () => {
+        it("returns null when enforceAuth = false", async () => {
+            const deps = getMockDependencies();
+            const authorizer = new Authorizer(
+                deps.storages.users,
+                getMockAuthenticator(null),
+                false
+            );
+            const currentUser = await authorizer.getCurrentUser();
+            expect(currentUser).to.equal(null);
+        });
+        it("throws AuthenticationRequiredError when the request is not authenticated", async () => {
+            const deps = getMockDependencies();
+            const authorizer = new Authorizer(
+                deps.storages.users,
+                getMockAuthenticator(null),
+                true
+            );
+            const getCurrentUserPromise = authorizer.getCurrentUser();
+            await expect(getCurrentUserPromise).to.be.rejectedWith(
+                AuthenticationRequiredError
+            );
+        });
+        it("throws UserNotFoundError when no user corresponds to the request idp user", async () => {
+            const deps = getMockDependencies();
+            const authorizer = new Authorizer(
+                deps.storages.users,
+                getMockAuthenticator({ id: "id", idp: "idp" }),
+                true
+            );
+            const getCurrentUserPromise = authorizer.getCurrentUser();
+            await expect(getCurrentUserPromise).to.be.rejectedWith(
+                NoUserCorrespondingToIdpUserError
+            );
+        });
+        it("returns the request user", async () => {
+            const user = { id: "id", roles: [] };
+            const authorizer = getAuthorizerForUser(user);
+            const currentUser = await authorizer.getCurrentUser();
+            expect(currentUser).to.deep.equal(user);
         });
     });
 

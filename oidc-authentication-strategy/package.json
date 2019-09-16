@@ -27,23 +27,23 @@
     "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@panva/jose": "^1.9.0",
+    "@panva/jose": "^1.9.2",
     "@staticdeploy/core": "^0.13.0",
     "axios": "^0.19.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.1",
+    "@types/chai": "^4.2.2",
     "@types/chai-as-promised": "^7.1.2",
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^6.2.0",
-    "nock": "^11.3.3",
+    "nock": "^11.3.4",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.19.0",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.2"
+    "typescript": "^3.6.3"
   }
 }

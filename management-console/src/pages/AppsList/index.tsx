@@ -3,7 +3,6 @@ import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import staticdeploy from "../../common/staticdeployClient";
 import { withData } from "../../components/DataFetcher";
 import LinksList from "../../components/LinksList";
 import ODItem from "../../components/OperationsDropdown/Item";
@@ -46,7 +45,7 @@ class AppsList extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: () => staticdeploy.apps.getAll(),
+    fetchData: staticdeploy => staticdeploy.apps.getAll(),
     // Refetch when:
     shouldRefetch: (oldProps, newProps) =>
         // - the user was on the app detail page, and switched to the apps list

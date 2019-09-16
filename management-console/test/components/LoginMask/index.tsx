@@ -15,7 +15,8 @@ describe("LoginMask", () => {
         offStatusChange: sinon.stub(),
         getStatus: sinon.stub(),
         authEnforced: true,
-        hasAuthStrategy: sinon.stub()
+        hasAuthStrategy: sinon.stub(),
+        getStrategyDisplayName: sinon.stub()
     });
 
     describe("when the user is not logged in", () => {
@@ -25,6 +26,7 @@ describe("LoginMask", () => {
             mockAuthService.getStatus.returns({
                 authToken: null,
                 isLoggingIn: false,
+                isLoggedIn: false,
                 loginError: null
             });
             const loginMask = shallow(
@@ -39,6 +41,7 @@ describe("LoginMask", () => {
             mockAuthService.getStatus.returns({
                 authToken: null,
                 isLoggingIn: false,
+                isLoggedIn: false,
                 loginError: null
             });
             const loginMask = shallow(
@@ -53,12 +56,14 @@ describe("LoginMask", () => {
         mockAuthService.getStatus.returns({
             authToken: null,
             isLoggingIn: true,
+            isLoggedIn: false,
             loginError: null
         });
         const loginMask = shallow(
             <LoginMask authService={mockAuthService as any} />
         );
         expect(loginMask.find(Spin)).to.have.length(1);
+        expect(loginMask.find(Spin).prop("spinning")).to.equal(true);
     });
 
     it("when an error occurred logging in, renders an error message", () => {
@@ -66,6 +71,7 @@ describe("LoginMask", () => {
         mockAuthService.getStatus.returns({
             authToken: null,
             isLoggingIn: false,
+            isLoggedIn: false,
             loginError: new Error("Error logging in")
         });
         const loginMask = shallow(
@@ -81,6 +87,7 @@ describe("LoginMask", () => {
         mockAuthService.getStatus.returns({
             authToken: null,
             isLoggingIn: false,
+            isLoggedIn: true,
             loginError: null
         });
         mockAuthService.authEnforced = false;
@@ -97,6 +104,7 @@ describe("LoginMask", () => {
         mockAuthService.getStatus.returns({
             authToken: "authToken",
             isLoggingIn: false,
+            isLoggedIn: true,
             loginError: null
         });
         const loginMask = shallow(

@@ -21,6 +21,7 @@ const usecases: IUsecasesByName = {
     getBundles: sd.GetBundles,
     getBundlesByNameAndTag: sd.GetBundlesByNameAndTag,
     getBundleTagsByBundleName: sd.GetBundleTagsByBundleName,
+    getCurrentUser: sd.GetCurrentUser,
     getEntrypoint: sd.GetEntrypoint,
     getEntrypointsByAppId: sd.GetEntrypointsByAppId,
     getGroup: sd.GetGroup,

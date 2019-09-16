@@ -15,6 +15,13 @@ export class AuthenticationRequiredError extends Error {
         super("This operation requires the request to be authenticated");
     }
 }
+export class NoUserCorrespondingToIdpUserError extends Error {
+    constructor(idpUser: IIdpUser) {
+        super(
+            `Access denied. To gain access, ask an admin to create a user with idp = ${idpUser.idp} and idpId = ${idpUser.id}`
+        );
+    }
+}
 export class MissingRoleError extends Error {
     constructor() {
         super(
@@ -168,13 +175,6 @@ export class RoleNotValidError extends Error {
 export class UserNotFoundError extends Error {
     constructor(id: string) {
         super(`No user found with id = ${id}`);
-    }
-}
-export class NoUserCorrespondingToIdpUserError extends Error {
-    constructor(idpUser: IIdpUser) {
-        super(
-            `Access denied. To gain access, ask an admin to create a user with idp = ${idpUser.idp} and idpId = ${idpUser.id}`
-        );
     }
 }
 export class ConflictingUserError extends Error {

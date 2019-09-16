@@ -1,19 +1,22 @@
 import { IUser, IUserWithGroups } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
-import parseDates from "./parseDates";
-
 export default class UsersClient {
     constructor(private axios: AxiosInstance) {}
 
     async getAll(): Promise<IUser[]> {
         const result = await this.axios.get("/users");
-        return result.data.map(parseDates);
+        return result.data;
     }
 
     async getOne(id: string): Promise<IUserWithGroups> {
         const result = await this.axios.get(`/users/${id}`);
-        return parseDates(result.data);
+        return result.data;
+    }
+
+    async getCurrentUser(): Promise<IUserWithGroups> {
+        const result = await this.axios.get("/currentUser");
+        return result.data;
     }
 
     async create(user: {
@@ -24,7 +27,7 @@ export default class UsersClient {
         groupsIds: string[];
     }): Promise<IUser> {
         const result = await this.axios.post("/users", user);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async update(
@@ -35,7 +38,7 @@ export default class UsersClient {
         }
     ): Promise<IUser> {
         const result = await this.axios.patch(`/users/${id}`, patch);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async delete(id: string): Promise<void> {

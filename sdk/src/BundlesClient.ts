@@ -1,8 +1,6 @@
 import { IBundle } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
-import parseDates from "./parseDates";
-
 export default class BundlesClient {
     constructor(private axios: AxiosInstance) {}
 
@@ -20,19 +18,19 @@ export default class BundlesClient {
         const result = await this.axios.get(
             `/bundleNames/${name}/bundleTags/${tag}/bundles`
         );
-        return result.data.map(parseDates);
+        return result.data;
     }
 
     async getAll(): Promise<
         Pick<IBundle, "id" | "name" | "tag" | "createdAt">[]
     > {
         const result = await this.axios.get("/bundles");
-        return result.data.map(parseDates);
+        return result.data;
     }
 
     async getOne(id: string): Promise<IBundle> {
         const result = await this.axios.get(`/bundles/${id}`);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async create(bundle: {
@@ -50,7 +48,7 @@ export default class BundlesClient {
         };
     }): Promise<IBundle> {
         const result = await this.axios.post("/bundles", bundle);
-        return parseDates(result.data);
+        return result.data;
     }
 
     async deleteByNameAndTag(name: string, tag: string): Promise<void> {

@@ -8,7 +8,7 @@ import {
     IConverterForm,
     reduxForm
 } from "../../common/formWithValuesConverter";
-import staticdeploy from "../../common/staticdeployClient";
+import StaticdeployClientContext from "../../common/StaticdeployClientContext";
 import BundleIdField from "../BundleIdField";
 import ConfigurationField from "../ConfigurationField";
 import TextField from "../TextField";
@@ -29,6 +29,8 @@ class EntrypointForm extends React.Component<
     IProps & InjectedFormProps<IInternalFormValues>,
     IState
 > {
+    static contextType = StaticdeployClientContext;
+    context!: React.ContextType<typeof StaticdeployClientContext>;
     state = { bundles: [], loadingBundles: false, errorLoadingBundles: null };
 
     async componentDidMount() {
@@ -38,6 +40,7 @@ class EntrypointForm extends React.Component<
             errorLoadingBundles: null
         });
         try {
+            const staticdeploy = this.context!;
             const bundles = await staticdeploy.bundles.getAll();
             this.setState({
                 bundles: bundles,

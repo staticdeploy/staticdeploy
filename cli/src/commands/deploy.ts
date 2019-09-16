@@ -49,7 +49,7 @@ const command: CommandModule<any, any> = {
     handler: handleCommandHandlerErrors(async (argv: IArgv) => {
         const client = new StaticdeployClient({
             apiUrl: argv.apiUrl,
-            apiToken: argv.apiToken
+            apiToken: argv.apiToken || null
         });
 
         await client.deploy({

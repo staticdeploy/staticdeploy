@@ -1,9 +1,9 @@
 import { IUser } from "@staticdeploy/core";
+import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import BaseOperationModal from "../../components/OperationModal";
 
 class OperationModal extends BaseOperationModal<void> {}
@@ -15,7 +15,8 @@ interface IProps {
 }
 
 export default class UserDeleteOperationModal extends React.Component<IProps> {
-    deleteUser = () => staticdeploy.users.delete(this.props.user.id);
+    deleteUser = (staticdeploy: StaticdeployClient) =>
+        staticdeploy.users.delete(this.props.user.id);
     goToUsersList = () => this.props.history.push("/users");
     render() {
         return (

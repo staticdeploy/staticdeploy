@@ -1,6 +1,8 @@
+import StaticdeployClient from "@staticdeploy/sdk";
 import Spin from "antd/lib/spin";
 import React from "react";
 
+import StaticdeployClientContext from "../../common/StaticdeployClientContext";
 import ErrorAlert from "../ErrorAlert";
 import "./index.css";
 
@@ -10,7 +12,10 @@ interface IAddedProps<FecthDataResult> {
 }
 
 interface IProps<FecthDataResult, ProxiedProps> {
-    fetchData: (proxiedProps: ProxiedProps) => Promise<FecthDataResult>;
+    fetchData: (
+        staticdeploy: StaticdeployClient,
+        proxiedProps: ProxiedProps
+    ) => Promise<FecthDataResult>;
     spinnerSize?: "small" | "default" | "large";
     spinnerTip?: string;
     shouldRefetch?: (
@@ -39,25 +44,26 @@ export default class DataFetcher<
     IProps<FecthDataResult, ProxiedProps>,
     IState<FecthDataResult>
 > {
+    static contextType = StaticdeployClientContext;
+    context!: React.ContextType<typeof StaticdeployClientContext>;
     state: IState<FecthDataResult> = {
         status: FetchStatus.STARTED,
         result: null,
         error: null
     };
-    componentWillMount() {
+    componentDidMount() {
         this.fetchData(this.props);
     }
-    componentWillReceiveProps(
-        nextProps: IProps<FecthDataResult, ProxiedProps>
-    ) {
+    componentDidUpdate(previousProps: IProps<FecthDataResult, ProxiedProps>) {
         if (
-            nextProps.shouldRefetch &&
-            nextProps.shouldRefetch(
-                this.props.proxiedProps,
-                nextProps.proxiedProps
+            previousProps !== this.props &&
+            this.props.shouldRefetch &&
+            this.props.shouldRefetch(
+                previousProps.proxiedProps,
+                this.props.proxiedProps
             )
         ) {
-            this.fetchData(nextProps);
+            this.fetchData(this.props);
         }
     }
     async fetchData(props: IProps<FecthDataResult, ProxiedProps>) {
@@ -67,7 +73,10 @@ export default class DataFetcher<
                 result: null,
                 error: null
             });
-            const result = await props.fetchData(props.proxiedProps);
+            const result = await props.fetchData(
+                this.context!,
+                props.proxiedProps
+            );
             this.setState({
                 status: FetchStatus.SUCCEEDED,
                 result: result,

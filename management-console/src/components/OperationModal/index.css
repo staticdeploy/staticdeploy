@@ -23,18 +23,25 @@
 
 .c-OperationModal-footer {
     display: flex;
-    align-items: center;
+    align-items: top;
     justify-content: space-between;
 }
 
 .c-OperationModal-footer-error {
+    display: flex;
+    align-items: center;
     visibility: hidden;
+    text-align: left;
     color: var(--red-6);
 }
 .c-OperationModal-has-error .c-OperationModal-footer-error {
     visibility: visible;
 }
-
 .c-OperationModal-footer-error .anticon {
     margin-right: 8px;
+}
+
+/* Ensure buttons are always displayed side by side (not one over the other) */
+.c-OperationModal-footer-buttons {
+    min-width: 180px;
 }

@@ -2,7 +2,6 @@ import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import staticdeploy from "../../common/staticdeployClient";
 import { withData } from "../../components/DataFetcher";
 import LinksList from "../../components/LinksList";
 import Page from "../../components/Page";
@@ -42,7 +41,7 @@ class BundleTagsList extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: props =>
+    fetchData: (staticdeploy, props) =>
         staticdeploy.bundles.getTagsByName(props.match.params.bundleName),
     // Refetch when:
     shouldRefetch: (oldProps, newProps) =>

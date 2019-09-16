@@ -5,9 +5,10 @@ import nock from "nock";
 import StaticdeployClient from "../src";
 
 const baseUrl = "http://localhost";
-const staticdeployClient = new StaticdeployClient({ apiUrl: baseUrl });
-const unixEpoch = new Date(0);
-const unixEpochISO = unixEpoch.toISOString();
+const staticdeployClient = new StaticdeployClient({
+    apiUrl: baseUrl,
+    apiToken: null
+});
 
 beforeEach(() => {
     nock.cleanAll();
@@ -29,17 +30,6 @@ describe("UsersClient", () => {
             const users = await staticdeployClient.users.getAll();
             expect(users).to.deep.equal([]);
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/users")
-                .reply(200, [
-                    { createdAt: unixEpochISO, updatedAt: unixEpochISO }
-                ]);
-            const users = await staticdeployClient.users.getAll();
-            expect(users).to.deep.equal([
-                { createdAt: unixEpoch, updatedAt: unixEpoch }
-            ]);
-        });
     });
 
     describe("getOne", () => {
@@ -57,18 +47,22 @@ describe("UsersClient", () => {
             const user = await staticdeployClient.users.getOne("id");
             expect(user).to.deep.equal({});
         });
-        it("inflates dates", async () => {
+    });
+
+    describe("getCurrentUser", () => {
+        it("requests GET /currentUser", async () => {
+            const scope = nock(baseUrl)
+                .get("/currentUser")
+                .reply(200);
+            await staticdeployClient.users.getCurrentUser();
+            scope.done();
+        });
+        it("returns the user returned by the endpoint (the current user)", async () => {
             nock(baseUrl)
-                .get("/users/id")
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const user = await staticdeployClient.users.getOne("id");
-            expect(user).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
+                .get("/currentUser")
+                .reply(200, {});
+            const user = await staticdeployClient.users.getCurrentUser();
+            expect(user).to.deep.equal({});
         });
     });
 
@@ -105,25 +99,6 @@ describe("UsersClient", () => {
             });
             expect(user).to.deep.equal({});
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .post("/users")
-                .reply(201, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const user = await staticdeployClient.users.create({
-                idp: "idp",
-                idpId: "idpId",
-                type: UserType.Human,
-                name: "name",
-                groupsIds: []
-            });
-            expect(user).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
-        });
     });
 
     describe("update", () => {
@@ -142,21 +117,6 @@ describe("UsersClient", () => {
                 name: "new-name"
             });
             expect(user).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .patch("/users/id")
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO
-                });
-            const user = await staticdeployClient.users.update("id", {
-                name: "new-name"
-            });
-            expect(user).to.deep.equal({
-                createdAt: unixEpoch,
-                updatedAt: unixEpoch
-            });
         });
     });
 

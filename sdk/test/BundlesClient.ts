@@ -4,9 +4,10 @@ import nock from "nock";
 import StaticdeployClient from "../src";
 
 const baseUrl = "http://localhost";
-const staticdeployClient = new StaticdeployClient({ apiUrl: baseUrl });
-const unixEpoch = new Date(0);
-const unixEpochISO = unixEpoch.toISOString();
+const staticdeployClient = new StaticdeployClient({
+    apiUrl: baseUrl,
+    apiToken: null
+});
 
 beforeEach(() => {
     nock.cleanAll();
@@ -67,16 +68,6 @@ describe("BundlesClient", () => {
             );
             expect(bundles).to.deep.equal([]);
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/bundleNames/0/bundleTags/0/bundles")
-                .reply(200, [{ createdAt: unixEpochISO }]);
-            const bundles = await staticdeployClient.bundles.getByNameAndTag(
-                "0",
-                "0"
-            );
-            expect(bundles).to.deep.equal([{ createdAt: unixEpoch }]);
-        });
     });
 
     describe("getAll", () => {
@@ -94,13 +85,6 @@ describe("BundlesClient", () => {
             const bundles = await staticdeployClient.bundles.getAll();
             expect(bundles).to.deep.equal([]);
         });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/bundles")
-                .reply(200, [{ createdAt: unixEpochISO }]);
-            const bundles = await staticdeployClient.bundles.getAll();
-            expect(bundles).to.deep.equal([{ createdAt: unixEpoch }]);
-        });
     });
 
     describe("getOne", () => {
@@ -117,13 +101,6 @@ describe("BundlesClient", () => {
                 .reply(200, {});
             const bundle = await staticdeployClient.bundles.getOne("id");
             expect(bundle).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .get("/bundles/id")
-                .reply(200, { createdAt: unixEpochISO });
-            const bundle = await staticdeployClient.bundles.getOne("id");
-            expect(bundle).to.deep.equal({ createdAt: unixEpoch });
         });
     });
 
@@ -165,21 +142,6 @@ describe("BundlesClient", () => {
                 headers: {}
             });
             expect(bundle).to.deep.equal({});
-        });
-        it("inflates dates", async () => {
-            nock(baseUrl)
-                .post("/bundles")
-                .reply(201, { createdAt: unixEpochISO });
-            const bundle = await staticdeployClient.bundles.create({
-                name: "name",
-                tag: "tag",
-                description: "description",
-                content: "content",
-                fallbackAssetPath: "/fallback",
-                fallbackStatusCode: 200,
-                headers: {}
-            });
-            expect(bundle).to.deep.equal({ createdAt: unixEpoch });
         });
     });
 

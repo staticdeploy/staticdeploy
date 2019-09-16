@@ -2,7 +2,6 @@ import { IGroup, IUserWithGroups } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import staticdeploy from "../../common/staticdeployClient";
 import { withData } from "../../components/DataFetcher";
 import LinksList from "../../components/LinksList";
 import ODItem from "../../components/OperationsDropdown/Item";
@@ -75,7 +74,7 @@ class UserDetail extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: async props => {
+    fetchData: async (staticdeploy, props) => {
         const { userId } = props.match.params;
         const [groups, user] = await Promise.all([
             staticdeploy.groups.getAll(),

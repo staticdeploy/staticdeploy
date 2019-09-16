@@ -31,6 +31,7 @@ export {
 export {
     default as GetBundleTagsByBundleName
 } from "./usecases/GetBundleTagsByBundleName";
+export { default as GetCurrentUser } from "./usecases/GetCurrentUser";
 export { default as GetEntrypoint } from "./usecases/GetEntrypoint";
 export {
     default as GetEntrypointsByAppId

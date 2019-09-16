@@ -43,12 +43,12 @@
     "yargs": "^14.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.1",
+    "@types/chai": "^4.2.2",
     "@types/chai-as-promised": "^7.1.2",
     "@types/deep-equal-in-any-order": "^1.0.1",
     "@types/fs-extra": "^8.0.0",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.4",
+    "@types/node": "^12.7.5",
     "@types/sinon": "^7.0.13",
     "@types/sinon-chai": "^3.2.3",
     "@types/yargs": "^13.0.2",
@@ -61,9 +61,9 @@
     "rimraf": "^3.0.0",
     "sinon": "^7.4.2",
     "sinon-chai": "^3.3.0",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.19.0",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.2"
+    "typescript": "^3.6.3"
   }
 }

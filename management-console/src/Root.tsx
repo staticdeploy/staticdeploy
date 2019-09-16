@@ -2,12 +2,9 @@ import Layout from "antd/lib/layout";
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
-import authService from "./common/authService";
+import AuthService from "./common/AuthService";
 import LoginMask from "./components/LoginMask";
-import Logo from "./components/Logo";
-import LogoutButton from "./components/LogoutButton";
-import SiderNav from "./components/SiderNav";
-import { OIDC_PROVIDER_NAME } from "./config";
+import Sider from "./components/Sider";
 import Apps from "./pages/Apps";
 import Bundles from "./pages/Bundles";
 import Groups from "./pages/Groups";
@@ -15,29 +12,18 @@ import OperationLogs from "./pages/OperationLogs";
 import Users from "./pages/Users";
 import "./Root.css";
 
-export default class Root extends React.Component {
+interface IProps {
+    authService: AuthService;
+}
+export default class Root extends React.Component<IProps> {
     render() {
         return (
-            <LoginMask
-                authService={authService}
-                oidcProviderName={OIDC_PROVIDER_NAME}
-            >
+            <LoginMask authService={this.props.authService}>
                 <Layout className="c-Root">
-                    <Layout.Sider
+                    <Sider
                         className="c-Root-sider"
-                        collapsible={true}
-                        collapsed={true}
-                        collapsedWidth={64}
-                        trigger={null}
-                    >
-                        <div className="c-Root-logo-container">
-                            <Logo withShadow={false} />
-                        </div>
-                        <SiderNav />
-                        <div className="c-Root-logout-button-container">
-                            <LogoutButton authService={authService} />
-                        </div>
-                    </Layout.Sider>
+                        authService={this.props.authService}
+                    />
                     <Layout.Content className="c-Root-content">
                         <Route
                             path="/"

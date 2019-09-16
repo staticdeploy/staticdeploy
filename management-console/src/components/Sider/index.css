@@ -1,0 +1,47 @@
+/* Use custom colors for the sider and menu items */
+.c-Sider,
+.c-Sider .c-SiderNav {
+    background-color: var(--black);
+}
+.c-Sider .c-SiderNav .ant-menu-item-selected {
+    background-color: var(--primary-blue);
+}
+
+/* Make the logout button turn white on hover, like other menu items */
+.c-Sider-logout-button-container {
+    color: var(--grey-4);
+    transition: all 0.3s ease;
+}
+.c-Sider-logout-button-container:hover {
+    color: var(--white);
+}
+
+/* Pad elements in the sider */
+.c-Sider-logo-container {
+    padding: 5px;
+}
+.c-Sider .c-SiderNav .ant-menu-item {
+    padding: 0px 24px !important;
+}
+
+/* Position elements in the sider */
+.c-Sider {
+    min-height: 100vh;
+}
+.c-Sider-logo-container {
+    position: fixed;
+    top: 10px;
+    width: 64px;
+    height: 64px;
+}
+.c-Sider .c-SiderNav {
+    position: fixed;
+    top: 84px;
+    width: 64px;
+}
+.c-Sider-logout-button-container {
+    position: fixed;
+    bottom: 0px;
+    width: 64px;
+    height: 64px;
+}

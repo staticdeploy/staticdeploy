@@ -1,8 +1,8 @@
 import { IEntrypoint } from "@staticdeploy/core";
+import StaticdeployClient from "@staticdeploy/sdk";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import EntrypointForm, {
     IEntrypointFormInstance
 } from "../../components/EntrypointForm";
@@ -20,7 +20,7 @@ export default class EntrypointEditOperationModal extends React.Component<
     IProps
 > {
     form!: IEntrypointFormInstance;
-    editEntrypoint = () => {
+    editEntrypoint = (staticdeploy: StaticdeployClient) => {
         if (!this.form.isValid()) {
             this.form.submit();
             throw new Error("Invalid form data");

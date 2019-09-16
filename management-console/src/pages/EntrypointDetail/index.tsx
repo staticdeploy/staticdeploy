@@ -2,7 +2,6 @@ import { IApp, IBundle, IEntrypoint } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import staticdeploy from "../../common/staticdeployClient";
 import ConfigurationFieldRO from "../../components/ConfigurationFieldRO";
 import { withData } from "../../components/DataFetcher";
 import ODItem from "../../components/OperationsDropdown/Item";
@@ -98,7 +97,7 @@ class EntrypointDetail extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: async props => {
+    fetchData: async (staticdeploy, props) => {
         const { appId, entrypointId } = props.match.params;
         const [app, entrypoint] = await Promise.all([
             staticdeploy.apps.getOne(appId),

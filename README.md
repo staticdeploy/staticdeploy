@@ -31,6 +31,10 @@ This is the StaticDeploy monorepo, which includes several different projects:
 - [storages-test-suite](./storages-test-suite): test suite for storages
 - [tar-archiver](./tar-archiver): implementation of the core `IArchiver`
   interface using tar
+- [jwt-authentication-strategy](./jwt-authentication-strategy): authentication
+  strategy for authenticating requests with JWT tokens
+- [oidc-authentication-strategy](./oidc-authentication-strategy): authentication
+  strategy for authenticating requests with OpenID Connect tokens
 - [http-adapters](./http-adapters): adapters that implement an http API for
   StaticDeploy's core usecases
 - [serve-static](./server-static): express middleware for serving files in a

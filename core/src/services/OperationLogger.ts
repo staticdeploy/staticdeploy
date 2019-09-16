@@ -13,7 +13,7 @@ export default class OperationLogger {
         operation: Operation,
         parameters: IOperationLog["parameters"]
     ): Promise<void> {
-        const user = this.authorizer.getUser();
+        const user = await this.authorizer.getCurrentUser();
         await this.operationLogs.createOne({
             id: generateId(),
             operation: operation,

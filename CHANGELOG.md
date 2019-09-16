@@ -1,3 +1,15 @@
+## 0.13.1 (September 16, 2019)
+
+Features:
+
+- refresh OpenID Connect auth token automatically (when possible)
+- improve login error message telling a would-be user that they need to be
+  registered as a user before being able to login
+
+Fixes:
+
+- fix styling of long errors in Management Console operation modals
+
 ## 0.13.0 (September 11, 2019)
 
 Features:

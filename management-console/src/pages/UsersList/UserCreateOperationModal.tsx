@@ -1,9 +1,9 @@
 import { IGroup, IUser } from "@staticdeploy/core";
+import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
-import staticdeploy from "../../common/staticdeployClient";
 import BaseOperationModal from "../../components/OperationModal";
 import UserForm, { IUserFormInstance } from "../../components/UserForm";
 
@@ -18,7 +18,7 @@ interface IProps {
 
 export default class UserCreateOperationModal extends React.Component<IProps> {
     form!: IUserFormInstance;
-    createUser = () => {
+    createUser = (staticdeploy: StaticdeployClient) => {
         if (!this.form.isValid()) {
             this.form.submit();
             throw new Error("Invalid form data");

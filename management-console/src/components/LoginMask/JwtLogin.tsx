@@ -9,13 +9,16 @@ import TextField from "../TextField";
 interface IFormValues {
     jwt: string;
 }
+interface IJwtLoginFormProps {
+    strategyDisplayName: string;
+}
 class WrappedJwtLoginForm extends React.Component<
-    InjectedFormProps<IFormValues>
+    IJwtLoginFormProps & InjectedFormProps<IFormValues>
 > {
     render() {
+        const { handleSubmit, strategyDisplayName } = this.props;
         return (
-            <form onSubmit={this.props.handleSubmit}>
-                <h4>{"Login with JWT"}</h4>
+            <form onSubmit={handleSubmit}>
                 <TextField
                     className="c-LoginMask-JwtLoginForm-text-field"
                     placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp..."
@@ -24,13 +27,13 @@ class WrappedJwtLoginForm extends React.Component<
                     addonBefore={<Icon type="key" rotate={180} />}
                 />
                 <Button className="c-LoginMask-login-button" htmlType="submit">
-                    {"Login"}
+                    {`Login with ${strategyDisplayName}`}
                 </Button>
             </form>
         );
     }
 }
-const JwtLoginForm = reduxForm<IFormValues, IFormValues>({
+const JwtLoginForm = reduxForm<IFormValues, IFormValues, IJwtLoginFormProps>({
     form: "JwtLogin",
     touchOnBlur: false,
     validate: formValues => (!formValues.jwt ? { jwt: "Required" } : {})
@@ -38,6 +41,7 @@ const JwtLoginForm = reduxForm<IFormValues, IFormValues>({
 
 interface IProps {
     onLogin: (jwt: string) => any;
+    strategyDisplayName: string;
 }
 export default class JwtLogin extends React.Component<IProps> {
     render() {
@@ -46,6 +50,7 @@ export default class JwtLogin extends React.Component<IProps> {
                 onSubmit={({ jwt }) => {
                     this.props.onLogin(jwt);
                 }}
+                strategyDisplayName={this.props.strategyDisplayName}
             />
         );
     }

@@ -1,6 +1,5 @@
 import React from "react";
 
-import staticdeploy from "../../common/staticdeployClient";
 import { withData } from "../../components/DataFetcher";
 import LinksList from "../../components/LinksList";
 import Page from "../../components/Page";
@@ -34,7 +33,7 @@ class BundleNamesList extends React.Component<IProps> {
 }
 
 export default withData({
-    fetchData: () => staticdeploy.bundles.getNames(),
+    fetchData: staticdeploy => staticdeploy.bundles.getNames(),
     spinnerSize: "large",
     spinnerTip: "Fetching bundle names...",
     Component: BundleNamesList
