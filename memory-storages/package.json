@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/memory-storages",
   "description": "In-memory storages for StaticDeploy",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "publishConfig": {
     "access": "public"
   },
@@ -29,11 +29,11 @@
     "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.13.1",
+    "@staticdeploy/core": "^0.13.2",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@staticdeploy/storages-test-suite": "^0.13.1",
+    "@staticdeploy/storages-test-suite": "^0.13.2",
     "@types/lodash": "^4.14.138",
     "mocha": "^6.2.0",
     "prettier": "^1.18.2",

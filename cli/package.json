@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/cli",
   "description": "CLI tool for StaticDeploy",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "publishConfig": {
     "access": "public"
   },
@@ -35,9 +35,9 @@
     "docker:push": "docker push staticdeploy/cli"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.13.1",
-    "@staticdeploy/sdk": "^0.13.1",
-    "@staticdeploy/tar-archiver": "^0.13.1",
+    "@staticdeploy/core": "^0.13.2",
+    "@staticdeploy/sdk": "^0.13.2",
+    "@staticdeploy/tar-archiver": "^0.13.2",
     "chalk": "^2.4.2",
     "fs-extra": "^8.1.0",
     "yargs": "^14.0.0"
