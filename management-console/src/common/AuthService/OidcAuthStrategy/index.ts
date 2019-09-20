@@ -1,6 +1,7 @@
 import { UserManager, WebStorageStateStore } from "oidc-client";
 
 import IAuthStrategy from "../IAuthStrategy";
+import getLoginHint from "./getLoginHint";
 import isAuthTokenExpired from "./isAuthTokenExpired";
 import * as urlUtils from "./urlUtils";
 
@@ -23,7 +24,7 @@ export default class OidcAuthStrategy implements IAuthStrategy {
             client_id: clientId,
             redirect_uri: urlUtils.getRedirectUrl(baseRedirectUrl),
             silent_redirect_uri: urlUtils.getSilentRedirectUrl(baseRedirectUrl),
-            loadUserInfo: false,
+            scope: "openid profile",
             userStore: new WebStorageStateStore({ store: window.localStorage })
         });
         this.displayName = providerName;
@@ -73,7 +74,9 @@ export default class OidcAuthStrategy implements IAuthStrategy {
 
         if (isAuthTokenExpired(user.id_token)) {
             try {
-                user = await this.userManager.signinSilent();
+                user = await this.userManager.signinSilent({
+                    login_hint: getLoginHint(user)
+                });
             } catch {
                 await this.logout();
                 return null;
