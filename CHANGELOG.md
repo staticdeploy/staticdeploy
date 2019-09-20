@@ -1,3 +1,9 @@
+## 0.13.2 (September 20, 2019)
+
+Features:
+
+- improve the automatic refresh of the OpenID Connect auth token
+
 ## 0.13.1 (September 16, 2019)
 
 Features:
