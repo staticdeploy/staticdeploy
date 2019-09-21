@@ -3,7 +3,7 @@
 
 # StaticDeploy
 
-![logo](./RepoCard1.png)
+![logo](./RepoCard200.png)
 
 StaticDeploy is an open-source platform for deploying and configuring static web
 applications and websites. We can think about it as a
