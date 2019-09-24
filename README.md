@@ -1,7 +1,11 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/staticdeploy/staticdeploy.svg)](https://circleci.com/gh/staticdeploy/staticdeploy)
 [![codecov](https://codecov.io/gh/staticdeploy/staticdeploy/branch/master/graph/badge.svg)](https://codecov.io/gh/staticdeploy/staticdeploy)
+
+
 <Br>
 ![logo](./readme-logo.png)
+  
+  
 <Br>
 StaticDeploy is an open-source platform for deploying and configuring static web
 applications and websites. We can think about it as a
