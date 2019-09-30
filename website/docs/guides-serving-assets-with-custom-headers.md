@@ -3,9 +3,9 @@ id: guides-serving-assets-with-custom-headers
 title: Serving assets with custom headers
 ---
 
-StaticDeploy allows us to specify custom headers to use when serving assets. For
-example, if we have a bundle containing assets `index.html` and `index.js`, we
-can tell StaticDeploy to serve `index.html` with header
+StaticDeploy allows you to specify custom headers to use when serving assets.
+For example, if you have a bundle containing assets `index.html` and `index.js`,
+you can tell StaticDeploy to serve `index.html` with header
 `Cache-Control: must-revalidate`, and `index.js` with `Cache-Control: public`.
 
 Custom headers are specified per-asset when creating a bundle, using the

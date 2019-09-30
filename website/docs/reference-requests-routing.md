@@ -74,7 +74,7 @@ When StaticDeploy receives a request for a certain path, it tries to match the
 path to one of the assets of the bundle it's tasked to serve, even if the
 requested path is not strictly equal to the asset path. If it can't match the
 path to any asset, it serves the asset designated to be the fallback asset
-(typically `/index.html`). We'll explain the routing algorithm with an example.
+(typically `/index.html`).
 
 ### Example
 

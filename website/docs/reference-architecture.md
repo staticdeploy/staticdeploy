@@ -15,10 +15,10 @@ platform:
 
 - the **Management API** is a RESTful API to manage StaticDeploy's entities like
   bundles and entrypoints
-- the **Management Console** is a web GUI which allows us to graphically
+- the **Management Console** is a web GUI which allows you to graphically
   interact with the API
-- the **StaticDeploy CLI** is a command line tool which we can use to create and
-  deploy bundles
+- the **StaticDeploy CLI** is a command line tool which you can use to create
+  and deploy bundles
 - the **Static Server** is the component responsible for serving deployed
   assets. Clients of this service are the users which request - optionally via a
   CDN - the deployed websites

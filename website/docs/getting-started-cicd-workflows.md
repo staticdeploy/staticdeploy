@@ -3,28 +3,27 @@ id: getting-started-cicd-workflows
 title: CI/CD Workflow
 ---
 
-StaticDeploy allows for a variety of workflows for the continuous integration,
-delivery, and deployment of a static app.
+StaticDeploy allows for a variety of workflows for continuous delivery and
+deployment of a static app.
 
-To implement them, first of all we should set up our CI server to build the app
-and create a bundle for the build on each commit. We can choose to tag the
-bundle with the name of the branch our commit was added to, or even with the sha
-of the commit. For instance, for a
-[react app](https://github.com/facebook/create-react-app) in our CI server we
-could do something like:
+To implement them, first of all you should set up your CI server to build the
+app and create a bundle for the build on each commit. You can choose to tag the
+bundle with the name of the branch your commit was added to, or even with the
+sha of the commit. For instance, for a [react app](https://create-react-app.dev)
+in your CI server you could do something like:
 
 ```sh
 # Build the app, saving static artifacts into the build/ folder
 npm run build
 # Create a bundle from that folder
-staticdeploy bundle \
+staticdeploy bundle
   --from build/
-  --name example-app \
-  --tag $BRANCH \
+  --name example-app
+  --tag $BRANCH
   --description "Build of commit $COMMIT"
 ```
 
-Then, we could choose to:
+Then, you could choose to:
 
 - automatically deploy each branch to `$BRANCH.example-app.com/`:
 

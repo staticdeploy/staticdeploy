@@ -3,7 +3,7 @@ id: reference-authentication-and-authorization
 title: Authentication and authorization
 ---
 
-> Note: authentication and authorization can be switched off by setting to
+> **Note**: authentication and authorization can be switched off by setting to
 > `false` the `ENFORCE_AUTH` configuration parameter. This is generally not
 > advised, but can be useful in scenarios where network perimeter security is
 > deemed enough.

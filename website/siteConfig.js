@@ -12,6 +12,7 @@ module.exports = {
     projectName: "staticdeploy",
     customDocsPath: "website/docs",
     onPageNav: "separate",
+    docsSideNavCollapsible: true,
     headerLinks: [
         { label: "Docs", doc: "getting-started-overview" },
         {

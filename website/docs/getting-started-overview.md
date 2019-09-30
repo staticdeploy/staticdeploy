@@ -3,14 +3,13 @@ id: getting-started-overview
 title: Overview
 ---
 
-StaticDeploy is an open-source platform for deploying and configuring static web
-applications and websites. We can think about it as a Kubernetes for static
-content.
+StaticDeploy is an open-source platform for deploying static web applications
+and websites. You can think of it as a Kubernetes for static content.
 
 StaticDeploy was created with two objectives in mind:
 
-- make it easy to configure a static app at runtime, as opposed to injecting the
-  configuration into its static build
+- make it easy to configure a static app at **runtime**, as opposed to injecting
+  the configuration into it at **build time**
 
 - make it easy to deploy multiple "versions" of a static app, specifically a
   version for each branch / pull request, so that frontend developers can show
@@ -80,8 +79,8 @@ StaticDeploy CLI.
 
 As written above, each entrypoint has a configuration object that gets injected
 into the html files of the entrypoint's bundle when they're being served. To
-allow StaticDeploy to do so, we simply have to define - in the html files which
-we want to be "configured" - a `<script>` element with id `app-config`.
+allow StaticDeploy to do so, you simply have to define - in the html files which
+you want to be "configured" - a `<script>` element with id `app-config`.
 StaticDeploy will inject into the element a javascript snippet defining the
 global variable `window.APP_CONFIG` and assigning it the value of the
 configuration object.
@@ -122,33 +121,33 @@ documentation goes in more details about how configuration works.
 
 ### Multiple versions
 
-Bundles and entrypoints are very "cheap" objects in StaticDeploy: we can have
+Bundles and entrypoints are very "cheap" objects in StaticDeploy: you can have
 thousands of them without incurring into significant performance degradation.
 
-This means we can create bundles for every commit of every app we deploy on
-StaticDeploy. And we could deploy each bundle to a unique entrypoint, though we
-might prefer to take different approaches, like having one entrypoint for each
-branch of each app.
+This means you can create bundles for every commit of every app you deploy on
+StaticDeploy. And you could deploy each bundle to a unique entrypoint, though
+you might prefer to take different approaches, like having one entrypoint for
+each branch of each app.
 
-Creating a bundle is quite simple, and we would typically do it on our CI server
-after building our app. For instance, for a
-[react app](https://github.com/facebook/create-react-app) we would do something
-like:
+Creating a bundle is quite simple, and you would typically do it on your CI
+server after building your app. For instance, for a
+[react app](https://create-react-app.dev) you would do something like:
 
 ```sh
 # Build the app, saving static artifacts into the build/ folder
 npm run build
 # Create a bundle from that folder
-staticdeploy bundle \
+staticdeploy bundle
   --from build/
-  --name example-app \
-  --tag $BRANCH \
+  --name example-app
+  --tag $BRANCH
   --description "Build of commit $COMMIT"
 ```
 
-Deploying bundles is equally easy, and StaticDeploy allows us to choose
-whichever url scheme we want for deploying our apps' versions. For instance, for
-deploying each branch of the example react app above, in our CI server we'd run:
+Deploying bundles is equally easy, and StaticDeploy allows you to choose
+whichever url scheme you want for deploying your apps' versions. For instance,
+for deploying each branch of the example react app above, in your CI server
+you'd run:
 
 ```sh
 staticdeploy deploy
@@ -157,7 +156,7 @@ staticdeploy deploy
   --bundle example-app:$BRANCH
 ```
 
-But we could choose different url schemes for the app's entrypoints, like
+But you could choose different url schemes for the app's entrypoints, like
 `prefix-$BRANCH.example-app.com/` or `example-app.com/$BRANCH/`.
 
 The [workflow page](/docs/getting-started-cicd-workflows) of the documentation
