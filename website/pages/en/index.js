@@ -52,39 +52,62 @@ const HomeSplash = () => (
     </div>
 );
 
-const MainFeaturesRow = () => (
-    <Container padding={["bottom", "top"]}>
+const MainFeatures = () => (
+    <Container className="mainFeatures" padding={["bottom", "top"]}>
         <GridBlock
             align="center"
+            className="firstRow"
             contents={[
                 {
-                    image: withBaseUrl("/images/home.deployments.svg"),
+                    image: withBaseUrl("/images/home.workflow.svg"),
                     imageAlign: "top",
-                    title: "Flexible Deployments",
+                    title: "Docker-like Workflow",
                     content: stripIndent(`
-                        Show people what you're working on! Deploy every branch,
-                        tag, or even commit of your app, using the url scheme
-                        that best fits your needs
+                        A proven workflow for building, distributing, and
+                        deploying your apps
                     `)
                 },
+                {
+                    image: withBaseUrl("/images/home.previews.svg"),
+                    imageAlign: "top",
+                    title: "Instant Previews",
+                    content: stripIndent(`
+                        Deploy every commit and show people what you're working
+                        on
+                    `)
+                },
+                {
+                    image: withBaseUrl("/images/home.dashboard.svg"),
+                    imageAlign: "top",
+                    title: "Management Console",
+                    content: stripIndent(`
+                        A single place to view and manage all of your company
+                        apps
+                    `)
+                }
+            ]}
+            layout="threeColumn"
+        />
+        <GridBlock
+            align="center"
+            className="secondRow"
+            contents={[
                 {
                     image: withBaseUrl("/images/home.configuration.svg"),
                     imageAlign: "top",
                     title: "Runtime Configuration",
                     content: stripIndent(`
-                        Configuration at build time be gone! Define your app's
-                        configuration in the StaticDeploy Console, and have it
-                        injected into your bundles at runtime
+                        Re-build to re-deploy be gone! Promote to prod exactly
+                        what you were testing
                     `)
                 },
                 {
-                    image: withBaseUrl("/images/home.routing.svg"),
+                    image: withBaseUrl("/images/home.opensource.svg"),
                     imageAlign: "top",
-                    title: "Smart Routing",
+                    title: "Open Source",
                     content: stripIndent(`
-                        Was it **/static** or **./static**? Or should I add the
-                        base url? Don't worry, StaticDeploy's smart routing
-                        algorithm will find your content
+                        Host it where you want it, how you want it, with no
+                        proprietary lock-in
                     `)
                 }
             ]}
@@ -97,7 +120,7 @@ module.exports = () => (
     <div className="homePage">
         <HomeSplash />
         <div className="mainContainer">
-            <MainFeaturesRow />
+            <MainFeatures />
         </div>
     </div>
 );
