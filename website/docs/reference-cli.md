@@ -47,8 +47,8 @@ Deploys a bundle to an entrypoint. It takes the following options:
 
 ## Using a config file
 
-As seen above, you can supply options to `staticdeploy` in a config file. A valid
-config file has the following structure:
+As seen above, you can supply options to `staticdeploy` in a config file. A
+valid config file has the following structure:
 
 ```js
 module.exports = {
