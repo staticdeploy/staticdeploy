@@ -3,10 +3,10 @@ id: getting-started-quickstart
 title: Quickstart
 ---
 
-> For this quickstart you'll need:
->
-> - a recent version of [docker](https://docs.docker.com/install/)
-> - a recent version of [nodejs](https://nodejs.org/en/)
+For this quickstart you'll need:
+
+- a recent version of [docker](https://docs.docker.com/install/)
+- a recent version of [nodejs](https://nodejs.org/en/)
 
 ## Set up StaticDeploy with docker
 
@@ -25,9 +25,6 @@ title: Quickstart
   `127.0.0.1`)
 
 ## Publish a static app
-
-> Note: we'll be publishing a demo app taken from the StaticDeploy repository,
-> but you can publish any directory on your computer just as easily
 
 - install the StaticDeploy CLI:
 

@@ -23,6 +23,6 @@ probably correct: `/index.html` is served with a `200` status code, making the
 browser load the SPA which then _highjacks_ the browser URL to do client side
 routing.
 
-When serving static websites instead, we might want the fallback asset to be a
-404 page, for instance `/404.html`, and we want it to be served with a `404`
+When serving static websites instead, you might want the fallback asset to be a
+404 page, for instance `/404.html`, and you want it to be served with a `404`
 status code, to comply with SEO best practices.

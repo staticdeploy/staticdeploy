@@ -30,22 +30,23 @@ Issuing JWTs in such a way is useful in a few cases, described below.
 
 ### On first deploy, issue a JWT for the `root` user
 
-When we start StaticDeploy with an empty database, StaticDeploy creates a first
+When you start StaticDeploy with an empty database, StaticDeploy creates a first
 root user, that can do everything. This user has `idp = $MANAGEMENT_HOSTNAME`
 (the configuration env variable), and `idpId = root`. By manually generating a
-JWT with `iss = $MANAGEMENT_HOSTNAME` and `sub = root`, we can then login as the
-root user (and do things, like creating other users or adding users to groups).
+JWT with `iss = $MANAGEMENT_HOSTNAME` and `sub = root`, you can then login as
+the root user (and do things, like creating other users or adding users to
+groups).
 
 ### Issue JWTs for "machine" users
 
-When using StaticDeploy, we'll probably want to do certain operations (e.g.
+When using StaticDeploy, you'll probably want to do certain operations (e.g.
 creating bundles) from automated environments, like CI servers. StaticDeploy
 doesn't support API keys to log in from such environments, but it instead
 supports using "machine users".
 
-We can create a machine user from the Management Console, assigning it an `idp`,
-an `idpId` (preferably randomly generated), and a `name` to identify it. We can
-then manually generate a JWT for that user, that we can use in our automated
-environments. If we want to revoke that JWT, we just delete and re-create the
-machine user, using the same `name`, but a different `idpId`, so that the JWT
-won't work anymore.
+You can create a machine user from the Management Console, assigning it an
+`idp`, an `idpId` (preferably randomly generated), and a `name` to identify it.
+You can then manually generate a JWT for that user, that you can use in your
+automated environments. If you want to revoke that JWT, you just delete and
+re-create the machine user, using the same `name`, but a different `idpId`, so
+that the JWT won't work anymore.

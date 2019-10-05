@@ -3,9 +3,9 @@ id: reference-cli
 title: Using StaticDeploy's CLI
 ---
 
-The StaticDeploy CLI is distributed via [npm](https://npmjs.com), and we can
+The StaticDeploy CLI is distributed via [npm](https://npmjs.com), and you can
 install it with a simple `npm install --global @staticdeploy/cli`. After running
-the command, the `staticdeploy` executable will be available in our shell's
+the command, the `staticdeploy` executable will be available in your shell's
 `$PATH`.
 
 ## Using the staticdeploy executable
@@ -47,8 +47,8 @@ Deploys a bundle to an entrypoint. It takes the following options:
 
 ## Using a config file
 
-As seen above, we can supply options to `staticdeploy` in a config file. A valid
-config file has the following structure:
+As seen above, you can supply options to `staticdeploy` in a config file. A
+valid config file has the following structure:
 
 ```js
 module.exports = {

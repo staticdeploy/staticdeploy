@@ -9,10 +9,15 @@
         "Guides": [
             "guides-deploying-staticdeploy-with-docker",
             "guides-deploying-static-apps",
+            "guides-using-a-client-side-router",
             "guides-serving-assets-with-custom-headers",
             "guides-using-a-fallback-asset",
             "guides-jwt-providers",
             "guides-openid-connect-providers"
+        ],
+        "Use with": [
+            "use-with-cra",
+            "use-with-vue-cli"
         ],
         "Reference": [
             "reference-entities",

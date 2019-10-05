@@ -63,13 +63,50 @@
     width: 140px;
 }
 
+/* Size feature icons */
+.homePage .mainFeatures .blockImage {
+    width: 64px;
+    height: 64px;
+}
+
 /* Reduce space between title and features list */
 .homePage .mainContainer {
     padding-top: 0px;
 }
+.homePage .mainFeatures {
+    padding-top: 48px;
+}
 
-/* Increase font size in feature blocks, match the color of the icons above*/
+/* Decrease space between feature icon and title */
+.homePage .mainFeatures .blockImage {
+    margin-bottom: 0px;
+}
+.homePage .mainFeatures .blockContent h2 {
+    margin-top: 18px;
+}
+
+/* Decrease space between feature title and description */
+.homePage .mainFeatures .blockContent h2 p {
+    margin-bottom: 16px;
+}
+
+/* Increase font size in feature blocks */
 .homePage .blockContent > div {
     font-size: 18px;
-    color: #4a4a4a;
+}
+
+/* Space first row of main features from second row of main features */
+.homePage .mainFeatures .firstRow {
+    margin-bottom: 64px;
+}
+
+/* Improve arrangement of feature blocks */
+@media only screen and (min-width: 736px) {
+    .mainFeatures .gridBlock {
+        justify-content: center;
+    }
+    .mainFeatures .threeByGridBlock {
+        flex: 0 0 26%;
+        margin: 0 3%;
+    }
 }
