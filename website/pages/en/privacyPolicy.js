@@ -27,7 +27,7 @@ All server logs are stored on servers located within the EU territory.
 Information stored in server logs **can not** be used to identify any of its
 visitors.
 
-This website **does not** uses any browser cookies for any purpose.
+This website **does not** use any browser cookies for any purpose.
 
 Should you have any question about this privacy policy or about the way we
 handle data, feel free to send an email to
