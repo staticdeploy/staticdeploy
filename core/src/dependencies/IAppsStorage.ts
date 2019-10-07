@@ -17,7 +17,6 @@ export default interface IAppsStorage {
     updateOne(
         id: string,
         patch: {
-            name?: string;
             defaultConfiguration?: IConfiguration;
             updatedAt: Date;
         }

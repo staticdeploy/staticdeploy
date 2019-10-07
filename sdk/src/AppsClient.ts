@@ -25,7 +25,6 @@ export default class AppsClient {
     async update(
         id: string,
         patch: {
-            name?: IApp["name"];
             defaultConfiguration?: IApp["defaultConfiguration"];
         }
     ): Promise<IApp> {

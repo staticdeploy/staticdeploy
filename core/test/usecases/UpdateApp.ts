@@ -2,25 +2,14 @@ import { expect } from "chai";
 import sinon from "sinon";
 
 import {
-    AppNameNotValidError,
     AppNotFoundError,
-    ConfigurationNotValidError,
-    ConflictingAppError
+    ConfigurationNotValidError
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateApp from "../../src/usecases/UpdateApp";
 import { getMockDependencies } from "../testUtils";
 
 describe("usecase UpdateApp", () => {
-    it("throws AppNameNotValidError if the name is not valid", async () => {
-        const updateApp = new UpdateApp(getMockDependencies());
-        const updateAppPromise = updateApp.exec("appId", { name: "*" });
-        await expect(updateAppPromise).to.be.rejectedWith(AppNameNotValidError);
-        await expect(updateAppPromise).to.be.rejectedWith(
-            "* is not a valid name for an app"
-        );
-    });
-
     it("throws ConfigurationNotValidError if the defaultConfiguration is not valid", async () => {
         const updateApp = new UpdateApp(getMockDependencies());
         const updateAppPromise = updateApp.exec("appId", {
@@ -43,28 +32,15 @@ describe("usecase UpdateApp", () => {
         );
     });
 
-    it("throws ConflictingAppError if an app with the same (to be updated) name exists", async () => {
-        const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({} as any);
-        deps.storages.apps.oneExistsWithName.resolves(true);
-        const updateApp = new UpdateApp(deps);
-        const updateAppPromise = updateApp.exec("appId", { name: "name" });
-        await expect(updateAppPromise).to.be.rejectedWith(ConflictingAppError);
-        await expect(updateAppPromise).to.be.rejectedWith(
-            "An app with name = name already exists"
-        );
-    });
-
     it("updates the app", async () => {
         const deps = getMockDependencies();
         deps.storages.apps.findOne.resolves({} as any);
         const updateApp = new UpdateApp(deps);
-        await updateApp.exec("appId", { name: "name" });
+        await updateApp.exec("appId", { defaultConfiguration: {} });
         expect(deps.storages.apps.updateOne).to.have.been.calledOnceWith(
             "appId",
             {
-                name: "name",
-                defaultConfiguration: undefined,
+                defaultConfiguration: {},
                 updatedAt: sinon.match.date
             }
         );

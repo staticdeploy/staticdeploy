@@ -53,6 +53,7 @@ export default class AppEditOperationModal extends React.Component<IProps> {
                 successMessage="App saved"
             >
                 <AppForm
+                    isEditForm={true}
                     initialValues={this.props.app}
                     ref={form => (this.form = form!)}
                 />

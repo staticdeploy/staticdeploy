@@ -11,11 +11,23 @@ import TextField from "../TextField";
 import { IExternalFormValues, IInternalFormValues } from "./IFormValues";
 import validate from "./validate";
 
-class AppForm extends React.Component<InjectedFormProps<IInternalFormValues>> {
+interface IProps {
+    isEditForm?: boolean;
+}
+
+class AppForm extends React.Component<
+    IProps & InjectedFormProps<IInternalFormValues>
+> {
     render() {
+        const { isEditForm } = this.props;
         return (
             <form onSubmit={this.props.handleSubmit}>
-                <TextField label="Name" name="name" inlineError={true} />
+                <TextField
+                    label="Name"
+                    name="name"
+                    inlineError={true}
+                    disabled={isEditForm}
+                />
                 <ConfigurationField
                     label="Default configuration"
                     name="defaultConfiguration"
@@ -27,7 +39,7 @@ class AppForm extends React.Component<InjectedFormProps<IInternalFormValues>> {
 
 export interface IAppFormInstance extends IConverterForm<IExternalFormValues> {}
 
-export default reduxForm<IExternalFormValues, IInternalFormValues>({
+export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
     form: "AppForm",
     validate: validate,
     toInternal: (initialValues = {}) => ({

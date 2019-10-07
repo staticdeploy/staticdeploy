@@ -68,9 +68,13 @@ describe("AppsClient", () => {
     describe("update", () => {
         it("requests PATCH /apps/:appId", async () => {
             const scope = nock(baseUrl)
-                .patch("/apps/id", { name: "new-name" })
+                .patch("/apps/id", {
+                    defaultConfiguration: { newKey: "newValue" }
+                })
                 .reply(200);
-            await staticdeployClient.apps.update("id", { name: "new-name" });
+            await staticdeployClient.apps.update("id", {
+                defaultConfiguration: { newKey: "newValue" }
+            });
             scope.done();
         });
         it("returns the updated app", async () => {
@@ -78,7 +82,7 @@ describe("AppsClient", () => {
                 .patch("/apps/id")
                 .reply(200, {});
             const app = await staticdeployClient.apps.update("id", {
-                name: "new-name"
+                defaultConfiguration: { newKey: "newValue" }
             });
             expect(app).to.deep.equal({});
         });

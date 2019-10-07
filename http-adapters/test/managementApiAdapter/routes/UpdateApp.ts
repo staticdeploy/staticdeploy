@@ -15,13 +15,17 @@ describe("managementApiAdapter PATCH /apps/:appId", () => {
     });
 
     it("200 on app updated, updates app and returns it", async () => {
-        const execMock = sinon.stub().resolves({ name: "newName" });
+        const execMock = sinon
+            .stub()
+            .resolves({ defaultConfiguration: { newKey: "newValue" } });
         const server = getManagementApiAdapter({ updateApp: execMock });
         await request(server)
             .patch("/apps/id")
-            .send({ name: "newName" })
+            .send({ defaultConfiguration: { newKey: "newValue" } })
             .expect(200)
-            .expect({ name: "newName" });
-        expect(execMock).to.have.been.calledOnceWith("id", { name: "newName" });
+            .expect({ defaultConfiguration: { newKey: "newValue" } });
+        expect(execMock).to.have.been.calledOnceWith("id", {
+            defaultConfiguration: { newKey: "newValue" }
+        });
     });
 });
