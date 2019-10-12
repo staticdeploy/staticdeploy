@@ -16,7 +16,8 @@ export default function managementApiAdapter(options: {
         bodyParserOptions: {
             limit: "100mb",
             strict: false
-        }
+        },
+        basePath: "/api"
     };
     const isCurrentFileTs = extname(__filename) === ".ts";
     const router = convexpress(convexpressOptions)
