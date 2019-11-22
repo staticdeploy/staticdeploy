@@ -87,7 +87,7 @@ describe("usecase DeployBundle", () => {
         } as any);
         // Stub deps used by other usecases called by DeployBundle
         deps.storages.apps.createOne.resolves({ id: "appId" } as any);
-        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
         deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
@@ -124,7 +124,7 @@ describe("usecase DeployBundle", () => {
             id: "bundleId"
         } as any);
         // Stub deps used by other usecases called by DeployBundle
-        deps.storages.apps.oneExistsWithId.resolves(true);
+        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
         deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({

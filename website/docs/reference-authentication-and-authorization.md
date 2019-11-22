@@ -71,8 +71,8 @@ Every user that has access to StaticDeploy can perform read operations on all
 resources. For authorizing write operations, the following roles are used:
 
 - `root`: allows performing all operations finer-grained roles for read access)
-- `app-manager:id`: allows performing the following operations on the app with
-  the specified id:
+- `app-manager:name`: allows performing the following operations on the app with
+  the specified name:
   - updating the app
   - deleting the app
   - creating entrypoints linked to the app (provided the necessary

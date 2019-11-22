@@ -14,8 +14,15 @@ export default class UpdateApp extends Usecase {
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
+        const existingApp = await this.storages.apps.findOne(id);
+
+        // Ensure the app exists
+        if (!existingApp) {
+            throw new AppNotFoundError(id, "id");
+        }
+
         // Auth check
-        await this.authorizer.ensureCanUpdateApp(id);
+        await this.authorizer.ensureCanUpdateApp(existingApp.name);
 
         // Validate defaultConfiguration
         if (patch.defaultConfiguration) {
@@ -23,13 +30,6 @@ export default class UpdateApp extends Usecase {
                 patch.defaultConfiguration,
                 "defaultConfiguration"
             );
-        }
-
-        const existingApp = await this.storages.apps.findOne(id);
-
-        // Ensure the app exists
-        if (!existingApp) {
-            throw new AppNotFoundError(id, "id");
         }
 
         // Update the app

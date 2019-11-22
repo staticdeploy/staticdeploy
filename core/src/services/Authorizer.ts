@@ -35,18 +35,18 @@ export default class Authorizer {
     ensureCanCreateApp(): Promise<void> {
         return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
-    ensureCanUpdateApp(appId: string): Promise<void> {
+    ensureCanUpdateApp(appName: string): Promise<void> {
         return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
-                this.matchesRole([RoleName.AppManager, appId])
+                this.matchesRole([RoleName.AppManager, appName])
         );
     }
-    ensureCanDeleteApp(appId: string): Promise<void> {
+    ensureCanDeleteApp(appName: string): Promise<void> {
         return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
-                this.matchesRole([RoleName.AppManager, appId])
+                this.matchesRole([RoleName.AppManager, appName])
         );
     }
     ensureCanGetApps(): Promise<void> {
@@ -75,12 +75,12 @@ export default class Authorizer {
     // Entrypoints
     ensureCanCreateEntrypoint(
         entrypointUrlMatcher: string,
-        entrypointAppId: string
+        entrypointAppName: string
     ): Promise<void> {
         return this.ensureAuthorized(
             () =>
                 this.matchesRole([RoleName.Root]) ||
-                (this.matchesRole([RoleName.AppManager, entrypointAppId]) &&
+                (this.matchesRole([RoleName.AppManager, entrypointAppName]) &&
                     this.matchesRole([
                         RoleName.EntrypointManager,
                         entrypointUrlMatcher

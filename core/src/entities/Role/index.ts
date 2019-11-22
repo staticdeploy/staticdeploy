@@ -50,12 +50,12 @@ export function roleMatchesRole(
 
         /*
          *  The target of the AppManager and BundleManager roles is respectively
-         *  an app id or a bundle name. The target specifies the resource the
+         *  an app name or a bundle name. The target specifies the resource the
          *  role allows access to. Example:
          *
-         *  - role app-manager:12345678 allows managing app with id 12345678
-         *  - role bundle-manager:my-app allows managing bundles with name
-         *    my-app
+         *  - role app-manager:my-app allows managing app with name my-app
+         *  - role bundle-manager:my-bundle allows managing bundles with name
+         *    my-bundle
          */
         case RoleName.AppManager:
         case RoleName.BundleManager:

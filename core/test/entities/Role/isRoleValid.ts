@@ -7,13 +7,14 @@ describe("Role entity util isRoleValid", () => {
         const testCases: [string, boolean][] = [
             // Invalid cases
             ["root:example.com/", false],
-            ["app-manager:appId:entrypointId", false],
+            ["app-manager:appName:entrypointId", false],
             ["entrypoint-manager:https://example.com/", false],
             ["invalid-role", false],
             ["invalid-role:appId", false],
             // Valid cases
             ["root", true],
-            ["app-manager:appId", true],
+            ["app-manager:appName", true],
+            ["bundle-manager:bundleName", true],
             ["entrypoint-manager:example.com/", true]
         ];
         testCases.forEach(([role, expectedResult]) => {

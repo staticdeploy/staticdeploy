@@ -23,24 +23,22 @@ export default class CreateEntrypoint extends Usecase {
         urlMatcher: string;
         configuration?: IConfiguration | null;
     }): Promise<IEntrypoint> {
+        // Ensure the linked app exists
+        const linkedApp = await this.storages.apps.findOne(partial.appId);
+        if (!linkedApp) {
+            throw new AppNotFoundError(partial.appId, "id");
+        }
+
         // Auth check
         await this.authorizer.ensureCanCreateEntrypoint(
             partial.urlMatcher,
-            partial.appId
+            linkedApp.name
         );
 
         // Validate the urlMatcher and the configuration
         validateEntrypointUrlMatcher(partial.urlMatcher);
         if (partial.configuration) {
             validateConfiguration(partial.configuration, "configuration");
-        }
-
-        // Ensure the linked app exists
-        const linkedAppExists = await this.storages.apps.oneExistsWithId(
-            partial.appId
-        );
-        if (!linkedAppExists) {
-            throw new AppNotFoundError(partial.appId, "id");
         }
 
         // Ensure the linked bundle exists

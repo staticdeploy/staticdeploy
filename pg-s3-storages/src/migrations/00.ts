@@ -2,6 +2,10 @@ import Knex from "knex";
 
 import tables from "../common/tables";
 
+/*
+ * Initial setup, creating tables for apps, bundles, entrypoints, and
+ * operationLogs
+ */
 export function up(knex: Knex) {
     return knex.schema
         .createTable(tables.apps, table => {
@@ -58,8 +62,6 @@ export function up(knex: Knex) {
 }
 
 export function down() {
-    // Knex migrations require a down function. In theory here we should drop
-    // the tables created above, but since we're likely never going to migrate
-    // down from the initial setup, to avoid accidental damage we implement this
-    // function as a no-op
+    // Knex migrations require a down function, but we're not interested in
+    // providing one
 }
