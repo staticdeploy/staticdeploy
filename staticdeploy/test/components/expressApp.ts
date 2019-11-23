@@ -106,9 +106,14 @@ describe("staticdeploy expressApp", () => {
                 name: "test",
                 tag: "test",
                 description: "test",
-                content: (await tarArchiver.makeArchive([
-                    { path: "/index.html", content: Buffer.from("test html") }
-                ])).toString("base64"),
+                content: (
+                    await tarArchiver.makeArchive([
+                        {
+                            path: "/index.html",
+                            content: Buffer.from("test html")
+                        }
+                    ])
+                ).toString("base64"),
                 fallbackAssetPath: "/index.html",
                 fallbackStatusCode: 200,
                 headers: {}
