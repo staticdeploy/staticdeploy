@@ -6,6 +6,7 @@ export default function managementApiAdapter(options: {
     serviceName: string;
     serviceVersion: string;
     serviceHost: string;
+    serviceBasePath: string;
 }): express.Application {
     const convexpressOptions = {
         info: {
@@ -17,7 +18,7 @@ export default function managementApiAdapter(options: {
             limit: "100mb",
             strict: false
         },
-        basePath: "/api"
+        basePath: options.serviceBasePath
     };
     const isCurrentFileTs = extname(__filename) === ".ts";
     const router = convexpress(convexpressOptions)

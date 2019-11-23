@@ -19,8 +19,10 @@ export function getManagementApiAdapter(
         managementApiAdapter({
             serviceName: "serviceName",
             serviceVersion: "serviceVersion",
-            serviceHost: "serviceHost"
-        })
+            serviceHost: "serviceHost",
+            serviceBasePath: "/"
+        }),
+        "/"
     );
 }
 

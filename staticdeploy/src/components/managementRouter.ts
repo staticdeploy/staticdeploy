@@ -46,7 +46,8 @@ export default async (config: IConfig): Promise<express.Router> => {
             managementApiAdapter({
                 serviceName: config.appName,
                 serviceVersion: config.appVersion,
-                serviceHost: config.managementHostname
+                serviceHost: config.managementHostname,
+                serviceBasePath: "/api"
             })
         )
         .use(managementConsoleStaticServer);
