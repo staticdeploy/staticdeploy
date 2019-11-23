@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/jwt-authentication-strategy",
   "description": "JWT authentication strategy",
-  "version": "0.13.2",
+  "version": "0.14.0",
   "private": true,
   "main": "lib/index.js",
   "typings": "lib/index.d.js",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@panva/jose": "^1.9.2",
-    "@staticdeploy/core": "^0.13.2",
+    "@staticdeploy/core": "^0.14.0",
     "lodash": "^4.17.15"
   },
   "devDependencies": {

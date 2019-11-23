@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/tar-archiver",
   "description": "tar archiver",
-  "version": "0.13.2",
+  "version": "0.14.0",
   "publishConfig": {
     "access": "public"
   },
@@ -29,7 +29,7 @@
     "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.13.2",
+    "@staticdeploy/core": "^0.14.0",
     "bluebird": "^3.7.1",
     "fs-extra": "^8.1.0",
     "recursive-readdir": "^2.2.2",
