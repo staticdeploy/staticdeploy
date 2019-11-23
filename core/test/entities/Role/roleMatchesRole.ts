@@ -10,6 +10,9 @@ describe("Role entity function roleMatchesRole", () => {
 
             // RoleName.AppManager
             ["app-manager:appName", [RoleName.AppManager, "appName"], true],
+            ["app-manager:*", [RoleName.AppManager, "appName"], true],
+            ["app-manager:app*", [RoleName.AppManager, "appName"], true],
+            ["app-manager:*Name", [RoleName.AppManager, "appName"], true],
             [
                 "app-manager:different-appName",
                 [RoleName.AppManager, "appName"],
@@ -31,6 +34,17 @@ describe("Role entity function roleMatchesRole", () => {
             // RoleName.BundleManager
             [
                 "bundle-manager:bundleName",
+                [RoleName.BundleManager, "bundleName"],
+                true
+            ],
+            ["bundle-manager:*", [RoleName.BundleManager, "bundleName"], true],
+            [
+                "bundle-manager:bundle*",
+                [RoleName.BundleManager, "bundleName"],
+                true
+            ],
+            [
+                "bundle-manager:*Name",
                 [RoleName.BundleManager, "bundleName"],
                 true
             ],

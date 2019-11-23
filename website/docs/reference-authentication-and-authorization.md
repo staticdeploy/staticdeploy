@@ -70,44 +70,60 @@ called the Management API.
 Every user that has access to StaticDeploy can perform read operations on all
 resources. For authorizing write operations, the following roles are used:
 
-- `root`: allows performing all operations finer-grained roles for read access)
-- `app-manager:name`: allows performing the following operations on the app with
-  the specified name:
+- `root`: allows performing all operations
+- `app-manager:name-matcher`: for an app whose `name` matches the _name matcher_
+  (see below for info), allows performing the following operations:
   - updating the app
   - deleting the app
   - creating entrypoints linked to the app (provided the necessary
     `entrypoint-manager` role)
-- `entrypoint-manager:urlMatcher`: allows performing the following operations on
-  the entrypoint with the specified url matcher:
+- `bundle-manager:name-matcher`: for a bundle whose `name` matches the _name
+  matcher_ (see below for info), allows performing the following operations:
+  - creating the bundle
+  - deleting the bundle
+- `entrypoint-manager:urlMatcher-matcher`: for an entrypoint whose `urlMatcher`
+  matches the _url matcher matcher_ (see below for info), allows performing the
+  following operations:
   - creating the entrypoint (provided the necessary `app-manager` role for the
-    app the entrypoint links to)
+    app it links to)
   - updating the entrypoint
   - deleting the entrypoint
-- `bundle-manager:name`: allows performing the following operations on bundles
-  with the specified name:
-  - creating a bundle
-  - deleting a bundle
 
-> **Note on the `entrypoint-manager` role**: the target `urlMatcher` is actually
-> a pattern matching many url matchers (a url-matcher matcher). For example:
->
-> - the pattern `example.com/` allows managing entrypoints with url matcher:
->   - `example.com/`
->   - `example.com/foo/`
->   - `example.com/foo/bar/`
->   - etc
-> - the pattern `example.com/foo/` allows managing entrypoints with url matcher:
->   - `example.com/foo/`
->   - `example.com/foo/bar/`
->   - etc
-> - the pattern `*.example.com/` allows managing entrypoints with url matcher:
->   - `foo.example.com/`
->   - `foo.example.com/foo/`
->   - `foo.bar.example.com/`
->   - etc
-> - the pattern `*example.com/` allows managing entrypoints with utl matchers:
->   - `example.com/`
->   - `example.com/foo/`
->   - `foo.example.com/`
->   - `fooexample.com/` (not a subdomain of example.com)
->   - etc
+### Role targets
+
+#### Name matcher
+
+For the `app-manager` and `bundle-manager` roles, the target _name matcher_ is a
+pattern matching many names. For example:
+
+- the pattern `*` matches any name
+- the pattern `name` only matches `name`
+- the pattern `*name` matches `name` and `prefix-name`
+- the pattern `name*` matches `name` and `name-suffix`
+
+#### Url matcher matcher
+
+For the `entrypoint-manager` role, the target _url matcher matcher_ is a pattern
+matching many url matchers . For example:
+
+- the pattern `*/` matches any url matcher
+- the pattern `example.com/` matches url matchers:
+  - `example.com/`
+  - `example.com/foo/`
+  - `example.com/foo/bar/`
+  - etc
+- the pattern `example.com/foo/` matches url matchers:
+  - `example.com/foo/`
+  - `example.com/foo/bar/`
+  - etc
+- the pattern `*.example.com/` matches url matchers:
+  - `foo.example.com/`
+  - `foo.example.com/foo/`
+  - `foo.bar.example.com/`
+  - etc
+- the pattern `*example.com/` matcher url matchers:
+  - `example.com/`
+  - `example.com/foo/`
+  - `foo.example.com/`
+  - `fooexample.com/` (not a subdomain of example.com)
+  - etc
