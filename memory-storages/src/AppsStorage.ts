@@ -44,7 +44,6 @@ export default class AppsStorage implements IAppsStorage {
     async updateOne(
         id: string,
         patch: {
-            name?: string;
             defaultConfiguration?: IConfiguration;
             updatedAt: Date;
         }

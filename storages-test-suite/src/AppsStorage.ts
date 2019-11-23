@@ -123,14 +123,10 @@ export default (storages: IStorages) => {
                 updatedAt: new Date()
             });
             await storages.apps.updateOne("id", {
-                name: undefined,
                 defaultConfiguration: { key: "value" },
                 updatedAt: new Date()
             });
             const foundApp = await storages.apps.findOne("id");
-            // Test to see if undefined values passed to updateOne are correctly
-            // ignored
-            expect(foundApp).to.have.property("name", "name");
             expect(foundApp)
                 .to.have.property("defaultConfiguration")
                 .that.deep.equals({ key: "value" });

@@ -34,13 +34,13 @@
   },
   "devDependencies": {
     "@staticdeploy/storages-test-suite": "^0.13.2",
-    "@types/lodash": "^4.14.138",
-    "mocha": "^6.2.0",
-    "prettier": "^1.18.2",
+    "@types/lodash": "^4.14.149",
+    "mocha": "^6.2.2",
+    "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
+    "ts-node": "^8.5.2",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.2"
   }
 }

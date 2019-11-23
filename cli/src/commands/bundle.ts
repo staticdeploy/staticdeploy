@@ -116,9 +116,9 @@ const command: CommandModule<any, any> = {
         });
 
         await client.bundles.create({
-            content: (await tarArchiver.makeArchiveFromPath(
-                argv.from
-            )).toString("base64"),
+            content: (
+                await tarArchiver.makeArchiveFromPath(argv.from)
+            ).toString("base64"),
             name: argv.name,
             tag: argv.tag,
             description: argv.description,

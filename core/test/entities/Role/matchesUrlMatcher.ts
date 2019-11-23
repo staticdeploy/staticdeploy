@@ -38,6 +38,7 @@ describe("Role entity util matchesUrlMatcher", () => {
 
             // * cases
             // Matches
+            ["*/", "example.com/", true],
             ["*example.com/", "example.com/", true],
             ["*example.com/", "example.com/sub/", true],
             ["*example.com/", "pre-example.com/", true],

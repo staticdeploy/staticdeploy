@@ -8,7 +8,6 @@ interface IRequest extends IBaseRequest {
         appId: string;
     };
     body: {
-        name?: IApp["name"];
         defaultConfiguration?: IApp["defaultConfiguration"];
     };
 }
@@ -16,7 +15,6 @@ interface IRequest extends IBaseRequest {
 const bodySchema = {
     type: "object",
     properties: {
-        name: { type: "string" },
         defaultConfiguration: { type: "object" }
     },
     additionalProperties: false
@@ -43,8 +41,7 @@ export default convroute({
     ],
     responses: {
         "200": { description: "App updated, returns the app" },
-        "404": { description: "App not found" },
-        "409": { description: "App with same name already exists" }
+        "404": { description: "App not found" }
     },
     handler: async (req: IRequest, res) => {
         const updateApp = req.makeUsecase("updateApp");

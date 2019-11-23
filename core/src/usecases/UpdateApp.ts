@@ -1,6 +1,6 @@
-import { AppNotFoundError, ConflictingAppError } from "../common/errors";
+import { AppNotFoundError } from "../common/errors";
 import Usecase from "../common/Usecase";
-import { IApp, validateAppName } from "../entities/App";
+import { IApp } from "../entities/App";
 import {
     IConfiguration,
     validateConfiguration
@@ -11,24 +11,9 @@ export default class UpdateApp extends Usecase {
     async exec(
         id: string,
         patch: {
-            name?: string;
             defaultConfiguration?: IConfiguration;
         }
     ): Promise<IApp> {
-        // Auth check
-        await this.authorizer.ensureCanUpdateApp(id);
-
-        // Validate name and defaultConfiguration
-        if (patch.name) {
-            validateAppName(patch.name);
-        }
-        if (patch.defaultConfiguration) {
-            validateConfiguration(
-                patch.defaultConfiguration,
-                "defaultConfiguration"
-            );
-        }
-
         const existingApp = await this.storages.apps.findOne(id);
 
         // Ensure the app exists
@@ -36,19 +21,19 @@ export default class UpdateApp extends Usecase {
             throw new AppNotFoundError(id, "id");
         }
 
-        // Ensure no app with the same name exists
-        if (patch.name && patch.name !== existingApp.name) {
-            const conflictingAppExists = await this.storages.apps.oneExistsWithName(
-                patch.name
+        // Auth check
+        await this.authorizer.ensureCanUpdateApp(existingApp.name);
+
+        // Validate defaultConfiguration
+        if (patch.defaultConfiguration) {
+            validateConfiguration(
+                patch.defaultConfiguration,
+                "defaultConfiguration"
             );
-            if (conflictingAppExists) {
-                throw new ConflictingAppError(patch.name);
-            }
         }
 
         // Update the app
         const updatedApp = await this.storages.apps.updateOne(id, {
-            name: patch.name,
             defaultConfiguration: patch.defaultConfiguration,
             updatedAt: new Date()
         });

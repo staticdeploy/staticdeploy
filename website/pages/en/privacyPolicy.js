@@ -1,5 +1,5 @@
 const React = require("react");
-const Remarkable = require("remarkable");
+const { Remarkable } = require("remarkable");
 
 const { Container } = require("../../core/CompLibrary.js");
 
