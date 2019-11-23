@@ -1,3 +1,15 @@
+## 0.14.0 (November 23, 2019)
+
+Features:
+
+- change `app-manager` role target to `appName` instead of `appId`
+- support wildcard roles for matching apps and bundles names
+
+BREAKING CHANGES:
+
+- change `app-manager` role target to `appName` instead of `appId`
+- remove possibility to change an app's name
+
 ## 0.13.2 (September 20, 2019)
 
 Features:
