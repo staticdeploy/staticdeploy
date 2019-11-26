@@ -23,7 +23,10 @@ export default class GroupCreateOperationModal extends React.Component<IProps> {
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
-        return staticdeploy.groups.create(values);
+        return staticdeploy.groups.create({
+            name: values.name,
+            roles: values.roles
+        });
     };
     refetchGroupsListAndGoToGroupDetail = (group: IGroup) => {
         this.props.refetchGroupsList();
