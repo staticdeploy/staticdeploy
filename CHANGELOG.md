@@ -1,3 +1,10 @@
+## 0.14.1 (November 29, 2019)
+
+Fixes:
+
+- fix HTTP 400 error when updating an app
+- render spinner while auth service is initializing
+
 ## 0.14.0 (November 23, 2019)
 
 Features:
