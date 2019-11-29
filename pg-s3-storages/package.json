@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/pg-s3-storages",
   "description": "Pg + S3 storages for StaticDeploy",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "private": true,
   "main": "lib/index.js",
   "typings": "lib/index.d.js",
@@ -30,7 +30,7 @@
     "start-test-containers": "npm-run-all -p start-test-containers:*"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.14.0",
+    "@staticdeploy/core": "^0.14.1",
     "aws-sdk": "^2.580.0",
     "bluebird": "^3.7.2",
     "knex": "^0.20.3",
@@ -38,7 +38,7 @@
     "pg": "^7.14.0"
   },
   "devDependencies": {
-    "@staticdeploy/storages-test-suite": "^0.14.0",
+    "@staticdeploy/storages-test-suite": "^0.14.1",
     "@types/bluebird": "^3.5.29",
     "@types/lodash": "^4.14.149",
     "mocha": "^6.2.2",

@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/http-adapters",
   "description": "Adapters implementing an http API for StaticDeploys' core usecases",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "publishConfig": {
     "access": "public"
   },
@@ -29,7 +29,7 @@
     "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.14.0",
+    "@staticdeploy/core": "^0.14.1",
     "convexpress": "^2.3.0",
     "express": "^4.17.1"
   },
