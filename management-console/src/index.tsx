@@ -12,6 +12,7 @@ import AuthService from "./common/AuthService";
 import JwtAuthStrategy from "./common/AuthService/JwtAuthStrategy";
 import OidcAuthStrategy from "./common/AuthService/OidcAuthStrategy";
 import StaticdeployClientContext from "./common/StaticdeployClientContext";
+import InitSpinner from "./components/InitSpinner";
 import config from "./config";
 import "./index.css";
 import reduxStore from "./reduxStore";
@@ -37,7 +38,14 @@ async function start() {
         ]),
         staticdeployClient
     );
+
+    const root = document.getElementById("root");
+
+    // Render a spinner while the authService is initializing
+    ReactDOM.render(<InitSpinner />, root);
+
     await authService.init();
+
     if (OidcAuthStrategy.isSilentRedirectPage()) {
         // In the silent redirect iframe we only care about initializing the
         // authService, which will take care of concluding the silent redirect
@@ -45,7 +53,8 @@ async function start() {
         return;
     }
 
-    const App = (
+    // Render the app once the authService is initialized
+    ReactDOM.render(
         <StaticdeployClientContext.Provider value={staticdeployClient}>
             <ConfigProvider locale={enUS}>
                 <BrowserRouter>
@@ -54,8 +63,8 @@ async function start() {
                     </Provider>
                 </BrowserRouter>
             </ConfigProvider>
-        </StaticdeployClientContext.Provider>
+        </StaticdeployClientContext.Provider>,
+        root
     );
-    ReactDOM.render(App, document.getElementById("root"));
 }
 start();
