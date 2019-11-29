@@ -24,7 +24,13 @@ export default class UserCreateOperationModal extends React.Component<IProps> {
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
-        return staticdeploy.users.create(values);
+        return staticdeploy.users.create({
+            idp: values.idp,
+            idpId: values.idpId,
+            type: values.type,
+            name: values.name,
+            groupsIds: values.groupsIds
+        });
     };
     refetchUsersListAndGoToUserDetail = (user: IUser) => {
         this.props.refetchUsersList();

@@ -23,7 +23,10 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
-        return staticdeploy.apps.create(values);
+        return staticdeploy.apps.create({
+            name: values.name,
+            defaultConfiguration: values.defaultConfiguration
+        });
     };
     refetchAppsListAndGoToAppDetail = (app: IApp) => {
         this.props.refetchAppsList();

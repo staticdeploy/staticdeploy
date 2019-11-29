@@ -25,7 +25,10 @@ export default class GroupEditOperationModal extends React.Component<IProps> {
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
-        return staticdeploy.groups.update(this.props.group.id, values);
+        return staticdeploy.groups.update(this.props.group.id, {
+            name: values.name,
+            roles: values.roles
+        });
     };
     refetchGroupDetail = () => this.props.refetchGroupDetail();
     render() {

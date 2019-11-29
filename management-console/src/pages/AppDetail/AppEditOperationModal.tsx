@@ -25,7 +25,9 @@ export default class AppEditOperationModal extends React.Component<IProps> {
             throw new Error("Invalid form data");
         }
         const values = this.form!.getValues();
-        return staticdeploy.apps.update(this.props.app.id, values);
+        return staticdeploy.apps.update(this.props.app.id, {
+            defaultConfiguration: values.defaultConfiguration
+        });
     };
     refetchAppDetailAndGoToAppDetail = (app: IApp) => {
         const targetPath = `/apps/${app.id}`;
