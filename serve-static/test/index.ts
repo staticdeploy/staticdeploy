@@ -162,7 +162,7 @@ describe("serveStatic middleware", () => {
             );
             return request(server)
                 .get("/")
-                .expect(/{"key":"value"}/);
+                .expect(/{"key":"value","BASE_PATH":"\/"}/);
         });
     });
 });
