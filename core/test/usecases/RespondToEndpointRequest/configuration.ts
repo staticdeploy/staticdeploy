@@ -45,9 +45,10 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedStatusCode: 200,
                     expectedBody: body => {
                         const APP_CONFIG = extractAppConfig(body);
-                        expect(APP_CONFIG).to.deep.equal({
-                            KEY: "DEFAULT_VALUE"
-                        });
+                        expect(APP_CONFIG).to.have.property(
+                            "KEY",
+                            "DEFAULT_VALUE"
+                        );
                     }
                 }
             ]
@@ -76,9 +77,7 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                 expectedStatusCode: 200,
                 expectedBody: body => {
                     const APP_CONFIG = extractAppConfig(body);
-                    expect(APP_CONFIG).to.deep.equal({
-                        KEY: "VALUE"
-                    });
+                    expect(APP_CONFIG).to.have.property("KEY", "VALUE");
                 }
             },
             {
@@ -86,11 +85,71 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                 expectedStatusCode: 200,
                 expectedBody: body => {
                     const APP_CONFIG = extractAppConfig(body);
-                    expect(APP_CONFIG).to.deep.equal({
-                        KEY: "VALUE"
-                    });
+                    expect(APP_CONFIG).to.have.property("KEY", "VALUE");
                 }
             }
         ]
     });
+
+    test(
+        "injects the entrypoint's urlMatcher's pathname as the BASE_PATH configuration option",
+        {
+            entrypoints: [
+                {
+                    urlMatcher: "domain.com/",
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                },
+                {
+                    urlMatcher: "domain.com/path/",
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                }
+            ],
+            testCases: [
+                {
+                    requestedUrl: "domain.com/",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property("BASE_PATH", "/");
+                    }
+                },
+                {
+                    requestedUrl: "domain.com/nested",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property("BASE_PATH", "/");
+                    }
+                },
+                {
+                    requestedUrl: "domain.com/path/",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property(
+                            "BASE_PATH",
+                            "/path/"
+                        );
+                    }
+                },
+                {
+                    requestedUrl: "domain.com/path/nested",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property(
+                            "BASE_PATH",
+                            "/path/"
+                        );
+                    }
+                }
+            ]
+        }
+    );
 });

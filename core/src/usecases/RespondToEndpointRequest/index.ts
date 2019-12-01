@@ -164,7 +164,12 @@ export default class RespondToEndpointRequest extends Usecase {
                 }
                 configuration = linkedApp.defaultConfiguration;
             }
-            content = configureHtml(content, configuration);
+            content = configureHtml(content, {
+                ...configuration,
+                // Inject additional configuration variables regarding the
+                // entrypoint at which the asset is being served
+                BASE_PATH: urlMatcherPath
+            });
         }
 
         // Return the asset response

@@ -11,11 +11,14 @@ base path _from which to start routing_.
 Example: if your app is deployed at `example.com/foo/`, you need to tell the
 router to consider `/foo/` the root from which to start routing, so that - in
 the app - navigating to `/bar/` actually brings you to `example.com/foo/bar/`
-instead of `example.com/bar/` (which is most likely the desired behavior).
+(most likely the desired behavior) instead of `example.com/bar/` .
 
-To avoid having to specify this at build-time, you can add a configuration
-variable (e.g. `BASE_PATH`) to the entrypoint at which you're deploying your
-app, and pass it at runtime to your router.
+To save you the trouble of having to specify this value at build-time, and to
+allow your bundles to be deployed at any base path, StaticDeploy injects the
+configuration variable `BASE_PATH` into your html pages (see
+[Apps configuration](/docs/getting-started-apps-configuration) for details).
+`BASE_PATH` is the base path of the entrypoint at which you're deploying your
+app, and you can pass it directly to your router.
 
 ### Examples for popular client-side routers
 
