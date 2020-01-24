@@ -1,3 +1,13 @@
+## 0.15.0 (January 24, 2020)
+
+Features:
+
+- inject the base path of the entrypoint at which the html page is being served
+  as the `BASE_PATH` property of the `window.APP_CONFIG` object
+- when a Content-Security-Policy header is defined for an html asset, patch its
+  value to whitelist (via sha256 source) the configuration script injected in
+  the html
+
 ## 0.14.1 (November 29, 2019)
 
 Fixes:
