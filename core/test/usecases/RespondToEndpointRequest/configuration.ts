@@ -179,7 +179,7 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     bundleHeaders: {
                         "/index.html": {
                             "content-security-policy":
-                                "default-src 'self'; script-src sha256-aaa"
+                                "default-src 'self'; script-src 'sha256-aaa'"
                         }
                     },
                     bundleFallbackAssetPath: "/index.html"
@@ -200,7 +200,7 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedHeaders: {
                         "content-type": "text/html",
                         "content-security-policy":
-                            "default-src 'self'; script-src sha256-lU2WXEPqWduFTew3wM9rTvhhDENamUsesYK0WO0AYJY="
+                            "default-src 'self'; script-src 'sha256-lU2WXEPqWduFTew3wM9rTvhhDENamUsesYK0WO0AYJY='"
                     }
                 },
                 {
@@ -209,7 +209,7 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedHeaders: {
                         "content-type": "text/html",
                         "content-security-policy":
-                            "default-src 'self'; script-src sha256-aaa sha256-8D20jdHeeIMyl5CzK1k7/JR35VYjJ8FGMuswHptw7no="
+                            "default-src 'self'; script-src 'sha256-aaa' 'sha256-8D20jdHeeIMyl5CzK1k7/JR35VYjJ8FGMuswHptw7no='"
                     }
                 },
                 // Also test that the header is not added if not already present

@@ -19,7 +19,7 @@ describe("whitelistInlineScript", () => {
             expect(whitelistInlineScript(headers, "sha256")).to.deep.equal({
                 "not-content-security-policy": "value",
                 "content-security-policy":
-                    "default-src 'self'; script-src sha256-sha256"
+                    "default-src 'self'; script-src 'sha256-sha256'"
             });
         });
 
@@ -32,7 +32,7 @@ describe("whitelistInlineScript", () => {
             expect(whitelistInlineScript(headers, "sha256")).to.deep.equal({
                 "not-content-security-policy": "value",
                 "content-security-policy":
-                    "default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com sha256-sha256"
+                    "default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com 'sha256-sha256'"
             });
         });
 
@@ -44,7 +44,7 @@ describe("whitelistInlineScript", () => {
             expect(whitelistInlineScript(headers, "sha256")).to.deep.equal({
                 "not-content-security-policy": "value",
                 "Content-Security-Policy":
-                    "default-src 'self'; script-src sha256-sha256"
+                    "default-src 'self'; script-src 'sha256-sha256'"
             });
         });
     });

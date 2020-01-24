@@ -30,7 +30,7 @@ export default function whitelistInlineScript(
                 ...cspDirectives,
                 [SCRIPT_SRC_DIRECTIVE]: compact([
                     ...castArray(cspDirectives[SCRIPT_SRC_DIRECTIVE]),
-                    `sha256-${inlineScriptSha256}`
+                    `'sha256-${inlineScriptSha256}'`
                 ])
             }
         })
