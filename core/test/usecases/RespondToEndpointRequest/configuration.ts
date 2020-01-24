@@ -45,9 +45,10 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedStatusCode: 200,
                     expectedBody: body => {
                         const APP_CONFIG = extractAppConfig(body);
-                        expect(APP_CONFIG).to.deep.equal({
-                            KEY: "DEFAULT_VALUE"
-                        });
+                        expect(APP_CONFIG).to.have.property(
+                            "KEY",
+                            "DEFAULT_VALUE"
+                        );
                     }
                 }
             ]
@@ -76,9 +77,7 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                 expectedStatusCode: 200,
                 expectedBody: body => {
                     const APP_CONFIG = extractAppConfig(body);
-                    expect(APP_CONFIG).to.deep.equal({
-                        KEY: "VALUE"
-                    });
+                    expect(APP_CONFIG).to.have.property("KEY", "VALUE");
                 }
             },
             {
@@ -86,11 +85,144 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                 expectedStatusCode: 200,
                 expectedBody: body => {
                     const APP_CONFIG = extractAppConfig(body);
-                    expect(APP_CONFIG).to.deep.equal({
-                        KEY: "VALUE"
-                    });
+                    expect(APP_CONFIG).to.have.property("KEY", "VALUE");
                 }
             }
         ]
     });
+
+    test(
+        "injects the entrypoint's urlMatcher's pathname as the BASE_PATH configuration option",
+        {
+            entrypoints: [
+                {
+                    urlMatcher: "domain.com/",
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                },
+                {
+                    urlMatcher: "domain.com/path/",
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                }
+            ],
+            testCases: [
+                {
+                    requestedUrl: "domain.com/",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property("BASE_PATH", "/");
+                    }
+                },
+                {
+                    requestedUrl: "domain.com/nested",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property("BASE_PATH", "/");
+                    }
+                },
+                {
+                    requestedUrl: "domain.com/path/",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property(
+                            "BASE_PATH",
+                            "/path/"
+                        );
+                    }
+                },
+                {
+                    requestedUrl: "domain.com/path/nested",
+                    expectedStatusCode: 200,
+                    expectedBody: body => {
+                        const APP_CONFIG = extractAppConfig(body);
+                        expect(APP_CONFIG).to.have.property(
+                            "BASE_PATH",
+                            "/path/"
+                        );
+                    }
+                }
+            ]
+        }
+    );
+
+    test(
+        "when a CSP header is defined, modifies it to whitelist the injected configuration script",
+        {
+            entrypoints: [
+                {
+                    urlMatcher: "csp.com/simple/",
+                    configuration: { KEY: "VALUE" },
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleHeaders: {
+                        "/index.html": {
+                            "content-security-policy": "default-src 'self'"
+                        }
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                },
+                {
+                    urlMatcher: "csp.com/complex/",
+                    configuration: { KEY: "VALUE" },
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleHeaders: {
+                        "/index.html": {
+                            "content-security-policy":
+                                "default-src 'self'; script-src sha256-aaa"
+                        }
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                },
+                {
+                    urlMatcher: "no-csp.com/",
+                    configuration: { KEY: "VALUE" },
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                }
+            ],
+            testCases: [
+                {
+                    requestedUrl: "csp.com/simple/",
+                    expectedStatusCode: 200,
+                    expectedHeaders: {
+                        "content-type": "text/html",
+                        "content-security-policy":
+                            "default-src 'self'; script-src sha256-954d965c43ea59db854dec37c0cf6b4ef8610c435a994b1eb182b458ed006096"
+                    }
+                },
+                {
+                    requestedUrl: "csp.com/complex/",
+                    expectedStatusCode: 200,
+                    expectedHeaders: {
+                        "content-type": "text/html",
+                        "content-security-policy":
+                            "default-src 'self'; script-src sha256-aaa sha256-f03db48dd1de7883329790b32b593bfc9477e5562327c14632eb301e9b70ee7a"
+                    }
+                },
+                // Also test that the header is not added if not already present
+                {
+                    requestedUrl: "no-csp.com/",
+                    expectedStatusCode: 200,
+                    expectedHeaders: headers => {
+                        expect(headers).not.to.have.property(
+                            "content-security-policy"
+                        );
+                    }
+                }
+            ]
+        }
+    );
 });

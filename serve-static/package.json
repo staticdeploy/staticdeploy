@@ -33,21 +33,21 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.5",
+    "@types/chai": "^4.2.7",
     "@types/express": "^4.17.2",
     "@types/mocha": "^5.2.7",
     "@types/supertest": "^2.0.8",
     "chai": "^4.2.0",
     "create-fs-tree": "^1.0.0",
-    "husky": "^3.1.0",
-    "lerna": "^3.19.0",
-    "mocha": "^6.2.2",
+    "husky": "^4.2.1",
+    "lerna": "^3.20.2",
+    "mocha": "^7.0.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "supertest": "^4.0.2",
-    "ts-node": "^8.5.4",
-    "tslint": "^5.20.1",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.5"
   }
 }

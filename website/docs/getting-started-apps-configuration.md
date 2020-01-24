@@ -13,11 +13,16 @@ A configuration object is a json `(string, string)` dictionary. Each entrypoint
 has a configuration object associated with it, which will be injected into the
 html pages of the entrypoint's bundle. The configuration object can either be
 specific to the entrypoint, or be the default configuration object of the
-entrypoint's app.
+entrypoint's app (both are defined by you, the StaticDeploy admin).
 
 The configuration snippet is injected into an html page as content of a
 `<script>` element with id `app-config` found in the page. If the page doesn't
 contain any such element, nothing is injected.
+
+StaticDeploy adds the following variables to the injected configuration object:
+
+- `BASE_PATH`: the base path of the entrypoint at which the html page is being
+  served
 
 ## Example
 
@@ -35,8 +40,8 @@ Suppose you have a bundle `example-app:master` containing the following
 </head>
 ```
 
-You deploy the bundle to entrypoint `example-app.com/`, which has the following
-configuration object:
+You deploy the bundle to entrypoint `example-app.com/base-path/`, for which you
+have defined the following configuration object:
 
 ```json
 {
@@ -44,14 +49,19 @@ configuration object:
 }
 ```
 
-When you request `http://example-app.com/index.html` you get the following html
-as response:
+When you request `http://example-app.com/base-path/index.html` you get the
+following html as response:
 
 ```html
 <head>
   <title>Example app</title>
   <script id="app-config">
-    window.APP_CONFIG = { EXAMPLE_CONFIG_KEY: "EXAMPLE_CONFIG_VALUE" };
+    window.APP_CONFIG = {
+      // Configuration variables defined on the entrypoint
+      EXAMPLE_CONFIG_KEY: "EXAMPLE_CONFIG_VALUE",
+      // Configuration variables added by StaticDeploy
+      BASE_PATH: "/base-path/"
+    };
   </script>
   <script>
     // App code which accesses the configuration object

@@ -1,19 +1,16 @@
 import { load } from "cheerio";
 
-import { IConfiguration } from "../../entities/Configuration";
-
 // Only exported for testing
 export const SELECTOR = "script#app-config";
 
 export default function configureHtml(
     html: Buffer,
-    config: IConfiguration
+    configurationScriptContent: string
 ): Buffer {
-    const configScript = `window.APP_CONFIG=${JSON.stringify(config)};`;
     const $ = load(html.toString());
     $(SELECTOR)
         .removeAttr("src")
-        .html(configScript);
+        .html(configurationScriptContent);
     const configuredHtml = $.html();
     return Buffer.from(configuredHtml);
 }

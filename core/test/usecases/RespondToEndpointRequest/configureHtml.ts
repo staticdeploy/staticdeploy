@@ -5,7 +5,7 @@ import configureHtml, {
     SELECTOR
 } from "../../../src/usecases/RespondToEndpointRequest/configureHtml";
 
-describe("getConfiguredHtml", () => {
+describe("configureHtml", () => {
     const html = Buffer.from(`
             <!doctype html>
             <html>
@@ -17,10 +17,13 @@ describe("getConfiguredHtml", () => {
                 </body>
             </html>
         `);
-    const config = { KEY: "VALUE" };
+    const configurationScriptContent = 'window.APP_CONFIG={"KEY":"VALUE"};';
 
-    it(`injects the generated config script into the supplied html buffer, inside ${SELECTOR}`, () => {
-        const configuredHtml = configureHtml(html, config).toString();
+    it(`injects the provided configuration script into the supplied html buffer, inside ${SELECTOR}`, () => {
+        const configuredHtml = configureHtml(
+            html,
+            configurationScriptContent
+        ).toString();
         const $ = load(configuredHtml);
         const scriptContent = $(SELECTOR).html();
         expect(scriptContent).to.have.string(
@@ -29,7 +32,10 @@ describe("getConfiguredHtml", () => {
     });
 
     it(`removes the src attribute from ${SELECTOR}`, () => {
-        const configuredHtml = configureHtml(html, config).toString();
+        const configuredHtml = configureHtml(
+            html,
+            configurationScriptContent
+        ).toString();
         const $ = load(configuredHtml);
         const scriptSrc = $(SELECTOR).attr("src");
         expect(scriptSrc).to.equal(undefined);

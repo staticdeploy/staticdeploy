@@ -22,13 +22,13 @@
     "compile": "rimraf build && BUILD_FOR_PRODUCTION=true docusaurus-build && node scripts/fixBuild.js"
   },
   "dependencies": {
-    "docusaurus": "^1.14.2"
+    "docusaurus": "^1.14.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cheerio": "^1.0.0-rc.3",
-    "eslint": "^6.7.1",
-    "eslint-plugin-react": "^7.17.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.0",
     "fs-extra": "^8.1.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",

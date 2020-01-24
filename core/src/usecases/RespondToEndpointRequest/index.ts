@@ -11,11 +11,14 @@ import Usecase from "../../common/Usecase";
 import { IConfiguration } from "../../entities/Configuration";
 import { IEndpointRequest } from "../../entities/EndpointRequest";
 import { IEndpointResponse } from "../../entities/EndpointResponse";
+import { IEntrypoint } from "../../entities/Entrypoint";
 import addTrailingSlash from "./addTrailingSlash";
 import configureHtml from "./configureHtml";
 import findMatchingAsset from "./findMatchingAsset";
+import getConfigurationScript from "./getConfigurationScript";
 import isCanonicalPath from "./isCanonicalPath";
 import toAbsolute from "./toAbsolute";
+import whitelistInlineScript from "./whitelistInlineScript";
 
 export default class RespondToEndpointRequest extends Usecase {
     async exec(request: IEndpointRequest): Promise<IEndpointResponse> {
@@ -138,7 +141,7 @@ export default class RespondToEndpointRequest extends Usecase {
         }
 
         // Get the matching asset content
-        let content = await this.storages.bundles.getBundleAssetContent(
+        const content = await this.storages.bundles.getBundleAssetContent(
             linkedBundle.id,
             matchingAsset.path
         );
@@ -148,24 +151,13 @@ export default class RespondToEndpointRequest extends Usecase {
             );
         }
 
-        // Configure the content
-        if (matchingAsset.mimeType === "text/html") {
-            let configuration: IConfiguration;
-            if (matchingEntrypoint.configuration) {
-                configuration = matchingEntrypoint.configuration;
-            } else {
-                const linkedApp = await this.storages.apps.findOne(
-                    matchingEntrypoint.appId
-                );
-                if (!linkedApp) {
-                    throw new StoragesInconsistencyError(
-                        `Entrypoint with id = ${matchingEntrypoint.id} links to a non-existing app with id = ${matchingEntrypoint.appId}`
-                    );
-                }
-                configuration = linkedApp.defaultConfiguration;
-            }
-            content = configureHtml(content, configuration);
-        }
+        // Get the configuration script, if the asset is html
+        const isHtmlAsset = matchingAsset.mimeType === "text/html";
+        const configurationScript = isHtmlAsset
+            ? getConfigurationScript(
+                  await this.getConfiguration(matchingEntrypoint)
+              )
+            : null;
 
         // Return the asset response
         return {
@@ -176,15 +168,49 @@ export default class RespondToEndpointRequest extends Usecase {
                 matchingAsset.path === fallbackAsset.path
                     ? linkedBundle.fallbackStatusCode
                     : 200,
-            // Allow the mime type to be overridden by headers. This gives the
-            // user the possibility to use more accurate mime types if they so
-            // wish (instead of using the default ones derived from the asset's
-            // extension)
             headers: {
+                // Allow the mime type to be overridden by headers. This gives
+                // the user the possibility to use more accurate mime types if
+                // they so wish (instead of using the default ones derived from
+                // the asset's extension)
                 "content-type": matchingAsset.mimeType,
-                ...matchingAsset.headers
+                ...(isHtmlAsset
+                    ? whitelistInlineScript(
+                          matchingAsset.headers,
+                          configurationScript!.sha256
+                      )
+                    : matchingAsset.headers)
             },
-            body: content
+            body: isHtmlAsset
+                ? configureHtml(content, configurationScript!.content)
+                : content
+        };
+    }
+
+    private async getConfiguration(
+        entrypoint: IEntrypoint
+    ): Promise<IConfiguration> {
+        let configuration: IConfiguration;
+        if (entrypoint.configuration) {
+            configuration = entrypoint.configuration;
+        } else {
+            const linkedApp = await this.storages.apps.findOne(
+                entrypoint.appId
+            );
+            if (!linkedApp) {
+                throw new StoragesInconsistencyError(
+                    `Entrypoint with id = ${entrypoint.id} links to a non-existing app with id = ${entrypoint.appId}`
+                );
+            }
+            configuration = linkedApp.defaultConfiguration;
+        }
+        return {
+            ...configuration,
+            // Inject additional configuration variables regarding the
+            // entrypoint at which the asset is being served
+            BASE_PATH: entrypoint.urlMatcher.slice(
+                entrypoint.urlMatcher.indexOf("/")
+            )
         };
     }
 }
