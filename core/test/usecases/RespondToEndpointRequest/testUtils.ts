@@ -53,7 +53,9 @@ export interface ITestDefinition {
         expectedStatusCode?: number;
         expectedLocationHeader?: string;
         expectedMimeTypeHeader?: string;
-        expectedHeaders?: IAsset["headers"];
+        expectedHeaders?:
+            | IAsset["headers"]
+            | ((headers: IAsset["headers"]) => void);
         expectedBody?: string | ((body: string) => void);
     }[];
 }
@@ -210,9 +212,14 @@ export function test(description: string, testDefinition: ITestDefinition) {
                             .that.equals(expectedMimeTypeHeader);
                     }
                     if (expectedHeaders) {
-                        expect(response)
-                            .to.have.property("headers")
-                            .that.deep.equals(expectedHeaders);
+                        if (typeof expectedHeaders === "function") {
+                            expect(response).to.have.property("headers");
+                            expectedHeaders(response.headers);
+                        } else {
+                            expect(response)
+                                .to.have.property("headers")
+                                .that.deep.equals(expectedHeaders);
+                        }
                     }
                     if (expectedBody) {
                         if (typeof expectedBody === "function") {

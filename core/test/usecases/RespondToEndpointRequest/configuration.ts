@@ -152,4 +152,77 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
             ]
         }
     );
+
+    test(
+        "when a CSP header is defined, modifies it to whitelist the injected configuration script",
+        {
+            entrypoints: [
+                {
+                    urlMatcher: "csp.com/simple/",
+                    configuration: { KEY: "VALUE" },
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleHeaders: {
+                        "/index.html": {
+                            "content-security-policy": "default-src 'self'"
+                        }
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                },
+                {
+                    urlMatcher: "csp.com/complex/",
+                    configuration: { KEY: "VALUE" },
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleHeaders: {
+                        "/index.html": {
+                            "content-security-policy":
+                                "default-src 'self'; script-src sha256-aaa"
+                        }
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                },
+                {
+                    urlMatcher: "no-csp.com/",
+                    configuration: { KEY: "VALUE" },
+                    bundleContent: {
+                        "index.html": htmlWithConfig
+                    },
+                    bundleFallbackAssetPath: "/index.html"
+                }
+            ],
+            testCases: [
+                {
+                    requestedUrl: "csp.com/simple/",
+                    expectedStatusCode: 200,
+                    expectedHeaders: {
+                        "content-type": "text/html",
+                        "content-security-policy":
+                            "default-src 'self'; script-src sha256-954d965c43ea59db854dec37c0cf6b4ef8610c435a994b1eb182b458ed006096"
+                    }
+                },
+                {
+                    requestedUrl: "csp.com/complex/",
+                    expectedStatusCode: 200,
+                    expectedHeaders: {
+                        "content-type": "text/html",
+                        "content-security-policy":
+                            "default-src 'self'; script-src sha256-aaa sha256-f03db48dd1de7883329790b32b593bfc9477e5562327c14632eb301e9b70ee7a"
+                    }
+                },
+                // Also test that the header is not added if not already present
+                {
+                    requestedUrl: "no-csp.com/",
+                    expectedStatusCode: 200,
+                    expectedHeaders: headers => {
+                        expect(headers).not.to.have.property(
+                            "content-security-policy"
+                        );
+                    }
+                }
+            ]
+        }
+    );
 });

@@ -29,16 +29,16 @@
     "@staticdeploy/core": "^0.14.1",
     "chai": "^4.2.0",
     "lodash": "^4.17.15",
-    "mocha": "^6.2.2"
+    "mocha": "^7.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.5",
+    "@types/chai": "^4.2.7",
     "@types/lodash": "^4.14.149",
     "@types/mocha": "^5.2.7",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
-    "tslint": "^5.20.1",
+    "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.5"
   }
 }
