@@ -24,7 +24,7 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 20000 -t 10000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "test": "NODE_ENV=test NODE_PATH=src mocha --exit -t 20000 -t 10000 -r ts-node/register --extension ts 'test/**/*.ts'",
     "start-test-containers:minio": "docker run --rm -p 9000:9000 -e MINIO_ACCESS_KEY=accessKeyId -e MINIO_SECRET_KEY=secretAccessKey minio/minio server /data",
     "start-test-containers:pg": "docker run --rm -p 5432:5432 postgres",
     "start-test-containers": "npm-run-all -p start-test-containers:*"

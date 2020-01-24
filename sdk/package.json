@@ -32,7 +32,7 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register -r test/setup.ts --watch-extensions ts 'test/**/*.ts'"
+    "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register -r test/setup.ts --extension ts 'test/**/*.ts'"
   },
   "dependencies": {
     "@staticdeploy/core": "^0.14.1",

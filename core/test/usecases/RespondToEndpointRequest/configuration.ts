@@ -200,7 +200,7 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedHeaders: {
                         "content-type": "text/html",
                         "content-security-policy":
-                            "default-src 'self'; script-src sha256-954d965c43ea59db854dec37c0cf6b4ef8610c435a994b1eb182b458ed006096"
+                            "default-src 'self'; script-src sha256-lU2WXEPqWduFTew3wM9rTvhhDENamUsesYK0WO0AYJY="
                     }
                 },
                 {
@@ -209,7 +209,7 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedHeaders: {
                         "content-type": "text/html",
                         "content-security-policy":
-                            "default-src 'self'; script-src sha256-aaa sha256-f03db48dd1de7883329790b32b593bfc9477e5562327c14632eb301e9b70ee7a"
+                            "default-src 'self'; script-src sha256-aaa sha256-8D20jdHeeIMyl5CzK1k7/JR35VYjJ8FGMuswHptw7no="
                     }
                 },
                 // Also test that the header is not added if not already present

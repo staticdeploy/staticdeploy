@@ -20,7 +20,7 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "yarn lint:prettier && yarn lint:tslint",
-    "test": "NODE_ENV=test TS_NODE_FILES=true mocha --exit -t 20000 -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
+    "test": "NODE_ENV=test TS_NODE_FILES=true mocha --exit -t 20000 -r ts-node/register --extension ts 'test/**/*.ts'",
     "start": "NODE_ENV=production node build/server.js",
     "docker:build": "docker build -f ./Dockerfile -t staticdeploy/staticdeploy:$DOCKER_TAG ../",
     "docker:tag-latest": "docker tag staticdeploy/staticdeploy:$DOCKER_TAG staticdeploy/staticdeploy:latest",

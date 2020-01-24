@@ -22,7 +22,7 @@
     "lint:prettier": "yarn prettier --list-different",
     "lint:tslint": "tslint '@(src|test)/**/*.ts?(x)'",
     "lint": "npm-run-all lint:*",
-    "test": "TS_NODE_PROJECT=test/tsconfig.json TS_NODE_FILES=true NODE_ENV=test mocha --exit -t 20000 -r test/setup --watch-extensions ts,tsx 'test/**/*.ts?(x)'",
+    "test": "TS_NODE_PROJECT=test/tsconfig.json TS_NODE_FILES=true NODE_ENV=test mocha --exit -t 20000 -r test/setup --extension ts,tsx 'test/**/*.ts?(x)'",
     "dev:mock-server": "TS_NODE_PROJECT=mock-server/tsconfig.json mock-server --delay 100 --watch --require ts-node/register --serveConfig",
     "dev:server": "react-scripts start",
     "dev": "npm-run-all -p dev:*",

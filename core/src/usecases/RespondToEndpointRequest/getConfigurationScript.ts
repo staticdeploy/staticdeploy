@@ -15,6 +15,6 @@ export default function getConfigurationScript(
         content: content,
         sha256: createHash("sha256")
             .update(content)
-            .digest("hex")
+            .digest("base64")
     };
 }
