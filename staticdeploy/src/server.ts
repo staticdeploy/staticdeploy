@@ -3,6 +3,7 @@ import { createServer } from "http";
 import usecases from "./common/usecases";
 import getAuthenticationStrategies from "./components/authenticationStrategies";
 import getExpressApp from "./components/expressApp";
+import getExternalCacheServices from "./components/externalCacheServices";
 import getLogger from "./components/logger";
 import getManagementRouter from "./components/managementRouter";
 import getStoragesModule from "./components/storagesModule";
@@ -20,11 +21,13 @@ import setupStorages from "./init/setupStorages";
             config,
             logger
         );
+        const externalCacheServices = getExternalCacheServices();
         const managementRouter = await getManagementRouter(config);
         const storagesModule = getStoragesModule(config, logger);
         const expressApp = getExpressApp({
             config,
             authenticationStrategies,
+            externalCacheServices,
             logger,
             managementRouter,
             storagesModule,

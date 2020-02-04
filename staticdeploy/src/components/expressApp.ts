@@ -1,4 +1,8 @@
-import { IAuthenticationStrategy, IStoragesModule } from "@staticdeploy/core";
+import {
+    IAuthenticationStrategy,
+    IExternalCacheService,
+    IStoragesModule
+} from "@staticdeploy/core";
 import {
     IUsecasesByName,
     staticServerAdapter
@@ -15,6 +19,7 @@ import injectMakeUsecase from "../middleware/injectMakeUsecase";
 
 export default function getExpressApp(options: {
     authenticationStrategies: IAuthenticationStrategy[];
+    externalCacheServices: IExternalCacheService[];
     config: IConfig;
     logger: Logger;
     managementRouter: express.Router;
@@ -23,6 +28,7 @@ export default function getExpressApp(options: {
 }): express.Application {
     const {
         authenticationStrategies,
+        externalCacheServices,
         config,
         logger,
         managementRouter,
@@ -41,6 +47,7 @@ export default function getExpressApp(options: {
             injectMakeUsecase(usecases, {
                 archiver: tarArchiver,
                 authenticationStrategies: authenticationStrategies,
+                externalCacheServices: externalCacheServices,
                 config: { enforceAuth: config.enforceAuth },
                 storages: storagesModule.getStorages()
             }),

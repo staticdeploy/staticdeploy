@@ -5,11 +5,13 @@ export default interface IUsecasesByName {
     createApp: typeof sd.CreateApp;
     createBundle: typeof sd.CreateBundle;
     createEntrypoint: typeof sd.CreateEntrypoint;
+    createExternalCache: typeof sd.CreateExternalCache;
     createGroup: typeof sd.CreateGroup;
     createUser: typeof sd.CreateUser;
     deleteApp: typeof sd.DeleteApp;
     deleteBundlesByNameAndTag: typeof sd.DeleteBundlesByNameAndTag;
     deleteEntrypoint: typeof sd.DeleteEntrypoint;
+    deleteExternalCache: typeof sd.DeleteExternalCache;
     deleteGroup: typeof sd.DeleteGroup;
     deleteUser: typeof sd.DeleteUser;
     deployBundle: typeof sd.DeployBundle;
@@ -23,6 +25,8 @@ export default interface IUsecasesByName {
     getCurrentUser: typeof sd.GetCurrentUser;
     getEntrypoint: typeof sd.GetEntrypoint;
     getEntrypointsByAppId: typeof sd.GetEntrypointsByAppId;
+    getExternalCache: typeof sd.GetExternalCache;
+    getExternalCaches: typeof sd.GetExternalCaches;
     getGroup: typeof sd.GetGroup;
     getGroups: typeof sd.GetGroups;
     getOperationLogs: typeof sd.GetOperationLogs;
@@ -31,6 +35,7 @@ export default interface IUsecasesByName {
     respondToEndpointRequest: typeof sd.RespondToEndpointRequest;
     updateApp: typeof sd.UpdateApp;
     updateEntrypoint: typeof sd.UpdateEntrypoint;
+    updateExternalCache: typeof sd.UpdateExternalCache;
     updateGroup: typeof sd.UpdateGroup;
     updateUser: typeof sd.UpdateUser;
 }

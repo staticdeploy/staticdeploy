@@ -1,6 +1,7 @@
 import {
     IArchiver,
     IAuthenticationStrategy,
+    IExternalCacheService,
     IStorages,
     IUsecaseConfig
 } from "@staticdeploy/core";
@@ -14,6 +15,7 @@ export default function injectMakeUsecase(
     dependencies: {
         archiver: IArchiver;
         authenticationStrategies: IAuthenticationStrategy[];
+        externalCacheServices: IExternalCacheService[];
         config: IUsecaseConfig;
         storages: IStorages;
     }
@@ -21,6 +23,7 @@ export default function injectMakeUsecase(
     const {
         archiver,
         authenticationStrategies,
+        externalCacheServices,
         config,
         storages
     } = dependencies;
@@ -30,6 +33,7 @@ export default function injectMakeUsecase(
             return new UsecaseClass({
                 archiver: archiver,
                 authenticationStrategies: authenticationStrategies,
+                externalCacheServices: externalCacheServices,
                 config: config,
                 requestContext: { authToken: req.authToken },
                 storages: storages

@@ -15,6 +15,7 @@ describe("staticdeploy expressApp", () => {
             const expressApp = getExpressApp({
                 config: config,
                 authenticationStrategies: [],
+                externalCacheServices: [],
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter(config),
                 usecases: usecases,
@@ -32,6 +33,7 @@ describe("staticdeploy expressApp", () => {
             const expressApp = getExpressApp({
                 config: config,
                 authenticationStrategies: [],
+                externalCacheServices: [],
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter(config),
                 usecases: usecases,
@@ -51,6 +53,7 @@ describe("staticdeploy expressApp", () => {
             const expressApp = getExpressApp({
                 config: config,
                 authenticationStrategies: [],
+                externalCacheServices: [],
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter({
                     ...config,
@@ -70,6 +73,7 @@ describe("staticdeploy expressApp", () => {
             const expressApp = getExpressApp({
                 config: config,
                 authenticationStrategies: [],
+                externalCacheServices: [],
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter({
                     ...config,
@@ -93,6 +97,7 @@ describe("staticdeploy expressApp", () => {
                 enforceAuth: false
             },
             authenticationStrategies: [],
+            externalCacheServices: [],
             storagesModule: getStoragesModule(config, logger),
             managementRouter: await getManagementRouter(config),
             usecases: usecases,

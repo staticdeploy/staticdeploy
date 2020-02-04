@@ -1,4 +1,7 @@
-import { ExternalCacheNotFoundError } from "../common/errors";
+import {
+    ConflictingExternalCacheError,
+    ExternalCacheNotFoundError
+} from "../common/errors";
 import Usecase from "../common/Usecase";
 import {
     IExternalCache,
@@ -34,6 +37,16 @@ export default class UpdateExternalCache extends Usecase {
         }
         if (patch.configuration) {
             validateExternalCacheConfiguration(patch.configuration);
+        }
+
+        // Ensure no externalCache with the same domain exists
+        if (patch.domain) {
+            const conflictingExternalCacheExists = await this.storages.externalCaches.oneExistsWithDomain(
+                patch.domain
+            );
+            if (conflictingExternalCacheExists) {
+                throw new ConflictingExternalCacheError(patch.domain);
+            }
         }
 
         // Update the externalCache

@@ -2,6 +2,7 @@ import { expect } from "chai";
 import sinon from "sinon";
 
 import {
+    ConflictingExternalCacheError,
     ExternalCacheConfigurationNotValidError,
     ExternalCacheDomainNotValidError,
     ExternalCacheNotFoundError
@@ -56,6 +57,23 @@ describe("usecase UpdateExternalCache", () => {
         );
         await expect(updateExternalCachePromise).to.be.rejectedWith(
             "https://domain.com is not a valid domain name"
+        );
+    });
+
+    it("throws ConflictingExternalCacheError if an externalCache with the same domain exists", async () => {
+        const deps = getMockDependencies();
+        deps.storages.externalCaches.findOne.resolves({} as any);
+        deps.storages.externalCaches.oneExistsWithDomain.resolves(true);
+        const updateExternalCache = new UpdateExternalCache(deps);
+        const updateExternalCachePromise = updateExternalCache.exec(
+            "externalCacheId",
+            { domain: "domain.com" }
+        );
+        await expect(updateExternalCachePromise).to.be.rejectedWith(
+            ConflictingExternalCacheError
+        );
+        await expect(updateExternalCachePromise).to.be.rejectedWith(
+            "An external cache with domain = domain.com already exists"
         );
     });
 

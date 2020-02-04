@@ -26,6 +26,11 @@ const errorStatusMappings: ErrorStatusMapping[] = [
     [sd.EntrypointNotFoundError, 404],
     [sd.ConflictingEntrypointError, 409],
     [sd.EntrypointMismatchedAppIdError, 400],
+    // ExternalCache errors
+    [sd.ExternalCacheDomainNotValidError, 400],
+    [sd.ExternalCacheConfigurationNotValidError, 400],
+    [sd.ConflictingExternalCacheError, 409],
+    [sd.ExternalCacheNotFoundError, 404],
     // Endpoint response errors
     [sd.NoMatchingEntrypointError, 404],
     [sd.NoBundleOrRedirectToError, 404],
