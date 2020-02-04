@@ -2,9 +2,9 @@ import { expect } from "chai";
 import sinon from "sinon";
 
 import {
+    ConflictingExternalCacheError,
     ExternalCacheConfigurationNotValidError,
-    ExternalCacheDomainNotValidError,
-    ConflictingExternalCacheError
+    ExternalCacheDomainNotValidError
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateExternalCache from "../../src/usecases/CreateExternalCache";

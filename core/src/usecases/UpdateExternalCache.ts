@@ -2,8 +2,8 @@ import { ExternalCacheNotFoundError } from "../common/errors";
 import Usecase from "../common/Usecase";
 import {
     IExternalCache,
-    validateExternalCacheDomain,
-    validateExternalCacheConfiguration
+    validateExternalCacheConfiguration,
+    validateExternalCacheDomain
 } from "../entities/ExternalCache";
 import { Operation } from "../entities/OperationLog";
 

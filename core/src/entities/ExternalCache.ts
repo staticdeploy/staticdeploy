@@ -1,10 +1,10 @@
 import { every, isPlainObject, isString } from "lodash";
+import isFQDN from "validator/lib/isFQDN";
 
 import {
     ExternalCacheConfigurationNotValidError,
     ExternalCacheDomainNotValidError
 } from "../common/errors";
-import isFQDN from "validator/lib/isFQDN";
 
 export interface IExternalCache {
     id: string;

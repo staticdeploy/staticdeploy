@@ -11,6 +11,7 @@ import AppsStorage from "./AppsStorage";
 import BundlesStorage from "./BundlesStorage";
 import { StorageSetupError } from "./common/errors";
 import EntrypointsStorage from "./EntrypointsStorage";
+import ExternalCachesStorage from "./ExternalCachesStorage";
 import GroupsStorage from "./GroupsStorage";
 import OperationLogsStorage from "./OperationLogsStorage";
 import UsersStorage from "./UsersStorage";
@@ -56,6 +57,7 @@ export default class PgS3Storages implements IStoragesModule {
                 this.s3Bucket
             ),
             entrypoints: new EntrypointsStorage(this.knex),
+            externalCaches: new ExternalCachesStorage(this.knex),
             groups: new GroupsStorage(this.knex),
             operationLogs: new OperationLogsStorage(this.knex),
             users: new UsersStorage(this.knex),

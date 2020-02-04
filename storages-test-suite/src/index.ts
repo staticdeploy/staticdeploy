@@ -4,6 +4,7 @@ import registerAppsStorageTests from "./AppsStorage";
 import registerBundlesStorageTests from "./BundlesStorage";
 import registerCheckHealthTests from "./checkHealth";
 import registerEntrypointsStorageTests from "./EntrypointsStorage";
+import registerExternalCachesStorageTests from "./ExternalCachesStorage";
 import registerGroupsStorageTests from "./GroupsStorage";
 import registerOperationLogsStorageTests from "./OperationLogsStorage";
 import registerUsersStorageTests from "./UsersStorage";
@@ -26,6 +27,7 @@ export default function registerStoragesTests(options: IOptions): void {
         registerAppsStorageTests(options.storages);
         registerBundlesStorageTests(options.storages);
         registerEntrypointsStorageTests(options.storages);
+        registerExternalCachesStorageTests(options.storages);
         registerGroupsStorageTests(options.storages);
         registerOperationLogsStorageTests(options.storages);
         registerUsersStorageTests(options.storages);

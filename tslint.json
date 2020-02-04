@@ -6,14 +6,22 @@
     "rules": {
         "array-type": false,
         "callable-types": false,
+        "interface-name": {
+            "options": ["always-prefix"]
+        },
         "max-classes-per-file": false,
-        "member-access": false,
         "no-implicit-dependencies": false,
         "no-object-literal-type-assertion": false,
         "no-submodule-imports": false,
         "no-var-requires": false,
         "object-literal-shorthand": false,
-        "object-literal-sort-keys": false,
+        "ordered-imports": {
+            "options": {
+                "import-sources-order": "case-insensitive",
+                "module-source-path": "full",
+                "named-imports-order": "case-insensitive"
+            }
+        },
         "variable-name": false
     }
 }

@@ -34,6 +34,7 @@ registerStoragesTests({
         await knex(tables.usersAndGroups).delete();
         await knex(tables.groups).delete();
         await knex(tables.users).delete();
+        await knex(tables.externalCaches).delete();
 
         // Empty the S3 bucket
         const objects = await s3Client
