@@ -143,6 +143,28 @@ export class NoBundleOrRedirectToError extends Error {
     }
 }
 
+// External cache errors
+export class ExternalCacheDomainNotValidError extends Error {
+    constructor(domain: string) {
+        super(`${domain} is not a valid domain name`);
+    }
+}
+export class ExternalCacheConfigurationNotValidError extends Error {
+    constructor() {
+        super("Invalid external cache configuration object");
+    }
+}
+export class ConflictingExternalCacheError extends Error {
+    constructor(domain: string) {
+        super(`An external cache with domain = ${domain} already exists`);
+    }
+}
+export class ExternalCacheNotFoundError extends Error {
+    constructor(id: string) {
+        super(`No external cache found with id = ${id}`);
+    }
+}
+
 // Group and role errors
 export class GroupNotFoundError extends Error {
     constructor(id: string) {

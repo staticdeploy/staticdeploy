@@ -111,6 +111,20 @@ export default class Authorizer {
         return this.ensureAuthenticated();
     }
 
+    // External caches
+    ensureCanCreateExternalCache(): Promise<void> {
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanUpdateExternalCache(): Promise<void> {
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanDeleteExternalCache(): Promise<void> {
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
+    }
+    ensureCanGetExternalCaches(): Promise<void> {
+        return this.ensureAuthenticated();
+    }
+
     // Groups
     ensureCanCreateGroup(): Promise<void> {
         return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));

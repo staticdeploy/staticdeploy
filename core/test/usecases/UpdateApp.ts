@@ -21,7 +21,7 @@ describe("usecase UpdateApp", () => {
 
     it("throws ConfigurationNotValidError if the defaultConfiguration is not valid", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const updateApp = new UpdateApp(deps);
         const updateAppPromise = updateApp.exec("appId", {
             defaultConfiguration: "not-valid-configuration" as any
@@ -36,7 +36,7 @@ describe("usecase UpdateApp", () => {
 
     it("updates the app", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const updateApp = new UpdateApp(deps);
         await updateApp.exec("appId", { defaultConfiguration: {} });
         expect(deps.storages.apps.updateOne).to.have.been.calledOnceWith(
@@ -50,7 +50,7 @@ describe("usecase UpdateApp", () => {
 
     it("logs the update app operation", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const updateApp = new UpdateApp(deps);
         await updateApp.exec("appId", {});
         expect(
@@ -63,7 +63,7 @@ describe("usecase UpdateApp", () => {
     it("returns the updated app", async () => {
         const deps = getMockDependencies();
         const mockUpdatedApp = {} as any;
-        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
+        deps.storages.apps.findOne.resolves({} as any);
         deps.storages.apps.updateOne.resolves(mockUpdatedApp);
         const updateApp = new UpdateApp(deps);
         const updatedApp = await updateApp.exec("appId", {});

@@ -13,6 +13,11 @@ export enum Operation {
     UpdateEntrypoint = "entrypoints:update",
     DeleteEntrypoint = "entrypoints:delete",
 
+    // External Caches
+    CreateExternalCache = "externalCaches:create",
+    UpdateExternalCache = "externalCaches:update",
+    DeleteExternalCache = "externalCaches:delete",
+
     // Groups
     CreateGroup = "groups:create",
     UpdateGroup = "groups:update",

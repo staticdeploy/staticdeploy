@@ -309,6 +309,65 @@ describe("service Authorizer", () => {
         });
     });
 
+    // External caches
+    describe("ensureCanCreateExternalCache", () => {
+        it("throws MissingRoleError if the user is not allowed to create the external cache", async () => {
+            const authorizer = getAuthorizerForUser({ id: "id", roles: [] });
+            const ensurePromise = authorizer.ensureCanCreateExternalCache();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to create the external cache", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanCreateExternalCache();
+        });
+    });
+    describe("ensureCanUpdateExternalCache", () => {
+        it("throws MissingRoleError if the user is not allowed to update the external cache", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            const ensurePromise = authorizer.ensureCanUpdateExternalCache();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to update the external cache", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanUpdateExternalCache();
+        });
+    });
+    describe("ensureCanDeleteExternalCache", () => {
+        it("throws MissingRoleError if the user is not allowed to delete the external cache", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            const ensurePromise = authorizer.ensureCanDeleteExternalCache();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to delete the external cache", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
+            });
+            await authorizer.ensureCanDeleteExternalCache();
+        });
+    });
+    describe("ensureCanGetExternalCaches", () => {
+        it("doesn't throw if the user is allowed to get external caches", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: []
+            });
+            await authorizer.ensureCanGetExternalCaches();
+        });
+    });
+
     // Groups
     describe("ensureCanCreateGroup", () => {
         it("throws MissingRoleError if the user is not allowed to create the group", async () => {

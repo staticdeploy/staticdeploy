@@ -1,5 +1,6 @@
 import IArchiver from "../dependencies/IArchiver";
 import IAuthenticationStrategy from "../dependencies/IAuthenticationStrategy";
+import IExternalCacheService from "../dependencies/IExternalCacheService";
 import IRequestContext from "../dependencies/IRequestContext";
 import IStorages from "../dependencies/IStorages";
 import IUsecaseConfig from "../dependencies/IUsecaseConfig";
@@ -13,21 +14,24 @@ export default abstract class Usecase {
     protected operationLogger: OperationLogger;
     // Dependencies
     protected archiver: IArchiver;
-    protected storages: IStorages;
+    private authenticationStrategies: IAuthenticationStrategy[];
+    private externalCacheServices: IExternalCacheService[];
     private config: IUsecaseConfig;
     private requestContext: IRequestContext;
-    private authenticationStrategies: IAuthenticationStrategy[];
+    protected storages: IStorages;
 
     constructor(options: {
         archiver: IArchiver;
         authenticationStrategies: IAuthenticationStrategy[];
+        externalCacheServices: IExternalCacheService[];
         config: IUsecaseConfig;
         requestContext: IRequestContext;
         storages: IStorages;
     }) {
         // Dependencies
-        this.authenticationStrategies = options.authenticationStrategies;
         this.archiver = options.archiver;
+        this.authenticationStrategies = options.authenticationStrategies;
+        this.externalCacheServices = options.externalCacheServices;
         this.config = options.config;
         this.requestContext = options.requestContext;
         this.storages = options.storages;
@@ -54,6 +58,7 @@ export default abstract class Usecase {
         new (dependencies: {
             archiver: IArchiver;
             authenticationStrategies: IAuthenticationStrategy[];
+            externalCacheServices: IExternalCacheService[];
             config: IUsecaseConfig;
             requestContext: IRequestContext;
             storages: IStorages;
@@ -62,6 +67,7 @@ export default abstract class Usecase {
         return new UsecaseClass({
             archiver: this.archiver,
             authenticationStrategies: this.authenticationStrategies,
+            externalCacheServices: this.externalCacheServices,
             config: this.config,
             requestContext: this.requestContext,
             storages: this.storages

@@ -5,6 +5,8 @@ import IArchiver from "../src/dependencies/IArchiver";
 import IAuthenticationStrategy from "../src/dependencies/IAuthenticationStrategy";
 import IBundlesStorage from "../src/dependencies/IBundlesStorage";
 import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
+import IExternalCachesStorage from "../src/dependencies/IExternalCachesStorage";
+import IExternalCacheService from "../src/dependencies/IExternalCacheService";
 import IGroupsStorage from "../src/dependencies/IGroupsStorage";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
 import IRequestContext from "../src/dependencies/IRequestContext";
@@ -26,6 +28,13 @@ interface IMockDependencies {
             ReturnType<IAuthenticationStrategy[method]>
         >;
     }[];
+    externalCacheServices: {
+        type: string;
+        purge: SinonStub<
+            Parameters<IExternalCacheService["purge"]>,
+            ReturnType<IExternalCacheService["purge"]>
+        >;
+    }[];
     config: IUsecaseConfig;
     requestContext: IRequestContext;
     storages: {
@@ -45,6 +54,12 @@ interface IMockDependencies {
             [method in keyof IEntrypointsStorage]: SinonStub<
                 Parameters<IEntrypointsStorage[method]>,
                 ReturnType<IEntrypointsStorage[method]>
+            >;
+        };
+        externalCaches: {
+            [method in keyof IExternalCachesStorage]: SinonStub<
+                Parameters<IExternalCachesStorage[method]>,
+                ReturnType<IExternalCachesStorage[method]>
             >;
         };
         groups: {
@@ -78,6 +93,7 @@ export function getMockDependencies(): IMockDependencies {
             makeArchive: sinon.stub()
         },
         authenticationStrategies: [],
+        externalCacheServices: [],
         config: {
             enforceAuth: false
         },
@@ -115,6 +131,15 @@ export function getMockDependencies(): IMockDependencies {
                 oneExistsWithUrlMatcher: sinon.stub(),
                 anyExistsWithAppId: sinon.stub(),
                 anyExistsWithBundleIdIn: sinon.stub(),
+                createOne: sinon.stub(),
+                updateOne: sinon.stub(),
+                deleteOne: sinon.stub()
+            },
+            externalCaches: {
+                findOne: sinon.stub(),
+                findOneByDomain: sinon.stub(),
+                findMany: sinon.stub(),
+                oneExistsWithDomain: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
                 deleteOne: sinon.stub()
