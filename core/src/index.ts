@@ -33,6 +33,7 @@ export { default as GetExternalCaches } from "./usecases/GetExternalCaches";
 export { default as GetGroup } from "./usecases/GetGroup";
 export { default as GetGroups } from "./usecases/GetGroups";
 export { default as GetOperationLogs } from "./usecases/GetOperationLogs";
+export { default as GetSupportedExternalCacheTypes } from "./usecases/GetSupportedExternalCacheTypes";
 export { default as GetUser } from "./usecases/GetUser";
 export { default as GetUsers } from "./usecases/GetUsers";
 export { default as RespondToEndpointRequest } from "./usecases/RespondToEndpointRequest";
@@ -83,6 +84,7 @@ export {
 } from "./entities/Entrypoint";
 export {
     IExternalCache,
+    IExternalCacheType,
     isExternalCacheConfigurationValid,
     isExternalCacheDomainValid
 } from "./entities/ExternalCache";

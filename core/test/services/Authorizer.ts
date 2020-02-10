@@ -359,10 +359,18 @@ describe("service Authorizer", () => {
         });
     });
     describe("ensureCanGetExternalCaches", () => {
-        it("doesn't throw if the user is allowed to get external caches", async () => {
+        it("throws MissingRoleError if the user is not allowed to get external caches", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
                 roles: []
+            });
+            const ensurePromise = authorizer.ensureCanGetExternalCaches();
+            await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
+        });
+        it("doesn't throw if the user is allowed to get external caches", async () => {
+            const authorizer = getAuthorizerForUser({
+                id: "id",
+                roles: ["root"]
             });
             await authorizer.ensureCanGetExternalCaches();
         });

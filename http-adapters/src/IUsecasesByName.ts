@@ -27,6 +27,7 @@ export default interface IUsecasesByName {
     getEntrypointsByAppId: typeof sd.GetEntrypointsByAppId;
     getExternalCache: typeof sd.GetExternalCache;
     getExternalCaches: typeof sd.GetExternalCaches;
+    getSupportedExternalCacheTypes: typeof sd.GetSupportedExternalCacheTypes;
     getGroup: typeof sd.GetGroup;
     getGroups: typeof sd.GetGroups;
     getOperationLogs: typeof sd.GetOperationLogs;

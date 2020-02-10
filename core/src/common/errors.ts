@@ -129,21 +129,12 @@ export class EntrypointMismatchedAppIdError extends Error {
     }
 }
 
-// Endpoint response errors
-export class NoMatchingEntrypointError extends Error {
-    constructor(public requestedUrl: string) {
-        super(`No entrypoint found matching requestedUrl = ${requestedUrl}`);
-    }
-}
-export class NoBundleOrRedirectToError extends Error {
-    constructor(public matchingEntrypointUrlMatcher: string) {
-        super(
-            `Entrypoint with urlMatcher = ${matchingEntrypointUrlMatcher} doesn't specify neither a bundle to serve nor a location to redirect to`
-        );
-    }
-}
-
 // External cache errors
+export class ExternalCacheTypeNotSupportedError extends Error {
+    constructor(type: string) {
+        super(`${type} is not a supported external cache type`);
+    }
+}
 export class ExternalCacheDomainNotValidError extends Error {
     constructor(domain: string) {
         super(`${domain} is not a valid domain name`);
@@ -162,6 +153,20 @@ export class ConflictingExternalCacheError extends Error {
 export class ExternalCacheNotFoundError extends Error {
     constructor(id: string) {
         super(`No external cache found with id = ${id}`);
+    }
+}
+
+// Endpoint response errors
+export class NoMatchingEntrypointError extends Error {
+    constructor(public requestedUrl: string) {
+        super(`No entrypoint found matching requestedUrl = ${requestedUrl}`);
+    }
+}
+export class NoBundleOrRedirectToError extends Error {
+    constructor(public matchingEntrypointUrlMatcher: string) {
+        super(
+            `Entrypoint with urlMatcher = ${matchingEntrypointUrlMatcher} doesn't specify neither a bundle to serve nor a location to redirect to`
+        );
     }
 }
 

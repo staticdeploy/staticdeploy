@@ -14,6 +14,23 @@ beforeEach(() => {
 });
 
 describe("ExternalCachesClient", () => {
+    describe("getSupportedTypes", () => {
+        it("requests GET /supportedExternalCacheTypes", async () => {
+            const scope = nock(baseUrl)
+                .get("/supportedExternalCacheTypes")
+                .reply(200, []);
+            await staticdeployClient.externalCaches.getSupportedTypes();
+            scope.done();
+        });
+        it("returns a list of externalCacheTypes", async () => {
+            nock(baseUrl)
+                .get("/supportedExternalCacheTypes")
+                .reply(200, []);
+            const externalCacheTypes = await staticdeployClient.externalCaches.getSupportedTypes();
+            expect(externalCacheTypes).to.deep.equal([]);
+        });
+    });
+
     describe("getAll", () => {
         it("requests GET /externalCaches", async () => {
             const scope = nock(baseUrl)

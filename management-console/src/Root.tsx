@@ -7,6 +7,7 @@ import LoginMask from "./components/LoginMask";
 import Sider from "./components/Sider";
 import Apps from "./pages/Apps";
 import Bundles from "./pages/Bundles";
+import ExternalCaches from "./pages/ExternalCaches";
 import Groups from "./pages/Groups";
 import OperationLogs from "./pages/OperationLogs";
 import Users from "./pages/Users";
@@ -32,6 +33,10 @@ export default class Root extends React.Component<IProps> {
                         />
                         <Route path="/apps" component={Apps} />
                         <Route path="/bundles" component={Bundles} />
+                        <Route
+                            path="/externalCaches"
+                            component={ExternalCaches}
+                        />
                         <Route path="/groups" component={Groups} />
                         <Route
                             path="/operationLogs"

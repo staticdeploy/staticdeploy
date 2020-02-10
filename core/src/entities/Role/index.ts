@@ -1,4 +1,4 @@
-import values from "lodash/values";
+import { values } from "lodash";
 
 import { RoleNotValidError } from "../../common/errors";
 import matchesName from "./matchesName";

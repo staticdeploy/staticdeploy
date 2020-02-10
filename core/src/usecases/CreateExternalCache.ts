@@ -2,9 +2,11 @@ import { ConflictingExternalCacheError } from "../common/errors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import {
+    getMatchingExternalCacheType,
     IExternalCache,
     validateExternalCacheConfiguration,
-    validateExternalCacheDomain
+    validateExternalCacheDomain,
+    validateExternalCacheType
 } from "../entities/ExternalCache";
 import { Operation } from "../entities/OperationLog";
 
@@ -17,9 +19,17 @@ export default class CreateExternalCache extends Usecase {
         // Auth check
         await this.authorizer.ensureCanCreateExternalCache();
 
-        // Validate domain and configuration
+        // Validate input properties
+        const supportedExternalCacheTypes = this.externalCacheService.getSupportedExternalCacheTypes();
+        validateExternalCacheType(partial.type, supportedExternalCacheTypes);
         validateExternalCacheDomain(partial.domain);
-        validateExternalCacheConfiguration(partial.configuration);
+        validateExternalCacheConfiguration(
+            partial.configuration,
+            getMatchingExternalCacheType(
+                supportedExternalCacheTypes,
+                partial.type
+            )!
+        );
 
         // Ensure no externalCache with the same domain exists
         const conflictingExternalCacheExists = await this.storages.externalCaches.oneExistsWithDomain(

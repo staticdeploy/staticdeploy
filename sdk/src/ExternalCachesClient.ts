@@ -1,8 +1,13 @@
-import { IExternalCache } from "@staticdeploy/core";
+import { IExternalCache, IExternalCacheType } from "@staticdeploy/core";
 import { AxiosInstance } from "axios";
 
 export default class ExternalCachesClient {
     constructor(private axios: AxiosInstance) {}
+
+    async getSupportedTypes(): Promise<IExternalCacheType[]> {
+        const result = await this.axios.get("/supportedExternalCacheTypes");
+        return result.data;
+    }
 
     async getAll(): Promise<IExternalCache[]> {
         const result = await this.axios.get("/externalCaches");

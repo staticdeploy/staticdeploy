@@ -49,7 +49,13 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
                     </span>
                 )}
             >
-                <AppForm ref={form => (this.form = form!)} />
+                <AppForm
+                    ref={form => (this.form = form!)}
+                    initialValues={{
+                        name: "",
+                        defaultConfiguration: {}
+                    }}
+                />
             </OperationModal>
         );
     }

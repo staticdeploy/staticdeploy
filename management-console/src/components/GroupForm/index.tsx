@@ -1,18 +1,16 @@
 import React from "react";
-import { InjectedFormProps } from "redux-form";
 
 import {
     IConverterForm,
+    IInjectedFormProps,
     reduxForm
 } from "../../common/formWithValuesConverter";
 import RolesField from "../RolesField";
 import TextField from "../TextField";
-import { IExternalFormValues, IInternalFormValues } from "./IFormValues";
+import IFormValues from "./IFormValues";
 import validate from "./validate";
 
-class GroupForm extends React.Component<
-    InjectedFormProps<IInternalFormValues>
-> {
+class GroupForm extends React.Component<IInjectedFormProps<IFormValues>> {
     render() {
         return (
             <form onSubmit={this.props.handleSubmit}>
@@ -23,18 +21,9 @@ class GroupForm extends React.Component<
     }
 }
 
-export interface IGroupFormInstance
-    extends IConverterForm<IExternalFormValues> {}
+export interface IGroupFormInstance extends IConverterForm<IFormValues> {}
 
-export default reduxForm<IExternalFormValues, IInternalFormValues>({
+export default reduxForm<IFormValues>({
     form: "GroupForm",
-    validate: validate,
-    toInternal: (initialValues = {}) => ({
-        name: initialValues.name || "",
-        roles: initialValues.roles || []
-    }),
-    toExternal: values => ({
-        name: values.name,
-        roles: values.roles
-    })
+    validate: validate
 })(GroupForm);

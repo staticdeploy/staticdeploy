@@ -14,12 +14,25 @@ interface IProps<ExternalValues> {
     initialValues?: Partial<ExternalValues>;
 }
 
-interface IConfig<ExternalValues, InternalValues> {
+interface IConfig<ExternalValues, InternalValues, AdditionalProps> {
     form: string;
     touchOnBlur?: boolean;
-    validate?: (values: InternalValues) => FormErrors<InternalValues>;
+    validate?: (
+        values: InternalValues,
+        props: IInjectedFormProps<InternalValues> & AdditionalProps
+    ) => FormErrors<InternalValues>;
     toInternal?: (values: any) => InternalValues;
     toExternal?: (values: InternalValues) => ExternalValues;
+    onChange?(
+        currentValues: Partial<InternalValues>,
+        previousValues: Partial<InternalValues>,
+        change: (field: string, value: any) => void
+    ): void;
+}
+
+export interface IInjectedFormProps<InternalValues>
+    extends InjectedFormProps<InternalValues> {
+    getValues: () => Partial<InternalValues> | undefined;
 }
 
 export interface IConverterForm<ExternalValues> {
@@ -28,20 +41,30 @@ export interface IConverterForm<ExternalValues> {
     getValues: () => ExternalValues;
 }
 
-export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
-    config: IConfig<ExternalValues, InternalValues>
-) {
+export function reduxForm<
+    ExternalValues,
+    InternalValues = ExternalValues,
+    AdditionalProps = {}
+>(config: IConfig<ExternalValues, InternalValues, AdditionalProps>) {
     const toInternal: any = config.toInternal || identity;
     const toExternal: any = config.toExternal || identity;
     return (
         Form: React.ComponentType<
-            InjectedFormProps<InternalValues> & AdditionalProps
+            IInjectedFormProps<InternalValues> & AdditionalProps
         >
     ) => {
         const DecoratedForm = wrappedReduxForm({
             form: config.form,
             validate: config.validate,
-            touchOnBlur: config.touchOnBlur !== false
+            touchOnBlur: config.touchOnBlur !== false,
+            onChange: config.onChange
+                ? (values, dispatch, props, previousValues) => {
+                      // TODO: fix when erikras/redux-form #4110 is solved
+                      config.onChange!(values, previousValues, (...args) =>
+                          dispatch(props.change(...args))
+                      );
+                  }
+                : undefined
         })(Form as any);
         return class ConverterForm
             extends React.Component<IProps<ExternalValues> & AdditionalProps>
@@ -65,6 +88,7 @@ export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
                 return (
                     <DecoratedForm
                         {...rest}
+                        getValues={() => this.form && this.form.values}
                         ref={form => (this.form = form!)}
                         initialValues={toInternal(initialValues)}
                         onSubmit={values =>

@@ -14,19 +14,12 @@ import "./index.css";
 
 interface IProps {
     name: string;
-    label?: string;
+    label: string;
 }
 
 export class WrappedConfigurationField extends React.Component<
     IProps & WrappedFieldArrayProps<IKVPair>
 > {
-    renderLabel() {
-        return this.props.label ? (
-            <div className="ant-form-item-label">
-                <label title={this.props.label}>{this.props.label}</label>
-            </div>
-        ) : null;
-    }
     renderKVPairFields(
         fieldName: string,
         index: number,
@@ -58,10 +51,12 @@ export class WrappedConfigurationField extends React.Component<
         );
     }
     render() {
-        const { fields } = this.props;
+        const { fields, label } = this.props;
         return (
             <div className="c-ConfigurationField">
-                {this.renderLabel()}
+                <div className="ant-form-item-label">
+                    <label title={label}>{label}</label>
+                </div>
                 {fields.map(this.renderKVPairFields)}
                 <Button
                     className="c-ConfigurationField-add-button"

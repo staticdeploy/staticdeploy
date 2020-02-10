@@ -4,9 +4,11 @@ import {
 } from "../common/errors";
 import Usecase from "../common/Usecase";
 import {
+    getMatchingExternalCacheType,
     IExternalCache,
     validateExternalCacheConfiguration,
-    validateExternalCacheDomain
+    validateExternalCacheDomain,
+    validateExternalCacheType
 } from "../entities/ExternalCache";
 import { Operation } from "../entities/OperationLog";
 
@@ -31,12 +33,18 @@ export default class UpdateExternalCache extends Usecase {
         // Auth check
         await this.authorizer.ensureCanUpdateExternalCache();
 
-        // Validate domain and configuration
+        // Validate patch
+        const supportedExternalCacheTypes = this.externalCacheService.getSupportedExternalCacheTypes();
+        const type = patch.type || existingExternalCache.type;
+        validateExternalCacheType(type, supportedExternalCacheTypes);
         if (patch.domain) {
             validateExternalCacheDomain(patch.domain);
         }
         if (patch.configuration) {
-            validateExternalCacheConfiguration(patch.configuration);
+            validateExternalCacheConfiguration(
+                patch.configuration,
+                getMatchingExternalCacheType(supportedExternalCacheTypes, type)!
+            );
         }
 
         // Ensure no externalCache with the same domain exists

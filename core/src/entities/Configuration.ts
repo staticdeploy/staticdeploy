@@ -1,6 +1,4 @@
-import every from "lodash/every";
-import isPlainObject from "lodash/isPlainObject";
-import isString from "lodash/isString";
+import { every, isPlainObject, isString } from "lodash";
 
 import { ConfigurationNotValidError } from "../common/errors";
 

@@ -6,12 +6,14 @@ import IStorages from "../dependencies/IStorages";
 import IUsecaseConfig from "../dependencies/IUsecaseConfig";
 import Authenticator from "../services/Authenticator";
 import Authorizer from "../services/Authorizer";
+import ExternalCacheService from "../services/ExternalCacheService";
 import OperationLogger from "../services/OperationLogger";
 
 export default abstract class Usecase {
     // Services
     protected authorizer: Authorizer;
     protected operationLogger: OperationLogger;
+    protected externalCacheService: ExternalCacheService;
     // Dependencies
     protected archiver: IArchiver;
     private authenticationStrategies: IAuthenticationStrategy[];
@@ -38,13 +40,16 @@ export default abstract class Usecase {
 
         // Services
         const authenticator = new Authenticator(
-            options.authenticationStrategies,
+            this.authenticationStrategies,
             this.requestContext.authToken
         );
         this.authorizer = new Authorizer(
             this.storages.users,
             authenticator,
             this.config.enforceAuth
+        );
+        this.externalCacheService = new ExternalCacheService(
+            options.externalCacheServices
         );
         this.operationLogger = new OperationLogger(
             this.storages.operationLogs,

@@ -122,7 +122,7 @@ export default class Authorizer {
         return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
     ensureCanGetExternalCaches(): Promise<void> {
-        return this.ensureAuthenticated();
+        return this.ensureAuthorized(() => this.matchesRole([RoleName.Root]));
     }
 
     // Groups

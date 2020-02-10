@@ -1,15 +1,15 @@
-import { IGroup, UserType } from "@staticdeploy/core";
+import { IGroup } from "@staticdeploy/core";
 import React from "react";
-import { InjectedFormProps } from "redux-form";
 
 import {
     IConverterForm,
+    IInjectedFormProps,
     reduxForm
 } from "../../common/formWithValuesConverter";
 import GroupsIdsField from "../GroupsIdsField";
 import TextField from "../TextField";
 import UserTypeField from "../UserTypeField";
-import { IExternalFormValues, IInternalFormValues } from "./IFormValues";
+import IFormValues from "./IFormValues";
 import validate from "./validate";
 
 interface IProps {
@@ -18,7 +18,7 @@ interface IProps {
 }
 
 class UserForm extends React.Component<
-    IProps & InjectedFormProps<IInternalFormValues>
+    IProps & IInjectedFormProps<IFormValues>
 > {
     render() {
         const { groups, handleSubmit, isEditForm } = this.props;
@@ -48,24 +48,9 @@ class UserForm extends React.Component<
     }
 }
 
-export interface IUserFormInstance
-    extends IConverterForm<IExternalFormValues> {}
+export interface IUserFormInstance extends IConverterForm<IFormValues> {}
 
-export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
+export default reduxForm<IFormValues, IFormValues, IProps>({
     form: "UserForm",
-    validate: validate,
-    toInternal: (initialValues = {}) => ({
-        idp: initialValues.idp || "",
-        idpId: initialValues.idpId || "",
-        type: initialValues.type || UserType.Human,
-        name: initialValues.name || "",
-        groupsIds: initialValues.groupsIds || []
-    }),
-    toExternal: values => ({
-        idp: values.idp,
-        idpId: values.idpId,
-        type: values.type,
-        name: values.name,
-        groupsIds: values.groupsIds
-    })
+    validate: validate
 })(UserForm);

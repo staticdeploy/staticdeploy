@@ -1,6 +1,6 @@
-import { IExternalCache } from "../entities/ExternalCache";
+import { IExternalCache, IExternalCacheType } from "../entities/ExternalCache";
 
 export default interface IExternalCacheService {
-    type: string;
+    externalCacheType: IExternalCacheType;
     purge(configuration: IExternalCache["configuration"]): Promise<void>;
 }

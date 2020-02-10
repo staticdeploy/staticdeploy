@@ -13,6 +13,7 @@ import IRequestContext from "../src/dependencies/IRequestContext";
 import IStorages from "../src/dependencies/IStorages";
 import IUsecaseConfig from "../src/dependencies/IUsecaseConfig";
 import IUsersStorage from "../src/dependencies/IUsersStorage";
+import { IExternalCacheType } from "../src/entities/ExternalCache";
 
 // Dependencies mock
 interface IMockDependencies {
@@ -29,7 +30,7 @@ interface IMockDependencies {
         >;
     }[];
     externalCacheServices: {
-        type: string;
+        externalCacheType: IExternalCacheType;
         purge: SinonStub<
             Parameters<IExternalCacheService["purge"]>,
             ReturnType<IExternalCacheService["purge"]>

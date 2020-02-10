@@ -1,6 +1,6 @@
-import { IInternalFormValues } from "./IFormValues";
+import IFormValues from "./IFormValues";
 
-export default function validate(values: Partial<IInternalFormValues>) {
+export default function validate(values: Partial<IFormValues>) {
     const errors: any = {};
 
     // Validate idp

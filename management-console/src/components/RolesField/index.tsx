@@ -13,7 +13,7 @@ import "./index.css";
 
 interface IProps {
     name: string;
-    label?: string;
+    label: string;
 }
 
 export class WrappedRolesField extends React.Component<

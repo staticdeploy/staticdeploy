@@ -31,6 +31,7 @@ const usecases: IUsecasesByName = {
     getGroup: sd.GetGroup,
     getGroups: sd.GetGroups,
     getOperationLogs: sd.GetOperationLogs,
+    getSupportedExternalCacheTypes: sd.GetSupportedExternalCacheTypes,
     getUser: sd.GetUser,
     getUsers: sd.GetUsers,
     respondToEndpointRequest: sd.RespondToEndpointRequest,
