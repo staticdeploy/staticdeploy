@@ -2,7 +2,7 @@ import {
     AppNotFoundError,
     BundleNotFoundError,
     ConflictingEntrypointError
-} from "../common/errors";
+} from "../common/functionalErrors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import {
@@ -15,14 +15,19 @@ import {
 } from "../entities/Entrypoint";
 import { Operation } from "../entities/OperationLog";
 
-export default class CreateEntrypoint extends Usecase {
-    async exec(partial: {
+type Arguments = [
+    {
         appId: string;
         bundleId?: string | null;
         redirectTo?: string | null;
         urlMatcher: string;
         configuration?: IConfiguration | null;
-    }): Promise<IEntrypoint> {
+    }
+];
+type ReturnValue = IEntrypoint;
+
+export default class CreateEntrypoint extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(partial: Arguments[0]): Promise<ReturnValue> {
         // Ensure the linked app exists
         const linkedApp = await this.storages.apps.findOne(partial.appId);
         if (!linkedApp) {
@@ -30,7 +35,7 @@ export default class CreateEntrypoint extends Usecase {
         }
 
         // Auth check
-        await this.authorizer.ensureCanCreateEntrypoint(
+        this.authorizer.ensureCanCreateEntrypoint(
             partial.urlMatcher,
             linkedApp.name
         );

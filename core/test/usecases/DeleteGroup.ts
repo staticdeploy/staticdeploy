@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     GroupHasUsersError,
     GroupNotFoundError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteGroup from "../../src/usecases/DeleteGroup";
 import { getMockDependencies } from "../testUtils";

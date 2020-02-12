@@ -1,7 +1,8 @@
 import {
     ConflictingExternalCacheError,
     ExternalCacheNotFoundError
-} from "../common/errors";
+} from "../common/functionalErrors";
+import getSupportedExternalCacheTypes from "../common/getSupportedExternalCacheTypes";
 import Usecase from "../common/Usecase";
 import {
     getMatchingExternalCacheType,
@@ -12,15 +13,24 @@ import {
 } from "../entities/ExternalCache";
 import { Operation } from "../entities/OperationLog";
 
-export default class UpdateExternalCache extends Usecase {
-    async exec(
-        id: string,
-        patch: {
-            domain?: string;
-            type?: string;
-            configuration?: IExternalCache["configuration"];
-        }
-    ): Promise<IExternalCache> {
+type Arguments = [
+    string,
+    {
+        domain?: string;
+        type?: string;
+        configuration?: IExternalCache["configuration"];
+    }
+];
+type ReturnValue = IExternalCache;
+
+export default class UpdateExternalCache extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(
+        id: Arguments[0],
+        patch: Arguments[1]
+    ): Promise<ReturnValue> {
         const existingExternalCache = await this.storages.externalCaches.findOne(
             id
         );
@@ -31,10 +41,12 @@ export default class UpdateExternalCache extends Usecase {
         }
 
         // Auth check
-        await this.authorizer.ensureCanUpdateExternalCache();
+        this.authorizer.ensureCanUpdateExternalCache();
 
         // Validate patch
-        const supportedExternalCacheTypes = this.externalCacheService.getSupportedExternalCacheTypes();
+        const supportedExternalCacheTypes = getSupportedExternalCacheTypes(
+            this.externalCacheServices
+        );
         const type = patch.type || existingExternalCache.type;
         validateExternalCacheType(type, supportedExternalCacheTypes);
         if (patch.domain) {

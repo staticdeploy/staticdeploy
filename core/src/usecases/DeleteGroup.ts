@@ -1,11 +1,17 @@
-import { GroupHasUsersError, GroupNotFoundError } from "../common/errors";
+import {
+    GroupHasUsersError,
+    GroupNotFoundError
+} from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 
-export default class DeleteUser extends Usecase {
-    async exec(id: string): Promise<void> {
+type Arguments = [string];
+type ReturnValue = void;
+
+export default class DeleteUser extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanDeleteGroup();
+        this.authorizer.ensureCanDeleteGroup();
 
         const toBeDeletedGroup = await this.storages.groups.findOne(id);
 

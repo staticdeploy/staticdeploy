@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     ConflictingUserError,
     SomeGroupNotFoundError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import { UserType } from "../../src/entities/User";
 import CreateUser from "../../src/usecases/CreateUser";

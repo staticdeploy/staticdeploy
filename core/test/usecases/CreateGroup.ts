@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     ConflictingGroupError,
     RoleNotValidError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateGroup from "../../src/usecases/CreateGroup";
 import { getMockDependencies } from "../testUtils";

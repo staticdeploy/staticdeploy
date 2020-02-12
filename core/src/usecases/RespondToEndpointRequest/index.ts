@@ -3,10 +3,10 @@ import { join } from "path";
 
 import {
     NoBundleOrRedirectToError,
-    NoMatchingEntrypointError,
-    StoragesInconsistencyError
-} from "../../common/errors";
+    NoMatchingEntrypointError
+} from "../../common/functionalErrors";
 import removePrefix from "../../common/removePrefix";
+import StoragesInconsistencyError from "../../common/StoragesInconsistencyError";
 import Usecase from "../../common/Usecase";
 import { IConfiguration } from "../../entities/Configuration";
 import { IEndpointRequest } from "../../entities/EndpointRequest";
@@ -20,8 +20,14 @@ import isCanonicalPath from "./isCanonicalPath";
 import toAbsolute from "./toAbsolute";
 import whitelistInlineScript from "./whitelistInlineScript";
 
-export default class RespondToEndpointRequest extends Usecase {
-    async exec(request: IEndpointRequest): Promise<IEndpointResponse> {
+type Arguments = [IEndpointRequest];
+type ReturnValue = IEndpointResponse;
+
+export default class RespondToEndpointRequest extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(request: Arguments[0]): Promise<ReturnValue> {
         // Find the matching entrypoint
         const requestedUrl = join(request.hostname, request.path);
         const entrypoints = await this.storages.entrypoints.findManyByUrlMatcherHostname(

@@ -1,7 +1,7 @@
 import {
     NoBundleOrRedirectToError,
     NoMatchingEntrypointError
-} from "../../../src/common/errors";
+} from "../../../src/common/functionalErrors";
 import { htmlWith, test } from "./testUtils";
 
 describe("usecase RespondToEndpointRequest (routing)", () => {

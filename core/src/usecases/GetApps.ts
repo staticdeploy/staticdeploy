@@ -1,10 +1,13 @@
 import Usecase from "../common/Usecase";
 import { IApp } from "../entities/App";
 
-export default class GetApps extends Usecase {
-    async exec(): Promise<IApp[]> {
+type Arguments = [];
+type ReturnValue = IApp[];
+
+export default class GetApps extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetApps();
+        this.authorizer.ensureCanGetApps();
 
         return this.storages.apps.findMany();
     }

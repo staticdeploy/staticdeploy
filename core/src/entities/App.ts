@@ -1,5 +1,5 @@
 import basicCharsRegexp from "../common/basicCharsRegexp";
-import { AppNameNotValidError } from "../common/errors";
+import { AppNameNotValidError } from "../common/functionalErrors";
 import { IConfiguration } from "./Configuration";
 
 export interface IApp {

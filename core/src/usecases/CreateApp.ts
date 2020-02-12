@@ -1,4 +1,4 @@
-import { ConflictingAppError } from "../common/errors";
+import { ConflictingAppError } from "../common/functionalErrors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import { IApp, validateAppName } from "../entities/App";
@@ -8,13 +8,18 @@ import {
 } from "../entities/Configuration";
 import { Operation } from "../entities/OperationLog";
 
-export default class CreateApp extends Usecase {
-    async exec(partial: {
+type Arguments = [
+    {
         name: string;
         defaultConfiguration?: IConfiguration;
-    }): Promise<IApp> {
+    }
+];
+type ReturnValue = IApp;
+
+export default class CreateApp extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(partial: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanCreateApp();
+        this.authorizer.ensureCanCreateApp();
 
         // Validate name and defaultConfiguration
         validateAppName(partial.name);

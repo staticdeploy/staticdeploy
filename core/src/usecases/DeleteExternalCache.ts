@@ -1,9 +1,15 @@
-import { ExternalCacheNotFoundError } from "../common/errors";
+import { ExternalCacheNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 
-export default class DeleteExternalCache extends Usecase {
-    async exec(id: string): Promise<void> {
+type Arguments = [string];
+type ReturnValue = void;
+
+export default class DeleteExternalCache extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         const toBeDeletedExternalCache = await this.storages.externalCaches.findOne(
             id
         );
@@ -14,7 +20,7 @@ export default class DeleteExternalCache extends Usecase {
         }
 
         // Auth check
-        await this.authorizer.ensureCanDeleteExternalCache();
+        this.authorizer.ensureCanDeleteExternalCache();
 
         // Delete the externalCache
         await this.storages.externalCaches.deleteOne(id);

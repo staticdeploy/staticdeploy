@@ -1,11 +1,14 @@
-import { ExternalCacheNotFoundError } from "../common/errors";
+import { ExternalCacheNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { IExternalCache } from "../entities/ExternalCache";
 
-export default class GetExternalCache extends Usecase {
-    async exec(id: string): Promise<IExternalCache> {
+type Arguments = [string];
+type ReturnValue = IExternalCache;
+
+export default class GetExternalCache extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetExternalCaches();
+        this.authorizer.ensureCanGetExternalCaches();
 
         const externalCache = await this.storages.externalCaches.findOne(id);
 

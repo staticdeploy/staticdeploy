@@ -1,10 +1,13 @@
 import Usecase from "../common/Usecase";
 import { IGroup } from "../entities/Group";
 
-export default class GetGroups extends Usecase {
-    async exec(): Promise<IGroup[]> {
+type Arguments = [];
+type ReturnValue = IGroup[];
+
+export default class GetGroups extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetGroups();
+        this.authorizer.ensureCanGetGroups();
 
         return this.storages.groups.findMany();
     }

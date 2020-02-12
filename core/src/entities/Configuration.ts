@@ -1,6 +1,6 @@
 import { every, isPlainObject, isString } from "lodash";
 
-import { ConfigurationNotValidError } from "../common/errors";
+import { ConfigurationNotValidError } from "../common/functionalErrors";
 
 export interface IConfiguration {
     [key: string]: string;

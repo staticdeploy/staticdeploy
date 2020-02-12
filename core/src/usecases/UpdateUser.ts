@@ -1,18 +1,27 @@
-import { SomeGroupNotFoundError, UserNotFoundError } from "../common/errors";
+import {
+    SomeGroupNotFoundError,
+    UserNotFoundError
+} from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 import { IUser } from "../entities/User";
 
-export default class UpdateUser extends Usecase {
-    async exec(
-        id: string,
-        patch: {
-            name?: string;
-            groupsIds?: string[];
-        }
-    ): Promise<IUser> {
+type Arguments = [
+    string,
+    {
+        name?: string;
+        groupsIds?: string[];
+    }
+];
+type ReturnValue = IUser;
+
+export default class UpdateUser extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(
+        id: Arguments[0],
+        patch: Arguments[1]
+    ): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanUpdateUser();
+        this.authorizer.ensureCanUpdateUser();
 
         const existingUser = await this.storages.users.findOne(id);
 

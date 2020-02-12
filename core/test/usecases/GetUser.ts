@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { UserNotFoundError } from "../../src/common/errors";
+import { UserNotFoundError } from "../../src/common/functionalErrors";
 import GetUser from "../../src/usecases/GetUser";
 import { getMockDependencies } from "../testUtils";
 

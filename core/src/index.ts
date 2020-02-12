@@ -1,5 +1,5 @@
 // Errors
-export * from "./common/errors";
+export * from "./common/functionalErrors";
 
 // Usecases
 export { default as Usecase } from "./common/Usecase";

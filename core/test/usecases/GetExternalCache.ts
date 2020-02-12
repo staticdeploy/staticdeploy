@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { ExternalCacheNotFoundError } from "../../src/common/errors";
+import { ExternalCacheNotFoundError } from "../../src/common/functionalErrors";
 import GetExternalCache from "../../src/usecases/GetExternalCache";
 import { getMockDependencies } from "../testUtils";
 

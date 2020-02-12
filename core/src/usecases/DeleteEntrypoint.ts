@@ -1,9 +1,12 @@
-import { EntrypointNotFoundError } from "../common/errors";
+import { EntrypointNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 
-export default class DeleteEntrypoint extends Usecase {
-    async exec(id: string): Promise<void> {
+type Arguments = [string];
+type ReturnValue = void;
+
+export default class DeleteEntrypoint extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         const toBeDeletedEntrypoint = await this.storages.entrypoints.findOne(
             id
         );
@@ -14,7 +17,7 @@ export default class DeleteEntrypoint extends Usecase {
         }
 
         // Auth check
-        await this.authorizer.ensureCanDeleteEntrypoint(
+        this.authorizer.ensureCanDeleteEntrypoint(
             toBeDeletedEntrypoint.urlMatcher
         );
 

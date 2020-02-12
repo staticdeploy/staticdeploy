@@ -8,6 +8,7 @@ import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
 import IExternalCacheService from "../src/dependencies/IExternalCacheService";
 import IExternalCachesStorage from "../src/dependencies/IExternalCachesStorage";
 import IGroupsStorage from "../src/dependencies/IGroupsStorage";
+import ILogger from "../src/dependencies/ILogger";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
 import IRequestContext from "../src/dependencies/IRequestContext";
 import IStorages from "../src/dependencies/IStorages";
@@ -21,6 +22,12 @@ interface IMockDependencies {
         [method in keyof IArchiver]: SinonStub<
             Parameters<IArchiver[method]>,
             ReturnType<IArchiver[method]>
+        >;
+    };
+    logger: {
+        [method in keyof ILogger]: SinonStub<
+            Parameters<ILogger[method]>,
+            ReturnType<ILogger[method]>
         >;
     };
     authenticationStrategies: {
@@ -93,13 +100,17 @@ export function getMockDependencies(): IMockDependencies {
             extractFiles: sinon.stub(),
             makeArchive: sinon.stub()
         },
+        logger: {
+            log: sinon.stub()
+        },
         authenticationStrategies: [],
         externalCacheServices: [],
         config: {
             enforceAuth: false
         },
         requestContext: {
-            authToken: null
+            authToken: null,
+            requestId: "requestId"
         },
         storages: {
             apps: {

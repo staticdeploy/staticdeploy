@@ -1,19 +1,28 @@
-import { ConflictingGroupError, GroupNotFoundError } from "../common/errors";
+import {
+    ConflictingGroupError,
+    GroupNotFoundError
+} from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { IGroup } from "../entities/Group";
 import { Operation } from "../entities/OperationLog";
 import { validateRole } from "../entities/Role";
 
-export default class UpdateGroup extends Usecase {
-    async exec(
-        id: string,
-        patch: {
-            name?: string;
-            roles?: string[];
-        }
-    ): Promise<IGroup> {
+type Arguments = [
+    string,
+    {
+        name?: string;
+        roles?: string[];
+    }
+];
+type ReturnValue = IGroup;
+
+export default class UpdateGroup extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(
+        id: Arguments[0],
+        patch: Arguments[1]
+    ): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanUpdateGroup();
+        this.authorizer.ensureCanUpdateGroup();
 
         // Validate roles
         if (patch.roles) {

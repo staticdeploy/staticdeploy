@@ -1,19 +1,24 @@
 import {
     BundleNotFoundError,
     EntrypointMismatchedAppIdError
-} from "../common/errors";
+} from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { splitNameTagCombination } from "../entities/Bundle";
 import CreateApp from "./CreateApp";
 import CreateEntrypoint from "./CreateEntrypoint";
 import UpdateEntrypoint from "./UpdateEntrypoint";
 
-export default class DeployBundle extends Usecase {
-    async exec(options: {
+type Arguments = [
+    {
         bundleNameTagCombination: string;
         appName: string;
         entrypointUrlMatcher: string;
-    }): Promise<void> {
+    }
+];
+type ReturnValue = void;
+
+export default class DeployBundle extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(options: Arguments[0]): Promise<ReturnValue> {
         const {
             bundleNameTagCombination,
             appName,

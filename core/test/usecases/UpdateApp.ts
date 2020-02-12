@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     AppNotFoundError,
     ConfigurationNotValidError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateApp from "../../src/usecases/UpdateApp";
 import { getMockDependencies } from "../testUtils";

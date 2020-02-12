@@ -1,11 +1,17 @@
+import getSupportedExternalCacheTypes from "../common/getSupportedExternalCacheTypes";
 import Usecase from "../common/Usecase";
 import { IExternalCacheType } from "../entities/ExternalCache";
 
-export default class GetSupportedExternalCacheTypes extends Usecase {
-    async exec(): Promise<IExternalCacheType[]> {
-        // Auth check
-        await this.authorizer.ensureCanGetExternalCaches();
+type Arguments = [];
+type ReturnValue = IExternalCacheType[];
 
-        return this.externalCacheService.getSupportedExternalCacheTypes();
+export default class GetSupportedExternalCacheTypes extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(): Promise<ReturnValue> {
+        this.authorizer.ensureCanGetExternalCaches();
+
+        return getSupportedExternalCacheTypes(this.externalCacheServices);
     }
 }

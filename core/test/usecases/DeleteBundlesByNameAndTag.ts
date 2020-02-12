@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { BundlesInUseError } from "../../src/common/errors";
+import { BundlesInUseError } from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteBundlesByNameAndTag from "../../src/usecases/DeleteBundlesByNameAndTag";
 import { getMockDependencies } from "../testUtils";

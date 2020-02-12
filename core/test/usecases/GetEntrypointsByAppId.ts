@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { AppNotFoundError } from "../../src/common/errors";
+import { AppNotFoundError } from "../../src/common/functionalErrors";
 import GetEntrypointsByAppId from "../../src/usecases/GetEntrypointsByAppId";
 import { getMockDependencies } from "../testUtils";
 

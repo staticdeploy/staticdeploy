@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { GroupNotFoundError } from "../../src/common/errors";
+import { GroupNotFoundError } from "../../src/common/functionalErrors";
 import GetGroup from "../../src/usecases/GetGroup";
 import { getMockDependencies } from "../testUtils";
 

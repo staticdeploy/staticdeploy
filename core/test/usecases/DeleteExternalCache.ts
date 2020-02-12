@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { ExternalCacheNotFoundError } from "../../src/common/errors";
+import { ExternalCacheNotFoundError } from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteExternalCache from "../../src/usecases/DeleteExternalCache";
 import { getMockDependencies } from "../testUtils";

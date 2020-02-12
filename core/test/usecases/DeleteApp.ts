@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     AppHasEntrypointsError,
     AppNotFoundError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteApp from "../../src/usecases/DeleteApp";
 import { getMockDependencies } from "../testUtils";

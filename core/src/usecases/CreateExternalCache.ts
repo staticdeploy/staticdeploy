@@ -1,5 +1,6 @@
-import { ConflictingExternalCacheError } from "../common/errors";
+import { ConflictingExternalCacheError } from "../common/functionalErrors";
 import generateId from "../common/generateId";
+import getSupportedExternalCacheTypes from "../common/getSupportedExternalCacheTypes";
 import Usecase from "../common/Usecase";
 import {
     getMatchingExternalCacheType,
@@ -10,17 +11,27 @@ import {
 } from "../entities/ExternalCache";
 import { Operation } from "../entities/OperationLog";
 
-export default class CreateExternalCache extends Usecase {
-    async exec(partial: {
+type Arguments = [
+    {
         domain: string;
         type: string;
         configuration: IExternalCache["configuration"];
-    }): Promise<IExternalCache> {
+    }
+];
+type ReturnValue = IExternalCache;
+
+export default class CreateExternalCache extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(partial: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanCreateExternalCache();
+        this.authorizer.ensureCanCreateExternalCache();
 
         // Validate input properties
-        const supportedExternalCacheTypes = this.externalCacheService.getSupportedExternalCacheTypes();
+        const supportedExternalCacheTypes = getSupportedExternalCacheTypes(
+            this.externalCacheServices
+        );
         validateExternalCacheType(partial.type, supportedExternalCacheTypes);
         validateExternalCacheDomain(partial.domain);
         validateExternalCacheConfiguration(

@@ -1,21 +1,29 @@
 import { isEmpty } from "lodash";
 
-import { ConflictingUserError, SomeGroupNotFoundError } from "../common/errors";
+import {
+    ConflictingUserError,
+    SomeGroupNotFoundError
+} from "../common/functionalErrors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 import { IUser, UserType } from "../entities/User";
 
-export default class CreateUser extends Usecase {
-    async exec(partial: {
+type Arguments = [
+    {
         idp: string;
         idpId: string;
         type: UserType;
         name: string;
         groupsIds: string[];
-    }): Promise<IUser> {
+    }
+];
+type ReturnValue = IUser;
+
+export default class CreateUser extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(partial: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanCreateUser();
+        this.authorizer.ensureCanCreateUser();
 
         // Ensure no user with the same idp / idpId combination exists
         const conflictingUserExists = await this.storages.users.oneExistsWithIdpAndIdpId(

@@ -13,7 +13,7 @@ import {
     ExternalCacheConfigurationNotValidError,
     ExternalCacheDomainNotValidError,
     ExternalCacheTypeNotSupportedError
-} from "../common/errors";
+} from "../common/functionalErrors";
 
 export interface IExternalCache {
     id: string;

@@ -6,7 +6,7 @@ import {
     ExternalCacheConfigurationNotValidError,
     ExternalCacheDomainNotValidError,
     ExternalCacheTypeNotSupportedError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import IExternalCacheService from "../../src/dependencies/IExternalCacheService";
 import { IExternalCacheType } from "../../src/entities/ExternalCache";
 import { Operation } from "../../src/entities/OperationLog";

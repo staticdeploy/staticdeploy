@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { EntrypointNotFoundError } from "../../src/common/errors";
+import { EntrypointNotFoundError } from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteEntrypoint from "../../src/usecases/DeleteEntrypoint";
 import { getMockDependencies } from "../testUtils";

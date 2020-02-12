@@ -1,6 +1,6 @@
 import { values } from "lodash";
 
-import { RoleNotValidError } from "../../common/errors";
+import { RoleNotValidError } from "../../common/functionalErrors";
 import matchesName from "./matchesName";
 import matchesUrlMatcher from "./matchesUrlMatcher";
 import separatorChar from "./separatorChar";

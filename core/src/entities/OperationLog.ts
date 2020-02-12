@@ -17,6 +17,7 @@ export enum Operation {
     CreateExternalCache = "externalCaches:create",
     UpdateExternalCache = "externalCaches:update",
     DeleteExternalCache = "externalCaches:delete",
+    PurgeExternalCache = "externalCaches:purge",
 
     // Groups
     CreateGroup = "groups:create",

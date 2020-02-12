@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { EntrypointNotFoundError } from "../../src/common/errors";
+import { EntrypointNotFoundError } from "../../src/common/functionalErrors";
 import GetEntrypoint from "../../src/usecases/GetEntrypoint";
 import { getMockDependencies } from "../testUtils";
 

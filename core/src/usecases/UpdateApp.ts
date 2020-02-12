@@ -1,4 +1,4 @@
-import { AppNotFoundError } from "../common/errors";
+import { AppNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { IApp } from "../entities/App";
 import {
@@ -7,13 +7,19 @@ import {
 } from "../entities/Configuration";
 import { Operation } from "../entities/OperationLog";
 
-export default class UpdateApp extends Usecase {
-    async exec(
-        id: string,
-        patch: {
-            defaultConfiguration?: IConfiguration;
-        }
-    ): Promise<IApp> {
+type Arguments = [
+    string,
+    {
+        defaultConfiguration?: IConfiguration;
+    }
+];
+type ReturnValue = IApp;
+
+export default class UpdateApp extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(
+        id: Arguments[0],
+        patch: Arguments[1]
+    ): Promise<ReturnValue> {
         const existingApp = await this.storages.apps.findOne(id);
 
         // Ensure the app exists
@@ -22,7 +28,7 @@ export default class UpdateApp extends Usecase {
         }
 
         // Auth check
-        await this.authorizer.ensureCanUpdateApp(existingApp.name);
+        this.authorizer.ensureCanUpdateApp(existingApp.name);
 
         // Validate defaultConfiguration
         if (patch.defaultConfiguration) {

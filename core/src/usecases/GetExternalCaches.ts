@@ -1,10 +1,13 @@
 import Usecase from "../common/Usecase";
 import { IExternalCache } from "../entities/ExternalCache";
 
-export default class GetExternalCaches extends Usecase {
-    async exec(): Promise<IExternalCache[]> {
+type Arguments = [];
+type ReturnValue = IExternalCache[];
+
+export default class GetExternalCaches extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetExternalCaches();
+        this.authorizer.ensureCanGetExternalCaches();
 
         return this.storages.externalCaches.findMany();
     }

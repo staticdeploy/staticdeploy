@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     BundleFallbackAssetNotFoundError,
     BundleNameOrTagNotValidError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateBundle from "../../src/usecases/CreateBundle";
 import { getMockDependencies } from "../testUtils";
