@@ -1,12 +1,6 @@
-import Logger from "bunyan";
+import SimpleJsonLogger from "@staticdeploy/simple-json-logger";
 
 import IConfig from "../common/IConfig";
 
-export default (config: IConfig): Logger =>
-    Logger.createLogger({
-        name: config.appName,
-        streams:
-            config.nodeEnv === "test"
-                ? []
-                : [{ level: config.logLevel, stream: process.stdout }]
-    });
+export default (config: IConfig): SimpleJsonLogger =>
+    new SimpleJsonLogger(config.nodeEnv !== "test" ? process.stdout : null);

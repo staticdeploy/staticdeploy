@@ -16,8 +16,7 @@ describe("usecase GetCurrentUser", () => {
             const deps = getMockDependencies();
             deps.config.enforceAuth = true;
             deps.requestContext = {
-                authToken: "authToken",
-                requestId: "requestId"
+                authToken: "authToken"
             };
             const mockUser = {} as any;
             deps.authenticationStrategies.push({

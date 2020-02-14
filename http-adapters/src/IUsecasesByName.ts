@@ -33,6 +33,7 @@ export default interface IUsecasesByName {
     getOperationLogs: typeof sd.GetOperationLogs;
     getUser: typeof sd.GetUser;
     getUsers: typeof sd.GetUsers;
+    purgeExternalCache: typeof sd.PurgeExternalCache;
     respondToEndpointRequest: typeof sd.RespondToEndpointRequest;
     updateApp: typeof sd.UpdateApp;
     updateEntrypoint: typeof sd.UpdateEntrypoint;

@@ -1,5 +1,6 @@
 import {
     IHealthCheckResult,
+    ILogger,
     IStorages,
     IStoragesModule
 } from "@staticdeploy/core";
@@ -9,7 +10,6 @@ import { extname, join } from "path";
 
 import AppsStorage from "./AppsStorage";
 import BundlesStorage from "./BundlesStorage";
-import { StorageSetupError } from "./common/errors";
 import EntrypointsStorage from "./EntrypointsStorage";
 import ExternalCachesStorage from "./ExternalCachesStorage";
 import GroupsStorage from "./GroupsStorage";
@@ -20,6 +20,7 @@ export default class PgS3Storages implements IStoragesModule {
     private knex: Knex;
     private s3Client: S3;
     private s3Bucket: string;
+    private log: ILogger;
 
     constructor(options: {
         postgresUrl: string;
@@ -29,7 +30,10 @@ export default class PgS3Storages implements IStoragesModule {
             accessKeyId: string;
             secretAccessKey: string;
         };
+        logger: ILogger;
     }) {
+        this.log = options.logger;
+
         // Instantiate knex
         this.knex = Knex(options.postgresUrl);
 
@@ -73,22 +77,22 @@ export default class PgS3Storages implements IStoragesModule {
 
         try {
             await this.knex.raw("select 1");
-        } catch (err) {
+        } catch (error) {
             healthCheckResult.isHealthy = false;
             healthCheckResult.details.postgres = {
                 message: "Unable to run query 'select 1'",
-                err: err
+                error: error
             };
         }
 
         try {
             await this.s3Client.headBucket({ Bucket: this.s3Bucket }).promise();
-        } catch (err) {
+        } catch (error) {
             healthCheckResult.isHealthy = false;
             healthCheckResult.isHealthy = false;
             healthCheckResult.details.s3 = {
                 message: `Unable to HEAD bucket ${this.s3Bucket}`,
-                err: err
+                error: error
             };
         }
 
@@ -102,8 +106,11 @@ export default class PgS3Storages implements IStoragesModule {
                 directory: join(__dirname, "./migrations"),
                 loadExtensions: [isCurrentFileTs ? ".ts" : ".js"]
             } as any);
-        } catch (err) {
-            throw new StorageSetupError("Error running sql migration", err);
+        } catch (error) {
+            this.log.error("PgS3Storages: error running sql migration", {
+                error
+            });
+            throw error;
         }
     }
 
@@ -112,12 +119,13 @@ export default class PgS3Storages implements IStoragesModule {
         try {
             await this.s3Client.headBucket({ Bucket: this.s3Bucket }).promise();
             return;
-        } catch (err) {
-            if (err.statusCode !== 404) {
-                throw new StorageSetupError(
-                    `Error accessing bucket = ${this.s3Bucket}`,
-                    err
+        } catch (error) {
+            if (error.statusCode !== 404) {
+                this.log.error(
+                    `PgS3Storages: error accessing bucket = ${this.s3Bucket}`,
+                    { error }
                 );
+                throw error;
             }
         }
 
@@ -126,11 +134,12 @@ export default class PgS3Storages implements IStoragesModule {
             await this.s3Client
                 .createBucket({ Bucket: this.s3Bucket })
                 .promise();
-        } catch (err) {
-            throw new StorageSetupError(
-                `Error creating bucket = ${this.s3Bucket}`,
-                err
+        } catch (error) {
+            this.log.error(
+                `PgS3Storages: error creating bucket = ${this.s3Bucket}`,
+                { error }
             );
+            throw error;
         }
     }
 }

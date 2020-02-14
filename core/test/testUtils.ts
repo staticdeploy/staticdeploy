@@ -101,7 +101,9 @@ export function getMockDependencies(): IMockDependencies {
             makeArchive: sinon.stub()
         },
         logger: {
-            log: sinon.stub()
+            addToContext: sinon.stub(),
+            info: sinon.stub(),
+            error: sinon.stub()
         },
         authenticationStrategies: [],
         externalCacheServices: [],
@@ -109,8 +111,7 @@ export function getMockDependencies(): IMockDependencies {
             enforceAuth: false
         },
         requestContext: {
-            authToken: null,
-            requestId: "requestId"
+            authToken: null
         },
         storages: {
             apps: {

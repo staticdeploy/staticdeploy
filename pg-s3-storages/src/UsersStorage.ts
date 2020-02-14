@@ -8,10 +8,8 @@ import {
 import Knex from "knex";
 import { flatMap, omit } from "lodash";
 
-import convertErrors from "./common/convertErrors";
 import tables from "./common/tables";
 
-@convertErrors
 export default class UsersStorage implements IUsersStorage {
     private static omitGroupsIds<T>(
         objectWithGroupsIds: T & { groupsIds?: string[] }

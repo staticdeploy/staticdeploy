@@ -1,9 +1,4 @@
-import {
-    ArchiveCreationError,
-    ArchiveExtractionError,
-    IArchiver,
-    IFile
-} from "@staticdeploy/core";
+import { ArchiveExtractionError, IArchiver, IFile } from "@staticdeploy/core";
 import { map } from "bluebird";
 import { mkdirp, outputFile, readFile, remove } from "fs-extra";
 import { tmpdir } from "os";
@@ -11,6 +6,7 @@ import { join } from "path";
 import recursiveReaddir from "recursive-readdir";
 import tar from "tar";
 
+import ArchiveCreationError from "./ArchiveCreationError";
 import getRandomString from "./getRandomString";
 import removePrefix from "./removePrefix";
 

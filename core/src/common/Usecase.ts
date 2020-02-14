@@ -8,7 +8,6 @@ import IUsecaseConfig from "../dependencies/IUsecaseConfig";
 import { IUserWithRoles } from "../entities/User";
 import Authenticator from "../services/Authenticator";
 import Authorizer from "../services/Authorizer";
-import Logger from "../services/Logger";
 import OperationLogger from "../services/OperationLogger";
 import { FunctionalError } from "./functionalErrors";
 import UnexpectedError from "./UnexpectedError";
@@ -17,14 +16,13 @@ export default abstract class Usecase<Arguments extends any[], ReturnValue> {
     // Services
     protected authorizer: Authorizer;
     protected authenticator: Authenticator;
-    protected log: Logger;
     protected operationLogger: OperationLogger;
     // Dependencies
     protected archiver: IArchiver;
     private authenticationStrategies: IAuthenticationStrategy[];
     private config: IUsecaseConfig;
     protected externalCacheServices: IExternalCacheService[];
-    private logger: ILogger;
+    protected log: ILogger;
     private requestContext: IRequestContext;
     protected storages: IStorages;
     // State
@@ -44,16 +42,11 @@ export default abstract class Usecase<Arguments extends any[], ReturnValue> {
         this.authenticationStrategies = options.authenticationStrategies;
         this.config = options.config;
         this.externalCacheServices = options.externalCacheServices;
-        this.logger = options.logger;
+        this.log = options.logger;
         this.requestContext = options.requestContext;
         this.storages = options.storages;
 
         // Services
-        this.log = new Logger(
-            this.logger,
-            this.requestContext,
-            this.constructor.name
-        );
         this.authenticator = new Authenticator(
             this.storages.users,
             this.authenticationStrategies,
@@ -69,36 +62,34 @@ export default abstract class Usecase<Arguments extends any[], ReturnValue> {
 
     async exec(...args: Arguments): Promise<ReturnValue> {
         const startedAt = Date.now();
+        this.log.addToContext("usecase", this.constructor.name);
         this.log.info("usecase execution started");
 
         try {
             this.user = await this.authenticator.getUser();
-            this.log._setUser(this.user);
+            this.log.addToContext("userId", this.user?.id ?? "anonymous");
             this.authorizer._setUser(this.user);
             this.operationLogger._setUser(this.user);
 
             const result = await this._exec(...args);
 
             this.log.info("usecase execution terminated successfully", {
-                execTime: Date.now() - startedAt
+                execTimeMs: Date.now() - startedAt
             });
 
             return result;
-        } catch (err) {
-            if (err instanceof FunctionalError) {
+        } catch (error) {
+            if (error instanceof FunctionalError) {
                 this.log.info("usecase execution terminated with error", {
-                    execTime: Date.now() - startedAt,
-                    error: {
-                        name: err.constructor.name,
-                        message: err.message
-                    }
+                    execTimeMs: Date.now() - startedAt,
+                    error: error
                 });
 
-                throw err;
+                throw error;
             } else {
                 this.log.error("usecase execution failed unexpectedly", {
-                    execTime: Date.now() - startedAt,
-                    error: err
+                    execTimeMs: Date.now() - startedAt,
+                    error: error
                 });
 
                 throw new UnexpectedError();
@@ -124,7 +115,7 @@ export default abstract class Usecase<Arguments extends any[], ReturnValue> {
             authenticationStrategies: this.authenticationStrategies,
             config: this.config,
             externalCacheServices: this.externalCacheServices,
-            logger: this.logger,
+            logger: this.log,
             requestContext: this.requestContext,
             storages: this.storages
         });

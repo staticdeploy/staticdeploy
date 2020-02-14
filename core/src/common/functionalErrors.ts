@@ -87,11 +87,6 @@ export class BundlesInUseError extends FunctionalError {
         );
     }
 }
-export class ArchiveCreationError extends FunctionalError {
-    constructor() {
-        super("Error creating archive from files");
-    }
-}
 export class ArchiveExtractionError extends FunctionalError {
     constructor() {
         super("Error extracting files from archive");

@@ -10,10 +10,8 @@ import { flatten, map, omit } from "lodash";
 import { join } from "path";
 
 import concurrentForEach from "./common/concurrentForEach";
-import convertErrors from "./common/convertErrors";
 import tables from "./common/tables";
 
-@convertErrors
 export default class BundlesStorage implements IBundlesStorage {
     constructor(
         private knex: Knex,

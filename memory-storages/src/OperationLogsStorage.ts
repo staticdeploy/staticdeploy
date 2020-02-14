@@ -6,11 +6,9 @@ import {
 import { toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
-import convertErrors from "./common/convertErrors";
 import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
-@convertErrors
 export default class OperationLogsStorage implements IOperationLogsStorage {
     constructor(private operationLogs: ICollection<IOperationLog>) {}
 

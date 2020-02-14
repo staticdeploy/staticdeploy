@@ -2,11 +2,9 @@ import { IExternalCache, IExternalCachesStorage } from "@staticdeploy/core";
 import { defaults, find, toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
-import convertErrors from "./common/convertErrors";
 import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
-@convertErrors
 export default class ExternalCachesStorage implements IExternalCachesStorage {
     constructor(private externalCaches: ICollection<IExternalCache>) {}
 

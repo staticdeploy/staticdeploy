@@ -43,6 +43,7 @@
     "vhost": "^3.0.2"
   },
   "devDependencies": {
+    "@staticdeploy/simple-json-logger": "^0.15.0",
     "@types/bunyan": "^1.8.6",
     "@types/express": "^4.17.2",
     "@types/lodash": "^4.14.149",

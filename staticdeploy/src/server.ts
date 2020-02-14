@@ -28,7 +28,6 @@ import setupStorages from "./init/setupStorages";
             config,
             authenticationStrategies,
             externalCacheServices,
-            logger,
             managementRouter,
             storagesModule,
             usecases

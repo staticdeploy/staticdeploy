@@ -1,9 +1,5 @@
 import { JSONWebKeySet, JWKS, JWT } from "@panva/jose";
-import {
-    AuthenticationStrategySetupError,
-    IAuthenticationStrategy,
-    IIdpUser
-} from "@staticdeploy/core";
+import { IAuthenticationStrategy, IIdpUser, ILogger } from "@staticdeploy/core";
 import axios from "axios";
 
 interface IOpenidConfiguration {
@@ -18,7 +14,8 @@ export default class OidcAuthenticationStrategy
 
     constructor(
         private openidConfigurationUrl: string,
-        private clientId: string
+        private clientId: string,
+        private log: ILogger
     ) {}
 
     async setup() {
@@ -45,12 +42,12 @@ export default class OidcAuthenticationStrategy
                 this.openidConfigurationUrl
             );
             this.openidConfiguration = data;
-        } catch (err) {
-            throw new AuthenticationStrategySetupError(
-                OidcAuthenticationStrategy.name,
-                "Error fetching openid configuration",
-                err
+        } catch (error) {
+            this.log.error(
+                "OidcAuthenticationStrategy: error fetching openid configuration",
+                { error }
             );
+            throw error;
         }
     }
     private async fetchJwks(): Promise<void> {
@@ -59,12 +56,11 @@ export default class OidcAuthenticationStrategy
                 this.openidConfiguration!.jwks_uri
             );
             this.keyStore = JWKS.asKeyStore(data);
-        } catch (err) {
-            throw new AuthenticationStrategySetupError(
-                OidcAuthenticationStrategy.name,
-                "Error fetching jwks",
-                err
-            );
+        } catch (error) {
+            this.log.error("OidcAuthenticationStrategy: error fetching jwks", {
+                error
+            });
+            throw error;
         }
     }
 }

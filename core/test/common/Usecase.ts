@@ -16,6 +16,32 @@ describe("common abstract class Usecase", () => {
                 protected _exec = _exec;
             };
 
+        it("sets the usecase name in the log context", async () => {
+            const deps = getMockDependencies();
+
+            const UsecaseImpl = getUsecaseImpl(async () => undefined);
+            const usecaseImpl = new UsecaseImpl(deps);
+            await usecaseImpl.exec();
+
+            expect(deps.logger.addToContext).to.have.been.calledWith(
+                "usecase",
+                "UsecaseImpl"
+            );
+        });
+
+        it("sets the user id in the log context", async () => {
+            const deps = getMockDependencies();
+
+            const UsecaseImpl = getUsecaseImpl(async () => undefined);
+            const usecaseImpl = new UsecaseImpl(deps);
+            await usecaseImpl.exec();
+
+            expect(deps.logger.addToContext).to.have.been.calledWith(
+                "userId",
+                "anonymous"
+            );
+        });
+
         it("logs the start of the execution", async () => {
             const deps = getMockDependencies();
 
@@ -23,8 +49,8 @@ describe("common abstract class Usecase", () => {
             const usecaseImpl = new UsecaseImpl(deps);
             await usecaseImpl.exec();
 
-            expect(deps.logger.log).to.have.been.calledWith(
-                sinon.match.has("message", "usecase execution started")
+            expect(deps.logger.info).to.have.been.calledWith(
+                "usecase execution started"
             );
         });
 
@@ -36,11 +62,9 @@ describe("common abstract class Usecase", () => {
                 const usecaseImpl = new UsecaseImpl(deps);
                 await usecaseImpl.exec();
 
-                expect(deps.logger.log).to.have.been.calledWith(
-                    sinon.match.has(
-                        "message",
-                        "usecase execution terminated successfully"
-                    )
+                expect(deps.logger.info).to.have.been.calledWith(
+                    "usecase execution terminated successfully",
+                    sinon.match({ execTimeMs: sinon.match.number })
                 );
             });
             it("case: expected failure", async () => {
@@ -56,18 +80,22 @@ describe("common abstract class Usecase", () => {
                     // Ignore the thrown error
                 }
 
-                expect(deps.logger.log).to.have.been.calledWith(
-                    sinon.match.has(
-                        "message",
-                        "usecase execution terminated with error"
-                    )
+                expect(deps.logger.info).to.have.been.calledWith(
+                    "usecase execution terminated with error",
+                    sinon.match({
+                        execTimeMs: sinon.match.number,
+                        error: sinon.match.instanceOf(
+                            AuthenticationRequiredError
+                        )
+                    })
                 );
             });
             it("case: unexpected failure", async () => {
                 const deps = getMockDependencies();
 
+                const error = new Error("error message");
                 const UsecaseImpl = getUsecaseImpl(async () => {
-                    throw new Error();
+                    throw error;
                 });
                 const usecaseImpl = new UsecaseImpl(deps);
                 try {
@@ -76,11 +104,12 @@ describe("common abstract class Usecase", () => {
                     // Ignore the thrown error
                 }
 
-                expect(deps.logger.log).to.have.been.calledWith(
-                    sinon.match.has(
-                        "message",
-                        "usecase execution failed unexpectedly"
-                    )
+                expect(deps.logger.error).to.have.been.calledWith(
+                    "usecase execution failed unexpectedly",
+                    sinon.match({
+                        execTimeMs: sinon.match.number,
+                        error: error
+                    })
                 );
             });
         });

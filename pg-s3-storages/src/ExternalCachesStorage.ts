@@ -1,10 +1,8 @@
 import { IExternalCache, IExternalCachesStorage } from "@staticdeploy/core";
 import Knex from "knex";
 
-import convertErrors from "./common/convertErrors";
 import tables from "./common/tables";
 
-@convertErrors
 export default class ExternalCachesStorage implements IExternalCachesStorage {
     constructor(private knex: Knex) {}
 

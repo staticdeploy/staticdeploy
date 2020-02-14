@@ -1,8 +1,10 @@
 import * as sd from "@staticdeploy/core";
 import { IConvRoute } from "convexpress";
 
+import IBaseRequest from "../IBaseRequest";
+
 type ErrorStatusMapping = [any, number];
-const errorStatusMappings: ErrorStatusMapping[] = [
+export const errorStatusMappings: ErrorStatusMapping[] = [
     // Auth errors
     [sd.AuthenticationRequiredError, 401],
     [sd.NoUserCorrespondingToIdpUserError, 403],
@@ -40,12 +42,12 @@ const errorStatusMappings: ErrorStatusMapping[] = [
     [sd.SomeGroupNotFoundError, 404],
     [sd.ConflictingGroupError, 409],
     [sd.GroupHasUsersError, 409],
+    [sd.RoleNotValidError, 400],
     // User errors
     [sd.UserNotFoundError, 404],
     [sd.ConflictingUserError, 409],
-    // Storage errors
-    [sd.GenericStoragesError, 500],
-    [sd.StoragesInconsistencyError, 500]
+    // Unexpected error
+    [sd.UnexpectedError, 500]
 ];
 function findMatchingMapping(err: any): ErrorStatusMapping | null {
     return (
@@ -56,18 +58,26 @@ function findMatchingMapping(err: any): ErrorStatusMapping | null {
 
 export default (
     handler: IConvRoute["handler"]
-): IConvRoute["handler"] => async (req, res) => {
+): IConvRoute["handler"] => async (req: IBaseRequest, res) => {
     try {
         await (handler as any)(req, res);
-    } catch (err) {
-        const matchingMapping = findMatchingMapping(err);
+    } catch (error) {
+        const matchingMapping = findMatchingMapping(error);
         if (!matchingMapping) {
-            throw err;
+            req.log.error("unhandled request error", {
+                error: error
+            });
+            res.status(500).send({
+                name: "UnhandledRequestError",
+                message:
+                    "An unexpected error occurred while performing the operation"
+            });
+        } else {
+            const [ErrorClass, statusCode] = matchingMapping;
+            res.status(statusCode).send({
+                name: ErrorClass.name,
+                message: error.message
+            });
         }
-        const [ErrorClass, statusCode] = matchingMapping;
-        res.status(statusCode).send({
-            name: ErrorClass.name,
-            message: err.message
-        });
     }
 };

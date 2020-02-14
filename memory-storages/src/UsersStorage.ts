@@ -9,11 +9,9 @@ import {
 import { defaults, find, flatMap, omit, toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
-import convertErrors from "./common/convertErrors";
 import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
-@convertErrors
 export default class UsersStorage implements IUsersStorage {
     private static omitGroupsIds(user: IUser & { groupsIds: string[] }): IUser {
         return omit(user, "groupsIds");

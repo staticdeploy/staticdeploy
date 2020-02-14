@@ -1,5 +1,10 @@
-import { ILog } from "../entities/Log";
-
+interface IDetails {
+    execTimeMs?: number;
+    error?: any;
+    [key: string]: any;
+}
 export default interface ILogger {
-    log(log: ILog): void;
+    addToContext(key: string, value: string): void;
+    info(message: string, details?: IDetails): void;
+    error(message: string, details?: IDetails): void;
 }

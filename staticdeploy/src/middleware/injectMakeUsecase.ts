@@ -9,6 +9,7 @@ import { IUsecasesByName } from "@staticdeploy/http-adapters";
 import { RequestHandler } from "express";
 
 import IRequestWithAuthToken from "../common/IRequestWithAuthToken";
+import IRequestWithLogger from "../common/IRequestWithLogger";
 
 export default function injectMakeUsecase(
     usecases: IUsecasesByName,
@@ -27,13 +28,14 @@ export default function injectMakeUsecase(
         config,
         storages
     } = dependencies;
-    return (req: IRequestWithAuthToken, _res, next) => {
+    return (req: IRequestWithAuthToken & IRequestWithLogger, _res, next) => {
         req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
             const UsecaseClass = usecases[name];
             return new UsecaseClass({
                 archiver: archiver,
                 authenticationStrategies: authenticationStrategies,
                 externalCacheServices: externalCacheServices,
+                logger: req.logger,
                 config: config,
                 requestContext: { authToken: req.authToken },
                 storages: storages

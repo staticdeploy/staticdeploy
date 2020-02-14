@@ -1,5 +1,6 @@
 // Errors
 export * from "./common/functionalErrors";
+export { default as UnexpectedError } from "./common/UnexpectedError";
 
 // Usecases
 export { default as Usecase } from "./common/Usecase";
@@ -36,6 +37,7 @@ export { default as GetOperationLogs } from "./usecases/GetOperationLogs";
 export { default as GetSupportedExternalCacheTypes } from "./usecases/GetSupportedExternalCacheTypes";
 export { default as GetUser } from "./usecases/GetUser";
 export { default as GetUsers } from "./usecases/GetUsers";
+export { default as PurgeExternalCache } from "./usecases/PurgeExternalCache";
 export { default as RespondToEndpointRequest } from "./usecases/RespondToEndpointRequest";
 export { default as UpdateApp } from "./usecases/UpdateApp";
 export { default as UpdateEntrypoint } from "./usecases/UpdateEntrypoint";
@@ -52,6 +54,7 @@ export { default as IBundlesStorage } from "./dependencies/IBundlesStorage";
 export { default as IEntrypointsStorage } from "./dependencies/IEntrypointsStorage";
 export { default as IExternalCachesStorage } from "./dependencies/IExternalCachesStorage";
 export { default as IGroupsStorage } from "./dependencies/IGroupsStorage";
+export { default as ILogger } from "./dependencies/ILogger";
 export { default as IOperationLogsStorage } from "./dependencies/IOperationLogsStorage";
 export { default as IRequestContext } from "./dependencies/IRequestContext";
 export { default as IStorages } from "./dependencies/IStorages";

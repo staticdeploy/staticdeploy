@@ -13,6 +13,11 @@ const pgS3Storages = new PgS3Storages({
         endpoint: "http://localhost:9000",
         accessKeyId: "accessKeyId",
         secretAccessKey: "secretAccessKey"
+    },
+    logger: {
+        addToContext: () => undefined,
+        info: () => undefined,
+        error: () => undefined
     }
 });
 

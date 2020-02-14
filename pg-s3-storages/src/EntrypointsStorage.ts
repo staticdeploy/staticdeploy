@@ -5,10 +5,8 @@ import {
 } from "@staticdeploy/core";
 import Knex from "knex";
 
-import convertErrors from "./common/convertErrors";
 import tables from "./common/tables";
 
-@convertErrors
 export default class EntrypointsStorage implements IEntrypointsStorage {
     constructor(private knex: Knex) {}
 

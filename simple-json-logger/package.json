@@ -1,0 +1,50 @@
+{
+  "name": "@staticdeploy/simple-json-logger",
+  "description": "Simple JSON logger",
+  "version": "0.15.0",
+  "private": true,
+  "main": "lib/index.js",
+  "typings": "lib/index.d.js",
+  "files": [
+    "lib"
+  ],
+  "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/staticdeploy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticdeploy/staticdeploy/issues"
+  },
+  "scripts": {
+    "compile": "rimraf lib && tsc",
+    "prettier": "prettier 'src/**/*.ts' 'test/**/*.ts'",
+    "prettify": "yarn prettier --write",
+    "lint:prettier": "yarn prettier --list-different",
+    "lint:tslint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "yarn lint:prettier && yarn lint:tslint",
+    "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register --extension ts 'test/**/*.ts'"
+  },
+  "dependencies": {
+    "@staticdeploy/core": "^0.15.0",
+    "safe-json-stringify": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.7",
+    "@types/mocha": "^5.2.7",
+    "@types/safe-json-stringify": "^1.1.0",
+    "@types/sinon": "^7.5.1",
+    "@types/sinon-chai": "^3.2.3",
+    "chai": "^4.2.0",
+    "mocha": "^7.0.0",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
+    "sinon": "^8.1.1",
+    "sinon-chai": "^3.4.0",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.5"
+  }
+}
