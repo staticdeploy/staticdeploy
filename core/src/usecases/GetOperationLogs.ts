@@ -1,10 +1,13 @@
 import Usecase from "../common/Usecase";
 import { IOperationLog } from "../entities/OperationLog";
 
-export default class GetOperationLogs extends Usecase {
-    async exec(): Promise<IOperationLog[]> {
+type Arguments = [];
+type ReturnValue = IOperationLog[];
+
+export default class GetOperationLogs extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetOperationLogs();
+        this.authorizer.ensureCanGetOperationLogs();
 
         return this.storages.operationLogs.findMany();
     }

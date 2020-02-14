@@ -1,9 +1,4 @@
-export interface IInternalFormValues {
-    name: string;
-    roles: string[];
-}
-
-export interface IExternalFormValues {
+export default interface IFormValues {
     name: string;
     roles: string[];
 }

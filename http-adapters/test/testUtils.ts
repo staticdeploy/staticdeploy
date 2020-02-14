@@ -44,6 +44,11 @@ function getServer(
 ) {
     return express()
         .use((req: IBaseRequest, _res, next) => {
+            req.log = {
+                addToContext: sinon.stub(),
+                error: sinon.stub(),
+                info: sinon.stub()
+            };
             req.makeUsecase = (name: string) =>
                 ({ exec: execMocks[name] } as any);
             next();

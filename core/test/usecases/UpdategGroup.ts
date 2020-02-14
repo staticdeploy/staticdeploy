@@ -5,7 +5,7 @@ import {
     ConflictingGroupError,
     GroupNotFoundError,
     RoleNotValidError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateGroup from "../../src/usecases/UpdateGroup";
 import { getMockDependencies } from "../testUtils";

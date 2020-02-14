@@ -1,11 +1,17 @@
-import { AppNotFoundError } from "../common/errors";
+import { AppNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { IEntrypoint } from "../entities/Entrypoint";
 
-export default class GetEntrypointsByAppId extends Usecase {
-    async exec(appId: string): Promise<IEntrypoint[]> {
+type Arguments = [string];
+type ReturnValue = IEntrypoint[];
+
+export default class GetEntrypointsByAppId extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(appId: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetEntrypoints();
+        this.authorizer.ensureCanGetEntrypoints();
 
         // Ensure the app with the specified id exists
         const appExists = await this.storages.apps.oneExistsWithId(appId);

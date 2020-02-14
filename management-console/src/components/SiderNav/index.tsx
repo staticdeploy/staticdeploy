@@ -27,6 +27,12 @@ class SiderNav extends React.Component<RouteComponentProps> {
                         <span>{"Bundles"}</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="/externalCaches">
+                    <Link to="/externalCaches">
+                        <Icon type="cloud-server" />
+                        <span>{"External caches"}</span>
+                    </Link>
+                </Menu.Item>
                 <Menu.Item key="/users">
                     <Link to="/users">
                         <Icon type="user" />

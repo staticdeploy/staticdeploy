@@ -1,9 +1,11 @@
 import Button from "antd/lib/button";
 import Icon from "antd/lib/icon";
 import React from "react";
-import { InjectedFormProps } from "redux-form";
 
-import { reduxForm } from "../../common/formWithValuesConverter";
+import {
+    IInjectedFormProps,
+    reduxForm
+} from "../../common/formWithValuesConverter";
 import TextField from "../TextField";
 
 interface IFormValues {
@@ -13,7 +15,7 @@ interface IJwtLoginFormProps {
     strategyDisplayName: string;
 }
 class WrappedJwtLoginForm extends React.Component<
-    IJwtLoginFormProps & InjectedFormProps<IFormValues>
+    IJwtLoginFormProps & IInjectedFormProps<IFormValues>
 > {
     render() {
         const { handleSubmit, strategyDisplayName } = this.props;

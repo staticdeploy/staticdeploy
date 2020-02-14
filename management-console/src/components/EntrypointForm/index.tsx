@@ -1,11 +1,11 @@
 import { IBundle } from "@staticdeploy/core";
 import isEmpty from "lodash/isEmpty";
 import React from "react";
-import { InjectedFormProps } from "redux-form";
 
 import { fromKVPairs, toKVPairs } from "../../common/configurationUtils";
 import {
     IConverterForm,
+    IInjectedFormProps,
     reduxForm
 } from "../../common/formWithValuesConverter";
 import StaticdeployClientContext from "../../common/StaticdeployClientContext";
@@ -26,7 +26,7 @@ interface IState {
 }
 
 class EntrypointForm extends React.Component<
-    IProps & InjectedFormProps<IInternalFormValues>,
+    IProps & IInjectedFormProps<IInternalFormValues>,
     IState
 > {
     static contextType = StaticdeployClientContext;
@@ -96,16 +96,14 @@ export interface IEntrypointFormInstance
 export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
     form: "EntrypointForm",
     validate: validate,
-    toInternal: (initialValues = {}) => ({
-        bundleId: initialValues.bundleId,
-        redirectTo: initialValues.redirectTo || "",
-        urlMatcher: initialValues.urlMatcher || "",
+    toInternal: initialValues => ({
+        ...initialValues,
         configuration: toKVPairs(initialValues.configuration || {})
     }),
     toExternal: values => ({
-        bundleId: values.bundleId,
-        redirectTo: values.redirectTo || null,
         urlMatcher: values.urlMatcher,
+        bundleId: values.bundleId || null,
+        redirectTo: values.redirectTo || null,
         configuration: !isEmpty(values.configuration)
             ? fromKVPairs(values.configuration)
             : null

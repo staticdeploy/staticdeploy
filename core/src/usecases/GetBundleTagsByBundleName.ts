@@ -1,9 +1,15 @@
 import Usecase from "../common/Usecase";
 
-export default class GetBundleTagsByBundleName extends Usecase {
-    async exec(bundleName: string): Promise<string[]> {
+type Arguments = [string];
+type ReturnValue = string[];
+
+export default class GetBundleTagsByBundleName extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(bundleName: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetBundles();
+        this.authorizer.ensureCanGetBundles();
 
         return this.storages.bundles.findManyTagsByName(bundleName);
     }

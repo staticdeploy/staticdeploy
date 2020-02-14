@@ -31,7 +31,7 @@
   "dependencies": {
     "@staticdeploy/core": "^0.15.0",
     "@staticdeploy/sdk": "^0.15.0",
-    "antd": "^3.26.7",
+    "antd": "^3.26.8",
     "classnames": "^2.2.6",
     "eventemitter3": "^4.0.0",
     "jwt-decode": "^2.2.0",

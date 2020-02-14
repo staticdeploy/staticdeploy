@@ -1,7 +1,7 @@
 import { isAbsolute, normalize } from "path";
 import isFQDN from "validator/lib/isFQDN";
 
-import { EntrypointUrlMatcherNotValidError } from "../common/errors";
+import { EntrypointUrlMatcherNotValidError } from "../common/functionalErrors";
 import { IConfiguration } from "./Configuration";
 
 export interface IEntrypoint {

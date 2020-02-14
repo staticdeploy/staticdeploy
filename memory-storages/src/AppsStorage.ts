@@ -2,11 +2,9 @@ import { IApp, IAppsStorage, IConfiguration } from "@staticdeploy/core";
 import { defaults, find, toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
-import convertErrors from "./common/convertErrors";
 import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
-@convertErrors
 export default class AppsStorage implements IAppsStorage {
     constructor(private apps: ICollection<IApp>) {}
 

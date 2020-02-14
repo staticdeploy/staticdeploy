@@ -1,14 +1,22 @@
-import { ConflictingGroupError } from "../common/errors";
+import { ConflictingGroupError } from "../common/functionalErrors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import { IGroup } from "../entities/Group";
 import { Operation } from "../entities/OperationLog";
 import { validateRole } from "../entities/Role";
 
-export default class CreateGroup extends Usecase {
-    async exec(partial: { name: string; roles: string[] }): Promise<IGroup> {
+type Arguments = [
+    {
+        name: string;
+        roles: string[];
+    }
+];
+type ReturnValue = IGroup;
+
+export default class CreateGroup extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(partial: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanCreateGroup();
+        this.authorizer.ensureCanCreateGroup();
 
         // Validate roles
         partial.roles.forEach(validateRole);

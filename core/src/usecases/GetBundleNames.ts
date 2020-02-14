@@ -1,9 +1,12 @@
 import Usecase from "../common/Usecase";
 
-export default class GetBundleNames extends Usecase {
-    async exec(): Promise<string[]> {
+type Arguments = [];
+type ReturnValue = string[];
+
+export default class GetBundleNames extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetBundles();
+        this.authorizer.ensureCanGetBundles();
 
         return this.storages.bundles.findManyNames();
     }

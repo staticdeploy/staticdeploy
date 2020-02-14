@@ -1,10 +1,13 @@
 import Usecase from "../common/Usecase";
 import { IUser } from "../entities/User";
 
-export default class GetUsers extends Usecase {
-    async exec(): Promise<IUser[]> {
+type Arguments = [];
+type ReturnValue = IUser[];
+
+export default class GetUsers extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetUsers();
+        this.authorizer.ensureCanGetUsers();
 
         return this.storages.users.findMany();
     }

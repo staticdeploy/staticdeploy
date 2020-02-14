@@ -31,8 +31,11 @@ export default function staticRoute(options: {
             res.status(response.statusCode)
                 .set(response.headers)
                 .send(response.body);
-        } catch (err) {
-            next(err);
+        } catch (error) {
+            req.log.error("unhandled request error", {
+                error: error
+            });
+            next(error);
         }
     };
 }

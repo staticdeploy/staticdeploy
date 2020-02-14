@@ -1,11 +1,14 @@
-import { EntrypointNotFoundError } from "../common/errors";
+import { EntrypointNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { IEntrypoint } from "../entities/Entrypoint";
 
-export default class GetEntrypoint extends Usecase {
-    async exec(id: string): Promise<IEntrypoint> {
+type Arguments = [string];
+type ReturnValue = IEntrypoint;
+
+export default class GetEntrypoint extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetEntrypoints();
+        this.authorizer.ensureCanGetEntrypoints();
 
         const entrypoint = await this.storages.entrypoints.findOne(id);
 

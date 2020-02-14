@@ -1,4 +1,7 @@
-import { BundleNotFoundError, EntrypointNotFoundError } from "../common/errors";
+import {
+    BundleNotFoundError,
+    EntrypointNotFoundError
+} from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import {
     IConfiguration,
@@ -7,15 +10,21 @@ import {
 import { IEntrypoint } from "../entities/Entrypoint";
 import { Operation } from "../entities/OperationLog";
 
-export default class UpdateEntrypoint extends Usecase {
-    async exec(
-        id: string,
-        patch: {
-            bundleId?: string | null;
-            redirectTo?: string | null;
-            configuration?: IConfiguration | null;
-        }
-    ): Promise<IEntrypoint> {
+type Arguments = [
+    string,
+    {
+        bundleId?: string | null;
+        redirectTo?: string | null;
+        configuration?: IConfiguration | null;
+    }
+];
+type ReturnValue = IEntrypoint;
+
+export default class UpdateEntrypoint extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(
+        id: Arguments[0],
+        patch: Arguments[1]
+    ): Promise<ReturnValue> {
         const existingEntrypoint = await this.storages.entrypoints.findOne(id);
 
         // Ensure the entrypoint exists
@@ -24,7 +33,7 @@ export default class UpdateEntrypoint extends Usecase {
         }
 
         // Auth check
-        await this.authorizer.ensureCanUpdateEntrypoint(
+        this.authorizer.ensureCanUpdateEntrypoint(
             existingEntrypoint.urlMatcher
         );
 

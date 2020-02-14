@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { BundleNotFoundError } from "../../src/common/errors";
+import { BundleNotFoundError } from "../../src/common/functionalErrors";
 import GetBundle from "../../src/usecases/GetBundle";
 import { getMockDependencies } from "../testUtils";
 

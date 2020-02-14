@@ -1,12 +1,15 @@
 import Usecase from "../common/Usecase";
 import { IHealthCheckResult } from "../entities/HealthCheckResult";
 
-export default class CheckHealth extends Usecase {
-    async exec(): Promise<IHealthCheckResult> {
+type Arguments = [];
+type ReturnValue = IHealthCheckResult;
+
+export default class CheckHealth extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(): Promise<ReturnValue> {
         const healthCheckResult = await this.storages.checkHealth();
         return {
             isHealthy: healthCheckResult.isHealthy,
-            details: (await this.authorizer.canSeeHealtCheckDetails())
+            details: this.authorizer.canSeeHealtCheckDetails()
                 ? healthCheckResult.details
                 : undefined
         };

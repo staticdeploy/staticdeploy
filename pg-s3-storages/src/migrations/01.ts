@@ -12,8 +12,7 @@ export function up(knex: Knex) {
             table
                 .string("name")
                 .unique()
-                .notNullable()
-                .index();
+                .notNullable();
             table.specificType("roles", "varchar(255)[]").notNullable();
             table.timestamp("createdAt").notNullable();
             table.timestamp("updatedAt").notNullable();

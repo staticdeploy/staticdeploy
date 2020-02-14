@@ -3,14 +3,14 @@ import md5 from "md5";
 import { isMatch } from "micromatch";
 import { getType } from "mime";
 
-import { BundleFallbackAssetNotFoundError } from "../common/errors";
+import { BundleFallbackAssetNotFoundError } from "../common/functionalErrors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import { IBundle, validateBundleNameOrTag } from "../entities/Bundle";
 import { Operation } from "../entities/OperationLog";
 
-export default class CreateBundle extends Usecase {
-    async exec(partial: {
+type Arguments = [
+    {
         name: string;
         tag: string;
         description: string;
@@ -23,9 +23,14 @@ export default class CreateBundle extends Usecase {
                 [headerName: string]: string;
             };
         };
-    }): Promise<IBundle> {
+    }
+];
+type ReturnValue = IBundle;
+
+export default class CreateBundle extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(partial: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanCreateBundle(partial.name);
+        this.authorizer.ensureCanCreateBundle(partial.name);
 
         // Validate name and tag
         validateBundleNameOrTag(partial.name, "name");

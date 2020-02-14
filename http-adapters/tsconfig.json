@@ -5,6 +5,7 @@
         "types": [
             "@types/chai",
             "@types/express",
+            "@types/lodash",
             "@types/mocha",
             "@types/sinon",
             "@types/sinon-chai",

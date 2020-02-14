@@ -6,11 +6,9 @@ import {
 import { defaults, filter, find } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
-import convertErrors from "./common/convertErrors";
 import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
-@convertErrors
 export default class EntrypointsStorage implements IEntrypointsStorage {
     constructor(private entrypoints: ICollection<IEntrypoint>) {}
 

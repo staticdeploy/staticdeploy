@@ -3,6 +3,7 @@ import Axios, { AxiosInstance } from "axios";
 import AppsClient from "./AppsClient";
 import BundlesClient from "./BundlesClient";
 import EntrypointsClient from "./EntrypointsClient";
+import ExternalCachesClient from "./ExternalCachesClient";
 import GroupsClient from "./GroupsClient";
 import addAuthorizationHeader from "./interceptors/addAuthorizationHeader";
 import convertErrors from "./interceptors/convertErrors";
@@ -16,6 +17,7 @@ export default class StaticdeployClient {
     public apps: AppsClient;
     public bundles: BundlesClient;
     public entrypoints: EntrypointsClient;
+    public externalCaches: ExternalCachesClient;
     public groups: GroupsClient;
     public operationLogs: OperationLogsClient;
     public users: UsersClient;
@@ -41,6 +43,7 @@ export default class StaticdeployClient {
         this.apps = new AppsClient(this.axios);
         this.bundles = new BundlesClient(this.axios);
         this.entrypoints = new EntrypointsClient(this.axios);
+        this.externalCaches = new ExternalCachesClient(this.axios);
         this.groups = new GroupsClient(this.axios);
         this.operationLogs = new OperationLogsClient(this.axios);
         this.users = new UsersClient(this.axios);

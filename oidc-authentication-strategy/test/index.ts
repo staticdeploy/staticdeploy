@@ -1,7 +1,7 @@
 import { JWK, JWKS, JWT } from "@panva/jose";
-import { AuthenticationStrategySetupError } from "@staticdeploy/core";
 import { expect } from "chai";
 import nock from "nock";
+import sinon from "sinon";
 
 import OidcAuthenticationStrategy from "../src";
 
@@ -10,25 +10,37 @@ describe("OidcAuthenticationStrategy", () => {
     const jwksUrl = "http://jwks.localhost";
     const clientId = "clientId";
 
+    const getMockLogger = () => ({
+        addToContext: sinon.stub(),
+        info: sinon.stub(),
+        error: sinon.stub()
+    });
+
     describe("setup", () => {
-        it("throws an AuthenticationStrategySetupError if an error occurs fetching the openid configuration", async () => {
+        it("logs an error if an error occurs fetching the openid configuration", async () => {
+            const mockLogger = getMockLogger();
             nock(openidConfigurationUrl)
                 .get("/")
                 .reply(400);
             const oidcAuthenticationStrategy = new OidcAuthenticationStrategy(
                 openidConfigurationUrl,
-                clientId
+                clientId,
+                mockLogger
             );
             const setupPromise = oidcAuthenticationStrategy.setup();
             await expect(setupPromise).to.be.rejectedWith(
-                AuthenticationStrategySetupError
+                "Request failed with status code 400"
             );
-            await expect(setupPromise).to.be.rejectedWith(
-                "Error fetching openid configuration"
+            expect(
+                mockLogger.error
+            ).to.have.been.calledWith(
+                "OidcAuthenticationStrategy: error fetching openid configuration",
+                { error: sinon.match.instanceOf(Error) }
             );
         });
 
-        it("throws an AuthenticationStrategySetupError if an error occurs fetching jwks", async () => {
+        it("logs an error if an error occurs fetching jwks", async () => {
+            const mockLogger = getMockLogger();
             nock(openidConfigurationUrl)
                 .get("/")
                 .reply(200, { jwks_uri: jwksUrl });
@@ -37,14 +49,18 @@ describe("OidcAuthenticationStrategy", () => {
                 .reply(400);
             const oidcAuthenticationStrategy = new OidcAuthenticationStrategy(
                 openidConfigurationUrl,
-                clientId
+                clientId,
+                mockLogger
             );
             const setupPromise = oidcAuthenticationStrategy.setup();
             await expect(setupPromise).to.be.rejectedWith(
-                AuthenticationStrategySetupError
+                "Request failed with status code 400"
             );
-            await expect(setupPromise).to.be.rejectedWith(
-                "Error fetching jwks"
+            expect(
+                mockLogger.error
+            ).to.have.been.calledWith(
+                "OidcAuthenticationStrategy: error fetching jwks",
+                { error: sinon.match.instanceOf(Error) }
             );
         });
 
@@ -59,7 +75,8 @@ describe("OidcAuthenticationStrategy", () => {
                 .reply(200, keyStore.toJWKS());
             const oidcAuthenticationStrategy = new OidcAuthenticationStrategy(
                 openidConfigurationUrl,
-                clientId
+                clientId,
+                getMockLogger()
             );
             await oidcAuthenticationStrategy.setup();
             openidScope.done();
@@ -73,7 +90,8 @@ describe("OidcAuthenticationStrategy", () => {
         const sub = "sub";
         const oidcAuthenticationStrategy = new OidcAuthenticationStrategy(
             openidConfigurationUrl,
-            clientId
+            clientId,
+            getMockLogger()
         );
 
         before(async () => {

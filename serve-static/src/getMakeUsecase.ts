@@ -1,6 +1,7 @@
 import {
     IArchiver,
     IAuthenticationStrategy,
+    IExternalCacheService,
     IRequestContext,
     IStorages,
     IUsecaseConfig
@@ -12,6 +13,7 @@ export default function getMakeUsecase(
     dependencies: {
         archiver: IArchiver;
         authenticationStrategies: IAuthenticationStrategy[];
+        externalCacheServices: IExternalCacheService[];
         config: IUsecaseConfig;
         storages: IStorages;
         requestContext: IRequestContext;

@@ -2,7 +2,7 @@ import basicCharsRegexp from "../common/basicCharsRegexp";
 import {
     BundleNameOrTagNotValidError,
     BundleNameTagCombinationNotValidError
-} from "../common/errors";
+} from "../common/functionalErrors";
 import { IAsset, IAssetWithoutContent } from "./Asset";
 
 export interface IBundle {

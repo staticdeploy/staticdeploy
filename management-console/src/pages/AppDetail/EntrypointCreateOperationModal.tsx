@@ -61,7 +61,15 @@ export default class EntrypointCreateOperationModal extends React.Component<
                     </span>
                 )}
             >
-                <EntrypointForm ref={form => (this.form = form!)} />
+                <EntrypointForm
+                    ref={form => (this.form = form!)}
+                    initialValues={{
+                        bundleId: null,
+                        redirectTo: null,
+                        urlMatcher: "",
+                        configuration: null
+                    }}
+                />
             </OperationModal>
         );
     }

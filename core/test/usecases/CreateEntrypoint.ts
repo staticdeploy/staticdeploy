@@ -7,7 +7,7 @@ import {
     ConfigurationNotValidError,
     ConflictingEntrypointError,
     EntrypointUrlMatcherNotValidError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateEntrypoint from "../../src/usecases/CreateEntrypoint";
 import { getMockDependencies } from "../testUtils";

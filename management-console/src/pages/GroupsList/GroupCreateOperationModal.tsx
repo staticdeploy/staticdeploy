@@ -49,7 +49,13 @@ export default class GroupCreateOperationModal extends React.Component<IProps> {
                     </span>
                 )}
             >
-                <GroupForm ref={form => (this.form = form!)} />
+                <GroupForm
+                    ref={form => (this.form = form!)}
+                    initialValues={{
+                        name: "",
+                        roles: []
+                    }}
+                />
             </OperationModal>
         );
     }

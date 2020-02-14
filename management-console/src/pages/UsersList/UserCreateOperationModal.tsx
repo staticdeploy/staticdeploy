@@ -1,4 +1,4 @@
-import { IGroup, IUser } from "@staticdeploy/core";
+import { IGroup, IUser, UserType } from "@staticdeploy/core";
 import StaticdeployClient from "@staticdeploy/sdk";
 import { History } from "history";
 import React from "react";
@@ -56,6 +56,13 @@ export default class UserCreateOperationModal extends React.Component<IProps> {
                 <UserForm
                     groups={this.props.groups}
                     ref={form => (this.form = form!)}
+                    initialValues={{
+                        idp: "",
+                        idpId: "",
+                        type: UserType.Human,
+                        name: "",
+                        groupsIds: []
+                    }}
                 />
             </OperationModal>
         );

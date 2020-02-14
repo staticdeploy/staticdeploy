@@ -19,6 +19,7 @@ registerStoragesTests({
         eraseCollection((memoryStorages as any).db.apps);
         eraseCollection((memoryStorages as any).db.bundles);
         eraseCollection((memoryStorages as any).db.entrypoints);
+        eraseCollection((memoryStorages as any).db.externalCaches);
         eraseCollection((memoryStorages as any).db.groups);
         eraseCollection((memoryStorages as any).db.operationLogs);
         eraseCollection((memoryStorages as any).db.users);

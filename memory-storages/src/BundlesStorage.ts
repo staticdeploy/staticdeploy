@@ -8,11 +8,9 @@ import {
 import { filter, find, last, map, pick, sortBy, uniq } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
-import convertErrors from "./common/convertErrors";
 import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
-@convertErrors
 export default class BundlesStorage implements IBundlesStorage {
     constructor(private bundles: ICollection<IBundle>) {}
 

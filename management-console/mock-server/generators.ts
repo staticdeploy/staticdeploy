@@ -51,6 +51,94 @@ export const entrypoint = (supplied: any = {}) => ({
     ...supplied
 });
 
+// External caches
+export const externalCache = (supplied: any = {}) => {
+    const type = faker.random.arrayElement(["AWS_CLOUDFRONT", "AZURE_CDN"]);
+    return {
+        id: id(),
+        domain: faker.internet.domainName(),
+        type: type,
+        configuration:
+            type === "AWS_CLOUDFRONT"
+                ? {
+                      ACCESS_KEY_ID: "AKIAIOSFODNN7EXAMPLE",
+                      SECRET_ACCESS_KEY:
+                          "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKE",
+                      CLOUDFRONT_DISTRIBUTION_ID: "EDFDVBD6EXAMPLE"
+                  }
+                : {
+                      SERVICE_PRINCIPAL_USERNAME: "Username",
+                      SERVICE_PRINCIPAL_PASSWORD: "Password",
+                      SUBSCRIPTION_ID: "3a6f930e-e2bb-4420-aa6e-d7c9ae5dda0c",
+                      RESOURCE_GROUP_NAME: "resource-group-name",
+                      CDN_PROFILE_NAME: "cdn-profile-name",
+                      CDN_ENDPOINT_NAME: "cdn-endpoint-name"
+                  },
+        createdAt: faker.date.past(),
+        updatedAt: faker.date.past(),
+        ...supplied
+    };
+};
+export const externalCacheTypes = () => [
+    {
+        name: "AWS_CLOUDFRONT",
+        label: "AWS CloudFront",
+        configurationFields: [
+            {
+                name: "ACCESS_KEY_ID",
+                label: "Access Key Id",
+                placeholder: "AKIAIOSFODNN7EXAMPLE"
+            },
+            {
+                name: "SECRET_ACCESS_KEY",
+                label: "Secret Access Key",
+                placeholder: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+            },
+            {
+                name: "CLOUDFRONT_DISTRIBUTION_ID",
+                label: "CloudFront Distribution Id",
+                placeholder: "EDFDVBD6EXAMPLE"
+            }
+        ]
+    },
+    {
+        name: "AZURE_CDN",
+        label: "Azure CDN",
+        configurationFields: [
+            {
+                name: "SERVICE_PRINCIPAL_USERNAME",
+                label: "Service Principal Username",
+                placeholder: "Username"
+            },
+            {
+                name: "SERVICE_PRINCIPAL_PASSWORD",
+                label: "Service Principal Password",
+                placeholder: "Password"
+            },
+            {
+                name: "SUBSCRIPTION_ID",
+                label: "Subscription Id",
+                placeholder: "3a6f930e-e2bb-4420-aa6e-d7c9ae5dda0c"
+            },
+            {
+                name: "RESOURCE_GROUP_NAME",
+                label: "Resource Group Name",
+                placeholder: "resource-group-name"
+            },
+            {
+                name: "CDN_PROFILE_NAME",
+                label: "CDN Profile Name",
+                placeholder: "cdn-profile-name"
+            },
+            {
+                name: "CDN_ENDPOINT_NAME",
+                label: "CDN Endpoint Name",
+                placeholder: "cdn-endpoint-name"
+            }
+        ]
+    }
+];
+
 // Groups
 export const group = (supplied: any = {}) => ({
     id: id(),

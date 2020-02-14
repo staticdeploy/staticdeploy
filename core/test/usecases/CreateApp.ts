@@ -5,7 +5,7 @@ import {
     AppNameNotValidError,
     ConfigurationNotValidError,
     ConflictingAppError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateApp from "../../src/usecases/CreateApp";
 import { getMockDependencies } from "../testUtils";

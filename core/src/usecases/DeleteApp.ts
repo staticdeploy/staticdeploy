@@ -1,9 +1,15 @@
-import { AppHasEntrypointsError, AppNotFoundError } from "../common/errors";
+import {
+    AppHasEntrypointsError,
+    AppNotFoundError
+} from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 
-export default class DeleteApp extends Usecase {
-    async exec(id: string): Promise<void> {
+type Arguments = [string];
+type ReturnValue = void;
+
+export default class DeleteApp extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         const toBeDeletedApp = await this.storages.apps.findOne(id);
 
         // Ensure the app exists
@@ -12,7 +18,7 @@ export default class DeleteApp extends Usecase {
         }
 
         // Auth check
-        await this.authorizer.ensureCanDeleteApp(toBeDeletedApp.name);
+        this.authorizer.ensureCanDeleteApp(toBeDeletedApp.name);
 
         // Ensure the app has no linked entrypoints
         const hasLinkedEntrypoints = await this.storages.entrypoints.anyExistsWithAppId(

@@ -5,12 +5,16 @@ import IArchiver from "../src/dependencies/IArchiver";
 import IAuthenticationStrategy from "../src/dependencies/IAuthenticationStrategy";
 import IBundlesStorage from "../src/dependencies/IBundlesStorage";
 import IEntrypointsStorage from "../src/dependencies/IEntrypointsStorage";
+import IExternalCacheService from "../src/dependencies/IExternalCacheService";
+import IExternalCachesStorage from "../src/dependencies/IExternalCachesStorage";
 import IGroupsStorage from "../src/dependencies/IGroupsStorage";
+import ILogger from "../src/dependencies/ILogger";
 import IOperationLogsStorage from "../src/dependencies/IOperationLogsStorage";
 import IRequestContext from "../src/dependencies/IRequestContext";
 import IStorages from "../src/dependencies/IStorages";
 import IUsecaseConfig from "../src/dependencies/IUsecaseConfig";
 import IUsersStorage from "../src/dependencies/IUsersStorage";
+import { IExternalCacheType } from "../src/entities/ExternalCache";
 
 // Dependencies mock
 interface IMockDependencies {
@@ -20,10 +24,23 @@ interface IMockDependencies {
             ReturnType<IArchiver[method]>
         >;
     };
+    logger: {
+        [method in keyof ILogger]: SinonStub<
+            Parameters<ILogger[method]>,
+            ReturnType<ILogger[method]>
+        >;
+    };
     authenticationStrategies: {
         [method in keyof IAuthenticationStrategy]: SinonStub<
             Parameters<IAuthenticationStrategy[method]>,
             ReturnType<IAuthenticationStrategy[method]>
+        >;
+    }[];
+    externalCacheServices: {
+        externalCacheType: IExternalCacheType;
+        purge: SinonStub<
+            Parameters<IExternalCacheService["purge"]>,
+            ReturnType<IExternalCacheService["purge"]>
         >;
     }[];
     config: IUsecaseConfig;
@@ -45,6 +62,12 @@ interface IMockDependencies {
             [method in keyof IEntrypointsStorage]: SinonStub<
                 Parameters<IEntrypointsStorage[method]>,
                 ReturnType<IEntrypointsStorage[method]>
+            >;
+        };
+        externalCaches: {
+            [method in keyof IExternalCachesStorage]: SinonStub<
+                Parameters<IExternalCachesStorage[method]>,
+                ReturnType<IExternalCachesStorage[method]>
             >;
         };
         groups: {
@@ -77,7 +100,13 @@ export function getMockDependencies(): IMockDependencies {
             extractFiles: sinon.stub(),
             makeArchive: sinon.stub()
         },
+        logger: {
+            addToContext: sinon.stub(),
+            info: sinon.stub(),
+            error: sinon.stub()
+        },
         authenticationStrategies: [],
+        externalCacheServices: [],
         config: {
             enforceAuth: false
         },
@@ -115,6 +144,15 @@ export function getMockDependencies(): IMockDependencies {
                 oneExistsWithUrlMatcher: sinon.stub(),
                 anyExistsWithAppId: sinon.stub(),
                 anyExistsWithBundleIdIn: sinon.stub(),
+                createOne: sinon.stub(),
+                updateOne: sinon.stub(),
+                deleteOne: sinon.stub()
+            },
+            externalCaches: {
+                findOne: sinon.stub(),
+                findOneByDomain: sinon.stub(),
+                findMany: sinon.stub(),
+                oneExistsWithDomain: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
                 deleteOne: sinon.stub()

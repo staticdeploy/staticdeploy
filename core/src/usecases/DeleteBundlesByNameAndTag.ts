@@ -1,13 +1,22 @@
 import { map } from "lodash";
 
-import { BundlesInUseError } from "../common/errors";
+import { BundlesInUseError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 
-export default class DeleteBundlesByNameAndTag extends Usecase {
-    async exec(name: string, tag: string): Promise<void> {
+type Arguments = [string, string];
+type ReturnValue = void;
+
+export default class DeleteBundlesByNameAndTag extends Usecase<
+    Arguments,
+    ReturnValue
+> {
+    protected async _exec(
+        name: Arguments[0],
+        tag: Arguments[1]
+    ): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanDeleteBundles(name);
+        this.authorizer.ensureCanDeleteBundles(name);
 
         // Find bundles to be deleted
         const toBeDeletedBundles = await this.storages.bundles.findManyByNameAndTag(

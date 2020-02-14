@@ -2,11 +2,9 @@ import { IGroup, IGroupsStorage } from "@staticdeploy/core";
 import { defaults, find, toArray } from "lodash";
 
 import cloneMethodsIO from "./common/cloneMethodsIO";
-import convertErrors from "./common/convertErrors";
 import { ICollection } from "./common/ICollection";
 
 @cloneMethodsIO
-@convertErrors
 export default class GroupsStorage implements IGroupsStorage {
     constructor(private groups: ICollection<IGroup>) {}
 

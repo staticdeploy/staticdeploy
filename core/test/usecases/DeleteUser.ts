@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import sinon from "sinon";
 
-import { UserNotFoundError } from "../../src/common/errors";
+import { UserNotFoundError } from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteUser from "../../src/usecases/DeleteUser";
 import { getMockDependencies } from "../testUtils";

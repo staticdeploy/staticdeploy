@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     AppHasEntrypointsError,
     AppNotFoundError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteApp from "../../src/usecases/DeleteApp";
 import { getMockDependencies } from "../testUtils";
@@ -21,7 +21,7 @@ describe("usecase DeleteApp", () => {
 
     it("throws AppHasEntrypointsError if the app has linked entrypoints", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
+        deps.storages.apps.findOne.resolves({} as any);
         deps.storages.entrypoints.anyExistsWithAppId.resolves(true);
         const deleteApp = new DeleteApp(deps);
         const deleteAppPromise = deleteApp.exec("appId");
@@ -35,7 +35,7 @@ describe("usecase DeleteApp", () => {
 
     it("deletes the app", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const deleteApp = new DeleteApp(deps);
         await deleteApp.exec("appId");
         expect(deps.storages.apps.deleteOne).to.have.been.calledOnceWith(
@@ -45,7 +45,7 @@ describe("usecase DeleteApp", () => {
 
     it("logs the delete app operation", async () => {
         const deps = getMockDependencies();
-        deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
+        deps.storages.apps.findOne.resolves({} as any);
         const deleteApp = new DeleteApp(deps);
         await deleteApp.exec("appId");
         expect(

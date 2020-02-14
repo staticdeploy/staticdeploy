@@ -1,11 +1,14 @@
-import { GroupNotFoundError } from "../common/errors";
+import { GroupNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { IGroup } from "../entities/Group";
 
-export default class GetGroup extends Usecase {
-    async exec(id: string): Promise<IGroup> {
+type Arguments = [string];
+type ReturnValue = IGroup;
+
+export default class GetGroup extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetGroups();
+        this.authorizer.ensureCanGetGroups();
 
         const group = await this.storages.groups.findOne(id);
 

@@ -16,6 +16,7 @@
     "serve-static",
     "staticdeploy",
     "storages-test-suite",
+    "simple-json-logger",
     "tar-archiver",
     "website"
   ],

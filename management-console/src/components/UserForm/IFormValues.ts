@@ -1,14 +1,6 @@
 import { UserType } from "@staticdeploy/core";
 
-export interface IInternalFormValues {
-    idp: string;
-    idpId: string;
-    type: UserType;
-    name: string;
-    groupsIds: string[];
-}
-
-export interface IExternalFormValues {
+export default interface IFormValues {
     idp: string;
     idpId: string;
     type: UserType;

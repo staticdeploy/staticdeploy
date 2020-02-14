@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedFormProps } from "redux-form";
 
 import { fromKVPairs, toKVPairs } from "../../common/configurationUtils";
 import {
     IConverterForm,
+    IInjectedFormProps,
     reduxForm
 } from "../../common/formWithValuesConverter";
 import ConfigurationField from "../ConfigurationField";
@@ -16,7 +16,7 @@ interface IProps {
 }
 
 class AppForm extends React.Component<
-    IProps & InjectedFormProps<IInternalFormValues>
+    IProps & IInjectedFormProps<IInternalFormValues>
 > {
     render() {
         const { isEditForm } = this.props;
@@ -42,11 +42,9 @@ export interface IAppFormInstance extends IConverterForm<IExternalFormValues> {}
 export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
     form: "AppForm",
     validate: validate,
-    toInternal: (initialValues = {}) => ({
-        name: initialValues.name || "",
-        defaultConfiguration: toKVPairs(
-            initialValues.defaultConfiguration || {}
-        )
+    toInternal: initialValues => ({
+        name: initialValues.name,
+        defaultConfiguration: toKVPairs(initialValues.defaultConfiguration)
     }),
     toExternal: values => ({
         name: values.name,

@@ -1,11 +1,14 @@
-import { UserNotFoundError } from "../common/errors";
+import { UserNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { Operation } from "../entities/OperationLog";
 
-export default class DeleteUser extends Usecase {
-    async exec(id: string): Promise<void> {
+type Arguments = [string];
+type ReturnValue = void;
+
+export default class DeleteUser extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanDeleteUser();
+        this.authorizer.ensureCanDeleteUser();
 
         const toBeDeletedUser = await this.storages.users.findOne(id);
 

@@ -5,7 +5,7 @@ import {
     BundleNotFoundError,
     ConfigurationNotValidError,
     EntrypointNotFoundError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateEntrypoint from "../../src/usecases/UpdateEntrypoint";
 import { getMockDependencies } from "../testUtils";

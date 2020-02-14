@@ -1,11 +1,14 @@
-import { UserNotFoundError } from "../common/errors";
+import { UserNotFoundError } from "../common/functionalErrors";
 import Usecase from "../common/Usecase";
 import { IUserWithGroups } from "../entities/User";
 
-export default class GetUser extends Usecase {
-    async exec(id: string): Promise<IUserWithGroups> {
+type Arguments = [string];
+type ReturnValue = IUserWithGroups;
+
+export default class GetUser extends Usecase<Arguments, ReturnValue> {
+    protected async _exec(id: Arguments[0]): Promise<ReturnValue> {
         // Auth check
-        await this.authorizer.ensureCanGetUsers();
+        this.authorizer.ensureCanGetUsers();
 
         const user = await this.storages.users.findOneWithGroups(id);
 

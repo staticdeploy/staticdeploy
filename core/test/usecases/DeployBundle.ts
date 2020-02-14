@@ -5,7 +5,7 @@ import {
     BundleNameTagCombinationNotValidError,
     BundleNotFoundError,
     EntrypointMismatchedAppIdError
-} from "../../src/common/errors";
+} from "../../src/common/functionalErrors";
 import DeployBundle from "../../src/usecases/DeployBundle";
 import { getMockDependencies } from "../testUtils";
 

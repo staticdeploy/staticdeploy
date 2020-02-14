@@ -1,24 +1,25 @@
 import generateId from "../common/generateId";
 import IOperationLogsStorage from "../dependencies/IOperationLogsStorage";
 import { IOperationLog, Operation } from "../entities/OperationLog";
-import Authorizer from "./Authorizer";
+import { IUser } from "../entities/User";
 
 export default class OperationLogger {
-    constructor(
-        private operationLogs: IOperationLogsStorage,
-        private authorizer: Authorizer
-    ) {}
+    private user: IUser | null = null;
+    constructor(private operationLogs: IOperationLogsStorage) {}
+
+    _setUser(user: IUser | null): void {
+        this.user = user;
+    }
 
     async logOperation(
         operation: Operation,
         parameters: IOperationLog["parameters"]
     ): Promise<void> {
-        const user = await this.authorizer.getCurrentUser();
         await this.operationLogs.createOne({
             id: generateId(),
             operation: operation,
             parameters: parameters,
-            performedBy: user ? user.id : "anonymous",
+            performedBy: this.user?.id ?? "anonymous",
             performedAt: new Date()
         });
     }
