@@ -72,7 +72,7 @@ export default class OidcAuthStrategy implements IAuthStrategy {
             return null;
         }
 
-        if (isAuthTokenExpired(user.id_token)) {
+        if (isAuthTokenExpired(user.expires_at)) {
             try {
                 user = await this.userManager.signinSilent({
                     login_hint: getLoginHint(user)
