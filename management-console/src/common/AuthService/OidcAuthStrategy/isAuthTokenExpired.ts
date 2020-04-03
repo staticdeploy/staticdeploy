@@ -1,3 +1,3 @@
-export default function isAuthTokenExpired(expiresAt: number): boolean {
-    return expiresAt < Date.now() / 1000;
+export default function isAuthTokenExpired(expiryDateInSeconds: number): boolean {
+    return expiryDateInSeconds < Date.now() / 1000;
 }
