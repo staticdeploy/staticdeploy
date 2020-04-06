@@ -17,13 +17,13 @@ function getBundle(partial: Partial<IBundle>) {
             {
                 path: "/fallback",
                 mimeType: "application/octet-stream",
-                headers: {}
-            }
+                headers: {},
+            },
         ],
         fallbackAssetPath: "/fallback",
         fallbackStatusCode: 200,
         createdAt: new Date("1970"),
-        ...partial
+        ...partial,
     };
 }
 
@@ -34,14 +34,14 @@ describe("BundlesList", () => {
                 bundles={[
                     getBundle({ id: "0", createdAt: new Date("1970") }),
                     getBundle({ id: "1", createdAt: new Date("1971") }),
-                    getBundle({ id: "2", createdAt: new Date("1972") })
+                    getBundle({ id: "2", createdAt: new Date("1972") }),
                 ]}
             />
         );
         const sortedBundles = bundlesList
             .find(Table)
             .prop("dataSource") as IBundle[];
-        const sortedIds = sortedBundles.map(bundle => bundle.id);
+        const sortedIds = sortedBundles.map((bundle) => bundle.id);
         expect(sortedIds).to.deep.equal(["2", "1", "0"]);
     });
 });

@@ -28,9 +28,9 @@ class BundleTagsList extends React.Component<Props> {
             <Page title="Bundle tags">
                 <BundleTagsLinksList
                     title="Tags"
-                    items={this.props.result.map(tag => ({
+                    items={this.props.result.map((tag) => ({
                         id: tag,
-                        tag: tag
+                        tag: tag,
                     }))}
                     getDescription={({ tag }) => tag}
                     getHref={({ tag }) => `/bundles/${bundleName}/${tag}`}
@@ -54,5 +54,5 @@ export default withData({
             isNil(newProps.match.params.bundleTag)),
     spinnerSize: "large",
     spinnerTip: "Fetching bundle tags...",
-    Component: BundleTagsList
+    Component: BundleTagsList,
 });

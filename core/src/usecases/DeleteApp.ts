@@ -27,7 +27,7 @@ export default class DeleteApp extends Usecase {
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.DeleteApp, {
-            deletedApp: toBeDeletedApp
+            deletedApp: toBeDeletedApp,
         });
     }
 }

@@ -34,7 +34,7 @@ class UsersList extends React.Component<Props> {
                 history={this.props.history}
                 trigger={<ODItem icon="plus" label="Create user" />}
                 refetchUsersList={this.props.refetch}
-            />
+            />,
         ];
     }
     render() {
@@ -43,7 +43,7 @@ class UsersList extends React.Component<Props> {
                 <UsersLinksList
                     title="Users"
                     items={this.props.result.users}
-                    getDescription={user => (
+                    getDescription={(user) => (
                         <>
                             <Icon
                                 type={
@@ -57,7 +57,7 @@ class UsersList extends React.Component<Props> {
                             </span>
                         </>
                     )}
-                    getHref={user => `/users/${user.id}`}
+                    getHref={(user) => `/users/${user.id}`}
                 />
             </Page>
         );
@@ -65,10 +65,10 @@ class UsersList extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: async staticdeploy => {
+    fetchData: async (staticdeploy) => {
         const [groups, users] = await Promise.all([
             staticdeploy.groups.getAll(),
-            staticdeploy.users.getAll()
+            staticdeploy.users.getAll(),
         ]);
         return { groups, users };
     },
@@ -83,5 +83,5 @@ export default withData({
         isNil(newProps.match.params.userId),
     spinnerSize: "large",
     spinnerTip: "Fetching users...",
-    Component: UsersList
+    Component: UsersList,
 });

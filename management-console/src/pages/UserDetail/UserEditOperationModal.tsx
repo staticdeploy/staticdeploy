@@ -28,7 +28,7 @@ export default class UserEditOperationModal extends React.Component<IProps> {
         const values = this.form!.getValues();
         return staticdeploy.users.update(this.props.user.id, {
             name: values.name,
-            groupsIds: values.groupsIds
+            groupsIds: values.groupsIds,
         });
     };
     refetchUserDetail = () => this.props.refetchUserDetail();
@@ -53,9 +53,9 @@ export default class UserEditOperationModal extends React.Component<IProps> {
                     groups={groups}
                     initialValues={{
                         ...user,
-                        groupsIds: user.groups.map(group => group.id)
+                        groupsIds: user.groups.map((group) => group.id),
                     }}
-                    ref={form => (this.form = form!)}
+                    ref={(form) => (this.form = form!)}
                 />
             </OperationModal>
         );

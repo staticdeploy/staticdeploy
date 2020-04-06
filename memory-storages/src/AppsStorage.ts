@@ -50,7 +50,7 @@ export default class AppsStorage implements IAppsStorage {
     ): Promise<IApp> {
         this.apps[id] = {
             ...this.apps[id],
-            ...defaults(patch, this.apps[id])
+            ...defaults(patch, this.apps[id]),
         };
         return this.apps[id];
     }

@@ -16,7 +16,7 @@ function withErrorsConverter(method: Function): Function {
 // the error is converted into a GenericStoragesError
 // tslint:disable-next-line:ban-types
 export default function convertErrors(constructor: Function) {
-    keys(constructor.prototype).forEach(key => {
+    keys(constructor.prototype).forEach((key) => {
         const method = constructor.prototype[key];
         if (isFunction(method)) {
             constructor.prototype[key] = withErrorsConverter(method);

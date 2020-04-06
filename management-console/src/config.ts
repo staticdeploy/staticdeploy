@@ -14,5 +14,5 @@ export default {
     oidcRedirectUrl: APP_CONFIG.OIDC_REDIRECT_URL || "http://localhost:3000",
     oidcProviderName: APP_CONFIG.OIDC_PROVIDER_NAME || "OpenID Connect",
     // Jwt auth strategy
-    jwtEnabled: APP_CONFIG.JWT_ENABLED === "true"
+    jwtEnabled: APP_CONFIG.JWT_ENABLED === "true",
 };

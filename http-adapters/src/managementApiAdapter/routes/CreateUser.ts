@@ -20,10 +20,10 @@ const bodySchema = {
         idpId: { type: "string" },
         type: { type: "string", enum: [UserType.Human, UserType.Machine] },
         name: { type: "string" },
-        groupsIds: { type: "array", items: { type: "string" } }
+        groupsIds: { type: "array", items: { type: "string" } },
     },
     required: ["idp", "idpId", "type", "name", "groupsIds"],
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -36,19 +36,20 @@ export default convroute({
             name: "user",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
         "201": { description: "User created, returns the user" },
         "404": { description: "Group(s) not found" },
         "409": {
-            description: "User with same idp / idpId combination already exists"
-        }
+            description:
+                "User with same idp / idpId combination already exists",
+        },
     },
     handler: async (req: IRequest, res) => {
         const createUser = req.makeUsecase("createUser");
         const createdUser = await createUser.exec(req.body);
         res.status(201).send(createdUser);
-    }
+    },
 });

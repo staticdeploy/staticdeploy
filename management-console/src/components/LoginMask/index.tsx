@@ -52,12 +52,12 @@ export default class LoginMask extends React.Component<IProps> {
                 authService.hasAuthStrategy("jwt") ? (
                     <JwtLogin
                         key="jwt"
-                        onLogin={jwt => authService.loginWith("jwt", jwt)}
+                        onLogin={(jwt) => authService.loginWith("jwt", jwt)}
                         strategyDisplayName={authService.getStrategyDisplayName(
                             "jwt"
                         )}
                     />
-                ) : null
+                ) : null,
             ]),
             <Divider>{"or"}</Divider>
         );

@@ -12,8 +12,8 @@ describe("App entity validator isAppNameValid", () => {
             "name.with.dots",
             "name/with/slashes",
             "name-with-numbers-1234567890",
-            "name-with-UPPERCASE-chars"
-        ].forEach(name => {
+            "name-with-UPPERCASE-chars",
+        ].forEach((name) => {
             it(`case: ${name}`, () => {
                 expect(isAppNameValid(name)).to.equal(true);
             });
@@ -25,8 +25,8 @@ describe("App entity validator isAppNameValid", () => {
             "",
             "name-with-unsupported-chars-@",
             "name-with-unsupported-chars-#",
-            repeat("name-too-long-", 50)
-        ].forEach(name => {
+            repeat("name-too-long-", 50),
+        ].forEach((name) => {
             it(`case: ${name}`, () => {
                 expect(isAppNameValid(name)).to.equal(false);
             });

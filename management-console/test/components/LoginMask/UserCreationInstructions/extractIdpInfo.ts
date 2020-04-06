@@ -14,7 +14,7 @@ describe("LoginMask extractIdpInfo util", () => {
             );
             expect(idpInfo).to.deep.equal({
                 idp: idp,
-                idpId: idpId
+                idpId: idpId,
             });
         });
         it("case: complex characters", () => {
@@ -27,7 +27,7 @@ describe("LoginMask extractIdpInfo util", () => {
             );
             expect(idpInfo).to.deep.equal({
                 idp: idp,
-                idpId: idpId
+                idpId: idpId,
             });
         });
     });

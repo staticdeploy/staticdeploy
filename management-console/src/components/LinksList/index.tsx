@@ -38,8 +38,8 @@ export default class LinksList<Item extends IItem> extends React.Component<
                             />
                         </NavLink>
                     );
-                }
-            }
+                },
+            },
         ];
     }
     render() {

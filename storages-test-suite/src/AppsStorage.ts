@@ -9,7 +9,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const appExists = await storages.apps.oneExistsWithId("id");
             expect(appExists).to.equal(true);
@@ -26,7 +26,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const appExists = await storages.apps.oneExistsWithName("name");
             expect(appExists).to.equal(true);
@@ -43,7 +43,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.apps.createOne(app);
             const foundApp = await storages.apps.findOne("id");
@@ -61,7 +61,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.apps.createOne(app);
             const foundApp = await storages.apps.findOneByName("name");
@@ -79,7 +79,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.apps.createOne(app);
             const foundApps = await storages.apps.findMany();
@@ -93,7 +93,7 @@ export default (storages: IStorages) => {
                     name: "name",
                     defaultConfiguration: {},
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.apps.createOne(app);
                 const foundApp = await storages.apps.findOne("id");
@@ -106,7 +106,7 @@ export default (storages: IStorages) => {
                     name: "name",
                     defaultConfiguration: { key: "value" },
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.apps.createOne(app);
                 const foundApp = await storages.apps.findOne("id");
@@ -120,11 +120,11 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.apps.updateOne("id", {
                 defaultConfiguration: { key: "value" },
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const foundApp = await storages.apps.findOne("id");
             expect(foundApp)
@@ -138,7 +138,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.apps.deleteOne("id");
             const appExists = await storages.apps.oneExistsWithId("id");

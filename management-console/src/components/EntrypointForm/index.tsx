@@ -6,7 +6,7 @@ import { InjectedFormProps } from "redux-form";
 import { fromKVPairs, toKVPairs } from "../../common/configurationUtils";
 import {
     IConverterForm,
-    reduxForm
+    reduxForm,
 } from "../../common/formWithValuesConverter";
 import StaticdeployClientContext from "../../common/StaticdeployClientContext";
 import BundleIdField from "../BundleIdField";
@@ -37,7 +37,7 @@ class EntrypointForm extends React.Component<
         this.setState({
             bundles: [],
             loadingBundles: true,
-            errorLoadingBundles: null
+            errorLoadingBundles: null,
         });
         try {
             const staticdeploy = this.context!;
@@ -45,13 +45,13 @@ class EntrypointForm extends React.Component<
             this.setState({
                 bundles: bundles,
                 loadingBundles: false,
-                errorLoadingBundles: null
+                errorLoadingBundles: null,
             });
         } catch (err) {
             this.setState({
                 bundles: [],
                 loadingBundles: false,
-                errorLoadingBundles: err
+                errorLoadingBundles: err,
             });
         }
     }
@@ -100,14 +100,14 @@ export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
         bundleId: initialValues.bundleId,
         redirectTo: initialValues.redirectTo || "",
         urlMatcher: initialValues.urlMatcher || "",
-        configuration: toKVPairs(initialValues.configuration || {})
+        configuration: toKVPairs(initialValues.configuration || {}),
     }),
-    toExternal: values => ({
+    toExternal: (values) => ({
         bundleId: values.bundleId,
         redirectTo: values.redirectTo || null,
         urlMatcher: values.urlMatcher,
         configuration: !isEmpty(values.configuration)
             ? fromKVPairs(values.configuration)
-            : null
-    })
+            : null,
+    }),
 })(EntrypointForm);

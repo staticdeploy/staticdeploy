@@ -17,16 +17,16 @@ export default convroute({
             name: "appId",
             in: "query",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "200": { description: "Returns an array of all entrypoints" },
-        "404": { description: "Filter app not found" }
+        "404": { description: "Filter app not found" },
     },
     handler: async (req: IRequest, res) => {
         const getEntrypointsByAppId = req.makeUsecase("getEntrypointsByAppId");
         const entrypoints = await getEntrypointsByAppId.exec(req.query.appId);
         res.status(200).send(entrypoints);
-    }
+    },
 });

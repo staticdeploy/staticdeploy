@@ -3,7 +3,7 @@ import {
     IBaseBundle,
     IBundle,
     IBundlesStorage,
-    IBundleWithoutAssetsContent
+    IBundleWithoutAssetsContent,
 } from "@staticdeploy/core";
 import { filter, find, last, map, pick, sortBy, uniq } from "lodash";
 
@@ -43,7 +43,7 @@ export default class BundlesStorage implements IBundlesStorage {
     }
 
     async findMany(): Promise<IBaseBundle[]> {
-        return map(this.bundles, bundle =>
+        return map(this.bundles, (bundle) =>
             pick(bundle, ["id", "name", "tag", "createdAt"])
         );
     }
@@ -94,10 +94,10 @@ export default class BundlesStorage implements IBundlesStorage {
     private removeAssetsContent(bundle: IBundle): IBundleWithoutAssetsContent {
         return {
             ...bundle,
-            assets: bundle.assets.map(asset => ({
+            assets: bundle.assets.map((asset) => ({
                 ...asset,
-                content: undefined
-            }))
+                content: undefined,
+            })),
         };
     }
 }

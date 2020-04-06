@@ -31,7 +31,7 @@ class UserDetail extends React.Component<Props> {
             history,
             location,
             refetch,
-            result: { groups, user }
+            result: { groups, user },
         } = this.props;
         return [
             <UserEditOperationModal
@@ -48,7 +48,7 @@ class UserDetail extends React.Component<Props> {
                 user={user}
                 history={history}
                 trigger={<ODItem icon="delete" label="Delete user" />}
-            />
+            />,
         ];
     }
     render() {
@@ -65,8 +65,8 @@ class UserDetail extends React.Component<Props> {
                 <GroupsLinksList
                     title="Groups"
                     items={user.groups}
-                    getDescription={group => group.name}
-                    getHref={group => `/users/${user.id}/groups/${group.id}`}
+                    getDescription={(group) => group.name}
+                    getHref={(group) => `/users/${user.id}/groups/${group.id}`}
                 />
             </Page>
         );
@@ -78,7 +78,7 @@ export default withData({
         const { userId } = props.match.params;
         const [groups, user] = await Promise.all([
             staticdeploy.groups.getAll(),
-            staticdeploy.users.getOne(userId)
+            staticdeploy.users.getOne(userId),
         ]);
         return { groups, user };
     },
@@ -88,5 +88,5 @@ export default withData({
         oldProps.match.params.userId !== newProps.match.params.userId,
     spinnerSize: "large",
     spinnerTip: "Fetching user details...",
-    Component: UserDetail
+    Component: UserDetail,
 });

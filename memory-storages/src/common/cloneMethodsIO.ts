@@ -14,7 +14,7 @@ function wrap(method: Function): Function {
 // modified from outside the class
 // tslint:disable-next-line:ban-types
 export default function cloneMethodsIO(constructor: Function) {
-    keys(constructor.prototype).forEach(key => {
+    keys(constructor.prototype).forEach((key) => {
         const method = constructor.prototype[key];
         if (isFunction(method)) {
             constructor.prototype[key] = wrap(method);

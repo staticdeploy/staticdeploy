@@ -16,7 +16,7 @@ export class WrappedGroupsIdsField extends React.Component<
     WrappedFieldProps & IProps
 > {
     renderOptions() {
-        return this.props.groups.map(group => (
+        return this.props.groups.map((group) => (
             <Select.Option value={group.id} key={group.id}>
                 {group.name}
             </Select.Option>

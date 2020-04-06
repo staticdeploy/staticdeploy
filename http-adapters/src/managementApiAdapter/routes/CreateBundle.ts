@@ -24,33 +24,33 @@ const bodySchema = {
     type: "object",
     properties: {
         name: {
-            type: "string"
+            type: "string",
         },
         tag: {
-            type: "string"
+            type: "string",
         },
         description: {
-            type: "string"
+            type: "string",
         },
         content: {
             description: "Base64 encoded bundle content",
-            type: "string"
+            type: "string",
         },
         fallbackAssetPath: {
-            type: "string"
+            type: "string",
         },
         fallbackStatusCode: {
-            type: "number"
+            type: "number",
         },
         headers: {
             type: "object",
             additionalProperties: {
                 type: "object",
                 additionalProperties: {
-                    type: "string"
-                }
-            }
-        }
+                    type: "string",
+                },
+            },
+        },
     },
     required: [
         "name",
@@ -59,9 +59,9 @@ const bodySchema = {
         "content",
         "fallbackAssetPath",
         "fallbackStatusCode",
-        "headers"
+        "headers",
     ],
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -74,18 +74,18 @@ export default convroute({
             name: "bundle",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
-        "201": { description: "Bundle created, returns the bundle" }
+        "201": { description: "Bundle created, returns the bundle" },
     },
     handler: async (req: IRequest, res) => {
         const createBundle = req.makeUsecase("createBundle");
         const createdBundle = await createBundle.exec({
             ...req.body,
-            content: Buffer.from(req.body.content, "base64")
+            content: Buffer.from(req.body.content, "base64"),
         });
         res.status(201).send(createdBundle);
-    }
+    },
 });

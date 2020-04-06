@@ -5,7 +5,7 @@ import { omit } from "lodash";
 function removeAssetsContent(bundle: IBundle): IBundle {
     return {
         ...bundle,
-        assets: bundle.assets.map(asset => omit(asset, "content"))
+        assets: bundle.assets.map((asset) => omit(asset, "content")),
     };
 }
 
@@ -21,7 +21,7 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             });
             const bundleExists = await storages.bundles.oneExistsWithId("id");
             expect(bundleExists).to.equal(true);
@@ -42,7 +42,7 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             };
             await storages.bundles.createOne(bundle);
             const foundBundle = await storages.bundles.findOne("id");
@@ -62,13 +62,13 @@ export default (storages: IStorages) => {
                 hash: "hash",
                 assets: [],
                 fallbackAssetPath: "/file",
-                fallbackStatusCode: 200
+                fallbackStatusCode: 200,
             };
             const bundles = [
                 { ...base, id: "id0", createdAt: new Date("1970-01-01") },
                 // id1 is the latest
                 { ...base, id: "id1", createdAt: new Date("1970-01-03") },
-                { ...base, id: "id2", createdAt: new Date("1970-01-02") }
+                { ...base, id: "id2", createdAt: new Date("1970-01-02") },
             ];
             for (const bundle of bundles) {
                 await storages.bundles.createOne(bundle);
@@ -100,12 +100,12 @@ export default (storages: IStorages) => {
                         path: "/file",
                         content: Buffer.from("content"),
                         mimeType: "text/plain",
-                        headers: {}
-                    }
+                        headers: {},
+                    },
                 ],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             });
             const content = await storages.bundles.getBundleAssetContent(
                 "id",
@@ -133,7 +133,7 @@ export default (storages: IStorages) => {
                     assets: [],
                     fallbackAssetPath: "/file",
                     fallbackStatusCode: 200,
-                    createdAt: new Date()
+                    createdAt: new Date(),
                 });
                 const notFountContent = await storages.bundles.getBundleAssetContent(
                     "id",
@@ -153,7 +153,7 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             };
             await storages.bundles.createOne(bundle);
             const foundBundles = await storages.bundles.findMany();
@@ -163,8 +163,8 @@ export default (storages: IStorages) => {
                     "description",
                     "fallbackAssetPath",
                     "fallbackStatusCode",
-                    "hash"
-                ])
+                    "hash",
+                ]),
             ]);
         });
 
@@ -178,7 +178,7 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             };
             await storages.bundles.createOne(bundle);
             const foundBundles = await storages.bundles.findManyByNameAndTag(
@@ -196,12 +196,12 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             };
             const bundles = [
                 { ...base, id: "id0", name: "name0" },
                 { ...base, id: "id1", name: "name1" },
-                { ...base, id: "id2", name: "name2" }
+                { ...base, id: "id2", name: "name2" },
             ];
             for (const bundle of bundles) {
                 await storages.bundles.createOne(bundle);
@@ -220,12 +220,12 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             };
             const bundles = [
                 { ...base, id: "id0", tag: "tag0" },
                 { ...base, id: "id1", tag: "tag1" },
-                { ...base, id: "id2", tag: "tag2" }
+                { ...base, id: "id2", tag: "tag2" },
             ];
             for (const bundle of bundles) {
                 await storages.bundles.createOne(bundle);
@@ -248,18 +248,18 @@ export default (storages: IStorages) => {
                         path: "/file/0",
                         content: Buffer.from("/file/0"),
                         mimeType: "text/plain",
-                        headers: {}
+                        headers: {},
                     },
                     {
                         path: "/file/1",
                         content: Buffer.from("/file/1"),
                         mimeType: "text/plain",
-                        headers: { key: "value" }
-                    }
+                        headers: { key: "value" },
+                    },
                 ],
                 fallbackAssetPath: "/file/0",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             };
             await storages.bundles.createOne(bundle as any);
             const foundBundle = await storages.bundles.findOne("id");
@@ -290,18 +290,18 @@ export default (storages: IStorages) => {
                         path: "/file/0",
                         content: Buffer.from("/file/0"),
                         mimeType: "text/plain",
-                        headers: {}
+                        headers: {},
                     },
                     {
                         path: "/file/1",
                         content: Buffer.from("/file/1"),
                         mimeType: "text/plain",
-                        headers: {}
-                    }
+                        headers: {},
+                    },
                 ],
                 fallbackAssetPath: "/file/0",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             };
             await storages.bundles.createOne(bundle as any);
             const file0Content = await storages.bundles.getBundleAssetContent(
@@ -326,7 +326,7 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             });
             await storages.bundles.deleteMany(["id"]);
             const bundleExists = await storages.bundles.oneExistsWithId("id");

@@ -37,7 +37,7 @@ describe("deploy command", () => {
                         entrypoint: "entrypoint",
                         bundle: "bundle"
                     }
-                };`
+                };`,
             });
         });
         after(() => {
@@ -73,7 +73,7 @@ describe("deploy command", () => {
                 argv.parse("deploy", ignoreParseErrors);
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "staticdeploy.config.js apiUrl"
+                    apiUrl: "staticdeploy.config.js apiUrl",
                 });
             });
 
@@ -84,7 +84,7 @@ describe("deploy command", () => {
                 );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "custom.config.js apiUrl"
+                    apiUrl: "custom.config.js apiUrl",
                 });
             });
 
@@ -95,7 +95,7 @@ describe("deploy command", () => {
                 );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "apiUrl"
+                    apiUrl: "apiUrl",
                 });
             });
 
@@ -103,7 +103,7 @@ describe("deploy command", () => {
                 argv.parse("deploy --apiUrl apiUrl");
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "apiUrl"
+                    apiUrl: "apiUrl",
                 });
             });
         });
@@ -135,13 +135,13 @@ describe("deploy command", () => {
                 apiToken: "apiToken",
                 app: "app",
                 entrypoint: "entrypoint",
-                bundle: "bundle"
+                bundle: "bundle",
             });
             expect(staticdeployDeployStub).to.have.callCount(1);
             expect(staticdeployDeployStub).to.have.been.calledWith({
                 appName: "app",
                 entrypointUrlMatcher: "entrypoint",
-                bundleNameTagCombination: "bundle"
+                bundleNameTagCombination: "bundle",
             });
         });
     });

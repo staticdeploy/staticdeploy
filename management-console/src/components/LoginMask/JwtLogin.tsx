@@ -36,7 +36,7 @@ class WrappedJwtLoginForm extends React.Component<
 const JwtLoginForm = reduxForm<IFormValues, IFormValues, IJwtLoginFormProps>({
     form: "JwtLogin",
     touchOnBlur: false,
-    validate: formValues => (!formValues.jwt ? { jwt: "Required" } : {})
+    validate: (formValues) => (!formValues.jwt ? { jwt: "Required" } : {}),
 })(WrappedJwtLoginForm);
 
 interface IProps {

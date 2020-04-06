@@ -20,7 +20,7 @@ import Root from "./Root";
 
 async function start() {
     const staticdeployClient = new StaticdeployClient({
-        apiUrl: config.apiUrl
+        apiUrl: config.apiUrl,
     });
 
     const authService = new AuthService(
@@ -34,7 +34,7 @@ async function start() {
                       config.oidcRedirectUrl,
                       config.oidcProviderName
                   )
-                : null
+                : null,
         ]),
         staticdeployClient
     );

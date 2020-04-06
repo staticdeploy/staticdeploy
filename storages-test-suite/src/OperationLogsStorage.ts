@@ -10,7 +10,7 @@ export default (storages: IStorages) => {
                     operation: Operation.CreateApp,
                     parameters: {},
                     performedBy: "performedBy",
-                    performedAt: new Date()
+                    performedAt: new Date(),
                 };
                 await storages.operationLogs.createOne(operationLog);
                 const foundOperationLogs = await storages.operationLogs.findMany();
@@ -23,7 +23,7 @@ export default (storages: IStorages) => {
                     operation: Operation.CreateApp,
                     parameters: { key: "value" },
                     performedBy: "performedBy",
-                    performedAt: new Date()
+                    performedAt: new Date(),
                 };
                 await storages.operationLogs.createOne(operationLog);
                 const foundOperationLogs = await storages.operationLogs.findMany();

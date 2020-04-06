@@ -4,7 +4,7 @@ import {
     IUsersStorage,
     IUserWithGroups,
     IUserWithRoles,
-    UserType
+    UserType,
 } from "@staticdeploy/core";
 import { defaults, find, flatMap, omit, toArray } from "lodash";
 
@@ -34,7 +34,7 @@ export default class UsersStorage implements IUsersStorage {
         return user
             ? {
                   ...UsersStorage.omitGroupsIds(user),
-                  groups: user.groupsIds.map(groupId => this.groups[groupId])
+                  groups: user.groupsIds.map((groupId) => this.groups[groupId]),
               }
             : null;
     }
@@ -49,8 +49,8 @@ export default class UsersStorage implements IUsersStorage {
                   ...UsersStorage.omitGroupsIds(user),
                   roles: flatMap(
                       user.groupsIds,
-                      groupId => this.groups[groupId].roles
-                  )
+                      (groupId) => this.groups[groupId].roles
+                  ),
               }
             : null;
     }
@@ -67,7 +67,7 @@ export default class UsersStorage implements IUsersStorage {
     }
 
     async anyExistsWithGroup(groupId: string): Promise<boolean> {
-        return !!find(this.users, u => u.groupsIds.includes(groupId));
+        return !!find(this.users, (u) => u.groupsIds.includes(groupId));
     }
 
     async createOne(toBeCreatedUser: {
@@ -94,7 +94,7 @@ export default class UsersStorage implements IUsersStorage {
     ): Promise<IUser> {
         this.users[id] = {
             ...this.users[id],
-            ...defaults(patch, this.users[id])
+            ...defaults(patch, this.users[id]),
         };
         return UsersStorage.omitGroupsIds(this.users[id]);
     }

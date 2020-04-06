@@ -25,7 +25,7 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
         const values = this.form!.getValues();
         return staticdeploy.apps.create({
             name: values.name,
-            defaultConfiguration: values.defaultConfiguration
+            defaultConfiguration: values.defaultConfiguration,
         });
     };
     refetchAppsListAndGoToAppDetail = (app: IApp) => {
@@ -40,7 +40,7 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
                 trigger={this.props.trigger}
                 startOperationButtonText="Create"
                 onAfterSuccessClose={this.refetchAppsListAndGoToAppDetail}
-                successMessage={createdApp => (
+                successMessage={(createdApp) => (
                     <span>
                         {"Created app "}
                         {emphasizeString(createdApp.name)}
@@ -49,7 +49,7 @@ export default class AppCreateOperationModal extends React.Component<IProps> {
                     </span>
                 )}
             >
-                <AppForm ref={form => (this.form = form!)} />
+                <AppForm ref={(form) => (this.form = form!)} />
             </OperationModal>
         );
     }

@@ -60,7 +60,7 @@ export class WrappedBundleIdField extends React.Component<
      */
     getOptions(): CascaderOptionType[] {
         const intermediateMap: IIntermediateMap = {};
-        this.props.bundles.forEach(bundle =>
+        this.props.bundles.forEach((bundle) =>
             setWith(
                 intermediateMap,
                 [bundle.name, bundle.tag, bundle.id],
@@ -69,12 +69,12 @@ export class WrappedBundleIdField extends React.Component<
             )
         );
         const bundleNames = keys(intermediateMap).sort();
-        return bundleNames.map(bundleName => {
+        return bundleNames.map((bundleName) => {
             const bundleTags = keys(intermediateMap[bundleName]).sort();
             return {
                 value: bundleName,
                 label: bundleName,
-                children: bundleTags.map(bundleTag => {
+                children: bundleTags.map((bundleTag) => {
                     const bundles = sortBy(
                         values(intermediateMap[bundleName][bundleTag]),
                         "createdAt"
@@ -82,14 +82,14 @@ export class WrappedBundleIdField extends React.Component<
                     return {
                         value: bundleTag,
                         label: bundleTag,
-                        children: bundles.map(bundle => ({
+                        children: bundles.map((bundle) => ({
                             value: bundle.id,
                             label: `${bundle.id} (${moment(
                                 bundle.createdAt
-                            ).fromNow(true)})`
-                        }))
+                            ).fromNow(true)})`,
+                        })),
                     };
-                })
+                }),
             };
         });
     }
@@ -97,7 +97,7 @@ export class WrappedBundleIdField extends React.Component<
     // From the selected bundle id, get the corresponding array of node values
     getValue() {
         const selectedBundle = find(this.props.bundles, {
-            id: this.props.input.value
+            id: this.props.input.value,
         }) as IBundle | undefined;
         return selectedBundle
             ? [selectedBundle.name, selectedBundle.tag, selectedBundle.id]

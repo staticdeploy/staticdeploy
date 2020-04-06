@@ -36,7 +36,7 @@ export default class CreateBundle extends Usecase {
 
         // Build the assets list
         const files = await this.archiver.extractFiles(partial.content);
-        const assets = files.map(file => {
+        const assets = files.map((file) => {
             return {
                 path: file.path,
                 mimeType: getType(file.path) || "application/octet-stream",
@@ -48,10 +48,10 @@ export default class CreateBundle extends Usecase {
                     partial.headers,
                     (finalHeaders, headers, assetMatcher) => ({
                         ...finalHeaders,
-                        ...(isMatch(file.path, assetMatcher) ? headers : null)
+                        ...(isMatch(file.path, assetMatcher) ? headers : null),
                     }),
                     {}
-                )
+                ),
             };
         });
 
@@ -72,12 +72,12 @@ export default class CreateBundle extends Usecase {
             assets: assets,
             fallbackAssetPath: partial.fallbackAssetPath,
             fallbackStatusCode: partial.fallbackStatusCode,
-            createdAt: new Date()
+            createdAt: new Date(),
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.CreateBundle, {
-            createdBundle
+            createdBundle,
         });
 
         return createdBundle;

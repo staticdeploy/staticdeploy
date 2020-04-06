@@ -4,7 +4,7 @@ import { InjectedFormProps } from "redux-form";
 
 import {
     IConverterForm,
-    reduxForm
+    reduxForm,
 } from "../../common/formWithValuesConverter";
 import GroupsIdsField from "../GroupsIdsField";
 import TextField from "../TextField";
@@ -59,13 +59,13 @@ export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
         idpId: initialValues.idpId || "",
         type: initialValues.type || UserType.Human,
         name: initialValues.name || "",
-        groupsIds: initialValues.groupsIds || []
+        groupsIds: initialValues.groupsIds || [],
     }),
-    toExternal: values => ({
+    toExternal: (values) => ({
         idp: values.idp,
         idpId: values.idpId,
         type: values.type,
         name: values.name,
-        groupsIds: values.groupsIds
-    })
+        groupsIds: values.groupsIds,
+    }),
 })(UserForm);

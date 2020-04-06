@@ -4,7 +4,7 @@ import Usecase from "../common/Usecase";
 import { IApp, validateAppName } from "../entities/App";
 import {
     IConfiguration,
-    validateConfiguration
+    validateConfiguration,
 } from "../entities/Configuration";
 import { Operation } from "../entities/OperationLog";
 
@@ -40,12 +40,12 @@ export default class CreateApp extends Usecase {
             name: partial.name,
             defaultConfiguration: partial.defaultConfiguration || {},
             createdAt: now,
-            updatedAt: now
+            updatedAt: now,
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.CreateApp, {
-            createdApp
+            createdApp,
         });
 
         return createdApp;

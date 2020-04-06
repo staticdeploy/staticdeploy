@@ -14,10 +14,10 @@ const bodySchema = {
     type: "object",
     properties: {
         name: { type: "string" },
-        roles: { type: "array", items: { type: "string" } }
+        roles: { type: "array", items: { type: "string" } },
     },
     required: ["name", "roles"],
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -30,16 +30,16 @@ export default convroute({
             name: "group",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
         "201": { description: "Group created, returns the group" },
-        "409": { description: "Group with same name already exists" }
+        "409": { description: "Group with same name already exists" },
     },
     handler: async (req: IRequest, res) => {
         const createGroup = req.makeUsecase("createGroup");
         const createdGroup = await createGroup.exec(req.body);
         res.status(201).send(createdGroup);
-    }
+    },
 });

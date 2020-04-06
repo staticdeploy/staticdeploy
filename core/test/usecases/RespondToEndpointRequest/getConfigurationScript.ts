@@ -7,7 +7,7 @@ describe("getConfigurationScript", () => {
         const configurationScript = getConfigurationScript({ KEY: "VALUE" });
         expect(configurationScript).to.deep.equal({
             content: 'window.APP_CONFIG={"KEY":"VALUE"};',
-            sha256: "US+OjL8S9TNtlcjHX2ro44frMkCkcTiKXQtgIC3aPqY="
+            sha256: "US+OjL8S9TNtlcjHX2ro44frMkCkcTiKXQtgIC3aPqY=",
         });
     });
 });

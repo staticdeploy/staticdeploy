@@ -1,7 +1,7 @@
 import {
     AuthenticationRequiredError,
     MissingRoleError,
-    NoUserCorrespondingToIdpUserError
+    NoUserCorrespondingToIdpUserError,
 } from "../common/errors";
 import IUsersStorage from "../dependencies/IUsersStorage";
 import { oneOfRolesMatchesRole, RoleName, RoleTuple } from "../entities/Role";
@@ -83,7 +83,7 @@ export default class Authorizer {
                 (this.matchesRole([RoleName.AppManager, entrypointAppName]) &&
                     this.matchesRole([
                         RoleName.EntrypointManager,
-                        entrypointUrlMatcher
+                        entrypointUrlMatcher,
                     ]))
         );
     }
@@ -93,7 +93,7 @@ export default class Authorizer {
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([
                     RoleName.EntrypointManager,
-                    entrypointUrlMatcher
+                    entrypointUrlMatcher,
                 ])
         );
     }
@@ -103,7 +103,7 @@ export default class Authorizer {
                 this.matchesRole([RoleName.Root]) ||
                 this.matchesRole([
                     RoleName.EntrypointManager,
-                    entrypointUrlMatcher
+                    entrypointUrlMatcher,
                 ])
         );
     }

@@ -25,7 +25,7 @@ export default class DeleteUser extends Usecase {
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.DeleteGroup, {
-            deletedGroup: toBeDeletedGroup
+            deletedGroup: toBeDeletedGroup,
         });
     }
 }

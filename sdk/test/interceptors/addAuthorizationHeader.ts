@@ -14,7 +14,7 @@ describe("interceptor addAuthorizationHeader", () => {
     describe("when there is an apiToken, adds it in the authorization header of the request", async () => {
         it("case: string apiToken", async () => {
             const scope = nock(baseUrl, {
-                reqheaders: { authorization: `Bearer ${apiToken}` }
+                reqheaders: { authorization: `Bearer ${apiToken}` },
             })
                 .get("/")
                 .reply(200);
@@ -25,7 +25,7 @@ describe("interceptor addAuthorizationHeader", () => {
         });
         it("case: function apiToken", async () => {
             const scope = nock(baseUrl, {
-                reqheaders: { authorization: `Bearer ${apiToken}` }
+                reqheaders: { authorization: `Bearer ${apiToken}` },
             })
                 .get("/")
                 .reply(200);

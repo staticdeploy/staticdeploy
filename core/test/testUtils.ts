@@ -75,14 +75,14 @@ export function getMockDependencies(): IMockDependencies {
     return {
         archiver: {
             extractFiles: sinon.stub(),
-            makeArchive: sinon.stub()
+            makeArchive: sinon.stub(),
         },
         authenticationStrategies: [],
         config: {
-            enforceAuth: false
+            enforceAuth: false,
         },
         requestContext: {
-            authToken: null
+            authToken: null,
         },
         storages: {
             apps: {
@@ -93,7 +93,7 @@ export function getMockDependencies(): IMockDependencies {
                 oneExistsWithName: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
-                deleteOne: sinon.stub()
+                deleteOne: sinon.stub(),
             },
             bundles: {
                 findOne: sinon.stub(),
@@ -105,7 +105,7 @@ export function getMockDependencies(): IMockDependencies {
                 findManyTagsByName: sinon.stub(),
                 oneExistsWithId: sinon.stub(),
                 createOne: sinon.stub(),
-                deleteMany: sinon.stub()
+                deleteMany: sinon.stub(),
             },
             entrypoints: {
                 findOne: sinon.stub(),
@@ -117,7 +117,7 @@ export function getMockDependencies(): IMockDependencies {
                 anyExistsWithBundleIdIn: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
-                deleteOne: sinon.stub()
+                deleteOne: sinon.stub(),
             },
             groups: {
                 findOne: sinon.stub(),
@@ -127,11 +127,11 @@ export function getMockDependencies(): IMockDependencies {
                 allExistWithIds: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
-                deleteOne: sinon.stub()
+                deleteOne: sinon.stub(),
             },
             operationLogs: {
                 findMany: sinon.stub(),
-                createOne: sinon.stub()
+                createOne: sinon.stub(),
             },
             users: {
                 findOne: sinon.stub(),
@@ -142,9 +142,9 @@ export function getMockDependencies(): IMockDependencies {
                 anyExistsWithGroup: sinon.stub(),
                 createOne: sinon.stub(),
                 updateOne: sinon.stub(),
-                deleteOne: sinon.stub()
+                deleteOne: sinon.stub(),
             },
-            checkHealth: sinon.stub()
-        }
+            checkHealth: sinon.stub(),
+        },
     };
 }

@@ -3,7 +3,7 @@ import { InjectedFormProps } from "redux-form";
 
 import {
     IConverterForm,
-    reduxForm
+    reduxForm,
 } from "../../common/formWithValuesConverter";
 import RolesField from "../RolesField";
 import TextField from "../TextField";
@@ -31,10 +31,10 @@ export default reduxForm<IExternalFormValues, IInternalFormValues>({
     validate: validate,
     toInternal: (initialValues = {}) => ({
         name: initialValues.name || "",
-        roles: initialValues.roles || []
+        roles: initialValues.roles || [],
     }),
-    toExternal: values => ({
+    toExternal: (values) => ({
         name: values.name,
-        roles: values.roles
-    })
+        roles: values.roles,
+    }),
 })(GroupForm);

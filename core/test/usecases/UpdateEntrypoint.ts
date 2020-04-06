@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     BundleNotFoundError,
     ConfigurationNotValidError,
-    EntrypointNotFoundError
+    EntrypointNotFoundError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateEntrypoint from "../../src/usecases/UpdateEntrypoint";
@@ -30,7 +30,7 @@ describe("usecase UpdateEntrypoint", () => {
         deps.storages.entrypoints.findOne.resolves({} as any);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         const updateEntrypointPromise = updateEntrypoint.exec("entrypointId", {
-            configuration: "not-valid-configuration" as any
+            configuration: "not-valid-configuration" as any,
         });
         await expect(updateEntrypointPromise).to.be.rejectedWith(
             ConfigurationNotValidError
@@ -46,7 +46,7 @@ describe("usecase UpdateEntrypoint", () => {
         deps.storages.bundles.oneExistsWithId.resolves(false);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         const updateEntrypointPromise = updateEntrypoint.exec("entrypointId", {
-            bundleId: "bundleId"
+            bundleId: "bundleId",
         });
         await expect(updateEntrypointPromise).to.be.rejectedWith(
             BundleNotFoundError
@@ -62,7 +62,7 @@ describe("usecase UpdateEntrypoint", () => {
         deps.storages.bundles.oneExistsWithId.resolves(true);
         const updateEntrypoint = new UpdateEntrypoint(deps);
         await updateEntrypoint.exec("entrypointId", {
-            bundleId: "bundleId"
+            bundleId: "bundleId",
         });
         expect(deps.storages.entrypoints.updateOne).to.have.been.calledOnceWith(
             "entrypointId",
@@ -70,7 +70,7 @@ describe("usecase UpdateEntrypoint", () => {
                 bundleId: "bundleId",
                 redirectTo: undefined,
                 configuration: undefined,
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });

@@ -20,7 +20,7 @@ export default class AuthService {
         isLoggedIn: false,
         loginError: null,
         requiresUserCreation: false,
-        requiresUserCreationError: null
+        requiresUserCreationError: null,
     };
     private statusEmitter = new EventEmitter();
     private staticdeploy: StaticdeployClient;
@@ -43,7 +43,7 @@ export default class AuthService {
                 isLoggedIn: true,
                 loginError: null,
                 requiresUserCreation: false,
-                requiresUserCreationError: null
+                requiresUserCreationError: null,
             });
             return;
         }
@@ -73,7 +73,7 @@ export default class AuthService {
                 isLoggedIn: false,
                 loginError: null,
                 requiresUserCreation: false,
-                requiresUserCreationError: null
+                requiresUserCreationError: null,
             });
 
             const authStrategy = this.findAuthStrategy(strategy);
@@ -90,21 +90,21 @@ export default class AuthService {
                 isLoggedIn: false,
                 loginError: err,
                 requiresUserCreation: false,
-                requiresUserCreationError: null
+                requiresUserCreationError: null,
             });
         }
     }
 
     async logout(): Promise<void> {
         await Promise.all(
-            this.authStrategies.map(authStrategy => authStrategy.logout())
+            this.authStrategies.map((authStrategy) => authStrategy.logout())
         );
         this.setStatus({
             isLoggingIn: false,
             isLoggedIn: false,
             loginError: null,
             requiresUserCreation: false,
-            requiresUserCreationError: null
+            requiresUserCreationError: null,
         });
     }
 
@@ -156,7 +156,7 @@ export default class AuthService {
             isLoggedIn: isLoggedIn,
             loginError: null,
             requiresUserCreation: requiresUserCreationError !== null,
-            requiresUserCreationError: requiresUserCreationError
+            requiresUserCreationError: requiresUserCreationError,
         });
     }
 

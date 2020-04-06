@@ -59,7 +59,7 @@ module.exports = {
   // Optional
   deploy: {
     // Options for the deploy command as specified above
-  }
+  },
 };
 ```
 

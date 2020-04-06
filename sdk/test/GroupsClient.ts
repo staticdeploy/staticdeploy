@@ -6,7 +6,7 @@ import StaticdeployClient from "../src";
 const baseUrl = "http://localhost";
 const staticdeployClient = new StaticdeployClient({
     apiUrl: baseUrl,
-    apiToken: null
+    apiToken: null,
 });
 
 beforeEach(() => {
@@ -16,16 +16,12 @@ beforeEach(() => {
 describe("GroupsClient", () => {
     describe("getAll", () => {
         it("requests GET /groups", async () => {
-            const scope = nock(baseUrl)
-                .get("/groups")
-                .reply(200, []);
+            const scope = nock(baseUrl).get("/groups").reply(200, []);
             await staticdeployClient.groups.getAll();
             scope.done();
         });
         it("returns a list of groups", async () => {
-            nock(baseUrl)
-                .get("/groups")
-                .reply(200, []);
+            nock(baseUrl).get("/groups").reply(200, []);
             const groups = await staticdeployClient.groups.getAll();
             expect(groups).to.deep.equal([]);
         });
@@ -33,16 +29,12 @@ describe("GroupsClient", () => {
 
     describe("getOne", () => {
         it("requests GET /groups/:groupId", async () => {
-            const scope = nock(baseUrl)
-                .get("/groups/id")
-                .reply(200);
+            const scope = nock(baseUrl).get("/groups/id").reply(200);
             await staticdeployClient.groups.getOne("id");
             scope.done();
         });
         it("returns the group with the specified id", async () => {
-            nock(baseUrl)
-                .get("/groups/id")
-                .reply(200, {});
+            nock(baseUrl).get("/groups/id").reply(200, {});
             const group = await staticdeployClient.groups.getOne("id");
             expect(group).to.deep.equal({});
         });
@@ -57,12 +49,10 @@ describe("GroupsClient", () => {
             scope.done();
         });
         it("returns the created group", async () => {
-            nock(baseUrl)
-                .post("/groups")
-                .reply(201, {});
+            nock(baseUrl).post("/groups").reply(201, {});
             const group = await staticdeployClient.groups.create({
                 name: "name",
-                roles: []
+                roles: [],
             });
             expect(group).to.deep.equal({});
         });
@@ -77,11 +67,9 @@ describe("GroupsClient", () => {
             scope.done();
         });
         it("returns the updated group", async () => {
-            nock(baseUrl)
-                .patch("/groups/id")
-                .reply(200, {});
+            nock(baseUrl).patch("/groups/id").reply(200, {});
             const group = await staticdeployClient.groups.update("id", {
-                name: "new-name"
+                name: "new-name",
             });
             expect(group).to.deep.equal({});
         });
@@ -89,9 +77,7 @@ describe("GroupsClient", () => {
 
     describe("delete", () => {
         it("requests DELETE /groups/:groupId", async () => {
-            const scope = nock(baseUrl)
-                .delete("/groups/id")
-                .reply(204);
+            const scope = nock(baseUrl).delete("/groups/id").reply(204);
             await staticdeployClient.groups.delete("id");
             scope.done();
         });

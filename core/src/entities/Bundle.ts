@@ -1,7 +1,7 @@
 import basicCharsRegexp from "../common/basicCharsRegexp";
 import {
     BundleNameOrTagNotValidError,
-    BundleNameTagCombinationNotValidError
+    BundleNameTagCombinationNotValidError,
 } from "../common/errors";
 import { IAsset, IAssetWithoutContent } from "./Asset";
 

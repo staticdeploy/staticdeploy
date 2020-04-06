@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     AppNameNotValidError,
     ConfigurationNotValidError,
-    ConflictingAppError
+    ConflictingAppError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateApp from "../../src/usecases/CreateApp";
@@ -24,7 +24,7 @@ describe("usecase CreateApp", () => {
         const createApp = new CreateApp(getMockDependencies());
         const createAppPromise = createApp.exec({
             name: "name",
-            defaultConfiguration: "not-valid-configuration" as any
+            defaultConfiguration: "not-valid-configuration" as any,
         });
         await expect(createAppPromise).to.be.rejectedWith(
             ConfigurationNotValidError
@@ -54,7 +54,7 @@ describe("usecase CreateApp", () => {
             name: "name",
             defaultConfiguration: {},
             createdAt: sinon.match.date,
-            updatedAt: sinon.match.date
+            updatedAt: sinon.match.date,
         });
     });
 

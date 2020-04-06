@@ -41,13 +41,13 @@ export default class UpdateGroup extends Usecase {
         const updatedGroup = await this.storages.groups.updateOne(id, {
             name: patch.name,
             roles: patch.roles,
-            updatedAt: new Date()
+            updatedAt: new Date(),
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.UpdateGroup, {
             oldGroup: existingGroup,
-            newGroup: updatedGroup
+            newGroup: updatedGroup,
         });
 
         return updatedGroup;

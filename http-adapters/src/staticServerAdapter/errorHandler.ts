@@ -1,14 +1,12 @@
 import {
     NoBundleOrRedirectToError,
-    NoMatchingEntrypointError
+    NoMatchingEntrypointError,
 } from "@staticdeploy/core";
 import { ErrorRequestHandler } from "express";
 
 export default function errorHandler(): ErrorRequestHandler {
     return (err, _req, res, _next) => {
-        res.status(getStatusCode(err))
-            .type("html")
-            .send(renderPage(err));
+        res.status(getStatusCode(err)).type("html").send(renderPage(err));
     };
 }
 

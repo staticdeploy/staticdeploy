@@ -15,14 +15,12 @@ beforeEach(() => {
 describe("interceptor parseDates", () => {
     describe("converts dates in response bodies", async () => {
         it("case: object response body", async () => {
-            nock(baseUrl)
-                .get("/")
-                .reply(200, {
-                    createdAt: unixEpochISO,
-                    updatedAt: unixEpochISO,
-                    deletedAt: unixEpochISO,
-                    performedAt: unixEpochISO
-                });
+            nock(baseUrl).get("/").reply(200, {
+                createdAt: unixEpochISO,
+                updatedAt: unixEpochISO,
+                deletedAt: unixEpochISO,
+                performedAt: unixEpochISO,
+            });
             const axios = Axios.create({ baseURL: baseUrl });
             axios.interceptors.response.use(parseDates());
             const { data } = await axios.get("/");
@@ -30,7 +28,7 @@ describe("interceptor parseDates", () => {
                 createdAt: unixEpoch,
                 updatedAt: unixEpoch,
                 deletedAt: unixEpoch,
-                performedAt: unixEpoch
+                performedAt: unixEpoch,
             });
         });
 
@@ -42,8 +40,8 @@ describe("interceptor parseDates", () => {
                         createdAt: unixEpochISO,
                         updatedAt: unixEpochISO,
                         deletedAt: unixEpochISO,
-                        performedAt: unixEpochISO
-                    }
+                        performedAt: unixEpochISO,
+                    },
                 ]);
             const axios = Axios.create({ baseURL: baseUrl });
             axios.interceptors.response.use(parseDates());
@@ -53,8 +51,8 @@ describe("interceptor parseDates", () => {
                     createdAt: unixEpoch,
                     updatedAt: unixEpoch,
                     deletedAt: unixEpoch,
-                    performedAt: unixEpoch
-                }
+                    performedAt: unixEpoch,
+                },
             ]);
         });
     });

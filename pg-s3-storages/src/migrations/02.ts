@@ -2,7 +2,7 @@ import {
     fromRoleTuple,
     IGroup,
     RoleName,
-    toRoleTuple
+    toRoleTuple,
 } from "@staticdeploy/core/lib";
 import { map } from "bluebird";
 import Knex from "knex";
@@ -16,7 +16,7 @@ import tables from "../common/tables";
 export async function up(knex: Knex) {
     const groups = await knex<IGroup>(tables.groups);
     for (const group of groups) {
-        const roles = await map(group.roles, async role => {
+        const roles = await map(group.roles, async (role) => {
             const [name, target] = toRoleTuple(role);
             if (name !== RoleName.AppManager) {
                 return role;

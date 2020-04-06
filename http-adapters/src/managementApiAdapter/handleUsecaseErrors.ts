@@ -39,7 +39,7 @@ const errorStatusMappings: ErrorStatusMapping[] = [
     [sd.ConflictingUserError, 409],
     // Storage errors
     [sd.GenericStoragesError, 500],
-    [sd.StoragesInconsistencyError, 500]
+    [sd.StoragesInconsistencyError, 500],
 ];
 function findMatchingMapping(err: any): ErrorStatusMapping | null {
     return (
@@ -61,7 +61,7 @@ export default (
         const [ErrorClass, statusCode] = matchingMapping;
         res.status(statusCode).send({
             name: ErrorClass.name,
-            message: err.message
+            message: err.message,
         });
     }
 };

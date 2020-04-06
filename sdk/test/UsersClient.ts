@@ -7,7 +7,7 @@ import StaticdeployClient from "../src";
 const baseUrl = "http://localhost";
 const staticdeployClient = new StaticdeployClient({
     apiUrl: baseUrl,
-    apiToken: null
+    apiToken: null,
 });
 
 beforeEach(() => {
@@ -17,16 +17,12 @@ beforeEach(() => {
 describe("UsersClient", () => {
     describe("getAll", () => {
         it("requests GET /users", async () => {
-            const scope = nock(baseUrl)
-                .get("/users")
-                .reply(200, []);
+            const scope = nock(baseUrl).get("/users").reply(200, []);
             await staticdeployClient.users.getAll();
             scope.done();
         });
         it("returns a list of users", async () => {
-            nock(baseUrl)
-                .get("/users")
-                .reply(200, []);
+            nock(baseUrl).get("/users").reply(200, []);
             const users = await staticdeployClient.users.getAll();
             expect(users).to.deep.equal([]);
         });
@@ -34,16 +30,12 @@ describe("UsersClient", () => {
 
     describe("getOne", () => {
         it("requests GET /users/:userId", async () => {
-            const scope = nock(baseUrl)
-                .get("/users/id")
-                .reply(200);
+            const scope = nock(baseUrl).get("/users/id").reply(200);
             await staticdeployClient.users.getOne("id");
             scope.done();
         });
         it("returns the user with the specified id", async () => {
-            nock(baseUrl)
-                .get("/users/id")
-                .reply(200, {});
+            nock(baseUrl).get("/users/id").reply(200, {});
             const user = await staticdeployClient.users.getOne("id");
             expect(user).to.deep.equal({});
         });
@@ -51,16 +43,12 @@ describe("UsersClient", () => {
 
     describe("getCurrentUser", () => {
         it("requests GET /currentUser", async () => {
-            const scope = nock(baseUrl)
-                .get("/currentUser")
-                .reply(200);
+            const scope = nock(baseUrl).get("/currentUser").reply(200);
             await staticdeployClient.users.getCurrentUser();
             scope.done();
         });
         it("returns the user returned by the endpoint (the current user)", async () => {
-            nock(baseUrl)
-                .get("/currentUser")
-                .reply(200, {});
+            nock(baseUrl).get("/currentUser").reply(200, {});
             const user = await staticdeployClient.users.getCurrentUser();
             expect(user).to.deep.equal({});
         });
@@ -74,7 +62,7 @@ describe("UsersClient", () => {
                     idpId: "idpId",
                     type: UserType.Human,
                     name: "name",
-                    groupsIds: []
+                    groupsIds: [],
                 })
                 .reply(201);
             await staticdeployClient.users.create({
@@ -82,20 +70,18 @@ describe("UsersClient", () => {
                 idpId: "idpId",
                 type: UserType.Human,
                 name: "name",
-                groupsIds: []
+                groupsIds: [],
             });
             scope.done();
         });
         it("returns the created user", async () => {
-            nock(baseUrl)
-                .post("/users")
-                .reply(201, {});
+            nock(baseUrl).post("/users").reply(201, {});
             const user = await staticdeployClient.users.create({
                 idp: "idp",
                 idpId: "idpId",
                 type: UserType.Human,
                 name: "name",
-                groupsIds: []
+                groupsIds: [],
             });
             expect(user).to.deep.equal({});
         });
@@ -110,11 +96,9 @@ describe("UsersClient", () => {
             scope.done();
         });
         it("returns the updated user", async () => {
-            nock(baseUrl)
-                .patch("/users/id")
-                .reply(200, {});
+            nock(baseUrl).patch("/users/id").reply(200, {});
             const user = await staticdeployClient.users.update("id", {
-                name: "new-name"
+                name: "new-name",
             });
             expect(user).to.deep.equal({});
         });
@@ -122,9 +106,7 @@ describe("UsersClient", () => {
 
     describe("delete", () => {
         it("requests DELETE /users/:userId", async () => {
-            const scope = nock(baseUrl)
-                .delete("/users/id")
-                .reply(204);
+            const scope = nock(baseUrl).delete("/users/id").reply(204);
             await staticdeployClient.users.delete("id");
             scope.done();
         });

@@ -7,7 +7,7 @@ const { Container, GridBlock } = require("../../core/CompLibrary.js");
 const withBaseUrl = require(`${process.cwd()}/core/withBaseUrl.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 
-const Button = props => (
+const Button = (props) => (
     <div className="pluginWrapper buttonWrapper">
         <a className="button" href={props.href} target={props.target}>
             {props.children}
@@ -65,7 +65,7 @@ const MainFeatures = () => (
                     content: stripIndent(`
                         A proven workflow for building, distributing, and
                         deploying your apps
-                    `)
+                    `),
                 },
                 {
                     image: withBaseUrl("/images/home.previews.svg"),
@@ -74,7 +74,7 @@ const MainFeatures = () => (
                     content: stripIndent(`
                         Deploy every commit and show people what you're working
                         on
-                    `)
+                    `),
                 },
                 {
                     image: withBaseUrl("/images/home.dashboard.svg"),
@@ -83,8 +83,8 @@ const MainFeatures = () => (
                     content: stripIndent(`
                         A single place to view and manage all of your company
                         apps
-                    `)
-                }
+                    `),
+                },
             ]}
             layout="threeColumn"
         />
@@ -99,7 +99,7 @@ const MainFeatures = () => (
                     content: stripIndent(`
                         Re-build to re-deploy be gone! Promote to prod exactly
                         what you were testing
-                    `)
+                    `),
                 },
                 {
                     image: withBaseUrl("/images/home.opensource.svg"),
@@ -108,8 +108,8 @@ const MainFeatures = () => (
                     content: stripIndent(`
                         Host it where you want it, how you want it, with no
                         proprietary lock-in
-                    `)
-                }
+                    `),
+                },
             ]}
             layout="threeColumn"
         />

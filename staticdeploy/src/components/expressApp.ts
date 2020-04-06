@@ -1,7 +1,7 @@
 import { IAuthenticationStrategy, IStoragesModule } from "@staticdeploy/core";
 import {
     IUsecasesByName,
-    staticServerAdapter
+    staticServerAdapter,
 } from "@staticdeploy/http-adapters";
 import tarArchiver from "@staticdeploy/tar-archiver";
 import Logger from "bunyan";
@@ -27,7 +27,7 @@ export default function getExpressApp(options: {
         logger,
         managementRouter,
         storagesModule,
-        usecases
+        usecases,
     } = options;
 
     return express()
@@ -35,16 +35,16 @@ export default function getExpressApp(options: {
         .use([
             bunyanMiddleware({
                 logger: logger,
-                obscureHeaders: ["Authorization"]
+                obscureHeaders: ["Authorization"],
             }),
             extractAuthToken(),
             injectMakeUsecase(usecases, {
                 archiver: tarArchiver,
                 authenticationStrategies: authenticationStrategies,
                 config: { enforceAuth: config.enforceAuth },
-                storages: storagesModule.getStorages()
+                storages: storagesModule.getStorages(),
             }),
             vhost(config.managementHostname, managementRouter),
-            staticServerAdapter({ hostnameHeader: config.hostnameHeader })
+            staticServerAdapter({ hostnameHeader: config.hostnameHeader }),
         ]);
 }

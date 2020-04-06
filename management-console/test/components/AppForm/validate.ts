@@ -20,7 +20,7 @@ describe("AppForm validation function", () => {
     describe("defaultConfiguration validation", () => {
         it("requires all configuration keys to be non-empty", () => {
             const errors = validate({
-                defaultConfiguration: [{ key: "", value: "" }]
+                defaultConfiguration: [{ key: "", value: "" }],
             });
             expect(errors).to.have.nested.property(
                 "defaultConfiguration.0.key",
@@ -31,8 +31,8 @@ describe("AppForm validation function", () => {
             const errors = validate({
                 defaultConfiguration: [
                     { key: "key", value: "" },
-                    { key: "key", value: "" }
-                ]
+                    { key: "key", value: "" },
+                ],
             });
             expect(errors).to.have.nested.property(
                 "defaultConfiguration.0.key",

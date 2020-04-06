@@ -89,12 +89,12 @@ export function test(description: string, testDefinition: ITestDefinition) {
             name: "name",
             defaultConfiguration: entrypoint.defaultConfiguration || {},
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
         });
 
         // Mock the linked bundle and assets
         if (hasLinkedBundle) {
-            const assets = toFiles(entrypoint.bundleContent!).map(file => {
+            const assets = toFiles(entrypoint.bundleContent!).map((file) => {
                 // Replicate the logic to build the assets list from the
                 // CreateBundle usecase
                 return {
@@ -107,10 +107,10 @@ export function test(description: string, testDefinition: ITestDefinition) {
                             ...finalHeaders,
                             ...(isMatch(file.path, assetMatcher)
                                 ? headers
-                                : null)
+                                : null),
                         }),
                         {}
-                    )
+                    ),
                 };
             });
             deps.storages.bundles.findOne.withArgs(id).resolves({
@@ -119,12 +119,15 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 tag: "tag",
                 description: "description",
                 hash: "hash",
-                assets: assets.map(asset => ({ ...asset, content: undefined })),
+                assets: assets.map((asset) => ({
+                    ...asset,
+                    content: undefined,
+                })),
                 fallbackAssetPath: entrypoint.bundleFallbackAssetPath!,
                 fallbackStatusCode: entrypoint.bundleFallbackStatusCode || 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             });
-            assets.forEach(asset => {
+            assets.forEach((asset) => {
                 deps.storages.bundles.getBundleAssetContent
                     .withArgs(id, asset.path)
                     .resolves(asset.content);
@@ -140,7 +143,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
             redirectTo: entrypoint.redirectTo || null,
             configuration: entrypoint.configuration || null,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
         });
     });
     // Mock the entrypoints
@@ -150,7 +153,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
 
     // Execute test cases and run assertions
     describeFn(description, () => {
-        testCases.forEach(testCase => {
+        testCases.forEach((testCase) => {
             const {
                 requestedUrl,
                 expectedError,
@@ -158,7 +161,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 expectedBody,
                 expectedStatusCode,
                 expectedMimeTypeHeader,
-                expectedHeaders
+                expectedHeaders,
             } = testCase;
 
             // Support only running one test case
@@ -174,7 +177,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 !isNil(expectedHeaders) && "and correct headers",
                 !isNil(expectedBody) && "and correct body",
                 "when requesting",
-                requestedUrl
+                requestedUrl,
             ]).join(" ");
 
             itFn(itDescription, async () => {
@@ -185,7 +188,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 const firstSlash = requestedUrl.indexOf("/");
                 const responsePromise = respondToEndpointRequest.exec({
                     hostname: requestedUrl.slice(0, firstSlash),
-                    path: requestedUrl.slice(firstSlash)
+                    path: requestedUrl.slice(firstSlash),
                 });
                 let response: IEndpointResponse;
 
@@ -252,7 +255,7 @@ interface IFile {
 function toFiles(fsDefinition: IFsDefinition): IFile[] {
     return map(flattenFsDefinition(fsDefinition), (content, path) => ({
         path: path,
-        content: Buffer.from(content)
+        content: Buffer.from(content),
     }));
 }
 
@@ -267,7 +270,7 @@ function flattenFsDefinition(
     keys(fsDefinition)
         .sort()
         .reverse()
-        .forEach(segment => {
+        .forEach((segment) => {
             const value = fsDefinition[segment];
             const path = join(parentPath, segment);
             if (typeof value === "string") {

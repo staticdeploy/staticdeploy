@@ -2,7 +2,7 @@ import {
     IUser,
     IUserWithGroups,
     IUserWithRoles,
-    UserType
+    UserType,
 } from "../entities/User";
 
 export default interface IUsersStorage {

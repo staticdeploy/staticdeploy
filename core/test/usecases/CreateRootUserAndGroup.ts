@@ -6,7 +6,7 @@ import { UserType } from "../../src/entities/User";
 import CreateRootUserAndGroup, {
     ROOT_GROUP_NAME,
     ROOT_USER_IDP_ID,
-    ROOT_USER_NAME
+    ROOT_USER_NAME,
 } from "../../src/usecases/CreateRootUserAndGroup";
 import { getMockDependencies } from "../testUtils";
 
@@ -22,7 +22,7 @@ describe("usecase CreateRootUserAndGroup", () => {
             name: ROOT_GROUP_NAME,
             roles: [RoleName.Root],
             createdAt: sinon.match.date,
-            updatedAt: sinon.match.date
+            updatedAt: sinon.match.date,
         });
     });
 
@@ -48,7 +48,7 @@ describe("usecase CreateRootUserAndGroup", () => {
             name: ROOT_USER_NAME,
             groupsIds: ["groupId"],
             createdAt: sinon.match.date,
-            updatedAt: sinon.match.date
+            updatedAt: sinon.match.date,
         });
     });
 

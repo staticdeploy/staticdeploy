@@ -15,8 +15,8 @@ export default function addAuthorizationHeader(
                   ...requestConfig,
                   headers: {
                       ...requestConfig.headers,
-                      Authorization: `Bearer ${apiToken}`
-                  }
+                      Authorization: `Bearer ${apiToken}`,
+                  },
               }
             : requestConfig;
     };

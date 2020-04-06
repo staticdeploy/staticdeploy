@@ -33,6 +33,6 @@ const usecases: IUsecasesByName = {
     updateApp: sd.UpdateApp,
     updateEntrypoint: sd.UpdateEntrypoint,
     updateGroup: sd.UpdateGroup,
-    updateUser: sd.UpdateUser
+    updateUser: sd.UpdateUser,
 };
 export default usecases;

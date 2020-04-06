@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import {
     SomeGroupNotFoundError,
-    UserNotFoundError
+    UserNotFoundError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateUser from "../../src/usecases/UpdateUser";
@@ -25,7 +25,7 @@ describe("usecase UpdateUser", () => {
         deps.storages.groups.allExistWithIds.resolves(false);
         const updateUser = new UpdateUser(deps);
         const updateUserPromise = updateUser.exec("userId", {
-            groupsIds: ["groupId"]
+            groupsIds: ["groupId"],
         });
         await expect(updateUserPromise).to.be.rejectedWith(
             SomeGroupNotFoundError
@@ -45,7 +45,7 @@ describe("usecase UpdateUser", () => {
             {
                 name: "name",
                 groupsIds: undefined,
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });

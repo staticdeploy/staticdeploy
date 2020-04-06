@@ -24,12 +24,10 @@ describe("interceptor convertErrors", () => {
 
     describe("gives them a message as significant as possible", () => {
         it("case: error response name and message available", async () => {
-            nock(baseUrl)
-                .get("/")
-                .reply(400, {
-                    name: "NamedError",
-                    message: "Response error message"
-                });
+            nock(baseUrl).get("/").reply(400, {
+                name: "NamedError",
+                message: "Response error message",
+            });
             const axios = Axios.create({ baseURL: baseUrl });
             axios.interceptors.response.use(undefined, convertErrors());
             const getPromise = axios.get("/");
@@ -55,9 +53,7 @@ describe("interceptor convertErrors", () => {
             );
         });
         it("case: error response status code available, message not available", async () => {
-            nock(baseUrl)
-                .get("/")
-                .reply(400, {});
+            nock(baseUrl).get("/").reply(400, {});
             const axios = Axios.create({ baseURL: baseUrl });
             axios.interceptors.response.use(undefined, convertErrors());
             const getPromise = axios.get("/");

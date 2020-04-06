@@ -15,6 +15,6 @@ export default function extractIdpInfo(message: string): IIdpInfo {
         ),
         idpId: message.slice(
             message.indexOf(idpIdBeforeMatcher) + idpIdBeforeMatcher.length
-        )
+        ),
     };
 }

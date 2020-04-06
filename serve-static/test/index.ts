@@ -13,7 +13,7 @@ describe("serveStatic middleware", () => {
         fallbackAssetPath: "/index.html",
         fallbackStatusCode: 200,
         configuration: {},
-        headers: {}
+        headers: {},
     };
 
     before(() => {
@@ -35,13 +35,13 @@ describe("serveStatic middleware", () => {
                 </head>
             `,
             js: {
-                "index.js": "index.js"
+                "index.js": "index.js",
             },
             deeply: {
                 nested: {
-                    file: "file"
-                }
-            }
+                    file: "file",
+                },
+            },
         });
     });
     after(() => {
@@ -54,7 +54,7 @@ describe("serveStatic middleware", () => {
                 const server = express().use(
                     await serveStatic({
                         ...baseServeStaticOptions,
-                        basePath: "/"
+                        basePath: "/",
                     })
                 );
                 await request(server)
@@ -72,7 +72,7 @@ describe("serveStatic middleware", () => {
                     "/basePath/",
                     await serveStatic({
                         ...baseServeStaticOptions,
-                        basePath: "/basePath/"
+                        basePath: "/basePath/",
                     })
                 );
                 await request(server)
@@ -102,7 +102,7 @@ describe("serveStatic middleware", () => {
                     "/basePath/",
                     await serveStatic({
                         ...baseServeStaticOptions,
-                        basePath: "/basePath/"
+                        basePath: "/basePath/",
                     })
                 );
                 return request(server)
@@ -117,7 +117,7 @@ describe("serveStatic middleware", () => {
                 await serveStatic({
                     ...baseServeStaticOptions,
                     fallbackAssetPath: "/404.html",
-                    fallbackStatusCode: 404
+                    fallbackStatusCode: 404,
                 })
             );
             return request(server)
@@ -145,19 +145,17 @@ describe("serveStatic middleware", () => {
             const server = express().use(
                 await serveStatic({
                     ...baseServeStaticOptions,
-                    headers: { "**": { "x-custom": "x-custom" } }
+                    headers: { "**": { "x-custom": "x-custom" } },
                 })
             );
-            return request(server)
-                .get("/")
-                .expect("x-custom", "x-custom");
+            return request(server).get("/").expect("x-custom", "x-custom");
         });
 
         it("configures html files", async () => {
             const server = express().use(
                 await serveStatic({
                     ...baseServeStaticOptions,
-                    configuration: { key: "value" }
+                    configuration: { key: "value" },
                 })
             );
             return request(server)

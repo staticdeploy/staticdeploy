@@ -28,7 +28,7 @@ import setupStorages from "./init/setupStorages";
             logger,
             managementRouter,
             storagesModule,
-            usecases
+            usecases,
         });
 
         // Run init functions

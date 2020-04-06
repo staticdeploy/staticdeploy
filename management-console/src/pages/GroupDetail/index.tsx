@@ -27,7 +27,7 @@ class GroupDetail extends React.Component<Props> {
             history,
             location,
             refetch,
-            result: { group }
+            result: { group },
         } = this.props;
         return [
             <GroupEditOperationModal
@@ -43,7 +43,7 @@ class GroupDetail extends React.Component<Props> {
                 group={group}
                 history={history}
                 trigger={<ODItem icon="delete" label="Delete group" />}
-            />
+            />,
         ];
     }
     render() {
@@ -69,5 +69,5 @@ export default withData({
         oldProps.match.params.groupId !== newProps.match.params.groupId,
     spinnerSize: "large",
     spinnerTip: "Fetching group details...",
-    Component: GroupDetail
+    Component: GroupDetail,
 });

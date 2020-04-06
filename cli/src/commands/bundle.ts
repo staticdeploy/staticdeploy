@@ -49,49 +49,49 @@ const command: CommandModule<any, any> = {
                           // that makes it invalid (see staticdeploy issue #24)
                           headers: config.bundle.headers
                               ? JSON.stringify(config.bundle.headers)
-                              : "{}"
+                              : "{}",
                       }
                     : {};
-            }
+            },
         },
         from: {
             describe: "Path of the directory to create the bundle from",
             type: "string",
             coerce: resolve,
-            demandOption: true
+            demandOption: true,
         },
         name: {
             describe: "Name of the bundle",
             type: "string",
-            demandOption: true
+            demandOption: true,
         },
         tag: {
             describe: "Tag of the bundle",
             type: "string",
-            demandOption: true
+            demandOption: true,
         },
         description: {
             describe: "Description of the bundle",
             type: "string",
-            demandOption: true
+            demandOption: true,
         },
         fallbackAssetPath: {
             describe:
                 "Absolute path (relative to the 'from' directory) of the asset to use as fallback when requests don't match any other asset. Defaults to `/index.html`, but the asset MUST exist",
             type: "string",
-            default: "/index.html"
+            default: "/index.html",
         },
         fallbackStatusCode: {
             describe: "Status code to use when serving the fallback asset",
             type: "number",
-            default: 200
+            default: 200,
         },
         headers: {
             describe:
                 "(asset matcher, headers) map specifying which headers to assign to which assets",
             type: "string",
-            default: "{}"
-        }
+            default: "{}",
+        },
     },
     handler: handleCommandHandlerErrors(async (argv: IArgv) => {
         // Ensure the 'from' directory exists
@@ -112,7 +112,7 @@ const command: CommandModule<any, any> = {
 
         const client = new StaticdeployClient({
             apiUrl: argv.apiUrl,
-            apiToken: argv.apiToken || null
+            apiToken: argv.apiToken || null,
         });
 
         await client.bundles.create({
@@ -129,10 +129,10 @@ const command: CommandModule<any, any> = {
             // (staticdeploy issue #24)
             // TODO: verify whether yargs behaviour is intended or not and - if
             // not - open an issue
-            headers: JSON.parse(argv.headers)
+            headers: JSON.parse(argv.headers),
         });
 
         log.success(`created bundle ${argv.name}:${argv.tag}`);
-    })
+    }),
 };
 export default command;

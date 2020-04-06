@@ -18,7 +18,7 @@ describe("staticdeploy expressApp", () => {
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter(config),
                 usecases: usecases,
-                logger: logger
+                logger: logger,
             });
             return request(expressApp)
                 .get("/")
@@ -35,7 +35,7 @@ describe("staticdeploy expressApp", () => {
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter(config),
                 usecases: usecases,
-                logger: logger
+                logger: logger,
             });
             return request(expressApp)
                 .get("/api/health")
@@ -54,10 +54,10 @@ describe("staticdeploy expressApp", () => {
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter({
                     ...config,
-                    enableManagementEndpoints: false
+                    enableManagementEndpoints: false,
                 }),
                 usecases: usecases,
-                logger: logger
+                logger: logger,
             });
             return request(expressApp)
                 .get("/")
@@ -73,10 +73,10 @@ describe("staticdeploy expressApp", () => {
                 storagesModule: getStoragesModule(config, logger),
                 managementRouter: await getManagementRouter({
                     ...config,
-                    enableManagementEndpoints: false
+                    enableManagementEndpoints: false,
                 }),
                 usecases: usecases,
-                logger: logger
+                logger: logger,
             });
             return request(expressApp)
                 .get("/api/health")
@@ -90,13 +90,13 @@ describe("staticdeploy expressApp", () => {
         const expressApp = getExpressApp({
             config: {
                 ...config,
-                enforceAuth: false
+                enforceAuth: false,
             },
             authenticationStrategies: [],
             storagesModule: getStoragesModule(config, logger),
             managementRouter: await getManagementRouter(config),
             usecases: usecases,
-            logger: logger
+            logger: logger,
         });
         // Create a bundle
         await request(expressApp)
@@ -110,13 +110,13 @@ describe("staticdeploy expressApp", () => {
                     await tarArchiver.makeArchive([
                         {
                             path: "/index.html",
-                            content: Buffer.from("test html")
-                        }
+                            content: Buffer.from("test html"),
+                        },
                     ])
                 ).toString("base64"),
                 fallbackAssetPath: "/index.html",
                 fallbackStatusCode: 200,
-                headers: {}
+                headers: {},
             })
             .expect(201);
         // Deploy the bundle
@@ -126,7 +126,7 @@ describe("staticdeploy expressApp", () => {
             .send({
                 appName: "test",
                 entrypointUrlMatcher: "example.com/",
-                bundleNameTagCombination: "test:test"
+                bundleNameTagCombination: "test:test",
             })
             .expect(204);
         // Verify the bundle is deployed

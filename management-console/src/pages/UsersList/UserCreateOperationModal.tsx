@@ -29,7 +29,7 @@ export default class UserCreateOperationModal extends React.Component<IProps> {
             idpId: values.idpId,
             type: values.type,
             name: values.name,
-            groupsIds: values.groupsIds
+            groupsIds: values.groupsIds,
         });
     };
     refetchUsersListAndGoToUserDetail = (user: IUser) => {
@@ -44,7 +44,7 @@ export default class UserCreateOperationModal extends React.Component<IProps> {
                 trigger={this.props.trigger}
                 startOperationButtonText="Create"
                 onAfterSuccessClose={this.refetchUsersListAndGoToUserDetail}
-                successMessage={createdUser => (
+                successMessage={(createdUser) => (
                     <span>
                         {"Created user "}
                         {emphasizeString(createdUser.name)}
@@ -55,7 +55,7 @@ export default class UserCreateOperationModal extends React.Component<IProps> {
             >
                 <UserForm
                     groups={this.props.groups}
-                    ref={form => (this.form = form!)}
+                    ref={(form) => (this.form = form!)}
                 />
             </OperationModal>
         );

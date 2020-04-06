@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import {
     AppHasEntrypointsError,
-    AppNotFoundError
+    AppNotFoundError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteApp from "../../src/usecases/DeleteApp";

@@ -18,23 +18,23 @@ export default convroute({
             name: "bundleName",
             in: "path",
             required: true,
-            type: "string"
+            type: "string",
         },
         {
             name: "bundleTag",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "204": {
-            description: "Bundles deleted, returns nothing"
+            description: "Bundles deleted, returns nothing",
         },
         "409": {
             description:
-                "Bundles can't be deleted because in use by one or more entrypoints"
-        }
+                "Bundles can't be deleted because in use by one or more entrypoints",
+        },
     },
     handler: async (req: IRequest, res) => {
         const deleteBundlesByNameAndTag = req.makeUsecase(
@@ -45,5 +45,5 @@ export default convroute({
             req.params.bundleTag
         );
         res.status(204).send();
-    }
+    },
 });

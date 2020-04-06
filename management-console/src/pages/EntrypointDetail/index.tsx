@@ -38,7 +38,7 @@ class EntrypointDetail extends React.Component<Props> {
                 entrypoint={this.props.result.entrypoint}
                 history={this.props.history}
                 trigger={<ODItem icon="delete" label="Delete entrypoint" />}
-            />
+            />,
         ];
     }
     render() {
@@ -101,7 +101,7 @@ export default withData({
         const { appId, entrypointId } = props.match.params;
         const [app, entrypoint] = await Promise.all([
             staticdeploy.apps.getOne(appId),
-            staticdeploy.entrypoints.getOne(entrypointId)
+            staticdeploy.entrypoints.getOne(entrypointId),
         ]);
         const bundle = entrypoint.bundleId
             ? await staticdeploy.bundles.getOne(entrypoint.bundleId)
@@ -114,5 +114,5 @@ export default withData({
             newProps.match.params.entrypointId,
     spinnerSize: "large",
     spinnerTip: "Fetching entrypoint details...",
-    Component: EntrypointDetail
+    Component: EntrypointDetail,
 });

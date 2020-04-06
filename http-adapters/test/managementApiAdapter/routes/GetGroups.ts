@@ -7,9 +7,6 @@ describe("managementApiAdapter GET /groups", () => {
     it("200 and returns all groups", () => {
         const execMock = sinon.stub().resolves([]);
         const server = getManagementApiAdapter({ getGroups: execMock });
-        return request(server)
-            .get("/groups")
-            .expect(200)
-            .expect([]);
+        return request(server).get("/groups").expect(200).expect([]);
     });
 });

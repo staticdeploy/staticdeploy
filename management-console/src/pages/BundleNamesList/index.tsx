@@ -20,9 +20,9 @@ class BundleNamesList extends React.Component<IProps> {
             <Page title="Bundle names">
                 <BundleNamesLinksList
                     title="Names"
-                    items={this.props.result.map(name => ({
+                    items={this.props.result.map((name) => ({
                         id: name,
-                        name: name
+                        name: name,
                     }))}
                     getDescription={({ name }) => name}
                     getHref={({ name }) => `/bundles/${name}`}
@@ -33,8 +33,8 @@ class BundleNamesList extends React.Component<IProps> {
 }
 
 export default withData({
-    fetchData: staticdeploy => staticdeploy.bundles.getNames(),
+    fetchData: (staticdeploy) => staticdeploy.bundles.getNames(),
     spinnerSize: "large",
     spinnerTip: "Fetching bundle names...",
-    Component: BundleNamesList
+    Component: BundleNamesList,
 });

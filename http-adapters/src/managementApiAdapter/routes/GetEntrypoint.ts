@@ -17,16 +17,16 @@ export default convroute({
             name: "entrypointId",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "200": { description: "Returns the entrypoint" },
-        "404": { description: "Entrypoint not found" }
+        "404": { description: "Entrypoint not found" },
     },
     handler: async (req: IRequest, res) => {
         const getEntrypoint = req.makeUsecase("getEntrypoint");
         const entrypoint = await getEntrypoint.exec(req.params.entrypointId);
         res.status(200).send(entrypoint);
-    }
+    },
 });

@@ -17,16 +17,16 @@ export default convroute({
             name: "entrypointId",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "204": { description: "Entrypoint deleted, returns nothing" },
-        "404": { description: "Entrypoint not found" }
+        "404": { description: "Entrypoint not found" },
     },
     handler: async (req: IRequest, res) => {
         const deleteEntrypoint = req.makeUsecase("deleteEntrypoint");
         await deleteEntrypoint.exec(req.params.entrypointId);
         res.status(204).send();
-    }
+    },
 });

@@ -7,7 +7,7 @@ import {
     IOperationLog,
     IStorages,
     IStoragesModule,
-    IUser
+    IUser,
 } from "@staticdeploy/core";
 
 import AppsStorage from "./AppsStorage";
@@ -34,7 +34,7 @@ export default class MemoryStorages implements IStoragesModule {
         groups: {},
         entrypoints: {},
         operationLogs: {},
-        users: {}
+        users: {},
     };
 
     async setup(): Promise<void> {
@@ -49,7 +49,7 @@ export default class MemoryStorages implements IStoragesModule {
             groups: new GroupsStorage(this.db.groups),
             operationLogs: new OperationLogsStorage(this.db.operationLogs),
             users: new UsersStorage(this.db.users, this.db.groups),
-            checkHealth: this.checkHealth.bind(this)
+            checkHealth: this.checkHealth.bind(this),
         };
     }
 

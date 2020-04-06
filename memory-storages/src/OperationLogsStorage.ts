@@ -1,7 +1,7 @@
 import {
     IOperationLog,
     IOperationLogsStorage,
-    Operation
+    Operation,
 } from "@staticdeploy/core";
 import { toArray } from "lodash";
 

@@ -30,8 +30,8 @@ class OperationLogs extends React.Component<IProps> {
 }
 
 export default withData({
-    fetchData: staticdeploy => staticdeploy.operationLogs.getAll(),
+    fetchData: (staticdeploy) => staticdeploy.operationLogs.getAll(),
     spinnerSize: "large",
     spinnerTip: "Fetching operation logs...",
-    Component: OperationLogs
+    Component: OperationLogs,
 });

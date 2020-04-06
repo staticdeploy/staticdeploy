@@ -2,7 +2,7 @@ import { JSONWebKeySet, JWKS, JWT } from "@panva/jose";
 import {
     AuthenticationStrategySetupError,
     IAuthenticationStrategy,
-    IIdpUser
+    IIdpUser,
 } from "@staticdeploy/core";
 import axios from "axios";
 
@@ -30,7 +30,7 @@ export default class OidcAuthenticationStrategy
         try {
             const jwt = JWT.verify(authToken, this.keyStore, {
                 issuer: this.openidConfiguration.issuer,
-                audience: this.clientId
+                audience: this.clientId,
             }) as { sub: string; iss: string };
             return { idp: jwt.iss, id: jwt.sub };
         } catch {

@@ -10,7 +10,7 @@ describe("usecase DeleteBundlesByNameAndTag", () => {
     it("throws BundlesInUseError if one of the to-be-delete bundles is being use by some entrypoint", async () => {
         const deps = getMockDependencies();
         deps.storages.bundles.findManyByNameAndTag.resolves([
-            { id: "bundleId" } as any
+            { id: "bundleId" } as any,
         ]);
         deps.storages.entrypoints.anyExistsWithBundleIdIn.resolves(true);
         const deleteBundles = new DeleteBundlesByNameAndTag(deps);
@@ -26,19 +26,19 @@ describe("usecase DeleteBundlesByNameAndTag", () => {
     it("deletes the bundles", async () => {
         const deps = getMockDependencies();
         deps.storages.bundles.findManyByNameAndTag.resolves([
-            { id: "bundleId" } as any
+            { id: "bundleId" } as any,
         ]);
         const deleteBundles = new DeleteBundlesByNameAndTag(deps);
         await deleteBundles.exec("name", "tag");
         expect(deps.storages.bundles.deleteMany).to.have.been.calledOnceWith([
-            "bundleId"
+            "bundleId",
         ]);
     });
 
     it("logs the delete bundles operation", async () => {
         const deps = getMockDependencies();
         deps.storages.bundles.findManyByNameAndTag.resolves([
-            { id: "bundleId" } as any
+            { id: "bundleId" } as any,
         ]);
         const deleteBundles = new DeleteBundlesByNameAndTag(deps);
         await deleteBundles.exec("name", "tag");

@@ -2,7 +2,7 @@ import {
     IArchiver,
     IAuthenticationStrategy,
     IStorages,
-    IUsecaseConfig
+    IUsecaseConfig,
 } from "@staticdeploy/core";
 import { IUsecasesByName } from "@staticdeploy/http-adapters";
 import { RequestHandler } from "express";
@@ -22,7 +22,7 @@ export default function injectMakeUsecase(
         archiver,
         authenticationStrategies,
         config,
-        storages
+        storages,
     } = dependencies;
     return (req: IRequestWithAuthToken, _res, next) => {
         req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
@@ -32,7 +32,7 @@ export default function injectMakeUsecase(
                 authenticationStrategies: authenticationStrategies,
                 config: config,
                 requestContext: { authToken: req.authToken },
-                storages: storages
+                storages: storages,
             }) as InstanceType<IUsecasesByName[Name]>;
         };
         next();

@@ -5,7 +5,7 @@ import React from "react";
 import {
     FieldArray,
     FieldArrayFieldsProps,
-    WrappedFieldArrayProps
+    WrappedFieldArrayProps,
 } from "redux-form";
 
 import TextField from "../TextField";

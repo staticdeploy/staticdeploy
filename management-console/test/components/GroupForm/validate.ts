@@ -13,13 +13,13 @@ describe("GroupForm validation function", () => {
     describe("roles validation", () => {
         it("requires all roles to be non-empty", () => {
             const errors = validate({
-                roles: [undefined] as any
+                roles: [undefined] as any,
             });
             expect(errors).to.have.nested.property("roles.0", "Required");
         });
         it("requires all roles to be valid", () => {
             const errors = validate({
-                roles: ["invalid-role"]
+                roles: ["invalid-role"],
             });
             expect(errors).to.have.nested.property("roles.0", "Invalid role");
         });

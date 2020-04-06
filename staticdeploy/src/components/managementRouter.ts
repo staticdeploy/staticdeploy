@@ -10,7 +10,7 @@ export default async (config: IConfig): Promise<express.Router> => {
     if (!config.enableManagementEndpoints) {
         return express.Router().use((_req, res) => {
             res.status(404).send({
-                message: "Management endpoints not enabled"
+                message: "Management endpoints not enabled",
             });
         });
     }
@@ -34,9 +34,9 @@ export default async (config: IConfig): Promise<express.Router> => {
                     ? `http://localhost:${config.port}`
                     : `https://${config.managementHostname}`,
             OIDC_PROVIDER_NAME: config.oidcProviderName,
-            JWT_ENABLED: (!!config.jwtSecretOrPublicKey).toString()
+            JWT_ENABLED: (!!config.jwtSecretOrPublicKey).toString(),
         }),
-        headers: {}
+        headers: {},
     });
 
     return express
@@ -47,7 +47,7 @@ export default async (config: IConfig): Promise<express.Router> => {
                 serviceName: config.appName,
                 serviceVersion: config.appVersion,
                 serviceHost: config.managementHostname,
-                serviceBasePath: "/api"
+                serviceBasePath: "/api",
             })
         )
         .use(managementConsoleStaticServer);

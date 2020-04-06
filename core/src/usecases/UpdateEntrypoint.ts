@@ -2,7 +2,7 @@ import { BundleNotFoundError, EntrypointNotFoundError } from "../common/errors";
 import Usecase from "../common/Usecase";
 import {
     IConfiguration,
-    validateConfiguration
+    validateConfiguration,
 } from "../entities/Configuration";
 import { IEntrypoint } from "../entities/Entrypoint";
 import { Operation } from "../entities/OperationLog";
@@ -50,14 +50,14 @@ export default class UpdateEntrypoint extends Usecase {
                 bundleId: patch.bundleId,
                 redirectTo: patch.redirectTo,
                 configuration: patch.configuration,
-                updatedAt: new Date()
+                updatedAt: new Date(),
             }
         );
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.UpdateEntrypoint, {
             oldEntrypoint: existingEntrypoint,
-            newEntrypoint: updatedEntrypoint
+            newEntrypoint: updatedEntrypoint,
         });
 
         return updatedEntrypoint;

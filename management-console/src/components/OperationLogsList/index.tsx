@@ -30,7 +30,7 @@ export default class OperationLogsList extends React.Component<IProps> {
                             {prettifiedOperation}
                         </Tag>
                     );
-                }
+                },
             },
             {
                 key: "performedAt",
@@ -38,7 +38,7 @@ export default class OperationLogsList extends React.Component<IProps> {
                 dataIndex: "performedAt",
                 className: "c-OperationLogsList-performedAt-cell",
                 render: (performedAt: string) =>
-                    moment(performedAt).format("YYYY-MM-DD HH:mm:ss Z")
+                    moment(performedAt).format("YYYY-MM-DD HH:mm:ss Z"),
             },
             {
                 key: "performedBy",
@@ -49,8 +49,8 @@ export default class OperationLogsList extends React.Component<IProps> {
                     <Link to={`/users/${performedBy}`}>
                         <code>{performedBy}</code>
                     </Link>
-                )
-            }
+                ),
+            },
         ];
     }
 

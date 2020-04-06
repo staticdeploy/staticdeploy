@@ -22,7 +22,7 @@ export default class BundlesList extends React.Component<IProps> {
                 title: "Id",
                 dataIndex: "id",
                 className: "c-BundlesList-id-column",
-                render: (id: string) => <code>{id}</code>
+                render: (id: string) => <code>{id}</code>,
             },
             {
                 key: "description",
@@ -31,7 +31,7 @@ export default class BundlesList extends React.Component<IProps> {
                 className: "c-BundlesList-description-column",
                 render: (description: string) => (
                     <TruncatedText>{description}</TruncatedText>
-                )
+                ),
             },
             {
                 key: "createdAt",
@@ -46,8 +46,8 @@ export default class BundlesList extends React.Component<IProps> {
                     >
                         {moment(createdAt).fromNow(true)}
                     </Tooltip>
-                )
-            }
+                ),
+            },
         ];
     }
     renderTitle() {
@@ -59,7 +59,7 @@ export default class BundlesList extends React.Component<IProps> {
                 {this.renderTitle()}
                 <Table<IBundle>
                     columns={this.getColumns()}
-                    expandedRowRender={bundle => <Details bundle={bundle} />}
+                    expandedRowRender={(bundle) => <Details bundle={bundle} />}
                     dataSource={sortBy(
                         this.props.bundles,
                         "createdAt"

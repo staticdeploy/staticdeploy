@@ -11,7 +11,7 @@ describe("service Authenticator", () => {
 
         it("returns null if the passed in auth token is null", async () => {
             const authenticationStrategies: IAuthenticationStrategy[] = [
-                { getIdpUserFromAuthToken: async () => idpUser0, setup }
+                { getIdpUserFromAuthToken: async () => idpUser0, setup },
             ];
             const authenticator = new Authenticator(
                 authenticationStrategies,
@@ -25,7 +25,7 @@ describe("service Authenticator", () => {
             it("case: first authentication strategy returns a non-null idp user", async () => {
                 const authenticationStrategies: IAuthenticationStrategy[] = [
                     { getIdpUserFromAuthToken: async () => idpUser0, setup },
-                    { getIdpUserFromAuthToken: async () => null, setup }
+                    { getIdpUserFromAuthToken: async () => null, setup },
                 ];
                 const authenticator = new Authenticator(
                     authenticationStrategies,
@@ -38,7 +38,7 @@ describe("service Authenticator", () => {
             it("case: second authentication strategy returns a non-null idp user", async () => {
                 const authenticationStrategies: IAuthenticationStrategy[] = [
                     { getIdpUserFromAuthToken: async () => null, setup },
-                    { getIdpUserFromAuthToken: async () => idpUser1, setup }
+                    { getIdpUserFromAuthToken: async () => idpUser1, setup },
                 ];
                 const authenticator = new Authenticator(
                     authenticationStrategies,
@@ -51,7 +51,7 @@ describe("service Authenticator", () => {
             it("case: first and second authentication strategy return a non-null idp user", async () => {
                 const authenticationStrategies: IAuthenticationStrategy[] = [
                     { getIdpUserFromAuthToken: async () => idpUser0, setup },
-                    { getIdpUserFromAuthToken: async () => idpUser1, setup }
+                    { getIdpUserFromAuthToken: async () => idpUser1, setup },
                 ];
                 const authenticator = new Authenticator(
                     authenticationStrategies,
@@ -71,7 +71,7 @@ describe("service Authenticator", () => {
 
             it("case: 1 authentication strategy", async () => {
                 const authenticationStrategies: IAuthenticationStrategy[] = [
-                    { getIdpUserFromAuthToken: async () => null, setup }
+                    { getIdpUserFromAuthToken: async () => null, setup },
                 ];
                 const authenticator = new Authenticator(
                     authenticationStrategies,
@@ -84,7 +84,7 @@ describe("service Authenticator", () => {
             it("case: multiple authentication strategies", async () => {
                 const authenticationStrategies: IAuthenticationStrategy[] = [
                     { getIdpUserFromAuthToken: async () => null, setup },
-                    { getIdpUserFromAuthToken: async () => null, setup }
+                    { getIdpUserFromAuthToken: async () => null, setup },
                 ];
                 const authenticator = new Authenticator(
                     authenticationStrategies,

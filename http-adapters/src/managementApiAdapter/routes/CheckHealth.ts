@@ -14,11 +14,11 @@ export default convroute({
     tags: ["health"],
     responses: {
         "200": { description: "Service healthy" },
-        "503": { description: "Service unhealthy" }
+        "503": { description: "Service unhealthy" },
     },
     handler: async (req: IRequest, res) => {
         const checkHealth = req.makeUsecase("checkHealth");
         const health = await checkHealth.exec();
         res.status(health.isHealthy ? 200 : 503).send(health);
-    }
+    },
 });

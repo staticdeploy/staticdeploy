@@ -18,7 +18,7 @@ export default class GetBundle extends Usecase {
             id: bundle.id,
             name: bundle.name,
             tag: bundle.tag,
-            createdAt: bundle.createdAt
+            createdAt: bundle.createdAt,
         };
     }
 }

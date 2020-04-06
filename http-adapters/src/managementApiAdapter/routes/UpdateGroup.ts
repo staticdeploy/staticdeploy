@@ -17,9 +17,9 @@ const bodySchema = {
     type: "object",
     properties: {
         name: { type: "string" },
-        roles: { type: "array", items: { type: "string" } }
+        roles: { type: "array", items: { type: "string" } },
     },
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -32,19 +32,19 @@ export default convroute({
             name: "groupId",
             in: "path",
             required: true,
-            type: "string"
+            type: "string",
         },
         {
             name: "patch",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
         "200": { description: "Group updated, returns the group" },
         "404": { description: "Group not found" },
-        "409": { description: "Group with same name already exists" }
+        "409": { description: "Group with same name already exists" },
     },
     handler: async (req: IRequest, res) => {
         const updateGroup = req.makeUsecase("updateGroup");
@@ -53,5 +53,5 @@ export default convroute({
             req.body
         );
         res.status(200).send(updatedGroup);
-    }
+    },
 });

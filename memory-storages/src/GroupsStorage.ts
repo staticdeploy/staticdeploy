@@ -27,7 +27,7 @@ export default class GroupsStorage implements IGroupsStorage {
     }
 
     async allExistWithIds(ids: string[]): Promise<boolean> {
-        return ids.every(id => !!this.groups[id]);
+        return ids.every((id) => !!this.groups[id]);
     }
 
     async createOne(toBeCreatedGroup: {
@@ -51,7 +51,7 @@ export default class GroupsStorage implements IGroupsStorage {
     ): Promise<IGroup> {
         this.groups[id] = {
             ...this.groups[id],
-            ...defaults(patch, this.groups[id])
+            ...defaults(patch, this.groups[id]),
         };
         return this.groups[id];
     }

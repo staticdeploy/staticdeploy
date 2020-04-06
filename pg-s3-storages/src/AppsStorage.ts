@@ -65,8 +65,6 @@ export default class AppsStorage implements IAppsStorage {
     }
 
     async deleteOne(id: string): Promise<void> {
-        await this.knex(tables.apps)
-            .where({ id })
-            .delete();
+        await this.knex(tables.apps).where({ id }).delete();
     }
 }

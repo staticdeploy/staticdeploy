@@ -1,6 +1,6 @@
 const React = require("react");
 
-const Button = props => (
+const Button = (props) => (
     <div className="pluginWrapper buttonWrapper">
         <a
             className="button"

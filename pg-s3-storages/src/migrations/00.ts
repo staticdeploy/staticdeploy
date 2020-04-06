@@ -8,17 +8,14 @@ import tables from "../common/tables";
  */
 export function up(knex: Knex) {
     return knex.schema
-        .createTable(tables.apps, table => {
+        .createTable(tables.apps, (table) => {
             table.string("id").primary();
-            table
-                .string("name")
-                .unique()
-                .notNullable();
+            table.string("name").unique().notNullable();
             table.json("defaultConfiguration").notNullable();
             table.timestamp("createdAt").notNullable();
             table.timestamp("updatedAt").notNullable();
         })
-        .createTable(tables.bundles, table => {
+        .createTable(tables.bundles, (table) => {
             table.string("id").primary();
             table.string("name").notNullable();
             table.string("tag").notNullable();
@@ -30,12 +27,9 @@ export function up(knex: Knex) {
             table.integer("fallbackStatusCode").notNullable();
             table.timestamp("createdAt").notNullable();
         })
-        .createTable(tables.entrypoints, table => {
+        .createTable(tables.entrypoints, (table) => {
             table.string("id").primary();
-            table
-                .string("urlMatcher")
-                .unique()
-                .notNullable();
+            table.string("urlMatcher").unique().notNullable();
             table
                 .string("appId")
                 .notNullable()
@@ -52,7 +46,7 @@ export function up(knex: Knex) {
             table.timestamp("createdAt").notNullable();
             table.timestamp("updatedAt").notNullable();
         })
-        .createTable(tables.operationLogs, table => {
+        .createTable(tables.operationLogs, (table) => {
             table.string("id").primary();
             table.string("operation").notNullable();
             table.json("parameters").notNullable();

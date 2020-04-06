@@ -27,7 +27,7 @@ class AppsList extends React.Component<Props> {
                 history={this.props.history}
                 trigger={<ODItem icon="plus" label="Create app" />}
                 refetchAppsList={this.props.refetch}
-            />
+            />,
         ];
     }
     render() {
@@ -36,8 +36,8 @@ class AppsList extends React.Component<Props> {
                 <AppsLinksList
                     title="Apps"
                     items={this.props.result}
-                    getDescription={app => app.name}
-                    getHref={app => `/apps/${app.id}`}
+                    getDescription={(app) => app.name}
+                    getHref={(app) => `/apps/${app.id}`}
                 />
             </Page>
         );
@@ -45,7 +45,7 @@ class AppsList extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: staticdeploy => staticdeploy.apps.getAll(),
+    fetchData: (staticdeploy) => staticdeploy.apps.getAll(),
     // Refetch when:
     shouldRefetch: (oldProps, newProps) =>
         // - the user was on the app detail page, and switched to the apps list
@@ -57,5 +57,5 @@ export default withData({
         isNil(newProps.match.params.appId),
     spinnerSize: "large",
     spinnerTip: "Fetching apps...",
-    Component: AppsList
+    Component: AppsList,
 });

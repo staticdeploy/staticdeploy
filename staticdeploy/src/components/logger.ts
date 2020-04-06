@@ -8,5 +8,5 @@ export default (config: IConfig): Logger =>
         streams:
             config.nodeEnv === "test"
                 ? []
-                : [{ level: config.logLevel, stream: process.stdout }]
+                : [{ level: config.logLevel, stream: process.stdout }],
     });

@@ -24,7 +24,7 @@ describe("managementApiAdapter POST /users", () => {
                 idpId: "idpId",
                 type: "human",
                 name: "name",
-                groupsIds: []
+                groupsIds: [],
             })
             .expect(201)
             .expect({});
@@ -33,7 +33,7 @@ describe("managementApiAdapter POST /users", () => {
             idpId: "idpId",
             type: "human",
             name: "name",
-            groupsIds: []
+            groupsIds: [],
         });
     });
 });

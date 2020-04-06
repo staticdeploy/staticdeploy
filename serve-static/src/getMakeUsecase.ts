@@ -3,7 +3,7 @@ import {
     IAuthenticationStrategy,
     IRequestContext,
     IStorages,
-    IUsecaseConfig
+    IUsecaseConfig,
 } from "@staticdeploy/core";
 import { IUsecasesByName } from "@staticdeploy/http-adapters";
 

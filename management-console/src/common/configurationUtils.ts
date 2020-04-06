@@ -35,7 +35,7 @@ export function getErrors(kvPairs?: IKVPair[]): any[] | undefined {
         return undefined;
     }
     getDuplicateKeys(kvPairs).forEach(({ indexes }) => {
-        indexes.forEach(index => {
+        indexes.forEach((index) => {
             set(errors, `[${index}].key`, "Duplicate");
         });
     });

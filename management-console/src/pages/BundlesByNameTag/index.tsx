@@ -30,7 +30,7 @@ class BundlesByNameTag extends React.Component<Props> {
                 bundleTag={bundleTag}
                 history={history}
                 trigger={<ODItem icon="delete" label="Delete bundles" />}
-            />
+            />,
         ];
     }
     render() {
@@ -57,5 +57,5 @@ export default withData({
         oldProps.match.params.bundleTag !== newProps.match.params.bundleTag,
     spinnerSize: "large",
     spinnerTip: "Fetching bundles...",
-    Component: BundlesByNameTag
+    Component: BundlesByNameTag,
 });

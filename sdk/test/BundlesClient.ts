@@ -6,7 +6,7 @@ import StaticdeployClient from "../src";
 const baseUrl = "http://localhost";
 const staticdeployClient = new StaticdeployClient({
     apiUrl: baseUrl,
-    apiToken: null
+    apiToken: null,
 });
 
 beforeEach(() => {
@@ -16,16 +16,12 @@ beforeEach(() => {
 describe("BundlesClient", () => {
     describe("getNames", () => {
         it("requests GET /bundleNames", async () => {
-            const scope = nock(baseUrl)
-                .get("/bundleNames")
-                .reply(200, []);
+            const scope = nock(baseUrl).get("/bundleNames").reply(200, []);
             await staticdeployClient.bundles.getNames();
             scope.done();
         });
         it("returns a list of bundles names", async () => {
-            nock(baseUrl)
-                .get("/bundleNames")
-                .reply(200, []);
+            nock(baseUrl).get("/bundleNames").reply(200, []);
             const bundleNames = await staticdeployClient.bundles.getNames();
             expect(bundleNames).to.deep.equal([]);
         });
@@ -40,9 +36,7 @@ describe("BundlesClient", () => {
             scope.done();
         });
         it("returns a list of bundles tags", async () => {
-            nock(baseUrl)
-                .get("/bundleNames/0/bundleTags")
-                .reply(200, []);
+            nock(baseUrl).get("/bundleNames/0/bundleTags").reply(200, []);
             const bundleTags = await staticdeployClient.bundles.getTagsByName(
                 "0"
             );
@@ -72,16 +66,12 @@ describe("BundlesClient", () => {
 
     describe("getAll", () => {
         it("requests GET /bundles", async () => {
-            const scope = nock(baseUrl)
-                .get("/bundles")
-                .reply(200, []);
+            const scope = nock(baseUrl).get("/bundles").reply(200, []);
             await staticdeployClient.bundles.getAll();
             scope.done();
         });
         it("returns a list of bundles", async () => {
-            nock(baseUrl)
-                .get("/bundles")
-                .reply(200, []);
+            nock(baseUrl).get("/bundles").reply(200, []);
             const bundles = await staticdeployClient.bundles.getAll();
             expect(bundles).to.deep.equal([]);
         });
@@ -89,16 +79,12 @@ describe("BundlesClient", () => {
 
     describe("getOne", () => {
         it("requests GET /bundle/:bundleId", async () => {
-            const scope = nock(baseUrl)
-                .get("/bundles/id")
-                .reply(200);
+            const scope = nock(baseUrl).get("/bundles/id").reply(200);
             await staticdeployClient.bundles.getOne("id");
             scope.done();
         });
         it("returns the bundle with the specified id", async () => {
-            nock(baseUrl)
-                .get("/bundles/id")
-                .reply(200, {});
+            nock(baseUrl).get("/bundles/id").reply(200, {});
             const bundle = await staticdeployClient.bundles.getOne("id");
             expect(bundle).to.deep.equal({});
         });
@@ -114,7 +100,7 @@ describe("BundlesClient", () => {
                     content: "content",
                     fallbackAssetPath: "/fallback",
                     fallbackStatusCode: 200,
-                    headers: {}
+                    headers: {},
                 })
                 .reply(201);
             await staticdeployClient.bundles.create({
@@ -124,14 +110,12 @@ describe("BundlesClient", () => {
                 content: "content",
                 fallbackAssetPath: "/fallback",
                 fallbackStatusCode: 200,
-                headers: {}
+                headers: {},
             });
             scope.done();
         });
         it("returns the created bundle", async () => {
-            nock(baseUrl)
-                .post("/bundles")
-                .reply(201, {});
+            nock(baseUrl).post("/bundles").reply(201, {});
             const bundle = await staticdeployClient.bundles.create({
                 name: "name",
                 tag: "tag",
@@ -139,7 +123,7 @@ describe("BundlesClient", () => {
                 content: "content",
                 fallbackAssetPath: "/fallback",
                 fallbackStatusCode: 200,
-                headers: {}
+                headers: {},
             });
             expect(bundle).to.deep.equal({});
         });

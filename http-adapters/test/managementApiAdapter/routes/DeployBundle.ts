@@ -22,13 +22,13 @@ describe("managementApiAdapter POST /deploy", () => {
             .send({
                 appName: "appName",
                 entrypointUrlMatcher: "entrypointUrlMatcher",
-                bundleNameTagCombination: "bundleNameTagCombination"
+                bundleNameTagCombination: "bundleNameTagCombination",
             })
             .expect(204);
         expect(execMock).to.have.been.calledOnceWith({
             appName: "appName",
             entrypointUrlMatcher: "entrypointUrlMatcher",
-            bundleNameTagCombination: "bundleNameTagCombination"
+            bundleNameTagCombination: "bundleNameTagCombination",
         });
     });
 });

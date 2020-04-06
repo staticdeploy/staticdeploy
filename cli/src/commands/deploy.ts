@@ -28,39 +28,39 @@ const command: CommandModule<any, any> = {
 
                 // Return the deploy config, defaulting to an empty object
                 return config.deploy || {};
-            }
+            },
         },
         app: {
             describe: "Name of the app the entrypoint links to",
             type: "string",
-            demandOption: true
+            demandOption: true,
         },
         entrypoint: {
             describe: "urlMatcher of the entrypoint to deploy to",
             type: "string",
-            demandOption: true
+            demandOption: true,
         },
         bundle: {
             describe: "name:tag combination of the bundle to deploy",
             type: "string",
-            demandOption: true
-        }
+            demandOption: true,
+        },
     },
     handler: handleCommandHandlerErrors(async (argv: IArgv) => {
         const client = new StaticdeployClient({
             apiUrl: argv.apiUrl,
-            apiToken: argv.apiToken || null
+            apiToken: argv.apiToken || null,
         });
 
         await client.deploy({
             appName: argv.app,
             entrypointUrlMatcher: argv.entrypoint,
-            bundleNameTagCombination: argv.bundle
+            bundleNameTagCombination: argv.bundle,
         });
 
         log.success(
             `bundle ${argv.bundle} deployed to entrypoint ${argv.entrypoint}`
         );
-    })
+    }),
 };
 export default command;

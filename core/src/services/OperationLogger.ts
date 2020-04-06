@@ -19,7 +19,7 @@ export default class OperationLogger {
             operation: operation,
             parameters: parameters,
             performedBy: user ? user.id : "anonymous",
-            performedAt: new Date()
+            performedAt: new Date(),
         });
     }
 }

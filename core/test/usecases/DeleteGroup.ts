@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import {
     GroupHasUsersError,
-    GroupNotFoundError
+    GroupNotFoundError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import DeleteGroup from "../../src/usecases/DeleteGroup";

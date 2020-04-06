@@ -9,10 +9,10 @@ export const builder: { [name: string]: Options } = {
     apiUrl: {
         describe: "Api server url",
         type: "string",
-        demandOption: true
+        demandOption: true,
     },
     apiToken: {
         describe: "Api server auth token",
-        type: "string"
-    }
+        type: "string",
+    },
 };

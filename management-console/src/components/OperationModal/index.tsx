@@ -16,7 +16,7 @@ export enum OperationStatus {
     NotStarted,
     Started,
     Succeeded,
-    Failed
+    Failed,
 }
 
 type SuccessMessageFunction<Result> = (result: Result) => React.ReactNode;
@@ -57,14 +57,14 @@ export default class OperationModal<Result> extends React.Component<
         startOperationButtonText: "Start operation",
         afterSuccessCloseButtonText: "Close",
         successMessage: "Operation succeeded",
-        width: 780
+        width: 780,
     };
     context!: React.ContextType<typeof StaticdeployClientContext>;
     state: IState<Result> = {
         modalOpen: false,
         status: OperationStatus.NotStarted,
         result: null,
-        error: null
+        error: null,
     };
     openModal = () => this.setState({ modalOpen: true });
     closeModal = (evt: React.SyntheticEvent<any>) => {
@@ -75,7 +75,7 @@ export default class OperationModal<Result> extends React.Component<
             modalOpen: false,
             status: OperationStatus.NotStarted,
             result: null,
-            error: null
+            error: null,
         });
     };
     closeAfterSuccess = (evt: React.SyntheticEvent<any>) => {
@@ -89,7 +89,7 @@ export default class OperationModal<Result> extends React.Component<
             this.setState({
                 status: OperationStatus.Started,
                 result: null,
-                error: null
+                error: null,
             });
             // We wait a bit (15ms) for the state to have been set and for the
             // component to have re-rendered, so that the
@@ -101,13 +101,13 @@ export default class OperationModal<Result> extends React.Component<
             this.setState({
                 status: OperationStatus.Succeeded,
                 result: result,
-                error: null
+                error: null,
             });
         } catch (err) {
             this.setState({
                 status: OperationStatus.Failed,
                 result: null,
-                error: err
+                error: err,
             });
         }
     };

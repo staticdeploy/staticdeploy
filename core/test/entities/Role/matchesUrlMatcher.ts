@@ -51,7 +51,7 @@ describe("Role entity util matchesUrlMatcher", () => {
             ["*example.com/sub/", "example.com/other/", false],
             // Tricky cases
             ["*example.com/", "xample.com/", false],
-            ["*.example.com/", "example.com/sub.example.com/", false]
+            ["*.example.com/", "example.com/sub.example.com/", false],
         ];
         testCases.forEach(([urlMatcherMatcher, urlMatcher, expectedResult]) => {
             const matchesOrNot = expectedResult ? "matches" : "doesn't match";

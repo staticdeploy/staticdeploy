@@ -1,17 +1,17 @@
 import {
     AppNotFoundError,
     BundleNotFoundError,
-    ConflictingEntrypointError
+    ConflictingEntrypointError,
 } from "../common/errors";
 import generateId from "../common/generateId";
 import Usecase from "../common/Usecase";
 import {
     IConfiguration,
-    validateConfiguration
+    validateConfiguration,
 } from "../entities/Configuration";
 import {
     IEntrypoint,
-    validateEntrypointUrlMatcher
+    validateEntrypointUrlMatcher,
 } from "../entities/Entrypoint";
 import { Operation } from "../entities/OperationLog";
 
@@ -69,12 +69,12 @@ export default class CreateEntrypoint extends Usecase {
             urlMatcher: partial.urlMatcher,
             configuration: partial.configuration || null,
             createdAt: now,
-            updatedAt: now
+            updatedAt: now,
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.CreateEntrypoint, {
-            createdEntrypoint
+            createdEntrypoint,
         });
 
         return createdEntrypoint;

@@ -17,9 +17,9 @@ const bodySchema = {
     type: "object",
     properties: {
         name: { type: "string" },
-        groupsIds: { type: "array", items: { type: "string" } }
+        groupsIds: { type: "array", items: { type: "string" } },
     },
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -32,22 +32,22 @@ export default convroute({
             name: "userId",
             in: "path",
             required: true,
-            type: "string"
+            type: "string",
         },
         {
             name: "patch",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
         "200": { description: "User updated, returns the user" },
-        "404": { description: "User or group(s) not found" }
+        "404": { description: "User or group(s) not found" },
     },
     handler: async (req: IRequest, res) => {
         const updateUser = req.makeUsecase("updateUser");
         const updatedUser = await updateUser.exec(req.params.userId, req.body);
         res.status(200).send(updatedUser);
-    }
+    },
 });

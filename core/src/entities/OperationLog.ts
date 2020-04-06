@@ -21,7 +21,7 @@ export enum Operation {
     // Users
     CreateUser = "users:create",
     UpdateUser = "users:update",
-    DeleteUser = "users:delete"
+    DeleteUser = "users:delete",
 }
 
 export interface IOperationLog {

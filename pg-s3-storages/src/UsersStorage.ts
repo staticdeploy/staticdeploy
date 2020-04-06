@@ -3,7 +3,7 @@ import {
     IUsersStorage,
     IUserWithGroups,
     IUserWithRoles,
-    UserType
+    UserType,
 } from "@staticdeploy/core";
 import Knex from "knex";
 import { flatMap, omit } from "lodash";
@@ -47,7 +47,7 @@ export default class UsersStorage implements IUsersStorage {
     ): Promise<IUserWithRoles | null> {
         const [user] = await this.knex(tables.users).where({
             idp,
-            idpId
+            idpId,
         });
         if (!user) {
             return null;
@@ -99,9 +99,9 @@ export default class UsersStorage implements IUsersStorage {
             .insert(UsersStorage.omitGroupsIds(toBeCreatedUser))
             .returning("*");
         await this.knex(tables.usersAndGroups).insert(
-            toBeCreatedUser.groupsIds.map(groupId => ({
+            toBeCreatedUser.groupsIds.map((groupId) => ({
                 userId: toBeCreatedUser.id,
-                groupId: groupId
+                groupId: groupId,
             }))
         );
         return createdUser;
@@ -121,9 +121,9 @@ export default class UsersStorage implements IUsersStorage {
             .returning("*");
         if (patch.groupsIds) {
             await this.knex(tables.usersAndGroups).insert(
-                patch.groupsIds.map(groupId => ({
+                patch.groupsIds.map((groupId) => ({
                     userId: id,
-                    groupId: groupId
+                    groupId: groupId,
                 }))
             );
             await this.knex(tables.usersAndGroups)
@@ -135,8 +135,6 @@ export default class UsersStorage implements IUsersStorage {
     }
 
     async deleteOne(id: string): Promise<void> {
-        await this.knex(tables.users)
-            .where({ id })
-            .delete();
+        await this.knex(tables.users).where({ id }).delete();
     }
 }

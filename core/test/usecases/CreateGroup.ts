@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import {
     ConflictingGroupError,
-    RoleNotValidError
+    RoleNotValidError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateGroup from "../../src/usecases/CreateGroup";
@@ -14,7 +14,7 @@ describe("usecase CreateGroup", () => {
         const createGroup = new CreateGroup(getMockDependencies());
         const createGroupPromise = createGroup.exec({
             name: "name",
-            roles: ["not-valid"]
+            roles: ["not-valid"],
         });
         await expect(createGroupPromise).to.be.rejectedWith(RoleNotValidError);
         await expect(createGroupPromise).to.be.rejectedWith(
@@ -28,7 +28,7 @@ describe("usecase CreateGroup", () => {
         const createGroup = new CreateGroup(deps);
         const createGroupPromise = createGroup.exec({
             name: "name",
-            roles: []
+            roles: [],
         });
         await expect(createGroupPromise).to.be.rejectedWith(
             ConflictingGroupError
@@ -47,7 +47,7 @@ describe("usecase CreateGroup", () => {
             name: "name",
             roles: ["root"],
             createdAt: sinon.match.date,
-            updatedAt: sinon.match.date
+            updatedAt: sinon.match.date,
         });
     });
 
@@ -69,7 +69,7 @@ describe("usecase CreateGroup", () => {
         const createGroup = new CreateGroup(deps);
         const createdGroup = await createGroup.exec({
             name: "name",
-            roles: []
+            roles: [],
         });
         expect(createdGroup).to.equal(mockCreatedGroup);
     });

@@ -7,18 +7,14 @@ import tables from "../common/tables";
  */
 export function up(knex: Knex) {
     return knex.schema
-        .createTable(tables.groups, table => {
+        .createTable(tables.groups, (table) => {
             table.string("id").primary();
-            table
-                .string("name")
-                .unique()
-                .notNullable()
-                .index();
+            table.string("name").unique().notNullable().index();
             table.specificType("roles", "varchar(255)[]").notNullable();
             table.timestamp("createdAt").notNullable();
             table.timestamp("updatedAt").notNullable();
         })
-        .createTable(tables.users, table => {
+        .createTable(tables.users, (table) => {
             table.string("id").primary();
             table.string("idp").notNullable();
             table.string("idpId").notNullable();
@@ -28,7 +24,7 @@ export function up(knex: Knex) {
             table.timestamp("createdAt").notNullable();
             table.timestamp("updatedAt").notNullable();
         })
-        .createTable(tables.usersAndGroups, table => {
+        .createTable(tables.usersAndGroups, (table) => {
             table
                 .string("userId")
                 .notNullable()

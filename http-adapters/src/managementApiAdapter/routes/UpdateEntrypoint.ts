@@ -18,16 +18,16 @@ const bodySchema = {
     type: "object",
     properties: {
         bundleId: {
-            $oneOf: [{ type: "string" }, { type: "null" }]
+            $oneOf: [{ type: "string" }, { type: "null" }],
         },
         redirectTo: {
-            $oneOf: [{ type: "string" }, { type: "null" }]
+            $oneOf: [{ type: "string" }, { type: "null" }],
         },
         configuration: {
-            $oneOf: [{ type: "object" }, { type: "null" }]
-        }
+            $oneOf: [{ type: "object" }, { type: "null" }],
+        },
     },
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -40,21 +40,23 @@ export default convroute({
             name: "entrypointId",
             in: "path",
             required: true,
-            type: "string"
+            type: "string",
         },
         {
             name: "patch",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
         "200": { description: "Entrypoint updated, returns the entrypoint" },
         "404": {
-            description: "Entrypoint, linked app, or linked bundle not found"
+            description: "Entrypoint, linked app, or linked bundle not found",
         },
-        "409": { description: "Entrypoint with same urlMatcher already exists" }
+        "409": {
+            description: "Entrypoint with same urlMatcher already exists",
+        },
     },
     handler: async (req: IRequest, res) => {
         const updateEntrypoint = req.makeUsecase("updateEntrypoint");
@@ -63,5 +65,5 @@ export default convroute({
             req.body
         );
         res.status(200).send(updatedEntrypoint);
-    }
+    },
 });

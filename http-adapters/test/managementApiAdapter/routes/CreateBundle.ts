@@ -26,7 +26,7 @@ describe("managementApiAdapter POST /bundles", () => {
                 content: Buffer.from("content").toString("base64"),
                 fallbackAssetPath: "/fallbackAssetPath",
                 fallbackStatusCode: 404,
-                headers: {}
+                headers: {},
             })
             .expect(201)
             .expect({ name: "name", tag: "tag" });
@@ -37,7 +37,7 @@ describe("managementApiAdapter POST /bundles", () => {
             content: Buffer.from("content"),
             fallbackAssetPath: "/fallbackAssetPath",
             fallbackStatusCode: 404,
-            headers: {}
+            headers: {},
         });
     });
 });

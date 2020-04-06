@@ -17,16 +17,16 @@ export default convroute({
             name: "userId",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "204": { description: "User deleted, returns nothing" },
-        "404": { description: "User not found" }
+        "404": { description: "User not found" },
     },
     handler: async (req: IRequest, res) => {
         const deleteUser = req.makeUsecase("deleteUser");
         await deleteUser.exec(req.params.userId);
         res.status(204).send();
-    }
+    },
 });

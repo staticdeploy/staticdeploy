@@ -4,7 +4,7 @@ import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
 import EntrypointForm, {
-    IEntrypointFormInstance
+    IEntrypointFormInstance,
 } from "../../components/EntrypointForm";
 import BaseOperationModal from "../../components/OperationModal";
 
@@ -29,7 +29,7 @@ export default class EntrypointEditOperationModal extends React.Component<
         return staticdeploy.entrypoints.update(this.props.entrypoint.id, {
             bundleId: values.bundleId,
             redirectTo: values.redirectTo,
-            configuration: values.configuration
+            configuration: values.configuration,
         });
     };
     refetchEntrypointDetail = () => this.props.refetchEntrypointDetail();
@@ -51,7 +51,7 @@ export default class EntrypointEditOperationModal extends React.Component<
                 <EntrypointForm
                     isEditForm={true}
                     initialValues={this.props.entrypoint}
-                    ref={form => (this.form = form!)}
+                    ref={(form) => (this.form = form!)}
                 />
             </OperationModal>
         );

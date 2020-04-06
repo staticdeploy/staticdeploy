@@ -20,7 +20,7 @@ describe("usecase GetBundle", () => {
             id: "id",
             name: "name",
             tag: "tag",
-            createdAt: "createdAt"
+            createdAt: "createdAt",
         } as any;
         deps.storages.bundles.findOne.resolves(mockBundle);
         const getBundle = new GetBundle(deps);

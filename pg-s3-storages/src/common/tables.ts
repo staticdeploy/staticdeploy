@@ -5,5 +5,5 @@ export default {
     groups: "groups",
     operationLogs: "operationLogs",
     users: "users",
-    usersAndGroups: "users_groups"
+    usersAndGroups: "users_groups",
 };

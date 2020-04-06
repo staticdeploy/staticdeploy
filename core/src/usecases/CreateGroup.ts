@@ -28,12 +28,12 @@ export default class CreateGroup extends Usecase {
             name: partial.name,
             roles: partial.roles,
             createdAt: now,
-            updatedAt: now
+            updatedAt: now,
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.CreateGroup, {
-            createdGroup: createdGroup
+            createdGroup: createdGroup,
         });
 
         return createdGroup;
