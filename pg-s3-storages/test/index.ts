@@ -7,7 +7,7 @@ import tables from "../src/common/tables";
 
 // Create a pgS3Storages object with test configurations
 const pgS3Storages = new PgS3Storages({
-    postgresUrl: "postgres://postgres@localhost/postgres",
+    postgresUrl: "postgres://postgres:password@localhost/postgres",
     s3Config: {
         bucket: "test",
         endpoint: "http://localhost:9000",
