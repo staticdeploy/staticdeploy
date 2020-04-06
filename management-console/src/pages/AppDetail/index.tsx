@@ -1,3 +1,4 @@
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { IApp, IEntrypoint } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";
@@ -43,19 +44,23 @@ class AppDetail extends React.Component<Props> {
                 history={history}
                 location={location}
                 refetchAppDetail={refetch}
-                trigger={<ODItem icon="edit" label="Edit app" />}
+                trigger={<ODItem icon={<EditOutlined />} label="Edit app" />}
             />,
             <AppDeleteOperationModal
                 key="AppDeleteOperationModal"
                 app={app}
                 history={history}
-                trigger={<ODItem icon="delete" label="Delete app" />}
+                trigger={
+                    <ODItem icon={<DeleteOutlined />} label="Delete app" />
+                }
             />,
             <EntrypointCreateOperationModal
                 key="EntrypointCreateOperationModal"
                 app={app}
                 history={history}
-                trigger={<ODItem icon="plus" label="Create entrypoint" />}
+                trigger={
+                    <ODItem icon={<PlusOutlined />} label="Create entrypoint" />
+                }
                 refetchAppDetail={refetch}
             />,
         ];

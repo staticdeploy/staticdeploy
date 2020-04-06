@@ -1,7 +1,7 @@
+import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import StaticdeployClient from "@staticdeploy/sdk";
 import Button from "antd/lib/button";
 import Col from "antd/lib/col";
-import Icon from "antd/lib/icon";
 import Modal from "antd/lib/modal";
 import Row from "antd/lib/row";
 import Spin from "antd/lib/spin";
@@ -130,7 +130,7 @@ export default class OperationModal<Result> extends React.Component<
                         className="c-OperationModal-success-check-container"
                         span={4}
                     >
-                        <Icon type="check-circle-o" />
+                        <CheckCircleOutlined />
                     </Col>
                     <Col span={20}>{successContent}</Col>
                 </Row>
@@ -157,7 +157,7 @@ export default class OperationModal<Result> extends React.Component<
         return (
             <div className="c-OperationModal-footer">
                 <div className="c-OperationModal-footer-error">
-                    <Icon type="close-circle" />
+                    <CloseCircleOutlined />
                     {this.state.error && this.state.error.message}
                 </div>
                 <div className="c-OperationModal-footer-buttons">

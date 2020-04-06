@@ -17,10 +17,10 @@
     "url": "https://github.com/staticdeploy/staticdeploy/issues"
   },
   "scripts": {
-    "prettier": "prettier '@(src|test)/**/*.@(ts|tsx|css)'",
+    "prettier": "prettier '@(src|test|mock-server)/**/*.@(ts|tsx|css)'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",
-    "lint:tslint": "tslint '@(src|test)/**/*.ts?(x)'",
+    "lint:tslint": "tslint '@(src|test|mock-server)/**/*.ts?(x)'",
     "lint": "npm-run-all lint:*",
     "test": "TS_NODE_PROJECT=test/tsconfig.json TS_NODE_FILES=true NODE_ENV=test mocha --exit -t 20000 -r test/setup --extension ts,tsx 'test/**/*.ts?(x)'",
     "dev:mock-server": "TS_NODE_PROJECT=mock-server/tsconfig.json mock-server --delay 100 --watch --require ts-node/register --serveConfig",
@@ -29,6 +29,7 @@
     "compile": "PUBLIC_URL=. react-scripts build"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.0.5",
     "@staticdeploy/core": "^0.15.0",
     "@staticdeploy/sdk": "^0.15.0",
     "antd": "^4.1.1",

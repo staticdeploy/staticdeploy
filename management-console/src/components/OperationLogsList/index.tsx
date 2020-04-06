@@ -85,7 +85,8 @@ export default class OperationLogsList extends React.Component<IProps> {
                     size="small"
                     bordered={false}
                     rowKey="id"
-                    pagination={{ pageSize: 15 }}
+                    rowClassName="c-OperationLogsList-row"
+                    pagination={{ pageSize: 15, showSizeChanger: false }}
                 />
             </div>
         );

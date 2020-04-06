@@ -1,4 +1,4 @@
-import Icon from "antd/lib/icon";
+import { LogoutOutlined } from "@ant-design/icons";
 import Tooltip from "antd/lib/tooltip";
 import React from "react";
 
@@ -18,7 +18,7 @@ export default class LogoutButton extends React.Component<IProps> {
                     className="c-LogoutButton"
                     onClick={() => authService.logout()}
                 >
-                    <Icon type="logout" />
+                    <LogoutOutlined />
                 </div>
             </Tooltip>
         ) : null;

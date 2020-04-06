@@ -10,7 +10,7 @@ export default ((req, res) => {
             redirectTo: null,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            ...req.body
+            ...req.body,
         })
     );
 }) as RequestHandler;

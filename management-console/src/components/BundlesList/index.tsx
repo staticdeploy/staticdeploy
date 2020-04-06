@@ -44,7 +44,7 @@ export default class BundlesList extends React.Component<IProps> {
                             "YYYY-MM-DD HH:mm:ss Z"
                         )}
                     >
-                        {moment(createdAt).fromNow(true)}
+                        <>{moment(createdAt).fromNow(true)}</>
                     </Tooltip>
                 ),
             },
@@ -67,7 +67,12 @@ export default class BundlesList extends React.Component<IProps> {
                     size="small"
                     bordered={false}
                     rowKey="id"
-                    pagination={{ pageSize: 15, hideOnSinglePage: true }}
+                    rowClassName="c-BundlesList-row"
+                    pagination={{
+                        pageSize: 15,
+                        hideOnSinglePage: true,
+                        showSizeChanger: false,
+                    }}
                 />
             </div>
         );

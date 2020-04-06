@@ -1,3 +1,4 @@
+import { PlusOutlined } from "@ant-design/icons";
 import { IGroup } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";
@@ -25,7 +26,9 @@ class GroupsList extends React.Component<Props> {
             <GroupCreateOperationModal
                 key="GroupCreateOperationModal"
                 history={this.props.history}
-                trigger={<ODItem icon="plus" label="Create group" />}
+                trigger={
+                    <ODItem icon={<PlusOutlined />} label="Create group" />
+                }
                 refetchGroupsList={this.props.refetch}
             />,
         ];

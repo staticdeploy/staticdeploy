@@ -1,3 +1,4 @@
+import { PlusOutlined } from "@ant-design/icons";
 import { IApp } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";
@@ -25,7 +26,7 @@ class AppsList extends React.Component<Props> {
             <AppCreateOperationModal
                 key="AppCreateOperationModal"
                 history={this.props.history}
-                trigger={<ODItem icon="plus" label="Create app" />}
+                trigger={<ODItem icon={<PlusOutlined />} label="Create app" />}
                 refetchAppsList={this.props.refetch}
             />,
         ];

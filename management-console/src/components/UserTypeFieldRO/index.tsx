@@ -1,5 +1,5 @@
+import { RobotOutlined, UserOutlined } from "@ant-design/icons";
 import { UserType } from "@staticdeploy/core";
-import Icon from "antd/lib/icon";
 import upperFirst from "lodash/upperFirst";
 import React from "react";
 
@@ -16,7 +16,11 @@ export default class UserTypeFieldRO extends React.Component<IProps> {
         return (
             <div className="c-UserTypeFieldRO">
                 <h4>{title}</h4>
-                <Icon type={userType === UserType.Human ? "user" : "robot"} />
+                {userType === UserType.Human ? (
+                    <UserOutlined />
+                ) : (
+                    <RobotOutlined />
+                )}
                 <span className="c-UserTypeFieldRO-type">
                     {upperFirst(userType)}
                 </span>

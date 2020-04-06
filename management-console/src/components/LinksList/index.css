@@ -60,7 +60,6 @@
 
 .c-LinksList-item a:hover {
     background: var(--blue-1);
-    color: var(--grey-8);
 }
 
 /* Show the right arrow on hover and on link active */

@@ -1,5 +1,5 @@
+import { PlusOutlined, RobotOutlined, UserOutlined } from "@ant-design/icons";
 import { IGroup, IUser, UserType } from "@staticdeploy/core";
-import Icon from "antd/lib/icon";
 import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -32,7 +32,7 @@ class UsersList extends React.Component<Props> {
                 key="UserCreateOperationModal"
                 groups={this.props.result.groups}
                 history={this.props.history}
-                trigger={<ODItem icon="plus" label="Create user" />}
+                trigger={<ODItem icon={<PlusOutlined />} label="Create user" />}
                 refetchUsersList={this.props.refetch}
             />,
         ];
@@ -45,13 +45,11 @@ class UsersList extends React.Component<Props> {
                     items={this.props.result.users}
                     getDescription={(user) => (
                         <>
-                            <Icon
-                                type={
-                                    user.type === UserType.Human
-                                        ? "user"
-                                        : "robot"
-                                }
-                            />
+                            {user.type === UserType.Human ? (
+                                <UserOutlined />
+                            ) : (
+                                <RobotOutlined />
+                            )}
                             <span className="v-UsersList-user-name">
                                 {user.name}
                             </span>

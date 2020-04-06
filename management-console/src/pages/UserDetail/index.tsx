@@ -1,3 +1,4 @@
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { IGroup, IUserWithGroups } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -41,13 +42,15 @@ class UserDetail extends React.Component<Props> {
                 history={history}
                 location={location}
                 refetchUserDetail={refetch}
-                trigger={<ODItem icon="edit" label="Edit user" />}
+                trigger={<ODItem icon={<EditOutlined />} label="Edit user" />}
             />,
             <UserDeleteOperationModal
                 key="UserDeleteOperationModal"
                 user={user}
                 history={history}
-                trigger={<ODItem icon="delete" label="Delete user" />}
+                trigger={
+                    <ODItem icon={<DeleteOutlined />} label="Delete user" />
+                }
             />,
         ];
     }

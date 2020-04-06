@@ -8,7 +8,7 @@ export default ((req, res) => {
             defaultConfiguration: {},
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            ...req.body
+            ...req.body,
         })
     );
 }) as RequestHandler;

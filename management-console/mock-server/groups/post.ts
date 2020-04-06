@@ -7,7 +7,7 @@ export default ((req, res) => {
         group({
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            ...req.body
+            ...req.body,
         })
     );
 }) as RequestHandler;

@@ -2,13 +2,8 @@
     margin-bottom: 29px;
 }
 
-.c-ConfigurationField .ant-form-item {
-    margin: 0;
-}
-
 .c-ConfigurationField-remove-button {
     width: 100%;
-    margin-top: 3.5px;
 }
 
 .c-ConfigurationField-add-button {

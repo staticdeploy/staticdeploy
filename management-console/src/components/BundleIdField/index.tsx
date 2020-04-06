@@ -110,6 +110,7 @@ export class WrappedBundleIdField extends React.Component<
         return (
             <Form.Item
                 label={this.props.label}
+                wrapperCol={{ span: 24 }}
                 className={classnames("c-BundleIdField", this.props.className)}
                 validateStatus={displayError ? "error" : undefined}
                 help={displayError ? error : undefined}

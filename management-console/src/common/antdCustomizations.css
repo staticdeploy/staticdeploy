@@ -1,3 +1,12 @@
+/* Make Table background transparent */
+.ant-table {
+    background-color: transparent;
+}
+/* Make Table rows bottom border more visible */
+.ant-table-tbody > tr > td {
+    border-bottom-color: var(--grey-4);
+}
+
 /* Reduce FormItem label vertical spacing */
 .ant-form-item-label {
     line-height: 24px;

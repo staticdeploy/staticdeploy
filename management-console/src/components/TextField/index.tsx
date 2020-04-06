@@ -1,5 +1,5 @@
+import { QuestionCircleTwoTone } from "@ant-design/icons";
 import Form, { FormItemProps } from "antd/lib/form";
-import Icon from "antd/lib/icon";
 import Input, { InputProps } from "antd/lib/input";
 import Tooltip from "antd/lib/tooltip";
 import classnames from "classnames";
@@ -32,7 +32,10 @@ export class WrappedTextField extends React.Component<
                 placement="left"
                 title={error}
             >
-                <Icon type="question-circle-o" />
+                <QuestionCircleTwoTone
+                    // red-6 color
+                    twoToneColor="#f5222d"
+                />
             </Tooltip>
         ) : (
             // Empty span used to preserve focus when dynamically adding or
@@ -42,6 +45,7 @@ export class WrappedTextField extends React.Component<
         return (
             <Form.Item
                 label={this.props.label}
+                wrapperCol={{ span: 24 }}
                 className={classnames("c-TextField", this.props.className)}
                 validateStatus={displayError ? "error" : undefined}
                 help={displayNonInlineError ? error : undefined}

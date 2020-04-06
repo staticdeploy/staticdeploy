@@ -24,12 +24,14 @@ export class WrappedGroupsIdsField extends React.Component<
     }
     render() {
         return (
-            <Form.Item label={this.props.label}>
+            <Form.Item label={this.props.label} wrapperCol={{ span: 24 }}>
                 <Select
                     mode="multiple"
                     value={this.props.input.value}
                     onChange={this.props.input.onChange}
-                    onBlur={this.props.input.onBlur}
+                    onBlur={() =>
+                        this.props.input.onBlur(this.props.input.value)
+                    }
                 >
                     {this.renderOptions()}
                 </Select>
