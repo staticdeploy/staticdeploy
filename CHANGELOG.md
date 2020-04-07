@@ -1,3 +1,9 @@
+## 0.15.2 (April 8, 2020)
+
+Fixes:
+
+- fix OIDC token renewal logic caused by `oidc-client` library bug
+
 ## 0.15.1 (April 8, 2020)
 
 Features:
