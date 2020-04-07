@@ -34,6 +34,7 @@
     "@staticdeploy/sdk": "^0.15.0",
     "antd": "^4.1.1",
     "classnames": "^2.2.6",
+    "dayjs": "^1.8.23",
     "eventemitter3": "^4.0.0",
     "lodash": "^4.17.15",
     "oidc-client": "^1.10.1",

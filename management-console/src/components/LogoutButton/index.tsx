@@ -1,4 +1,4 @@
-import { LogoutOutlined } from "@ant-design/icons";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
 import Tooltip from "antd/lib/tooltip";
 import React from "react";
 

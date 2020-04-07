@@ -1,4 +1,4 @@
-import { DownOutlined } from "@ant-design/icons";
+import DownOutlined from "@ant-design/icons/DownOutlined";
 import Dropdown from "antd/lib/dropdown";
 import Menu from "antd/lib/menu";
 import React from "react";

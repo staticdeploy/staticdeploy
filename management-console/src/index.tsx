@@ -1,6 +1,8 @@
 import StaticdeployClient from "@staticdeploy/sdk";
 import ConfigProvider from "antd/lib/config-provider";
 import enUS from "antd/lib/locale-provider/en_US";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import compact from "lodash/compact";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -17,6 +19,8 @@ import config from "./config";
 import "./index.css";
 import reduxStore from "./reduxStore";
 import Root from "./Root";
+
+dayjs.extend(relativeTime);
 
 async function start() {
     const staticdeployClient = new StaticdeployClient({

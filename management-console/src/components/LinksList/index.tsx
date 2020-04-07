@@ -1,4 +1,4 @@
-import { RightOutlined } from "@ant-design/icons";
+import RightOutlined from "@ant-design/icons/RightOutlined";
 import Table, { ColumnProps } from "antd/lib/table";
 import React from "react";
 import { NavLink } from "react-router-dom";

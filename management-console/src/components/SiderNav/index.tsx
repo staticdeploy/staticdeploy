@@ -1,10 +1,8 @@
-import {
-    FolderOutlined,
-    GlobalOutlined,
-    ProfileOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from "@ant-design/icons";
+import FolderOutlined from "@ant-design/icons/FolderOutlined";
+import GlobalOutlined from "@ant-design/icons/GlobalOutlined";
+import ProfileOutlined from "@ant-design/icons/ProfileOutlined";
+import TeamOutlined from "@ant-design/icons/TeamOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import Menu from "antd/lib/menu";
 import * as React from "react";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";

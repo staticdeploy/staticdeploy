@@ -1,4 +1,5 @@
-import { RobotOutlined, UserOutlined } from "@ant-design/icons";
+import RobotOutlined from "@ant-design/icons/RobotOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { UserType } from "@staticdeploy/core";
 import upperFirst from "lodash/upperFirst";
 import React from "react";

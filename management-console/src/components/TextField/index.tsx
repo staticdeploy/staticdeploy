@@ -1,4 +1,4 @@
-import { QuestionCircleTwoTone } from "@ant-design/icons";
+import QuestionCircleTwoTone from "@ant-design/icons/QuestionCircleTwoTone";
 import Form, { FormItemProps } from "antd/lib/form";
 import Input, { InputProps } from "antd/lib/input";
 import Tooltip from "antd/lib/tooltip";

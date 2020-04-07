@@ -1,4 +1,4 @@
-import { KeyOutlined } from "@ant-design/icons";
+import KeyOutlined from "@ant-design/icons/KeyOutlined";
 import Button from "antd/lib/button";
 import React from "react";
 import { InjectedFormProps } from "redux-form";

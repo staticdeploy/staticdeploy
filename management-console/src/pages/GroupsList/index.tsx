@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { IGroup } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";

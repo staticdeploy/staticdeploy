@@ -1,4 +1,4 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
 import { IBundle } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";

@@ -1,4 +1,5 @@
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import CheckCircleOutlined from "@ant-design/icons/CheckCircleOutlined";
+import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
 import StaticdeployClient from "@staticdeploy/sdk";
 import Button from "antd/lib/button";
 import Col from "antd/lib/col";

@@ -1,4 +1,6 @@
-import { PlusOutlined, RobotOutlined, UserOutlined } from "@ant-design/icons";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import RobotOutlined from "@ant-design/icons/RobotOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { IGroup, IUser, UserType } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";

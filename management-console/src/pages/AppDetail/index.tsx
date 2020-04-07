@@ -1,4 +1,6 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { IApp, IEntrypoint } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";

@@ -1,4 +1,4 @@
-import { LoadingOutlined } from "@ant-design/icons";
+import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import Card from "antd/lib/card";
 import Divider from "antd/lib/divider";
 import Spin from "antd/lib/spin";
