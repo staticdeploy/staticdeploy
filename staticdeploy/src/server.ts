@@ -8,7 +8,6 @@ import getManagementRouter from "./components/managementRouter";
 import getStoragesModule from "./components/storagesModule";
 import config from "./config";
 import createRootUserAndGroup from "./init/createRootUserAndGroup";
-import setupAuthenticationStrategies from "./init/setupAuthenticationStrategies";
 import setupStorages from "./init/setupStorages";
 
 (async () => {
@@ -32,7 +31,6 @@ import setupStorages from "./init/setupStorages";
         });
 
         // Run init functions
-        await setupAuthenticationStrategies(authenticationStrategies);
         await setupStorages(storagesModule);
         await createRootUserAndGroup(config, storagesModule.getStorages());
 

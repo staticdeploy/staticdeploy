@@ -20,7 +20,8 @@ export default (config: IConfig, logger: Logger): IAuthenticationStrategy[] => {
         authenticationStrategies.push(
             new OidcAuthenticationStrategy(
                 config.oidcConfigurationUrl,
-                config.oidcClientId
+                config.oidcClientId,
+                logger
             )
         );
     }
