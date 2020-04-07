@@ -12,6 +12,7 @@
             "@types/express",
             "@types/faker",
             "@types/jsdom-global",
+            "@types/jwt-decode",
             "@types/lodash",
             "@types/mocha",
             "@types/node",

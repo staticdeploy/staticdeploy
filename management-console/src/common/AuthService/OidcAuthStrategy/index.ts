@@ -72,7 +72,8 @@ export default class OidcAuthStrategy implements IAuthStrategy {
             return null;
         }
 
-        if (isAuthTokenExpired(user.expires_at)) {
+        // We can't use user.expires_at because oidc-client fails to populate it
+        if (isAuthTokenExpired(user.id_token)) {
             try {
                 user = await this.userManager.signinSilent({
                     login_hint: getLoginHint(user),
