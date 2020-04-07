@@ -11,6 +11,7 @@
             "@types/enzyme-adapter-react-16",
             "@types/express",
             "@types/faker",
+            "@types/jsdom-global",
             "@types/lodash",
             "@types/mocha",
             "@types/node",
