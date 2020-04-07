@@ -1,3 +1,13 @@
+## 0.15.1 (April 8, 2020)
+
+Features:
+
+- slight design update of the Management Console
+
+Fixes:
+
+- make the OIDC authentication strategy handle JWKS rollovers
+
 ## 0.15.0 (January 24, 2020)
 
 Features:
