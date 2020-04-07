@@ -11,21 +11,19 @@ export default function managementApiAdapter(options: {
     const convexpressOptions = {
         info: {
             title: options.serviceName,
-            version: options.serviceVersion
+            version: options.serviceVersion,
         },
         host: options.serviceHost,
         bodyParserOptions: {
             limit: "100mb",
-            strict: false
+            strict: false,
         },
-        basePath: options.serviceBasePath
+        basePath: options.serviceBasePath,
     };
     const isCurrentFileTs = extname(__filename) === ".ts";
     const router = convexpress(convexpressOptions)
         .serveSwagger()
         .loadFrom(`${__dirname}/routes/*.${isCurrentFileTs ? "ts" : "js"}`);
 
-    return express()
-        .disable("x-powered-by")
-        .use(router);
+    return express().disable("x-powered-by").use(router);
 }

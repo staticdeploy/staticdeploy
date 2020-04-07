@@ -11,18 +11,18 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     asset: htmlWithConfig,
-                    fallback: "fallback"
+                    fallback: "fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
-            }
+                bundleFallbackAssetPath: "/fallback",
+            },
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/asset",
                 expectedStatusCode: 200,
-                expectedBody: htmlWithConfig
-            }
-        ]
+                expectedBody: htmlWithConfig,
+            },
+        ],
     });
 
     test(
@@ -34,24 +34,24 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     defaultConfiguration: { KEY: "DEFAULT_VALUE" },
                     bundleContent: {
                         "asset.html": htmlWithConfig,
-                        fallback: "fallback"
+                        fallback: "fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
-                }
+                    bundleFallbackAssetPath: "/fallback",
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/asset.html",
                     expectedStatusCode: 200,
-                    expectedBody: body => {
+                    expectedBody: (body) => {
                         const APP_CONFIG = extractAppConfig(body);
                         expect(APP_CONFIG).to.have.property(
                             "KEY",
                             "DEFAULT_VALUE"
                         );
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         }
     );
 
@@ -64,31 +64,31 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                 bundleContent: {
                     "asset.html": htmlWithConfig,
                     nested: {
-                        "index.html": htmlWithConfig
+                        "index.html": htmlWithConfig,
                     },
-                    fallback: "fallback"
+                    fallback: "fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
-            }
+                bundleFallbackAssetPath: "/fallback",
+            },
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/asset.html",
                 expectedStatusCode: 200,
-                expectedBody: body => {
+                expectedBody: (body) => {
                     const APP_CONFIG = extractAppConfig(body);
                     expect(APP_CONFIG).to.have.property("KEY", "VALUE");
-                }
+                },
             },
             {
                 requestedUrl: "domain.com/nested",
                 expectedStatusCode: 200,
-                expectedBody: body => {
+                expectedBody: (body) => {
                     const APP_CONFIG = extractAppConfig(body);
                     expect(APP_CONFIG).to.have.property("KEY", "VALUE");
-                }
-            }
-        ]
+                },
+            },
+        ],
     });
 
     test(
@@ -98,58 +98,58 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                 {
                     urlMatcher: "domain.com/",
                     bundleContent: {
-                        "index.html": htmlWithConfig
+                        "index.html": htmlWithConfig,
                     },
-                    bundleFallbackAssetPath: "/index.html"
+                    bundleFallbackAssetPath: "/index.html",
                 },
                 {
                     urlMatcher: "domain.com/path/",
                     bundleContent: {
-                        "index.html": htmlWithConfig
+                        "index.html": htmlWithConfig,
                     },
-                    bundleFallbackAssetPath: "/index.html"
-                }
+                    bundleFallbackAssetPath: "/index.html",
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/",
                     expectedStatusCode: 200,
-                    expectedBody: body => {
+                    expectedBody: (body) => {
                         const APP_CONFIG = extractAppConfig(body);
                         expect(APP_CONFIG).to.have.property("BASE_PATH", "/");
-                    }
+                    },
                 },
                 {
                     requestedUrl: "domain.com/nested",
                     expectedStatusCode: 200,
-                    expectedBody: body => {
+                    expectedBody: (body) => {
                         const APP_CONFIG = extractAppConfig(body);
                         expect(APP_CONFIG).to.have.property("BASE_PATH", "/");
-                    }
+                    },
                 },
                 {
                     requestedUrl: "domain.com/path/",
                     expectedStatusCode: 200,
-                    expectedBody: body => {
+                    expectedBody: (body) => {
                         const APP_CONFIG = extractAppConfig(body);
                         expect(APP_CONFIG).to.have.property(
                             "BASE_PATH",
                             "/path/"
                         );
-                    }
+                    },
                 },
                 {
                     requestedUrl: "domain.com/path/nested",
                     expectedStatusCode: 200,
-                    expectedBody: body => {
+                    expectedBody: (body) => {
                         const APP_CONFIG = extractAppConfig(body);
                         expect(APP_CONFIG).to.have.property(
                             "BASE_PATH",
                             "/path/"
                         );
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         }
     );
 
@@ -161,37 +161,37 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     urlMatcher: "csp.com/simple/",
                     configuration: { KEY: "VALUE" },
                     bundleContent: {
-                        "index.html": htmlWithConfig
+                        "index.html": htmlWithConfig,
                     },
                     bundleHeaders: {
                         "/index.html": {
-                            "content-security-policy": "default-src 'self'"
-                        }
+                            "content-security-policy": "default-src 'self'",
+                        },
                     },
-                    bundleFallbackAssetPath: "/index.html"
+                    bundleFallbackAssetPath: "/index.html",
                 },
                 {
                     urlMatcher: "csp.com/complex/",
                     configuration: { KEY: "VALUE" },
                     bundleContent: {
-                        "index.html": htmlWithConfig
+                        "index.html": htmlWithConfig,
                     },
                     bundleHeaders: {
                         "/index.html": {
                             "content-security-policy":
-                                "default-src 'self'; script-src 'sha256-aaa'"
-                        }
+                                "default-src 'self'; script-src 'sha256-aaa'",
+                        },
                     },
-                    bundleFallbackAssetPath: "/index.html"
+                    bundleFallbackAssetPath: "/index.html",
                 },
                 {
                     urlMatcher: "no-csp.com/",
                     configuration: { KEY: "VALUE" },
                     bundleContent: {
-                        "index.html": htmlWithConfig
+                        "index.html": htmlWithConfig,
                     },
-                    bundleFallbackAssetPath: "/index.html"
-                }
+                    bundleFallbackAssetPath: "/index.html",
+                },
             ],
             testCases: [
                 {
@@ -200,8 +200,8 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedHeaders: {
                         "content-type": "text/html",
                         "content-security-policy":
-                            "default-src 'self'; script-src 'sha256-lU2WXEPqWduFTew3wM9rTvhhDENamUsesYK0WO0AYJY='"
-                    }
+                            "default-src 'self'; script-src 'sha256-lU2WXEPqWduFTew3wM9rTvhhDENamUsesYK0WO0AYJY='",
+                    },
                 },
                 {
                     requestedUrl: "csp.com/complex/",
@@ -209,20 +209,20 @@ describe("usecase RespondToEndpointRequest (configuration)", () => {
                     expectedHeaders: {
                         "content-type": "text/html",
                         "content-security-policy":
-                            "default-src 'self'; script-src 'sha256-aaa' 'sha256-8D20jdHeeIMyl5CzK1k7/JR35VYjJ8FGMuswHptw7no='"
-                    }
+                            "default-src 'self'; script-src 'sha256-aaa' 'sha256-8D20jdHeeIMyl5CzK1k7/JR35VYjJ8FGMuswHptw7no='",
+                    },
                 },
                 // Also test that the header is not added if not already present
                 {
                     requestedUrl: "no-csp.com/",
                     expectedStatusCode: 200,
-                    expectedHeaders: headers => {
+                    expectedHeaders: (headers) => {
                         expect(headers).not.to.have.property(
                             "content-security-policy"
                         );
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         }
     );
 });

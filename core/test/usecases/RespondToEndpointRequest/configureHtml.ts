@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { load } from "cheerio";
 
 import configureHtml, {
-    SELECTOR
+    SELECTOR,
 } from "../../../src/usecases/RespondToEndpointRequest/configureHtml";
 
 describe("configureHtml", () => {

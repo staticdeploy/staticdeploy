@@ -7,8 +7,8 @@ describe("Entrypoint entity validator isEntrypointUrlMatcherValid", () => {
         [
             "domain.com/",
             "domain.com/path/",
-            "subdomain.domain.com/path/subpath/"
-        ].forEach(urlMatcher => {
+            "subdomain.domain.com/path/subpath/",
+        ].forEach((urlMatcher) => {
             it(`case: ${urlMatcher}`, () => {
                 expect(isEntrypointUrlMatcherValid(urlMatcher)).to.equal(true);
             });
@@ -20,8 +20,8 @@ describe("Entrypoint entity validator isEntrypointUrlMatcherValid", () => {
             "http://domain.com/",
             "domain.com",
             "domain.com/path",
-            "domain.com/path/../subpath/"
-        ].forEach(urlMatcher => {
+            "domain.com/path/../subpath/",
+        ].forEach((urlMatcher) => {
             it(`case: ${urlMatcher}`, () => {
                 expect(isEntrypointUrlMatcherValid(urlMatcher)).to.equal(false);
             });

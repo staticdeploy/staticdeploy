@@ -13,8 +13,8 @@ describe("ITarArchiver", () => {
             { path: "/nested/file", content: Buffer.from("/nested/file") },
             {
                 path: "/deeply/nested/file",
-                content: Buffer.from("/deeply/nested/file")
-            }
+                content: Buffer.from("/deeply/nested/file"),
+            },
         ];
         const archive = await tarArchiver.makeArchive(files);
         const extractedFiles = await tarArchiver.extractFiles(archive);
@@ -26,7 +26,7 @@ describe("ITarArchiver", () => {
         createTree(directoryToArchivePath, {
             file: "/file",
             nested: { file: "/nested/file" },
-            deeply: { nested: { file: "/deeply/nested/file" } }
+            deeply: { nested: { file: "/deeply/nested/file" } },
         });
         const archive = await tarArchiver.makeArchiveFromPath(
             directoryToArchivePath
@@ -38,8 +38,8 @@ describe("ITarArchiver", () => {
             { path: "/nested/file", content: Buffer.from("/nested/file") },
             {
                 path: "/deeply/nested/file",
-                content: Buffer.from("/deeply/nested/file")
-            }
+                content: Buffer.from("/deeply/nested/file"),
+            },
         ]);
     });
 });

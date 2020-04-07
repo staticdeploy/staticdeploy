@@ -1,3 +1,5 @@
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
 import { IGroup } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -27,7 +29,7 @@ class GroupDetail extends React.Component<Props> {
             history,
             location,
             refetch,
-            result: { group }
+            result: { group },
         } = this.props;
         return [
             <GroupEditOperationModal
@@ -36,14 +38,16 @@ class GroupDetail extends React.Component<Props> {
                 history={history}
                 location={location}
                 refetchGroupDetail={refetch}
-                trigger={<ODItem icon="edit" label="Edit group" />}
+                trigger={<ODItem icon={<EditOutlined />} label="Edit group" />}
             />,
             <GroupDeleteOperationModal
                 key="GroupDeleteOperationModal"
                 group={group}
                 history={history}
-                trigger={<ODItem icon="delete" label="Delete group" />}
-            />
+                trigger={
+                    <ODItem icon={<DeleteOutlined />} label="Delete group" />
+                }
+            />,
         ];
     }
     render() {
@@ -69,5 +73,5 @@ export default withData({
         oldProps.match.params.groupId !== newProps.match.params.groupId,
     spinnerSize: "large",
     spinnerTip: "Fetching group details...",
-    Component: GroupDetail
+    Component: GroupDetail,
 });

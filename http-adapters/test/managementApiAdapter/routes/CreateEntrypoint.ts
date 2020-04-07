@@ -19,7 +19,7 @@ describe("managementApiAdapter POST /entrypoints", () => {
             .stub()
             .resolves({ appId: "appId", urlMatcher: "example.com/" });
         const server = await getManagementApiAdapter({
-            createEntrypoint: execMock
+            createEntrypoint: execMock,
         });
         await request(server)
             .post("/entrypoints")
@@ -28,7 +28,7 @@ describe("managementApiAdapter POST /entrypoints", () => {
             .expect({ appId: "appId", urlMatcher: "example.com/" });
         expect(execMock).to.have.been.calledOnceWith({
             appId: "appId",
-            urlMatcher: "example.com/"
+            urlMatcher: "example.com/",
         });
     });
 });

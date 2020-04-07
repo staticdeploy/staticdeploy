@@ -9,10 +9,10 @@ describe("staticServerAdapter staticRoute", () => {
         const execMock = sinon.stub().resolves({
             statusCode: 200,
             headers: { "x-test-key": "value" },
-            body: "body"
+            body: "body",
         });
         const server = getStaticServerAdapterServer({
-            respondToEndpointRequest: execMock
+            respondToEndpointRequest: execMock,
         });
         return request(server)
             .get("/")
@@ -27,7 +27,7 @@ describe("staticServerAdapter staticRoute", () => {
                 .stub()
                 .resolves({ statusCode: 200, headers: {} });
             const server = getStaticServerAdapterServer({
-                respondToEndpointRequest: execMock
+                respondToEndpointRequest: execMock,
             });
             await request(server)
                 .get("/")
@@ -35,7 +35,7 @@ describe("staticServerAdapter staticRoute", () => {
                 .expect(200);
             expect(execMock).to.have.been.calledOnceWith({
                 hostname: "example.com",
-                path: "/"
+                path: "/",
             });
         });
 
@@ -53,7 +53,7 @@ describe("staticServerAdapter staticRoute", () => {
                 .expect(200);
             expect(execMock).to.have.been.calledOnceWith({
                 hostname: "example.com",
-                path: "/basePath/"
+                path: "/basePath/",
             });
         });
 
@@ -62,7 +62,7 @@ describe("staticServerAdapter staticRoute", () => {
                 .stub()
                 .resolves({ statusCode: 200, headers: {} });
             const server = getStaticServerAdapterServer({
-                respondToEndpointRequest: execMock
+                respondToEndpointRequest: execMock,
             });
             await request(server)
                 .get("/")
@@ -70,7 +70,7 @@ describe("staticServerAdapter staticRoute", () => {
                 .expect(200);
             expect(execMock).to.have.been.calledOnceWith({
                 hostname: "example.com",
-                path: "/"
+                path: "/",
             });
         });
 
@@ -88,7 +88,7 @@ describe("staticServerAdapter staticRoute", () => {
                 .expect(200);
             expect(execMock).to.have.been.calledOnceWith({
                 hostname: "example.com",
-                path: "/"
+                path: "/",
             });
         });
 
@@ -107,7 +107,7 @@ describe("staticServerAdapter staticRoute", () => {
                 .expect(200);
             expect(execMock).to.have.been.calledOnceWith({
                 hostname: "custom-example.com",
-                path: "/"
+                path: "/",
             });
         });
     });
@@ -115,7 +115,7 @@ describe("staticServerAdapter staticRoute", () => {
     it("forwards thrown errors to the error handler", () => {
         const error = new Error();
         const server = getStaticServerAdapterServer({
-            respondToEndpointRequest: sinon.stub().rejects(error)
+            respondToEndpointRequest: sinon.stub().rejects(error),
         });
         return request(server)
             .get("/")

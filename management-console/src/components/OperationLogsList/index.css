@@ -12,17 +12,14 @@
     border-radius: 0px;
 }
 
-/* Style the expand-collapse button */
-.c-OperationLogsList .ant-table-row-expand-icon {
-    border-radius: 100%;
-    height: 22px;
-    width: 22px;
-    line-height: 18px;
-}
-
 /* Remove the table header background color */
 .c-OperationLogsList .ant-table-thead th {
     background-color: transparent !important;
+}
+
+/* Highlight rows of custom color on hover */
+.c-OperationLogsList-row:hover td {
+    background: var(--blue-1) !important;
 }
 
 /* Remove row background-change-on-hover delay */
@@ -33,8 +30,8 @@
 }
 
 /* Remove expanded row background */
-.c-OperationLogsList tr.ant-table-expanded-row,
-.c-OperationLogsList tr.ant-table-expanded-row:hover {
+.c-OperationLogsList tr.ant-table-expanded-row td,
+.c-OperationLogsList tr.ant-table-expanded-row:hover td {
     background: transparent;
 }
 

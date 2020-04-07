@@ -66,8 +66,6 @@ export default class GroupsStorage implements IGroupsStorage {
     }
 
     async deleteOne(id: string): Promise<void> {
-        await this.knex(tables.groups)
-            .where({ id })
-            .delete();
+        await this.knex(tables.groups).where({ id }).delete();
     }
 }

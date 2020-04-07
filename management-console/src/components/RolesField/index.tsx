@@ -1,3 +1,4 @@
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
 import Button from "antd/lib/button";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
@@ -5,7 +6,7 @@ import React from "react";
 import {
     FieldArray,
     FieldArrayFieldsProps,
-    WrappedFieldArrayProps
+    WrappedFieldArrayProps,
 } from "redux-form";
 
 import TextField from "../TextField";
@@ -39,7 +40,7 @@ export class WrappedRolesField extends React.Component<
                 <Col span={2}>
                     <Button
                         className="c-RolesField-remove-button"
-                        icon="delete"
+                        icon={<DeleteOutlined />}
                         onClick={() => fields.remove(index)}
                     />
                 </Col>

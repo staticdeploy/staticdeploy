@@ -1,6 +1,6 @@
 import {
     NoBundleOrRedirectToError,
-    NoMatchingEntrypointError
+    NoMatchingEntrypointError,
 } from "../../../src/common/errors";
 import { htmlWith, test } from "./testUtils";
 
@@ -13,9 +13,9 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
         testCases: [
             {
                 requestedUrl: "domain.com/asset",
-                expectedError: NoMatchingEntrypointError
-            }
-        ]
+                expectedError: NoMatchingEntrypointError,
+            },
+        ],
     });
 
     /*
@@ -28,9 +28,9 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
             testCases: [
                 {
                     requestedUrl: "domain.com/asset",
-                    expectedError: NoBundleOrRedirectToError
-                }
-            ]
+                    expectedError: NoBundleOrRedirectToError,
+                },
+            ],
         }
     );
 
@@ -46,51 +46,51 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                     bundleContent: {
                         path: "domain.com/ + /path",
                         pathAsset: "domain.com/ + /pathAsset",
-                        fallback: "domain.com + /fallback"
+                        fallback: "domain.com + /fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
+                    bundleFallbackAssetPath: "/fallback",
                 },
                 {
                     urlMatcher: "domain.com/path/",
                     bundleContent: {
                         subpath: "domain.com/path/ + /subpath",
                         subpathAsset: "domain.com/path/ + /subpathAsset",
-                        fallback: "domain.com/path/ + /fallback"
+                        fallback: "domain.com/path/ + /fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
+                    bundleFallbackAssetPath: "/fallback",
                 },
                 {
                     urlMatcher: "domain.com/path/subpath/",
                     bundleContent: {
-                        fallback: "domain.com/path/subpath/ + /fallback"
+                        fallback: "domain.com/path/subpath/ + /fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
-                }
+                    bundleFallbackAssetPath: "/fallback",
+                },
             ],
             testCases: [
                 // Cases where redirection is needed
                 {
                     requestedUrl: "domain.com/path",
                     expectedStatusCode: 301,
-                    expectedLocationHeader: "/path/"
+                    expectedLocationHeader: "/path/",
                 },
                 {
                     requestedUrl: "domain.com/path/subpath",
                     expectedStatusCode: 301,
-                    expectedLocationHeader: "/path/subpath/"
+                    expectedLocationHeader: "/path/subpath/",
                 },
                 // Cases where redirection is not needed
                 {
                     requestedUrl: "domain.com/pathAsset",
                     expectedStatusCode: 200,
-                    expectedBody: "domain.com/ + /pathAsset"
+                    expectedBody: "domain.com/ + /pathAsset",
                 },
                 {
                     requestedUrl: "domain.com/path/subpathAsset",
                     expectedStatusCode: 200,
-                    expectedBody: "domain.com/path/ + /subpathAsset"
-                }
-            ]
+                    expectedBody: "domain.com/path/ + /subpathAsset",
+                },
+            ],
         }
     );
 
@@ -102,66 +102,66 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                     asset: "domain.com/ + /asset",
                     nested: {
                         asset: "domain.com/ + /nested/asset",
-                        "index.html": "domain.com/ + /nested/index.html"
+                        "index.html": "domain.com/ + /nested/index.html",
                     },
-                    fallback: "domain.com/ + /fallback"
+                    fallback: "domain.com/ + /fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
             },
             {
                 urlMatcher: "domain.com/path/",
                 bundleContent: {
                     asset: "domain.com/path/ + /asset",
                     nested: { asset: "domain.com/path/ + /nested/asset" },
-                    fallback: "domain.com/path/ + /fallback"
+                    fallback: "domain.com/path/ + /fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
-            }
+                bundleFallbackAssetPath: "/fallback",
+            },
         ],
         testCases: [
             // domain.com/ cases
             {
                 requestedUrl: "domain.com/prefix/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/asset"
+                expectedLocationHeader: "/asset",
             },
             {
                 requestedUrl: "domain.com/prefix/nested/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/nested/asset"
+                expectedLocationHeader: "/nested/asset",
             },
             {
                 requestedUrl: "domain.com/nested/prefix/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/asset"
+                expectedLocationHeader: "/asset",
             },
             {
                 requestedUrl: "domain.com/nested/prefix/nested/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/nested/asset"
+                expectedLocationHeader: "/nested/asset",
             },
             // domain.com/path/ cases
             {
                 requestedUrl: "domain.com/path/prefix/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/path/asset"
+                expectedLocationHeader: "/path/asset",
             },
             {
                 requestedUrl: "domain.com/path/prefix/nested/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/path/nested/asset"
+                expectedLocationHeader: "/path/nested/asset",
             },
             {
                 requestedUrl: "domain.com/path/nested/prefix/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/path/asset"
+                expectedLocationHeader: "/path/asset",
             },
             {
                 requestedUrl: "domain.com/path/nested/prefix/nested/asset",
                 expectedStatusCode: 301,
-                expectedLocationHeader: "/path/nested/asset"
-            }
-        ]
+                expectedLocationHeader: "/path/nested/asset",
+            },
+        ],
     });
 
     /*
@@ -171,16 +171,16 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
         entrypoints: [
             {
                 urlMatcher: "domain.com/",
-                redirectTo: "https://redirect.location"
-            }
+                redirectTo: "https://redirect.location",
+            },
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/",
                 expectedStatusCode: 302,
-                expectedLocationHeader: "https://redirect.location"
-            }
-        ]
+                expectedLocationHeader: "https://redirect.location",
+            },
+        ],
     });
 
     /*
@@ -192,40 +192,40 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                 urlMatcher: "domain.com/",
                 bundleContent: {
                     path: { asset: "domain.com/ + /path/asset" },
-                    fallback: "domain.com/ + fallback"
+                    fallback: "domain.com/ + fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
             },
             {
                 urlMatcher: "domain.com/path/",
                 bundleContent: {
                     asset: "domain.com/path/ + /asset",
                     subpath: { asset: "domain.com/path/ + /subpath/asset" },
-                    fallback: "domain.com/path/ + /fallback"
+                    fallback: "domain.com/path/ + /fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
+                bundleFallbackAssetPath: "/fallback",
             },
             {
                 urlMatcher: "domain.com/path/subpath/",
                 bundleContent: {
                     asset: "domain.com/path/subpath/ + /asset",
-                    fallback: "domain.com/path/subpath/ + /fallback"
+                    fallback: "domain.com/path/subpath/ + /fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
-            }
+                bundleFallbackAssetPath: "/fallback",
+            },
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/path/asset",
                 expectedStatusCode: 200,
-                expectedBody: "domain.com/path/ + /asset"
+                expectedBody: "domain.com/path/ + /asset",
             },
             {
                 requestedUrl: "domain.com/path/subpath/asset",
                 expectedStatusCode: 200,
-                expectedBody: "domain.com/path/subpath/ + /asset"
-            }
-        ]
+                expectedBody: "domain.com/path/subpath/ + /asset",
+            },
+        ],
     });
 
     test("serves the correct asset when requested by canonical path", {
@@ -235,23 +235,23 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                 bundleContent: {
                     asset: "domain.com/ + /asset",
                     nested: { asset: "domain.com/ + /nested/asset" },
-                    fallback: "domain.com/ + /fallback"
+                    fallback: "domain.com/ + /fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
-            }
+                bundleFallbackAssetPath: "/fallback",
+            },
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/asset",
                 expectedStatusCode: 200,
-                expectedBody: "domain.com/ + /asset"
+                expectedBody: "domain.com/ + /asset",
             },
             {
                 requestedUrl: "domain.com/nested/asset",
                 expectedStatusCode: 200,
-                expectedBody: "domain.com/ + /nested/asset"
-            }
-        ]
+                expectedBody: "domain.com/ + /nested/asset",
+            },
+        ],
     });
 
     test(
@@ -262,23 +262,23 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                     urlMatcher: "domain.com/",
                     bundleContent: {
                         "path.html": htmlWith("domain.com/ + /path.html"),
-                        fallback: "domain.com/ + /fallback"
+                        fallback: "domain.com/ + /fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
-                }
+                    bundleFallbackAssetPath: "/fallback",
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/path",
                     expectedStatusCode: 200,
-                    expectedBody: htmlWith("domain.com/ + /path.html")
+                    expectedBody: htmlWith("domain.com/ + /path.html"),
                 },
                 {
                     requestedUrl: "domain.com/path/",
                     expectedStatusCode: 200,
-                    expectedBody: htmlWith("domain.com/ + /path.html")
-                }
-            ]
+                    expectedBody: htmlWith("domain.com/ + /path.html"),
+                },
+            ],
         }
     );
 
@@ -293,30 +293,30 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                         path: {
                             "index.html": htmlWith(
                                 "domain.com/ + /path/index.html"
-                            )
+                            ),
                         },
-                        fallback: "domain.com/ + /fallback"
+                        fallback: "domain.com/ + /fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
-                }
+                    bundleFallbackAssetPath: "/fallback",
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/",
                     expectedStatusCode: 200,
-                    expectedBody: htmlWith("domain.com/ + /index.html")
+                    expectedBody: htmlWith("domain.com/ + /index.html"),
                 },
                 {
                     requestedUrl: "domain.com/path",
                     expectedStatusCode: 200,
-                    expectedBody: htmlWith("domain.com/ + /path/index.html")
+                    expectedBody: htmlWith("domain.com/ + /path/index.html"),
                 },
                 {
                     requestedUrl: "domain.com/path/",
                     expectedStatusCode: 200,
-                    expectedBody: htmlWith("domain.com/ + /path/index.html")
-                }
-            ]
+                    expectedBody: htmlWith("domain.com/ + /path/index.html"),
+                },
+            ],
         }
     );
 
@@ -329,23 +329,23 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                     bundleContent: {
                         path: "domain.com/ + /path",
                         "path.html": htmlWith("domain.com/ + /path.html"),
-                        fallback: "domain.com/ + /fallback"
+                        fallback: "domain.com/ + /fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
-                }
+                    bundleFallbackAssetPath: "/fallback",
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/path",
                     expectedStatusCode: 200,
-                    expectedBody: "domain.com/ + /path"
+                    expectedBody: "domain.com/ + /path",
                 },
                 {
                     requestedUrl: "domain.com/path/",
                     expectedStatusCode: 200,
-                    expectedBody: "domain.com/ + /path"
-                }
-            ]
+                    expectedBody: "domain.com/ + /path",
+                },
+            ],
         }
     );
 
@@ -360,25 +360,25 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                         path: {
                             "index.html": htmlWith(
                                 "domain.com/ + /path/index.html"
-                            )
+                            ),
                         },
-                        fallback: "domain.com/ + /fallback"
+                        fallback: "domain.com/ + /fallback",
                     },
-                    bundleFallbackAssetPath: "/fallback"
-                }
+                    bundleFallbackAssetPath: "/fallback",
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/path",
                     expectedStatusCode: 200,
-                    expectedBody: htmlWith("domain.com/ + /path.html")
+                    expectedBody: htmlWith("domain.com/ + /path.html"),
                 },
                 {
                     requestedUrl: "domain.com/path/",
                     expectedStatusCode: 200,
-                    expectedBody: htmlWith("domain.com/ + /path.html")
-                }
-            ]
+                    expectedBody: htmlWith("domain.com/ + /path.html"),
+                },
+            ],
         }
     );
 
@@ -387,23 +387,23 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
             {
                 urlMatcher: "domain.com/",
                 bundleContent: {
-                    fallback: "domain.com/ + /fallback"
+                    fallback: "domain.com/ + /fallback",
                 },
-                bundleFallbackAssetPath: "/fallback"
-            }
+                bundleFallbackAssetPath: "/fallback",
+            },
         ],
         testCases: [
             {
                 requestedUrl: "domain.com/non-existing",
                 expectedStatusCode: 200,
-                expectedBody: "domain.com/ + /fallback"
+                expectedBody: "domain.com/ + /fallback",
             },
             {
                 requestedUrl: "domain.com/prefix/non-existing",
                 expectedStatusCode: 200,
-                expectedBody: "domain.com/ + /fallback"
-            }
-        ]
+                expectedBody: "domain.com/ + /fallback",
+            },
+        ],
     });
 
     test(
@@ -414,34 +414,34 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                     urlMatcher: "domain.com/",
                     bundleContent: {
                         path: "domain.com/ + /path",
-                        fallback: "domain.com/ + /fallback"
+                        fallback: "domain.com/ + /fallback",
                     },
                     bundleFallbackAssetPath: "/fallback",
-                    bundleFallbackStatusCode: 299
-                }
+                    bundleFallbackStatusCode: 299,
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/path",
                     expectedStatusCode: 200,
-                    expectedBody: "domain.com/ + /path"
+                    expectedBody: "domain.com/ + /path",
                 },
                 {
                     requestedUrl: "domain.com/fallback",
                     expectedStatusCode: 299,
-                    expectedBody: "domain.com/ + /fallback"
+                    expectedBody: "domain.com/ + /fallback",
                 },
                 {
                     requestedUrl: "domain.com/non-existing",
                     expectedStatusCode: 299,
-                    expectedBody: "domain.com/ + /fallback"
+                    expectedBody: "domain.com/ + /fallback",
                 },
                 {
                     requestedUrl: "domain.com/prefix/non-existing",
                     expectedStatusCode: 299,
-                    expectedBody: "domain.com/ + /fallback"
-                }
-            ]
+                    expectedBody: "domain.com/ + /fallback",
+                },
+            ],
         }
     );
 
@@ -453,16 +453,16 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                     asset: "domain.com/ + /asset",
                     "asset.html": htmlWith("domain.com/ + /asset.html"),
                     "asset.js": "domain.com/ + /asset.js",
-                    fallback: "domain.com/ + /fallback"
+                    fallback: "domain.com/ + /fallback",
                 },
                 bundleFallbackAssetPath: "/fallback",
                 bundleHeaders: {
                     // / (slash) and * can't be used in headers without
                     // escaping, use _ and - instead
                     "/asset": { _asset: "_asset" },
-                    "**/*.html": { "--_-.html": "--_-.html" }
-                }
-            }
+                    "**/*.html": { "--_-.html": "--_-.html" },
+                },
+            },
         ],
         testCases: [
             {
@@ -470,20 +470,20 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                 expectedStatusCode: 200,
                 expectedHeaders: {
                     _asset: "_asset",
-                    "content-type": "application/octet-stream"
+                    "content-type": "application/octet-stream",
                 },
-                expectedBody: "domain.com/ + /asset"
+                expectedBody: "domain.com/ + /asset",
             },
             {
                 requestedUrl: "domain.com/asset.html",
                 expectedStatusCode: 200,
                 expectedHeaders: {
                     "--_-.html": "--_-.html",
-                    "content-type": "text/html"
+                    "content-type": "text/html",
                 },
-                expectedBody: htmlWith("domain.com/ + /asset.html")
-            }
-        ]
+                expectedBody: htmlWith("domain.com/ + /asset.html"),
+            },
+        ],
     });
 
     test(
@@ -496,43 +496,43 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
                         asset: "domain.com/ + /asset",
                         "asset.html": htmlWith("domain.com/ + /asset.html"),
                         "asset.js": "domain.com/ + /asset.js",
-                        fallback: "domain.com/ + /fallback"
+                        fallback: "domain.com/ + /fallback",
                     },
                     bundleFallbackAssetPath: "/fallback",
                     bundleFallbackStatusCode: 200,
                     bundleHeaders: {
                         "/asset": { "content-type": "custom" },
                         "**/*.html": { "content-type": "custom/html" },
-                        "**/*.js": { "content-type": "custom/js" }
-                    }
-                }
+                        "**/*.js": { "content-type": "custom/js" },
+                    },
+                },
             ],
             testCases: [
                 {
                     requestedUrl: "domain.com/asset",
                     expectedStatusCode: 200,
                     expectedHeaders: {
-                        "content-type": "custom"
+                        "content-type": "custom",
                     },
-                    expectedBody: "domain.com/ + /asset"
+                    expectedBody: "domain.com/ + /asset",
                 },
                 {
                     requestedUrl: "domain.com/asset.html",
                     expectedStatusCode: 200,
                     expectedHeaders: {
-                        "content-type": "custom/html"
+                        "content-type": "custom/html",
                     },
-                    expectedBody: htmlWith("domain.com/ + /asset.html")
+                    expectedBody: htmlWith("domain.com/ + /asset.html"),
                 },
                 {
                     requestedUrl: "domain.com/asset.js",
                     expectedStatusCode: 200,
                     expectedHeaders: {
-                        "content-type": "custom/js"
+                        "content-type": "custom/js",
                     },
-                    expectedBody: "domain.com/ + /asset.js"
-                }
-            ]
+                    expectedBody: "domain.com/ + /asset.js",
+                },
+            ],
         }
     );
 });

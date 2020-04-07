@@ -44,12 +44,12 @@ export default class CreateUser extends Usecase {
             type: partial.type,
             groupsIds: partial.groupsIds,
             createdAt: now,
-            updatedAt: now
+            updatedAt: now,
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.CreateUser, {
-            createdUser: createdUser
+            createdUser: createdUser,
         });
 
         return createdUser;

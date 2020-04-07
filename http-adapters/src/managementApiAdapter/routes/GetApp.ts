@@ -17,16 +17,16 @@ export default convroute({
             name: "appId",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "200": { description: "Returns the app" },
-        "404": { description: "App not found" }
+        "404": { description: "App not found" },
     },
     handler: async (req: IRequest, res) => {
         const getApp = req.makeUsecase("getApp");
         const app = await getApp.exec(req.params.appId);
         res.status(200).send(app);
-    }
+    },
 });

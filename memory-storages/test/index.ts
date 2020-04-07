@@ -22,5 +22,5 @@ registerStoragesTests({
         eraseCollection((memoryStorages as any).db.groups);
         eraseCollection((memoryStorages as any).db.operationLogs);
         eraseCollection((memoryStorages as any).db.users);
-    }
+    },
 });

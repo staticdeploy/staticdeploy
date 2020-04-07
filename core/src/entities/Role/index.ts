@@ -9,7 +9,7 @@ export enum RoleName {
     Root = "root",
     AppManager = "app-manager",
     EntrypointManager = "entrypoint-manager",
-    BundleManager = "bundle-manager"
+    BundleManager = "bundle-manager",
 }
 
 export type RoleTuple = [RoleName, string?];
@@ -129,7 +129,7 @@ export function oneOfRolesMatchesRole(
     heldRoles: string[],
     requiredRole: RoleTuple
 ): boolean {
-    return heldRoles.some(inputRole =>
+    return heldRoles.some((inputRole) =>
         roleMatchesRole(inputRole, requiredRole)
     );
 }

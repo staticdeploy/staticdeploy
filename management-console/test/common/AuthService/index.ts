@@ -9,13 +9,13 @@ const getMockAuthStrategy = () => ({
     init: sinon.stub(),
     getAuthToken: sinon.stub(),
     login: sinon.stub(),
-    logout: sinon.stub()
+    logout: sinon.stub(),
 });
 const getMockStaticdeployClient = () => ({
     setApiToken: sinon.stub(),
     users: {
-        getCurrentUser: sinon.stub().resolves({})
-    }
+        getCurrentUser: sinon.stub().resolves({}),
+    },
 });
 
 describe("AuthService", () => {

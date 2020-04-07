@@ -13,7 +13,7 @@ describe("DataFetcher", () => {
         fetchData: sinon.stub(),
         shouldRefetch: sinon.stub(),
         Component: sinon.spy(() => null),
-        proxiedProps: { propKey: "propValue" }
+        proxiedProps: { propKey: "propValue" },
     };
     const originalLocation = window.location;
     beforeEach(() => {
@@ -22,7 +22,7 @@ describe("DataFetcher", () => {
         props.Component.resetHistory();
         if (window.location !== originalLocation) {
             Object.defineProperty((global as any).window, "location", {
-                get: () => originalLocation
+                get: () => originalLocation,
             });
         }
     });
@@ -31,7 +31,7 @@ describe("DataFetcher", () => {
         shallow(<DataFetcher {...props} />, { context: staticdeployClient });
         expect(props.fetchData).to.have.callCount(1);
         expect(props.fetchData).to.have.been.calledWith(staticdeployClient, {
-            propKey: "propValue"
+            propKey: "propValue",
         });
     });
 
@@ -45,7 +45,7 @@ describe("DataFetcher", () => {
         const dataFetcher = shallow(<DataFetcher {...props} />);
         dataFetcher.setState({
             status: FetchStatus.SUCCEEDED,
-            result: "result"
+            result: "result",
         });
         const component = dataFetcher.find(props.Component);
         expect(component).to.have.length(1);
@@ -56,18 +56,18 @@ describe("DataFetcher", () => {
 
     it("the re-fetch function passed to Component, when called re-calls fetchData", () => {
         const dataFetcher = shallow(<DataFetcher {...props} />, {
-            context: staticdeployClient
+            context: staticdeployClient,
         });
         dataFetcher.setState({
             status: FetchStatus.SUCCEEDED,
-            result: "result"
+            result: "result",
         });
         const component = dataFetcher.find(props.Component);
         props.fetchData.reset();
         component.prop<() => any>("refetch")();
         expect(props.fetchData).to.have.callCount(1);
         expect(props.fetchData).to.have.been.calledWith(staticdeployClient, {
-            propKey: "propValue"
+            propKey: "propValue",
         });
     });
 
@@ -75,7 +75,7 @@ describe("DataFetcher", () => {
         const dataFetcher = shallow(<DataFetcher {...props} />);
         dataFetcher.setState({
             status: FetchStatus.FAILED,
-            error: new Error("Error message")
+            error: new Error("Error message"),
         });
         const errorAlert = dataFetcher.find(ErrorAlert);
         expect(errorAlert).to.have.length(1);

@@ -23,7 +23,7 @@ export default class CreateRootUserAndGroup {
                 name: ROOT_GROUP_NAME,
                 roles: [RoleName.Root],
                 createdAt: now,
-                updatedAt: now
+                updatedAt: now,
             });
         }
 
@@ -41,7 +41,7 @@ export default class CreateRootUserAndGroup {
                 name: ROOT_USER_NAME,
                 groupsIds: [rootGroup.id],
                 createdAt: now,
-                updatedAt: now
+                updatedAt: now,
             });
         }
     }

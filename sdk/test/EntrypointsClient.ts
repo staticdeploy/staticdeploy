@@ -6,7 +6,7 @@ import StaticdeployClient from "../src";
 const baseUrl = "http://localhost";
 const staticdeployClient = new StaticdeployClient({
     apiUrl: baseUrl,
-    apiToken: null
+    apiToken: null,
 });
 
 beforeEach(() => {
@@ -23,11 +23,9 @@ describe("EntrypointsClient", () => {
             scope.done();
         });
         it("returns a list of entrypoints", async () => {
-            nock(baseUrl)
-                .get("/entrypoints?appId=appId")
-                .reply(200, []);
+            nock(baseUrl).get("/entrypoints?appId=appId").reply(200, []);
             const entrypoints = await staticdeployClient.entrypoints.getAll({
-                appId: "appId"
+                appId: "appId",
             });
             expect(entrypoints).to.deep.equal([]);
         });
@@ -35,16 +33,12 @@ describe("EntrypointsClient", () => {
 
     describe("getOne", () => {
         it("requests GET /entrypoints/:entrypointId", async () => {
-            const scope = nock(baseUrl)
-                .get("/entrypoints/id")
-                .reply(200);
+            const scope = nock(baseUrl).get("/entrypoints/id").reply(200);
             await staticdeployClient.entrypoints.getOne("id");
             scope.done();
         });
         it("returns the entrypoint with the specified id", async () => {
-            nock(baseUrl)
-                .get("/entrypoints/id")
-                .reply(200, {});
+            nock(baseUrl).get("/entrypoints/id").reply(200, {});
             const entrypoint = await staticdeployClient.entrypoints.getOne(
                 "id"
             );
@@ -57,22 +51,20 @@ describe("EntrypointsClient", () => {
             const scope = nock(baseUrl)
                 .post("/entrypoints", {
                     appId: "appId",
-                    urlMatcher: "urlMatcher"
+                    urlMatcher: "urlMatcher",
                 })
                 .reply(201);
             await staticdeployClient.entrypoints.create({
                 appId: "appId",
-                urlMatcher: "urlMatcher"
+                urlMatcher: "urlMatcher",
             });
             scope.done();
         });
         it("returns the created entrypoint", async () => {
-            nock(baseUrl)
-                .post("/entrypoints")
-                .reply(201, {});
+            nock(baseUrl).post("/entrypoints").reply(201, {});
             const entrypoint = await staticdeployClient.entrypoints.create({
                 appId: "appId",
-                urlMatcher: "urlMatcher"
+                urlMatcher: "urlMatcher",
             });
             expect(entrypoint).to.deep.equal({});
         });
@@ -84,14 +76,12 @@ describe("EntrypointsClient", () => {
                 .patch("/entrypoints/id", { bundleId: "newBundleId" })
                 .reply(200);
             await staticdeployClient.entrypoints.update("id", {
-                bundleId: "newBundleId"
+                bundleId: "newBundleId",
             });
             scope.done();
         });
         it("returns the updated entrypoint", async () => {
-            nock(baseUrl)
-                .patch("/entrypoints/id")
-                .reply(200, {});
+            nock(baseUrl).patch("/entrypoints/id").reply(200, {});
             const entrypoint = await staticdeployClient.entrypoints.update(
                 "id",
                 { bundleId: "newBundleId" }
@@ -102,9 +92,7 @@ describe("EntrypointsClient", () => {
 
     describe("delete", () => {
         it("requests DELETE /entrypoints/:entrypointId", async () => {
-            const scope = nock(baseUrl)
-                .delete("/entrypoints/id")
-                .reply(204);
+            const scope = nock(baseUrl).delete("/entrypoints/id").reply(204);
             await staticdeployClient.entrypoints.delete("id");
             scope.done();
         });

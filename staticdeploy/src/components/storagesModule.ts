@@ -28,7 +28,7 @@ export default (config: IConfig, logger: Logger): IStoragesModule => {
                   bucket: config.s3Bucket!,
                   endpoint: config.s3Endpoint!,
                   accessKeyId: config.s3AccessKeyId!,
-                  secretAccessKey: config.s3SecretAccessKey!
-              }
+                  secretAccessKey: config.s3SecretAccessKey!,
+              },
           });
 };

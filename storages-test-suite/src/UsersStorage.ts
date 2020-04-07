@@ -16,15 +16,15 @@ export default (storages: IStorages) => {
                 name: "name0",
                 roles: ["role0"],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             },
             {
                 id: "id1",
                 name: "name1",
                 roles: ["role1"],
                 createdAt: new Date(),
-                updatedAt: new Date()
-            }
+                updatedAt: new Date(),
+            },
         ];
         beforeEach(async () => {
             // The core module requires a group to exist if we want a user to link to it,
@@ -43,7 +43,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const userExists = await storages.users.oneExistsWithIdpAndIdpId(
                 "idp",
@@ -69,7 +69,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: ["id0"],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const anyUserExists = await storages.users.anyExistsWithGroup(
                 "id0"
@@ -93,7 +93,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.users.createOne(user);
             const foundUser = await storages.users.findOne("id");
@@ -114,7 +114,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: ["id0", "id1"],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.users.createOne(user);
             const foundUser = await storages.users.findOneWithGroups("id");
@@ -135,7 +135,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: ["id0", "id1"],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.users.createOne(user);
             const foundUser = await storages.users.findOneWithRolesByIdpAndIdpId(
@@ -144,7 +144,7 @@ export default (storages: IStorages) => {
             );
             expect(foundUser).to.deep.equal({
                 ...omitGroupsIds(user),
-                roles: ["role0", "role1"]
+                roles: ["role0", "role1"],
             });
         });
 
@@ -165,7 +165,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.users.createOne(user);
             const foundUsers = await storages.users.findMany();
@@ -182,7 +182,7 @@ export default (storages: IStorages) => {
                     name: "name",
                     groupsIds: [],
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.users.createOne(user);
                 const foundUser = await storages.users.findOne("id");
@@ -198,7 +198,7 @@ export default (storages: IStorages) => {
                     name: "name",
                     groupsIds: ["id0"],
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.users.createOne(user);
                 const foundUser = await storages.users.findOne("id");
@@ -215,12 +215,12 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.users.updateOne("id", {
                 name: undefined,
                 groupsIds: ["id0"],
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const foundUser = await storages.users.findOneWithGroups("id");
             // Test to see if undefined values passed to updateOne are correctly
@@ -240,7 +240,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 groupsIds: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.users.deleteOne("id");
             const userExists = await storages.users.oneExistsWithIdpAndIdpId(

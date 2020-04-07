@@ -33,7 +33,7 @@ app, and you can pass it directly to your router.
 ```js
 new VueRouter({
   mode: "history",
-  base: window.APP_CONFIG.BASE_PATH
+  base: window.APP_CONFIG.BASE_PATH,
 });
 ```
 
@@ -47,9 +47,9 @@ import { APP_BASE_HREF } from "@angular/common";
   providers: [
     {
       provide: APP_BASE_HREF,
-      useValue: window.APP_CONFIG.BASE_PATH
-    }
-  ]
+      useValue: window.APP_CONFIG.BASE_PATH,
+    },
+  ],
 })
 class AppModule {}
 ```

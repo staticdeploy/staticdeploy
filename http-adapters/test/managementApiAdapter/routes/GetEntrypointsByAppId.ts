@@ -16,7 +16,7 @@ describe("managementApiAdapter GET /entrypoints?appId", () => {
     it("200 and returns the filtered entrypoints", async () => {
         const execMock = sinon.stub().resolves([]);
         const server = getManagementApiAdapter({
-            getEntrypointsByAppId: execMock
+            getEntrypointsByAppId: execMock,
         });
         await request(server)
             .get("/entrypoints?appId=appId")

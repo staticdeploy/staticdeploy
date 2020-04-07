@@ -1,7 +1,7 @@
 import {
     IHealthCheckResult,
     IStorages,
-    IStoragesModule
+    IStoragesModule,
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
 import Knex from "knex";
@@ -38,7 +38,7 @@ export default class PgS3Storages implements IStoragesModule {
             endpoint: options.s3Config.endpoint,
             accessKeyId: options.s3Config.accessKeyId,
             secretAccessKey: options.s3Config.secretAccessKey,
-            s3ForcePathStyle: true
+            s3ForcePathStyle: true,
         });
     }
 
@@ -59,14 +59,14 @@ export default class PgS3Storages implements IStoragesModule {
             groups: new GroupsStorage(this.knex),
             operationLogs: new OperationLogsStorage(this.knex),
             users: new UsersStorage(this.knex),
-            checkHealth: this.checkHealth.bind(this)
+            checkHealth: this.checkHealth.bind(this),
         };
     }
 
     private async checkHealth(): Promise<IHealthCheckResult> {
         const healthCheckResult: IHealthCheckResult = {
             isHealthy: true,
-            details: {}
+            details: {},
         };
 
         try {
@@ -75,7 +75,7 @@ export default class PgS3Storages implements IStoragesModule {
             healthCheckResult.isHealthy = false;
             healthCheckResult.details.postgres = {
                 message: "Unable to run query 'select 1'",
-                err: err
+                err: err,
             };
         }
 
@@ -86,7 +86,7 @@ export default class PgS3Storages implements IStoragesModule {
             healthCheckResult.isHealthy = false;
             healthCheckResult.details.s3 = {
                 message: `Unable to HEAD bucket ${this.s3Bucket}`,
-                err: err
+                err: err,
             };
         }
 
@@ -98,7 +98,7 @@ export default class PgS3Storages implements IStoragesModule {
         try {
             await this.knex.migrate.latest({
                 directory: join(__dirname, "./migrations"),
-                loadExtensions: [isCurrentFileTs ? ".ts" : ".js"]
+                loadExtensions: [isCurrentFileTs ? ".ts" : ".js"],
             } as any);
         } catch (err) {
             throw new StorageSetupError("Error running sql migration", err);

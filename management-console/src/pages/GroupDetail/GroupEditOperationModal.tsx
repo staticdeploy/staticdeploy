@@ -27,7 +27,7 @@ export default class GroupEditOperationModal extends React.Component<IProps> {
         const values = this.form!.getValues();
         return staticdeploy.groups.update(this.props.group.id, {
             name: values.name,
-            roles: values.roles
+            roles: values.roles,
         });
     };
     refetchGroupDetail = () => this.props.refetchGroupDetail();
@@ -48,7 +48,7 @@ export default class GroupEditOperationModal extends React.Component<IProps> {
             >
                 <GroupForm
                     initialValues={this.props.group}
-                    ref={form => (this.form = form!)}
+                    ref={(form) => (this.form = form!)}
                 />
             </OperationModal>
         );

@@ -12,8 +12,8 @@ const pgS3Storages = new PgS3Storages({
         bucket: "test",
         endpoint: "http://localhost:9000",
         accessKeyId: "accessKeyId",
-        secretAccessKey: "secretAccessKey"
-    }
+        secretAccessKey: "secretAccessKey",
+    },
 });
 
 registerStoragesTests({
@@ -44,12 +44,12 @@ registerStoragesTests({
                 .deleteObjects({
                     Bucket: s3Bucket,
                     Delete: {
-                        Objects: objects.Contents.map(obj => ({
-                            Key: obj.Key!
-                        }))
-                    }
+                        Objects: objects.Contents.map((obj) => ({
+                            Key: obj.Key!,
+                        })),
+                    },
                 })
                 .promise();
         }
-    }
+    },
 });

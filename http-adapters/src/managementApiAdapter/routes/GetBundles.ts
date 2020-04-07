@@ -8,12 +8,12 @@ export default convroute({
     responses: {
         "200": {
             description:
-                "Returns an array of all bundles with only the most important inforrmation"
-        }
+                "Returns an array of all bundles with only the most important inforrmation",
+        },
     },
     handler: async (req, res) => {
         const getBundles = req.makeUsecase("getBundles");
         const bundles = await getBundles.exec();
         res.status(200).send(bundles);
-    }
+    },
 });

@@ -2,13 +2,13 @@ import { IBundle } from "@staticdeploy/core";
 import Cascader, { CascaderOptionType, CascaderProps } from "antd/lib/cascader";
 import Form, { FormItemProps } from "antd/lib/form";
 import classnames from "classnames";
+import dayjs from "dayjs";
 import find from "lodash/find";
 import keys from "lodash/keys";
 import map from "lodash/map";
 import setWith from "lodash/setWith";
 import sortBy from "lodash/sortBy";
 import values from "lodash/values";
-import moment from "moment";
 import React from "react";
 import { Field, WrappedFieldProps } from "redux-form";
 
@@ -60,7 +60,7 @@ export class WrappedBundleIdField extends React.Component<
      */
     getOptions(): CascaderOptionType[] {
         const intermediateMap: IIntermediateMap = {};
-        this.props.bundles.forEach(bundle =>
+        this.props.bundles.forEach((bundle) =>
             setWith(
                 intermediateMap,
                 [bundle.name, bundle.tag, bundle.id],
@@ -69,12 +69,12 @@ export class WrappedBundleIdField extends React.Component<
             )
         );
         const bundleNames = keys(intermediateMap).sort();
-        return bundleNames.map(bundleName => {
+        return bundleNames.map((bundleName) => {
             const bundleTags = keys(intermediateMap[bundleName]).sort();
             return {
                 value: bundleName,
                 label: bundleName,
-                children: bundleTags.map(bundleTag => {
+                children: bundleTags.map((bundleTag) => {
                     const bundles = sortBy(
                         values(intermediateMap[bundleName][bundleTag]),
                         "createdAt"
@@ -82,14 +82,14 @@ export class WrappedBundleIdField extends React.Component<
                     return {
                         value: bundleTag,
                         label: bundleTag,
-                        children: bundles.map(bundle => ({
+                        children: bundles.map((bundle) => ({
                             value: bundle.id,
-                            label: `${bundle.id} (${moment(
+                            label: `${bundle.id} (${dayjs(
                                 bundle.createdAt
-                            ).fromNow(true)})`
-                        }))
+                            ).fromNow(true)})`,
+                        })),
                     };
-                })
+                }),
             };
         });
     }
@@ -97,7 +97,7 @@ export class WrappedBundleIdField extends React.Component<
     // From the selected bundle id, get the corresponding array of node values
     getValue() {
         const selectedBundle = find(this.props.bundles, {
-            id: this.props.input.value
+            id: this.props.input.value,
         }) as IBundle | undefined;
         return selectedBundle
             ? [selectedBundle.name, selectedBundle.tag, selectedBundle.id]
@@ -110,6 +110,7 @@ export class WrappedBundleIdField extends React.Component<
         return (
             <Form.Item
                 label={this.props.label}
+                wrapperCol={{ span: 24 }}
                 className={classnames("c-BundleIdField", this.props.className)}
                 validateStatus={displayError ? "error" : undefined}
                 help={displayError ? error : undefined}

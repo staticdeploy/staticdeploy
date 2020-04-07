@@ -25,7 +25,7 @@ export default function staticRoute(options: {
                 // path, the usecase needs the original path the user is
                 // requesting (req.path is not the original path in case
                 // staticServerAdapter has a mount path different than / (root))
-                path: getPathFromOriginalUrl(req.originalUrl)
+                path: getPathFromOriginalUrl(req.originalUrl),
             });
 
             res.status(response.statusCode)

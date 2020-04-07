@@ -7,7 +7,7 @@ interface IProps {
 }
 export default class OidcLogin extends React.Component<IProps> {
     static defaultProps = {
-        providerName: "external provider"
+        providerName: "external provider",
     };
     render() {
         const { strategyDisplayName, onLogin } = this.props;

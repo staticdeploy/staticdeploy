@@ -11,7 +11,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 defaultConfiguration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
 
             // The core module requires a bundle to exist if we want an
@@ -26,7 +26,7 @@ export default (storages: IStorages) => {
                 assets: [],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
-                createdAt: new Date()
+                createdAt: new Date(),
             });
         });
 
@@ -39,7 +39,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(
                 "example.com/"
@@ -63,7 +63,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const anyEntrypointExists = await storages.entrypoints.anyExistsWithAppId(
                 "id"
@@ -87,7 +87,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const anyEntrypointExists = await storages.entrypoints.anyExistsWithBundleIdIn(
                 ["id"]
@@ -111,7 +111,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.entrypoints.createOne(entrypoint);
             const foundEntrypoint = await storages.entrypoints.findOne("id");
@@ -132,7 +132,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.entrypoints.createOne(entrypoint);
             const foundEntrypoint = await storages.entrypoints.findOneByUrlMatcher(
@@ -157,7 +157,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.entrypoints.createOne(entrypoint);
             const foundEntrypoints = await storages.entrypoints.findManyByAppId(
@@ -175,7 +175,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.entrypoints.createOne(entrypoint);
             const foundEntrypoints = await storages.entrypoints.findManyByUrlMatcherHostname(
@@ -194,7 +194,7 @@ export default (storages: IStorages) => {
                     redirectTo: null,
                     configuration: null,
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.entrypoints.createOne(entrypoint);
                 const foundEntrypoint = await storages.entrypoints.findOne(
@@ -212,7 +212,7 @@ export default (storages: IStorages) => {
                     redirectTo: null,
                     configuration: null,
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.entrypoints.createOne(entrypoint);
                 const foundEntrypoint = await storages.entrypoints.findOne(
@@ -230,7 +230,7 @@ export default (storages: IStorages) => {
                     redirectTo: "redirectTo",
                     configuration: null,
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.entrypoints.createOne(entrypoint);
                 const foundEntrypoint = await storages.entrypoints.findOne(
@@ -248,7 +248,7 @@ export default (storages: IStorages) => {
                     redirectTo: null,
                     configuration: {},
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.entrypoints.createOne(entrypoint);
                 const foundEntrypoint = await storages.entrypoints.findOne(
@@ -266,7 +266,7 @@ export default (storages: IStorages) => {
                     redirectTo: null,
                     configuration: { key: "value" },
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.entrypoints.createOne(entrypoint);
                 const foundEntrypoint = await storages.entrypoints.findOne(
@@ -285,12 +285,12 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: {},
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.entrypoints.updateOne("id", {
                 redirectTo: "redirectTo",
                 configuration: undefined,
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const foundEntrypoint = await storages.entrypoints.findOne("id");
             // Test to see if undefined values passed to updateOne are correctly
@@ -313,7 +313,7 @@ export default (storages: IStorages) => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.entrypoints.deleteOne("id");
             const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(

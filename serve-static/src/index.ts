@@ -31,7 +31,7 @@ export default async function serveStatic(options: {
         authenticationStrategies: [],
         config: { enforceAuth: false },
         requestContext: { authToken: null },
-        storages: storagesModule.getStorages()
+        storages: storagesModule.getStorages(),
     });
 
     const createBundle = makeUsecase("createBundle");
@@ -42,7 +42,7 @@ export default async function serveStatic(options: {
         content: await tarArchiver.makeArchiveFromPath(options.root),
         fallbackAssetPath: options.fallbackAssetPath,
         fallbackStatusCode: options.fallbackStatusCode,
-        headers: options.headers
+        headers: options.headers,
     });
     const createApp = makeUsecase("createApp");
     const app = await createApp.exec({ name: "default" });
@@ -54,7 +54,7 @@ export default async function serveStatic(options: {
         appId: app.id,
         urlMatcher: `${SERVE_STATIC_LOCALHOST}${urlMatcherPath}`,
         bundleId: bundle.id,
-        configuration: options.configuration
+        configuration: options.configuration,
     });
 
     return Router()

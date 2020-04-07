@@ -29,7 +29,7 @@ interface IProps<FecthDataResult, ProxiedProps> {
 export enum FetchStatus {
     STARTED,
     SUCCEEDED,
-    FAILED
+    FAILED,
 }
 interface IState<FecthDataResult> {
     status: FetchStatus;
@@ -49,7 +49,7 @@ export default class DataFetcher<
     state: IState<FecthDataResult> = {
         status: FetchStatus.STARTED,
         result: null,
-        error: null
+        error: null,
     };
     componentDidMount() {
         this.fetchData(this.props);
@@ -71,7 +71,7 @@ export default class DataFetcher<
             this.setState({
                 status: FetchStatus.STARTED,
                 result: null,
-                error: null
+                error: null,
             });
             const result = await props.fetchData(
                 this.context!,
@@ -80,13 +80,13 @@ export default class DataFetcher<
             this.setState({
                 status: FetchStatus.SUCCEEDED,
                 result: result,
-                error: null
+                error: null,
             });
         } catch (err) {
             this.setState({
                 status: FetchStatus.FAILED,
                 result: null,
-                error: err
+                error: err,
             });
         }
     }

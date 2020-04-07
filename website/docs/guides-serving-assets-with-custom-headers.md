@@ -18,13 +18,13 @@ module.exports = {
     // ... other options
     headers: {
       "**/*.html": {
-        "Cache-Control": "must-revalidate"
+        "Cache-Control": "must-revalidate",
       },
       "**/*.js": {
-        "Cache-Control": "public"
-      }
-    }
-  }
+        "Cache-Control": "public",
+      },
+    },
+  },
 };
 ```
 

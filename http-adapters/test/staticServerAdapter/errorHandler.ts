@@ -1,6 +1,6 @@
 import {
     NoBundleOrRedirectToError,
-    NoMatchingEntrypointError
+    NoMatchingEntrypointError,
 } from "@staticdeploy/core";
 import sinon from "sinon";
 import request from "supertest";
@@ -11,7 +11,7 @@ describe("staticServerAdapter errorHandler", () => {
     it("handles NoBundleOrRedirectToError-s", () => {
         const error = new NoBundleOrRedirectToError("example.com/");
         const server = getStaticServerAdapterServer({
-            respondToEndpointRequest: sinon.stub().rejects(error)
+            respondToEndpointRequest: sinon.stub().rejects(error),
         });
         return request(server)
             .get("/")
@@ -22,7 +22,7 @@ describe("staticServerAdapter errorHandler", () => {
     it("handles NoMatchingEntrypointError-s", () => {
         const error = new NoMatchingEntrypointError("example.com/");
         const server = getStaticServerAdapterServer({
-            respondToEndpointRequest: sinon.stub().rejects(error)
+            respondToEndpointRequest: sinon.stub().rejects(error),
         });
         return request(server)
             .get("/")
@@ -33,7 +33,7 @@ describe("staticServerAdapter errorHandler", () => {
     it("handles generic Error-s", () => {
         const error = new Error();
         const server = getStaticServerAdapterServer({
-            respondToEndpointRequest: sinon.stub().rejects(error)
+            respondToEndpointRequest: sinon.stub().rejects(error),
         });
         return request(server)
             .get("/")

@@ -54,7 +54,7 @@ describe("bundle command", () => {
                             }
                         }
                     }
-                };`
+                };`,
             });
         });
         after(() => {
@@ -90,7 +90,7 @@ describe("bundle command", () => {
                 argv.parse("bundle", ignoreParseErrors);
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "staticdeploy.config.js apiUrl"
+                    apiUrl: "staticdeploy.config.js apiUrl",
                 });
             });
 
@@ -101,7 +101,7 @@ describe("bundle command", () => {
                 );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "custom.config.js apiUrl"
+                    apiUrl: "custom.config.js apiUrl",
                 });
             });
 
@@ -112,7 +112,7 @@ describe("bundle command", () => {
                 );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "apiUrl"
+                    apiUrl: "apiUrl",
                 });
             });
 
@@ -120,7 +120,7 @@ describe("bundle command", () => {
                 argv.parse("bundle --apiUrl apiUrl");
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "apiUrl"
+                    apiUrl: "apiUrl",
                 });
             });
         });
@@ -135,10 +135,10 @@ describe("bundle command", () => {
                 target: {
                     "index.html": "index.html",
                     js: {
-                        "index.js": "index.js"
-                    }
+                        "index.js": "index.js",
+                    },
                 },
-                "not-a-directory": "not-a-directory"
+                "not-a-directory": "not-a-directory",
             });
             emptyDirSync(unpackingFolder);
         });
@@ -156,7 +156,7 @@ describe("bundle command", () => {
             description: "description",
             fallbackAssetPath: "/index.html",
             fallbackStatusCode: 200,
-            headers: "{}"
+            headers: "{}",
         };
 
         // Stub BundlesClient.create to:
@@ -178,7 +178,7 @@ describe("bundle command", () => {
         it("throws an error if the target path is empty", async () => {
             const createPromise = bundle.handler({
                 ...commonOptions,
-                from: join(targetTree, "path-to-nothing")
+                from: join(targetTree, "path-to-nothing"),
             });
             await expect(createPromise).to.be.rejectedWith(
                 /No directory found at/
@@ -188,7 +188,7 @@ describe("bundle command", () => {
         it("throws error if the target path is not a directory", async () => {
             const createPromise = bundle.handler({
                 ...commonOptions,
-                from: join(targetTree, "not-a-directory")
+                from: join(targetTree, "not-a-directory"),
             });
             await expect(createPromise).to.be.rejectedWith(
                 /No directory found at/
@@ -199,7 +199,7 @@ describe("bundle command", () => {
             const createPromise = bundle.handler({
                 ...commonOptions,
                 from: join(targetTree, "target"),
-                fallbackAssetPath: "/non-existing"
+                fallbackAssetPath: "/non-existing",
             });
             await expect(createPromise).to.be.rejectedWith(
                 /\/non-existing cannot be set as fallbackAssetPath/
@@ -209,7 +209,7 @@ describe("bundle command", () => {
         it("packages the target path into a tar archive", async () => {
             await bundle.handler({
                 ...commonOptions,
-                from: join(targetTree, "target")
+                from: join(targetTree, "target"),
             });
             const { content } = bundlesCreateStub.getCall(0).args[0];
             const files = await tarArchiver.extractFiles(
@@ -217,14 +217,14 @@ describe("bundle command", () => {
             );
             expect(files).to.deep.equalInAnyOrder([
                 { path: "/index.html", content: Buffer.from("index.html") },
-                { path: "/js/index.js", content: Buffer.from("index.js") }
+                { path: "/js/index.js", content: Buffer.from("index.js") },
             ]);
         });
 
         it("creates a bundle", async () => {
             await bundle.handler({
                 ...commonOptions,
-                from: join(targetTree, "target")
+                from: join(targetTree, "target"),
             });
             expect(bundlesCreateStub).to.have.callCount(1);
             expect(bundlesCreateStub).to.have.been.calledWithMatch({
@@ -234,7 +234,7 @@ describe("bundle command", () => {
                 description: "description",
                 fallbackAssetPath: "/index.html",
                 fallbackStatusCode: 200,
-                headers: {}
+                headers: {},
             });
         });
     });

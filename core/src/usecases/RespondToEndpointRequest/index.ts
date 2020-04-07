@@ -4,7 +4,7 @@ import { join } from "path";
 import {
     NoBundleOrRedirectToError,
     NoMatchingEntrypointError,
-    StoragesInconsistencyError
+    StoragesInconsistencyError,
 } from "../../common/errors";
 import removePrefix from "../../common/removePrefix";
 import Usecase from "../../common/Usecase";
@@ -29,7 +29,7 @@ export default class RespondToEndpointRequest extends Usecase {
         );
         const matchingEntrypoint = _(entrypoints)
             .filter(
-                entrypoint =>
+                (entrypoint) =>
                     _.startsWith(requestedUrl, entrypoint.urlMatcher) ||
                     _.startsWith(
                         addTrailingSlash(requestedUrl),
@@ -73,8 +73,8 @@ export default class RespondToEndpointRequest extends Usecase {
             return {
                 statusCode: 301,
                 headers: {
-                    location: addTrailingSlash(request.path)
-                }
+                    location: addTrailingSlash(request.path),
+                },
             };
         }
 
@@ -85,8 +85,8 @@ export default class RespondToEndpointRequest extends Usecase {
             return {
                 statusCode: 302,
                 headers: {
-                    location: matchingEntrypoint.redirectTo
-                }
+                    location: matchingEntrypoint.redirectTo,
+                },
             };
         }
 
@@ -112,7 +112,7 @@ export default class RespondToEndpointRequest extends Usecase {
             );
         }
         const fallbackAsset = _.find(linkedBundle.assets, {
-            path: linkedBundle.fallbackAssetPath
+            path: linkedBundle.fallbackAssetPath,
         });
         if (!fallbackAsset) {
             throw new StoragesInconsistencyError(
@@ -135,8 +135,8 @@ export default class RespondToEndpointRequest extends Usecase {
             return {
                 statusCode: 301,
                 headers: {
-                    location: canonicalRemotePath
-                }
+                    location: canonicalRemotePath,
+                },
             };
         }
 
@@ -179,11 +179,11 @@ export default class RespondToEndpointRequest extends Usecase {
                           matchingAsset.headers,
                           configurationScript!.sha256
                       )
-                    : matchingAsset.headers)
+                    : matchingAsset.headers),
             },
             body: isHtmlAsset
                 ? configureHtml(content, configurationScript!.content)
-                : content
+                : content,
         };
     }
 
@@ -210,7 +210,7 @@ export default class RespondToEndpointRequest extends Usecase {
             // entrypoint at which the asset is being served
             BASE_PATH: entrypoint.urlMatcher.slice(
                 entrypoint.urlMatcher.indexOf("/")
-            )
+            ),
         };
     }
 }

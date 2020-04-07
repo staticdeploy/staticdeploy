@@ -25,7 +25,7 @@ describe("managementApiAdapter PATCH /apps/:appId", () => {
             .expect(200)
             .expect({ defaultConfiguration: { newKey: "newValue" } });
         expect(execMock).to.have.been.calledOnceWith("id", {
-            defaultConfiguration: { newKey: "newValue" }
+            defaultConfiguration: { newKey: "newValue" },
         });
     });
 });

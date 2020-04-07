@@ -19,10 +19,8 @@ export default ((req: IRequest, res) => {
         "#?",
         qs.stringify({
             id_token: JWT.sign({ nonce }, signingKey),
-            state: state
-        })
+            state: state,
+        }),
     ].join("");
-    res.status(302)
-        .location(redirectUrl)
-        .send();
+    res.status(302).location(redirectUrl).send();
 }) as RequestHandler;

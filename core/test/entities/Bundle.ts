@@ -3,7 +3,7 @@ import { repeat } from "lodash";
 
 import {
     isBundleNameOrTagValid,
-    isBundleNameTagCombinationValid
+    isBundleNameTagCombinationValid,
 } from "../../src/entities/Bundle";
 
 describe("Bundle entity validator isBundleNameOrTagValid", () => {
@@ -21,8 +21,8 @@ describe("Bundle entity validator isBundleNameOrTagValid", () => {
             "master",
             "feature/some-feature",
             "v1.0.0",
-            "1.0.0-beta1"
-        ].forEach(nameOrTag => {
+            "1.0.0-beta1",
+        ].forEach((nameOrTag) => {
             it(`case: ${nameOrTag}`, () => {
                 expect(isBundleNameOrTagValid(nameOrTag)).to.equal(true);
             });
@@ -36,8 +36,8 @@ describe("Bundle entity validator isBundleNameOrTagValid", () => {
             "with-unsupported-chars*",
             "with-spaces ",
             "with-backslashes\\",
-            repeat("too-long-", 50)
-        ].forEach(nameOrTag => {
+            repeat("too-long-", 50),
+        ].forEach((nameOrTag) => {
             it(`case: ${nameOrTag}`, () => {
                 expect(isBundleNameOrTagValid(nameOrTag)).to.equal(false);
             });
@@ -51,8 +51,8 @@ describe("Bundle entity validator isBundleNameTagCombinationValid", () => {
             "name:tag",
             "name_name:tag/tag",
             "name/name:v1.0.0",
-            "name.name/name:tag_.tag"
-        ].forEach(nameTagCombination => {
+            "name.name/name:tag_.tag",
+        ].forEach((nameTagCombination) => {
             it(`case: ${nameTagCombination}`, () => {
                 expect(
                     isBundleNameTagCombinationValid(nameTagCombination)
@@ -67,8 +67,8 @@ describe("Bundle entity validator isBundleNameTagCombinationValid", () => {
             "no-tag:",
             ":no-name",
             "invalid-name*:tag",
-            "invalid-tag:taag*"
-        ].forEach(nameTagCombination => {
+            "invalid-tag:taag*",
+        ].forEach((nameTagCombination) => {
             it(`case: ${nameTagCombination}`, () => {
                 expect(
                     isBundleNameTagCombinationValid(nameTagCombination)

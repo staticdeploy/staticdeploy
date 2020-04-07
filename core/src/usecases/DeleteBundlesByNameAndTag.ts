@@ -29,7 +29,7 @@ export default class DeleteBundlesByNameAndTag extends Usecase {
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.DeleteBundle, {
-            deletedBundles: toBeDeletedBundles
+            deletedBundles: toBeDeletedBundles,
         });
     }
 }

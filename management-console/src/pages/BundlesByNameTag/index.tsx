@@ -1,3 +1,4 @@
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
 import { IBundle } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -29,8 +30,10 @@ class BundlesByNameTag extends React.Component<Props> {
                 bundleName={bundleName}
                 bundleTag={bundleTag}
                 history={history}
-                trigger={<ODItem icon="delete" label="Delete bundles" />}
-            />
+                trigger={
+                    <ODItem icon={<DeleteOutlined />} label="Delete bundles" />
+                }
+            />,
         ];
     }
     render() {
@@ -57,5 +60,5 @@ export default withData({
         oldProps.match.params.bundleTag !== newProps.match.params.bundleTag,
     spinnerSize: "large",
     spinnerTip: "Fetching bundles...",
-    Component: BundlesByNameTag
+    Component: BundlesByNameTag,
 });

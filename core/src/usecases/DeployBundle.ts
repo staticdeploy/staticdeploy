@@ -1,6 +1,6 @@
 import {
     BundleNotFoundError,
-    EntrypointMismatchedAppIdError
+    EntrypointMismatchedAppIdError,
 } from "../common/errors";
 import Usecase from "../common/Usecase";
 import { splitNameTagCombination } from "../entities/Bundle";
@@ -17,7 +17,7 @@ export default class DeployBundle extends Usecase {
         const {
             bundleNameTagCombination,
             appName,
-            entrypointUrlMatcher
+            entrypointUrlMatcher,
         } = options;
         const [bundleName, bundleTag] = splitNameTagCombination(
             bundleNameTagCombination
@@ -27,7 +27,7 @@ export default class DeployBundle extends Usecase {
         const [bundle, existingApp, existingEntrypoint] = await Promise.all([
             this.storages.bundles.findLatestByNameAndTag(bundleName, bundleTag),
             this.storages.apps.findOneByName(appName),
-            this.storages.entrypoints.findOneByUrlMatcher(entrypointUrlMatcher)
+            this.storages.entrypoints.findOneByUrlMatcher(entrypointUrlMatcher),
         ]);
 
         // Ensure the bundle exists
@@ -65,7 +65,7 @@ export default class DeployBundle extends Usecase {
             await this.makeUsecase(CreateEntrypoint).exec({
                 appId: app.id,
                 bundleId: bundle.id,
-                urlMatcher: entrypointUrlMatcher
+                urlMatcher: entrypointUrlMatcher,
             });
         } else {
             // Otherwise, just update the existing entrypoint to point it to the

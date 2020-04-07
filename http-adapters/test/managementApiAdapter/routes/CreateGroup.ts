@@ -26,7 +26,7 @@ describe("managementApiAdapter POST /groups", () => {
             .expect({ name: "name", roles: ["role"] });
         expect(execMock).to.have.been.calledOnceWith({
             name: "name",
-            roles: ["role"]
+            roles: ["role"],
         });
     });
 });

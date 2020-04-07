@@ -7,7 +7,7 @@ export default ((req, res) => {
         entrypoint({
             id: req.params.entrypointId,
             updatedAt: new Date().toISOString(),
-            ...req.body
+            ...req.body,
         })
     );
 }) as RequestHandler;

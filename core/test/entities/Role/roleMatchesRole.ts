@@ -16,43 +16,43 @@ describe("Role entity function roleMatchesRole", () => {
             [
                 "app-manager:different-appName",
                 [RoleName.AppManager, "appName"],
-                false
+                false,
             ],
 
             // RoleName.EntrypointManager
             [
                 "entrypoint-manager:example.com/",
                 [RoleName.EntrypointManager, "example.com/"],
-                true
+                true,
             ],
             [
                 "entrypoint-manager:sub.example.com/",
                 [RoleName.EntrypointManager, "example.com/"],
-                false
+                false,
             ],
 
             // RoleName.BundleManager
             [
                 "bundle-manager:bundleName",
                 [RoleName.BundleManager, "bundleName"],
-                true
+                true,
             ],
             ["bundle-manager:*", [RoleName.BundleManager, "bundleName"], true],
             [
                 "bundle-manager:bundle*",
                 [RoleName.BundleManager, "bundleName"],
-                true
+                true,
             ],
             [
                 "bundle-manager:*Name",
                 [RoleName.BundleManager, "bundleName"],
-                true
+                true,
             ],
             [
                 "bundle-manager:different-bundleName",
                 [RoleName.BundleManager, "bundleName"],
-                false
-            ]
+                false,
+            ],
         ];
         testCases.forEach(([inputRole, targetRole, expectedResult]) => {
             const matchesOrNot = expectedResult ? "matches" : "doesn't match";

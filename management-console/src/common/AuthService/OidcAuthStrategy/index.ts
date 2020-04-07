@@ -25,7 +25,7 @@ export default class OidcAuthStrategy implements IAuthStrategy {
             redirect_uri: urlUtils.getRedirectUrl(baseRedirectUrl),
             silent_redirect_uri: urlUtils.getSilentRedirectUrl(baseRedirectUrl),
             scope: "openid profile",
-            userStore: new WebStorageStateStore({ store: window.localStorage })
+            userStore: new WebStorageStateStore({ store: window.localStorage }),
         });
         this.displayName = providerName;
     }
@@ -75,7 +75,7 @@ export default class OidcAuthStrategy implements IAuthStrategy {
         if (isAuthTokenExpired(user.expires_at)) {
             try {
                 user = await this.userManager.signinSilent({
-                    login_hint: getLoginHint(user)
+                    login_hint: getLoginHint(user),
                 });
             } catch {
                 await this.logout();

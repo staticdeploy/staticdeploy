@@ -3,7 +3,7 @@ import Usecase from "../common/Usecase";
 import { IApp } from "../entities/App";
 import {
     IConfiguration,
-    validateConfiguration
+    validateConfiguration,
 } from "../entities/Configuration";
 import { Operation } from "../entities/OperationLog";
 
@@ -35,13 +35,13 @@ export default class UpdateApp extends Usecase {
         // Update the app
         const updatedApp = await this.storages.apps.updateOne(id, {
             defaultConfiguration: patch.defaultConfiguration,
-            updatedAt: new Date()
+            updatedAt: new Date(),
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.UpdateApp, {
             oldApp: existingApp,
-            newApp: updatedApp
+            newApp: updatedApp,
         });
 
         return updatedApp;

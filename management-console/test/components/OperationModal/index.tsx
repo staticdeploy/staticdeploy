@@ -5,13 +5,13 @@ import React from "react";
 import sinon from "sinon";
 
 import OperationModal, {
-    OperationStatus
+    OperationStatus,
 } from "../../../src/components/OperationModal";
 
 describe("OperationModal", () => {
     const props = {
         title: "title",
-        operation: sinon.stub()
+        operation: sinon.stub(),
     };
 
     it("when clicked, renders an open Modal", () => {
@@ -29,21 +29,21 @@ describe("OperationModal", () => {
         it("when state.status === OperationStatus.NotStarted", () => {
             operationModal.setState({
                 modalOpen: true,
-                status: OperationStatus.NotStarted
+                status: OperationStatus.NotStarted,
             });
             expect(operationModal.find("div#child")).to.have.length(1);
         });
         it("when state.status === OperationStatus.Started", () => {
             operationModal.setState({
                 modalOpen: true,
-                status: OperationStatus.Started
+                status: OperationStatus.Started,
             });
             expect(operationModal.find("div#child")).to.have.length(1);
         });
         it("when state.status === OperationStatus.Failed", () => {
             operationModal.setState({
                 modalOpen: true,
-                status: OperationStatus.Failed
+                status: OperationStatus.Failed,
             });
             expect(operationModal.find("div#child")).to.have.length(1);
         });
@@ -57,7 +57,7 @@ describe("OperationModal", () => {
         );
         operationModal.setState({
             modalOpen: true,
-            status: OperationStatus.Succeeded
+            status: OperationStatus.Succeeded,
         });
         expect(operationModal.find("div#child")).to.have.length(0);
     });

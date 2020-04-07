@@ -30,9 +30,6 @@ describe("middleware extractAuthToken", () => {
     });
 
     it("extracts null otherwise", () => {
-        return request(server)
-            .get("/")
-            .expect(200)
-            .expect({ authToken: null });
+        return request(server).get("/").expect(200).expect({ authToken: null });
     });
 });

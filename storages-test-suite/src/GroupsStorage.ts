@@ -9,7 +9,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const groupExists = await storages.groups.oneExistsWithName("name");
             expect(groupExists).to.equal(true);
@@ -26,18 +26,18 @@ export default (storages: IStorages) => {
                 name: "name0",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.groups.createOne({
                 id: "id1",
                 name: "name1",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const allGroupsExist = await storages.groups.allExistWithIds([
                 "id0",
-                "id1"
+                "id1",
             ]);
             expect(allGroupsExist).to.equal(true);
         });
@@ -48,11 +48,11 @@ export default (storages: IStorages) => {
                 name: "name0",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const allGroupsExist = await storages.groups.allExistWithIds([
                 "id0",
-                "id1"
+                "id1",
             ]);
             expect(allGroupsExist).to.equal(false);
         });
@@ -63,7 +63,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.groups.createOne(group);
             const foundGroup = await storages.groups.findOne("id");
@@ -81,7 +81,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.groups.createOne(group);
             const foundGroup = await storages.groups.findOneByName("name");
@@ -99,7 +99,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
             await storages.groups.createOne(group);
             const foundGroups = await storages.groups.findMany();
@@ -113,7 +113,7 @@ export default (storages: IStorages) => {
                     name: "name",
                     roles: [],
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.groups.createOne(group);
                 const foundGroup = await storages.groups.findOne("id");
@@ -126,7 +126,7 @@ export default (storages: IStorages) => {
                     name: "name",
                     roles: ["role"],
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 };
                 await storages.groups.createOne(group);
                 const foundGroup = await storages.groups.findOne("id");
@@ -140,12 +140,12 @@ export default (storages: IStorages) => {
                 name: "name",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.groups.updateOne("id", {
                 name: undefined,
                 roles: ["role"],
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             const foundGroup = await storages.groups.findOne("id");
             // Test to see if undefined values passed to updateOne are correctly
@@ -162,7 +162,7 @@ export default (storages: IStorages) => {
                 name: "name",
                 roles: [],
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
             await storages.groups.deleteOne("id");
             const groupExists = await storages.groups.oneExistsWithName("name");

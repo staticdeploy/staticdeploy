@@ -6,16 +6,18 @@ export default {
         if (process.env.NODE_ENV !== "test") {
             message
                 .split("\n")
-                .forEach(line => console.log(`${chalk.red("error:")} ${line}`));
+                .forEach((line) =>
+                    console.log(`${chalk.red("error:")} ${line}`)
+                );
         }
     },
     success: (message: string) => {
         if (process.env.NODE_ENV !== "test") {
             message
                 .split("\n")
-                .forEach(line =>
+                .forEach((line) =>
                     console.log(`${chalk.green("success:")} ${line}`)
                 );
         }
-    }
+    },
 };

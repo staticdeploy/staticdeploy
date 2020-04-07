@@ -23,7 +23,7 @@ export default class DeleteEntrypoint extends Usecase {
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.DeleteEntrypoint, {
-            deletedEntrypoint: toBeDeletedEntrypoint
+            deletedEntrypoint: toBeDeletedEntrypoint,
         });
     }
 }

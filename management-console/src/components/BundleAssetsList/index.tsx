@@ -19,7 +19,7 @@ export default class BundleAssetsList extends React.Component<IProps> {
             <Table<IAsset>
                 columns={[
                     { key: "path", dataIndex: "path" },
-                    { key: "mimeType", dataIndex: "mimeType" }
+                    { key: "mimeType", dataIndex: "mimeType" },
                 ]}
                 dataSource={sortBy(this.props.assets, "path")}
                 size="small"

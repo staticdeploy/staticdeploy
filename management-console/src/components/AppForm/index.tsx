@@ -4,7 +4,7 @@ import { InjectedFormProps } from "redux-form";
 import { fromKVPairs, toKVPairs } from "../../common/configurationUtils";
 import {
     IConverterForm,
-    reduxForm
+    reduxForm,
 } from "../../common/formWithValuesConverter";
 import ConfigurationField from "../ConfigurationField";
 import TextField from "../TextField";
@@ -46,10 +46,10 @@ export default reduxForm<IExternalFormValues, IInternalFormValues, IProps>({
         name: initialValues.name || "",
         defaultConfiguration: toKVPairs(
             initialValues.defaultConfiguration || {}
-        )
+        ),
     }),
-    toExternal: values => ({
+    toExternal: (values) => ({
         name: values.name,
-        defaultConfiguration: fromKVPairs(values.defaultConfiguration)
-    })
+        defaultConfiguration: fromKVPairs(values.defaultConfiguration),
+    }),
 })(AppForm);

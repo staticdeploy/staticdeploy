@@ -2,7 +2,7 @@ import {
     ArchiveCreationError,
     ArchiveExtractionError,
     IArchiver,
-    IFile
+    IFile,
 } from "@staticdeploy/core";
 import { map } from "bluebird";
 import { mkdirp, outputFile, readFile, remove } from "fs-extra";
@@ -29,14 +29,14 @@ const tarArchiver: ITarArchiver = {
             await mkdirp(stagingDirectoryPath);
             await tar.extract({
                 cwd: stagingDirectoryPath,
-                file: tarArchivePath
+                file: tarArchivePath,
             });
             const localPaths = await recursiveReaddir(stagingDirectoryPath);
-            return map(localPaths, async localPath => {
+            return map(localPaths, async (localPath) => {
                 const path = removePrefix(localPath, stagingDirectoryPath);
                 return {
                     path: path,
-                    content: await readFile(join(stagingDirectoryPath, path))
+                    content: await readFile(join(stagingDirectoryPath, path)),
                 };
             });
         } catch (err) {
@@ -52,7 +52,7 @@ const tarArchiver: ITarArchiver = {
         const tarArchivePath = join(workingDirectoryPath, "archive.tar.gz");
         try {
             await mkdirp(workingDirectoryPath);
-            await map(files, file =>
+            await map(files, (file) =>
                 outputFile(join(stagingDirectoryPath, file.path), file.content)
             );
             await tar.create(
@@ -60,7 +60,7 @@ const tarArchiver: ITarArchiver = {
                     cwd: stagingDirectoryPath,
                     file: tarArchivePath,
                     gzip: true,
-                    portable: true
+                    portable: true,
                 },
                 ["."]
             );
@@ -82,7 +82,7 @@ const tarArchiver: ITarArchiver = {
                     cwd: path,
                     file: tarArchivePath,
                     gzip: true,
-                    portable: true
+                    portable: true,
                 },
                 ["."]
             );
@@ -92,6 +92,6 @@ const tarArchiver: ITarArchiver = {
         } finally {
             await remove(workingDirectoryPath);
         }
-    }
+    },
 };
 export default tarArchiver;

@@ -14,11 +14,11 @@ const config: IConfig = {
     port: env("PORT", { default: "3000" }),
     managementHostname: env("MANAGEMENT_HOSTNAME", {
         required: true,
-        nonProductionDefault: "localhost"
+        nonProductionDefault: "localhost",
     }),
     enableManagementEndpoints: env("ENABLE_MANAGEMENT_ENDPOINTS", {
         default: "true",
-        parse: value => value !== "false"
+        parse: (value) => value !== "false",
     }),
 
     // Routing configuration
@@ -27,14 +27,14 @@ const config: IConfig = {
     // Auth configurations
     enforceAuth: env("ENFORCE_AUTH", {
         default: "true",
-        parse: value => value !== "false"
+        parse: (value) => value !== "false",
     }),
     createRootUser: env("CREATE_ROOT_USER", {
         default: "true",
-        parse: value => value !== "false"
+        parse: (value) => value !== "false",
     }),
     jwtSecretOrPublicKey: env("JWT_SECRET_OR_PUBLIC_KEY", {
-        parse: value => Buffer.from(value, "base64")
+        parse: (value) => Buffer.from(value, "base64"),
     }),
     oidcConfigurationUrl: env("OIDC_CONFIGURATION_URL"),
     oidcClientId: env("OIDC_CLIENT_ID"),
@@ -45,6 +45,6 @@ const config: IConfig = {
     s3Bucket: env("S3_BUCKET"),
     s3Endpoint: env("S3_ENDPOINT"),
     s3AccessKeyId: env("S3_ACCESS_KEY_ID"),
-    s3SecretAccessKey: env("S3_SECRET_ACCESS_KEY")
+    s3SecretAccessKey: env("S3_SECRET_ACCESS_KEY"),
 };
 export default config;

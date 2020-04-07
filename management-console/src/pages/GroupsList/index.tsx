@@ -1,3 +1,4 @@
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { IGroup } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";
@@ -25,9 +26,11 @@ class GroupsList extends React.Component<Props> {
             <GroupCreateOperationModal
                 key="GroupCreateOperationModal"
                 history={this.props.history}
-                trigger={<ODItem icon="plus" label="Create group" />}
+                trigger={
+                    <ODItem icon={<PlusOutlined />} label="Create group" />
+                }
                 refetchGroupsList={this.props.refetch}
-            />
+            />,
         ];
     }
     render() {
@@ -36,8 +39,8 @@ class GroupsList extends React.Component<Props> {
                 <GroupsLinksList
                     title="Groups"
                     items={this.props.result}
-                    getDescription={group => group.name}
-                    getHref={group => `/groups/${group.id}`}
+                    getDescription={(group) => group.name}
+                    getHref={(group) => `/groups/${group.id}`}
                 />
             </Page>
         );
@@ -45,7 +48,7 @@ class GroupsList extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: staticdeploy => staticdeploy.groups.getAll(),
+    fetchData: (staticdeploy) => staticdeploy.groups.getAll(),
     // Refetch when:
     shouldRefetch: (oldProps, newProps) =>
         // - the user was on the group detail page, and switched to the groups
@@ -57,5 +60,5 @@ export default withData({
         isNil(newProps.match.params.groupId),
     spinnerSize: "large",
     spinnerTip: "Fetching groups...",
-    Component: GroupsList
+    Component: GroupsList,
 });

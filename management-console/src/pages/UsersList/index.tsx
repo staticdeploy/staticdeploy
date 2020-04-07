@@ -1,5 +1,7 @@
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import RobotOutlined from "@ant-design/icons/RobotOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { IGroup, IUser, UserType } from "@staticdeploy/core";
-import Icon from "antd/lib/icon";
 import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -32,9 +34,9 @@ class UsersList extends React.Component<Props> {
                 key="UserCreateOperationModal"
                 groups={this.props.result.groups}
                 history={this.props.history}
-                trigger={<ODItem icon="plus" label="Create user" />}
+                trigger={<ODItem icon={<PlusOutlined />} label="Create user" />}
                 refetchUsersList={this.props.refetch}
-            />
+            />,
         ];
     }
     render() {
@@ -43,21 +45,19 @@ class UsersList extends React.Component<Props> {
                 <UsersLinksList
                     title="Users"
                     items={this.props.result.users}
-                    getDescription={user => (
+                    getDescription={(user) => (
                         <>
-                            <Icon
-                                type={
-                                    user.type === UserType.Human
-                                        ? "user"
-                                        : "robot"
-                                }
-                            />
+                            {user.type === UserType.Human ? (
+                                <UserOutlined />
+                            ) : (
+                                <RobotOutlined />
+                            )}
                             <span className="v-UsersList-user-name">
                                 {user.name}
                             </span>
                         </>
                     )}
-                    getHref={user => `/users/${user.id}`}
+                    getHref={(user) => `/users/${user.id}`}
                 />
             </Page>
         );
@@ -65,10 +65,10 @@ class UsersList extends React.Component<Props> {
 }
 
 export default withData({
-    fetchData: async staticdeploy => {
+    fetchData: async (staticdeploy) => {
         const [groups, users] = await Promise.all([
             staticdeploy.groups.getAll(),
-            staticdeploy.users.getAll()
+            staticdeploy.users.getAll(),
         ]);
         return { groups, users };
     },
@@ -83,5 +83,5 @@ export default withData({
         isNil(newProps.match.params.userId),
     spinnerSize: "large",
     spinnerTip: "Fetching users...",
-    Component: UsersList
+    Component: UsersList,
 });

@@ -15,7 +15,7 @@ describe("Role entity util isRoleValid", () => {
             ["root", true],
             ["app-manager:appName", true],
             ["bundle-manager:bundleName", true],
-            ["entrypoint-manager:example.com/", true]
+            ["entrypoint-manager:example.com/", true],
         ];
         testCases.forEach(([role, expectedResult]) => {
             const validOrNot = expectedResult ? "valid" : "not valid";

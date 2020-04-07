@@ -64,7 +64,7 @@ export default abstract class Usecase {
             authenticationStrategies: this.authenticationStrategies,
             config: this.config,
             requestContext: this.requestContext,
-            storages: this.storages
+            storages: this.storages,
         });
     }
 }

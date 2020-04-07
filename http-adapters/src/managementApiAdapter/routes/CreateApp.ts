@@ -14,10 +14,10 @@ const bodySchema = {
     type: "object",
     properties: {
         name: { type: "string" },
-        defaultConfiguration: { type: "object" }
+        defaultConfiguration: { type: "object" },
     },
     required: ["name"],
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -30,16 +30,16 @@ export default convroute({
             name: "app",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
         "201": { description: "App created, returns the app" },
-        "409": { description: "App with same name already exists" }
+        "409": { description: "App with same name already exists" },
     },
     handler: async (req: IRequest, res) => {
         const createApp = req.makeUsecase("createApp");
         const createdApp = await createApp.exec(req.body);
         res.status(201).send(createdApp);
-    }
+    },
 });

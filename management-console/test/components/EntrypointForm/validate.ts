@@ -40,7 +40,7 @@ describe("EntrypointForm validation function", () => {
     describe("configuration validation", () => {
         it("requires all configuration keys to be non-empty", () => {
             const errors = validate({
-                configuration: [{ key: "", value: "" }]
+                configuration: [{ key: "", value: "" }],
             });
             expect(errors).to.have.nested.property(
                 "configuration.0.key",
@@ -51,8 +51,8 @@ describe("EntrypointForm validation function", () => {
             const errors = validate({
                 configuration: [
                     { key: "key", value: "" },
-                    { key: "key", value: "" }
-                ]
+                    { key: "key", value: "" },
+                ],
             });
             expect(errors).to.have.nested.property(
                 "configuration.0.key",

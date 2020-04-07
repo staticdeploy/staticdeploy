@@ -13,8 +13,6 @@ export default function getConfigurationScript(
     const content = `window.APP_CONFIG=${JSON.stringify(configuration)};`;
     return {
         content: content,
-        sha256: createHash("sha256")
-            .update(content)
-            .digest("base64")
+        sha256: createHash("sha256").update(content).digest("base64"),
     };
 }

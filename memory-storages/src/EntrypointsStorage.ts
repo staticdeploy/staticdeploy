@@ -1,7 +1,7 @@
 import {
     IConfiguration,
     IEntrypoint,
-    IEntrypointsStorage
+    IEntrypointsStorage,
 } from "@staticdeploy/core";
 import { defaults, filter, find } from "lodash";
 
@@ -29,7 +29,7 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     async findManyByUrlMatcherHostname(
         urlMatcherHostname: string
     ): Promise<IEntrypoint[]> {
-        return filter(this.entrypoints, entrypoint =>
+        return filter(this.entrypoints, (entrypoint) =>
             entrypoint.urlMatcher.startsWith(urlMatcherHostname)
         );
     }
@@ -45,7 +45,7 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     async anyExistsWithBundleIdIn(bundleIds: string[]): Promise<boolean> {
         return !!find(
             this.entrypoints,
-            e => e.bundleId !== null && bundleIds.includes(e.bundleId)
+            (e) => e.bundleId !== null && bundleIds.includes(e.bundleId)
         );
     }
 
@@ -74,7 +74,7 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     ): Promise<IEntrypoint> {
         this.entrypoints[id] = {
             ...this.entrypoints[id],
-            ...defaults(patch, this.entrypoints[id])
+            ...defaults(patch, this.entrypoints[id]),
         };
         return this.entrypoints[id];
     }

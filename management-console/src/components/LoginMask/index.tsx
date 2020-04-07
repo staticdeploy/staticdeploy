@@ -1,6 +1,6 @@
+import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import Card from "antd/lib/card";
 import Divider from "antd/lib/divider";
-import Icon from "antd/lib/icon";
 import Spin from "antd/lib/spin";
 import compact from "lodash/compact";
 import React from "react";
@@ -52,12 +52,12 @@ export default class LoginMask extends React.Component<IProps> {
                 authService.hasAuthStrategy("jwt") ? (
                     <JwtLogin
                         key="jwt"
-                        onLogin={jwt => authService.loginWith("jwt", jwt)}
+                        onLogin={(jwt) => authService.loginWith("jwt", jwt)}
                         strategyDisplayName={authService.getStrategyDisplayName(
                             "jwt"
                         )}
                     />
-                ) : null
+                ) : null,
             ]),
             <Divider>{"or"}</Divider>
         );
@@ -82,7 +82,7 @@ export default class LoginMask extends React.Component<IProps> {
                         </h3>
                     </div>
                     <Spin
-                        indicator={<Icon type="loading" spin={true} />}
+                        indicator={<LoadingOutlined spin={true} />}
                         spinning={authStatus.isLoggingIn}
                     >
                         {content}

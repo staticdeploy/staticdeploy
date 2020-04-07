@@ -6,7 +6,7 @@ import {
     BundleNotFoundError,
     ConfigurationNotValidError,
     ConflictingEntrypointError,
-    EntrypointUrlMatcherNotValidError
+    EntrypointUrlMatcherNotValidError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateEntrypoint from "../../src/usecases/CreateEntrypoint";
@@ -19,7 +19,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypoint = new CreateEntrypoint(deps);
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
-            urlMatcher: "example.com/"
+            urlMatcher: "example.com/",
         });
         await expect(createEntrypointPromise).to.be.rejectedWith(
             AppNotFoundError
@@ -35,7 +35,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypoint = new CreateEntrypoint(deps);
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
-            urlMatcher: "*"
+            urlMatcher: "*",
         });
         await expect(createEntrypointPromise).to.be.rejectedWith(
             EntrypointUrlMatcherNotValidError
@@ -52,7 +52,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
             urlMatcher: "example.com/",
-            configuration: "not-valid-configuration" as any
+            configuration: "not-valid-configuration" as any,
         });
         await expect(createEntrypointPromise).to.be.rejectedWith(
             ConfigurationNotValidError
@@ -70,7 +70,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
             urlMatcher: "example.com/",
-            bundleId: "bundleId"
+            bundleId: "bundleId",
         });
         await expect(createEntrypointPromise).to.be.rejectedWith(
             BundleNotFoundError
@@ -87,7 +87,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypoint = new CreateEntrypoint(deps);
         const createEntrypointPromise = createEntrypoint.exec({
             appId: "appId",
-            urlMatcher: "example.com/"
+            urlMatcher: "example.com/",
         });
         await expect(createEntrypointPromise).to.be.rejectedWith(
             ConflictingEntrypointError
@@ -103,7 +103,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypoint = new CreateEntrypoint(deps);
         await createEntrypoint.exec({
             appId: "appId",
-            urlMatcher: "example.com/"
+            urlMatcher: "example.com/",
         });
         expect(deps.storages.entrypoints.createOne).to.have.been.calledOnceWith(
             {
@@ -114,7 +114,7 @@ describe("usecase CreateEntrypoint", () => {
                 redirectTo: null,
                 configuration: null,
                 createdAt: sinon.match.date,
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });
@@ -125,7 +125,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypoint = new CreateEntrypoint(deps);
         await createEntrypoint.exec({
             appId: "appId",
-            urlMatcher: "example.com/"
+            urlMatcher: "example.com/",
         });
         expect(
             deps.storages.operationLogs.createOne
@@ -142,7 +142,7 @@ describe("usecase CreateEntrypoint", () => {
         const createEntrypoint = new CreateEntrypoint(deps);
         const createdEntrypoint = await createEntrypoint.exec({
             appId: "appId",
-            urlMatcher: "example.com/"
+            urlMatcher: "example.com/",
         });
         expect(createdEntrypoint).to.equal(mockCreatedEntrypoint);
     });

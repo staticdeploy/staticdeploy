@@ -18,20 +18,20 @@ export default convroute({
             name: "bundleName",
             in: "path",
             required: true,
-            type: "string"
+            type: "string",
         },
         {
             name: "bundleTag",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "200": {
             description:
-                "Returns an array of bundles with the specified name and tag"
-        }
+                "Returns an array of bundles with the specified name and tag",
+        },
     },
     handler: async (req: IRequest, res) => {
         const getBundlesByNameAndTag = req.makeUsecase(
@@ -42,5 +42,5 @@ export default convroute({
             req.params.bundleTag
         );
         res.status(200).send(bundles);
-    }
+    },
 });

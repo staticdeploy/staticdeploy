@@ -5,7 +5,7 @@ import React from "react";
 
 import emphasizeString from "../../common/emphasizeString";
 import EntrypointForm, {
-    IEntrypointFormInstance
+    IEntrypointFormInstance,
 } from "../../components/EntrypointForm";
 import BaseOperationModal from "../../components/OperationModal";
 
@@ -33,7 +33,7 @@ export default class EntrypointCreateOperationModal extends React.Component<
             bundleId: values.bundleId,
             redirectTo: values.redirectTo,
             urlMatcher: values.urlMatcher,
-            configuration: values.configuration || undefined
+            configuration: values.configuration || undefined,
         });
     };
     refetchAppDetailAndGoToEntrypointDetail = (entrypoint: IEntrypoint) => {
@@ -52,7 +52,7 @@ export default class EntrypointCreateOperationModal extends React.Component<
                 onAfterSuccessClose={
                     this.refetchAppDetailAndGoToEntrypointDetail
                 }
-                successMessage={createdEntrypoint => (
+                successMessage={(createdEntrypoint) => (
                     <span>
                         {"Created entrypoint "}
                         {emphasizeString(createdEntrypoint.urlMatcher)}
@@ -61,7 +61,7 @@ export default class EntrypointCreateOperationModal extends React.Component<
                     </span>
                 )}
             >
-                <EntrypointForm ref={form => (this.form = form!)} />
+                <EntrypointForm ref={(form) => (this.form = form!)} />
             </OperationModal>
         );
     }

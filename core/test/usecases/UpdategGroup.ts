@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     ConflictingGroupError,
     GroupNotFoundError,
-    RoleNotValidError
+    RoleNotValidError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateGroup from "../../src/usecases/UpdateGroup";
@@ -14,7 +14,7 @@ describe("usecase UpdateGroup", () => {
     it("throws RoleNotValidError if one of the roles is not valid", async () => {
         const updateGroup = new UpdateGroup(getMockDependencies());
         const updateGroupPromise = updateGroup.exec("groupId", {
-            roles: ["not-valid"]
+            roles: ["not-valid"],
         });
         await expect(updateGroupPromise).to.be.rejectedWith(RoleNotValidError);
         await expect(updateGroupPromise).to.be.rejectedWith(
@@ -37,7 +37,7 @@ describe("usecase UpdateGroup", () => {
         deps.storages.groups.oneExistsWithName.resolves(true);
         const updateGroup = new UpdateGroup(deps);
         const updateGroupPromise = updateGroup.exec("groupId", {
-            name: "name"
+            name: "name",
         });
         await expect(updateGroupPromise).to.be.rejectedWith(
             ConflictingGroupError
@@ -57,7 +57,7 @@ describe("usecase UpdateGroup", () => {
             {
                 name: undefined,
                 roles: ["root"],
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });

@@ -30,7 +30,7 @@ export default class StaticdeployClient {
             baseURL: options.apiUrl,
             withCredentials: true,
             // Increase max request (and response) body length to 100MB
-            maxContentLength: 100 * 1024 * 1024
+            maxContentLength: 100 * 1024 * 1024,
         });
         this.axios.interceptors.response.use(parseDates(), convertErrors());
 

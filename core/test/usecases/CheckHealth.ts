@@ -21,15 +21,13 @@ describe("usecase CheckHealth", () => {
             setup: sinon.stub(),
             getIdpUserFromAuthToken: sinon
                 .stub<any, any>()
-                .resolves({ idp: "idp", id: "idpId" })
+                .resolves({ idp: "idp", id: "idpId" }),
         });
         deps.storages.users.findOneWithRolesByIdpAndIdpId.resolves({} as any);
         deps.storages.checkHealth.resolves({ isHealthy: false, details: {} });
         const checkHealth = new CheckHealth(deps);
         const result = await checkHealth.exec();
-        expect(result)
-            .to.have.property("details")
-            .that.deep.equals({});
+        expect(result).to.have.property("details").that.deep.equals({});
     });
 
     it("when the request is NOT authenticated, doesn't return any details", async () => {

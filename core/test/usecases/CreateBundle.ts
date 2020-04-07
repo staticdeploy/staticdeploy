@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import {
     BundleFallbackAssetNotFoundError,
-    BundleNameOrTagNotValidError
+    BundleNameOrTagNotValidError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import CreateBundle from "../../src/usecases/CreateBundle";
@@ -19,7 +19,7 @@ describe("usecase CreateBundle", () => {
             content: Buffer.from(""),
             fallbackAssetPath: "/file",
             fallbackStatusCode: 200,
-            headers: {}
+            headers: {},
         });
         await expect(createBundlePromise).to.be.rejectedWith(
             BundleNameOrTagNotValidError
@@ -38,7 +38,7 @@ describe("usecase CreateBundle", () => {
             content: Buffer.from(""),
             fallbackAssetPath: "/file",
             fallbackStatusCode: 200,
-            headers: {}
+            headers: {},
         });
         await expect(createBundlePromise).to.be.rejectedWith(
             BundleNameOrTagNotValidError
@@ -59,7 +59,7 @@ describe("usecase CreateBundle", () => {
             content: Buffer.from(""),
             fallbackAssetPath: "/non-existing",
             fallbackStatusCode: 200,
-            headers: {}
+            headers: {},
         });
         await expect(createBundlePromise).to.be.rejectedWith(
             BundleFallbackAssetNotFoundError
@@ -73,7 +73,7 @@ describe("usecase CreateBundle", () => {
         const deps = getMockDependencies();
         deps.archiver.extractFiles.resolves([
             { path: "/index.html", content: Buffer.from("index.html") },
-            { path: "/index.js", content: Buffer.from("index.js") }
+            { path: "/index.js", content: Buffer.from("index.js") },
         ]);
         const createBundle = new CreateBundle(deps);
         await createBundle.exec({
@@ -90,8 +90,8 @@ describe("usecase CreateBundle", () => {
                 "/index.html": { "/index.html": "/index.html" },
                 "/index.js": { "/index.js": "/index.js" },
                 "!(/index.html)": { "!(/index.html)": "!(/index.html)" },
-                "!(/index.js)": { "!(/index.js)": "!(/index.js)" }
-            }
+                "!(/index.js)": { "!(/index.js)": "!(/index.js)" },
+            },
         });
         expect(deps.storages.bundles.createOne).to.have.callCount(1);
         expect(
@@ -105,8 +105,8 @@ describe("usecase CreateBundle", () => {
                     "**/*": "**/*",
                     "**/*.html": "**/*.html",
                     "/index.html": "/index.html",
-                    "!(/index.js)": "!(/index.js)"
-                }
+                    "!(/index.js)": "!(/index.js)",
+                },
             },
             {
                 path: "/index.js",
@@ -116,16 +116,16 @@ describe("usecase CreateBundle", () => {
                     "**/*": "**/*",
                     "**/*.js": "**/*.js",
                     "/index.js": "/index.js",
-                    "!(/index.html)": "!(/index.html)"
-                }
-            }
+                    "!(/index.html)": "!(/index.html)",
+                },
+            },
         ]);
     });
 
     it("creates a bundle", async () => {
         const deps = getMockDependencies();
         deps.archiver.extractFiles.resolves([
-            { path: "/file", content: Buffer.from("file") }
+            { path: "/file", content: Buffer.from("file") },
         ]);
         const createBundle = new CreateBundle(deps);
         await createBundle.exec({
@@ -135,7 +135,7 @@ describe("usecase CreateBundle", () => {
             content: Buffer.from(""),
             fallbackAssetPath: "/file",
             fallbackStatusCode: 200,
-            headers: {}
+            headers: {},
         });
         expect(deps.storages.bundles.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
@@ -147,14 +147,14 @@ describe("usecase CreateBundle", () => {
             assets: sinon.match.any,
             fallbackAssetPath: "/file",
             fallbackStatusCode: 200,
-            createdAt: sinon.match.date
+            createdAt: sinon.match.date,
         });
     });
 
     it("logs the create bundle operation", async () => {
         const deps = getMockDependencies();
         deps.archiver.extractFiles.resolves([
-            { path: "/file", content: Buffer.from("file") }
+            { path: "/file", content: Buffer.from("file") },
         ]);
         const createBundle = new CreateBundle(deps);
         await createBundle.exec({
@@ -164,7 +164,7 @@ describe("usecase CreateBundle", () => {
             content: Buffer.from(""),
             fallbackAssetPath: "/file",
             fallbackStatusCode: 200,
-            headers: {}
+            headers: {},
         });
         expect(
             deps.storages.operationLogs.createOne
@@ -176,7 +176,7 @@ describe("usecase CreateBundle", () => {
     it("returns the created bundle", async () => {
         const deps = getMockDependencies();
         deps.archiver.extractFiles.resolves([
-            { path: "/file", content: Buffer.from("file") }
+            { path: "/file", content: Buffer.from("file") },
         ]);
         const mockCreatedBundle = {} as any;
         deps.storages.bundles.createOne.resolves(mockCreatedBundle);
@@ -188,7 +188,7 @@ describe("usecase CreateBundle", () => {
             content: Buffer.from(""),
             fallbackAssetPath: "/file",
             fallbackStatusCode: 200,
-            headers: {}
+            headers: {},
         });
         expect(createdBundle).to.equal(mockCreatedBundle);
     });

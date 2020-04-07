@@ -23,7 +23,7 @@ describe("managementApiAdapter PATCH /entrypoints/:entrypointId", () => {
             .expect(200)
             .expect({ urlMatcher: "example.com/" });
         expect(execMock).to.have.been.calledOnceWith("id", {
-            bundleId: "bundleId"
+            bundleId: "bundleId",
         });
     });
 });

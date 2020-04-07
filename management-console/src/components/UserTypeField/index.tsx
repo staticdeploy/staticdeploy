@@ -1,6 +1,7 @@
+import RobotOutlined from "@ant-design/icons/RobotOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { UserType } from "@staticdeploy/core";
 import Form from "antd/lib/form";
-import Icon from "antd/lib/icon";
 import Select from "antd/lib/select";
 import upperFirst from "lodash/upperFirst";
 import React from "react";
@@ -19,21 +20,27 @@ export class WrappedUserTypeField extends React.Component<
 > {
     render() {
         return (
-            <Form.Item label={this.props.label} className="c-UserTypeField">
+            <Form.Item
+                label={this.props.label}
+                wrapperCol={{ span: 24 }}
+                className="c-UserTypeField"
+            >
                 <Select
                     value={this.props.input.value}
                     onChange={this.props.input.onChange}
-                    onBlur={this.props.input.onBlur}
+                    onBlur={() =>
+                        this.props.input.onBlur(this.props.input.value)
+                    }
                     disabled={this.props.disabled}
                 >
                     <Select.Option value={UserType.Human}>
-                        <Icon type="user" />
+                        <UserOutlined />
                         <span className="c-UserTypeField-option-name">
                             {upperFirst(UserType.Human)}
                         </span>
                     </Select.Option>
                     <Select.Option value={UserType.Machine}>
-                        <Icon type="robot" />
+                        <RobotOutlined />
                         <span className="c-UserTypeField-option-name">
                             {upperFirst(UserType.Machine)}
                         </span>

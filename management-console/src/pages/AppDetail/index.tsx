@@ -1,3 +1,6 @@
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { IApp, IEntrypoint } from "@staticdeploy/core";
 import isNil from "lodash/isNil";
 import React from "react";
@@ -34,7 +37,7 @@ class AppDetail extends React.Component<Props> {
             history,
             location,
             refetch,
-            result: { app }
+            result: { app },
         } = this.props;
         return [
             <AppEditOperationModal
@@ -43,21 +46,25 @@ class AppDetail extends React.Component<Props> {
                 history={history}
                 location={location}
                 refetchAppDetail={refetch}
-                trigger={<ODItem icon="edit" label="Edit app" />}
+                trigger={<ODItem icon={<EditOutlined />} label="Edit app" />}
             />,
             <AppDeleteOperationModal
                 key="AppDeleteOperationModal"
                 app={app}
                 history={history}
-                trigger={<ODItem icon="delete" label="Delete app" />}
+                trigger={
+                    <ODItem icon={<DeleteOutlined />} label="Delete app" />
+                }
             />,
             <EntrypointCreateOperationModal
                 key="EntrypointCreateOperationModal"
                 app={app}
                 history={history}
-                trigger={<ODItem icon="plus" label="Create entrypoint" />}
+                trigger={
+                    <ODItem icon={<PlusOutlined />} label="Create entrypoint" />
+                }
                 refetchAppDetail={refetch}
-            />
+            />,
         ];
     }
     render() {
@@ -72,8 +79,8 @@ class AppDetail extends React.Component<Props> {
                 <EntrypointsLinksList
                     title="Entrypoints"
                     items={entrypoints}
-                    getDescription={entrypoint => entrypoint.urlMatcher}
-                    getHref={entrypoint =>
+                    getDescription={(entrypoint) => entrypoint.urlMatcher}
+                    getHref={(entrypoint) =>
                         `/apps/${app.id}/entrypoints/${entrypoint.id}`
                     }
                 />
@@ -87,7 +94,7 @@ export default withData({
         const { appId } = props.match.params;
         const [app, entrypoints] = await Promise.all([
             staticdeploy.apps.getOne(appId),
-            staticdeploy.entrypoints.getAll({ appId: appId })
+            staticdeploy.entrypoints.getAll({ appId: appId }),
         ]);
         return { app, entrypoints };
     },
@@ -104,5 +111,5 @@ export default withData({
             isNil(newProps.match.params.entrypointId)),
     spinnerSize: "large",
     spinnerTip: "Fetching app details...",
-    Component: AppDetail
+    Component: AppDetail,
 });

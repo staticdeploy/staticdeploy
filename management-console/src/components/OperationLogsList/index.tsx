@@ -1,8 +1,8 @@
 import { IOperationLog, Operation } from "@staticdeploy/core";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tag from "antd/lib/tag";
+import dayjs from "dayjs";
 import sortBy from "lodash/sortBy";
-import moment from "moment";
 import React from "react";
 import JSONTree from "react-json-tree";
 import { Link } from "react-router-dom";
@@ -30,7 +30,7 @@ export default class OperationLogsList extends React.Component<IProps> {
                             {prettifiedOperation}
                         </Tag>
                     );
-                }
+                },
             },
             {
                 key: "performedAt",
@@ -38,7 +38,7 @@ export default class OperationLogsList extends React.Component<IProps> {
                 dataIndex: "performedAt",
                 className: "c-OperationLogsList-performedAt-cell",
                 render: (performedAt: string) =>
-                    moment(performedAt).format("YYYY-MM-DD HH:mm:ss Z")
+                    dayjs(performedAt).format("YYYY-MM-DD HH:mm:ss Z"),
             },
             {
                 key: "performedBy",
@@ -49,8 +49,8 @@ export default class OperationLogsList extends React.Component<IProps> {
                     <Link to={`/users/${performedBy}`}>
                         <code>{performedBy}</code>
                     </Link>
-                )
-            }
+                ),
+            },
         ];
     }
 
@@ -85,7 +85,8 @@ export default class OperationLogsList extends React.Component<IProps> {
                     size="small"
                     bordered={false}
                     rowKey="id"
-                    pagination={{ pageSize: 15 }}
+                    rowClassName="c-OperationLogsList-row"
+                    pagination={{ pageSize: 15, showSizeChanger: false }}
                 />
             </div>
         );

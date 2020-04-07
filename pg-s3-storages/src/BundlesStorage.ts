@@ -2,7 +2,7 @@ import {
     IAssetWithContent,
     IBaseBundle,
     IBundlesStorage,
-    IBundleWithoutAssetsContent
+    IBundleWithoutAssetsContent,
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
 import Knex from "knex";
@@ -105,12 +105,12 @@ export default class BundlesStorage implements IBundlesStorage {
         createdAt: Date;
     }): Promise<IBundleWithoutAssetsContent> {
         // Upload files to S3
-        await concurrentForEach(toBeCreatedBundle.assets, async asset => {
+        await concurrentForEach(toBeCreatedBundle.assets, async (asset) => {
             await this.s3Client
                 .putObject({
                     Bucket: this.s3Bucket,
                     Body: asset.content,
-                    Key: this.getAssetS3Key(toBeCreatedBundle.id, asset.path)
+                    Key: this.getAssetS3Key(toBeCreatedBundle.id, asset.path),
                 })
                 .promise();
         });
@@ -118,8 +118,8 @@ export default class BundlesStorage implements IBundlesStorage {
         const bundleWithoutAssetsContent = {
             ...toBeCreatedBundle,
             assets: JSON.stringify(
-                toBeCreatedBundle.assets.map(asset => omit(asset, "content"))
-            )
+                toBeCreatedBundle.assets.map((asset) => omit(asset, "content"))
+            ),
         };
         const [createdBundle] = await this.knex(tables.bundles)
             .insert(bundleWithoutAssetsContent)
@@ -137,16 +137,14 @@ export default class BundlesStorage implements IBundlesStorage {
             .deleteObjects({
                 Bucket: this.s3Bucket,
                 Delete: {
-                    Objects: bundle!.assets.map(asset => ({
-                        Key: this.getAssetS3Key(id, asset.path)
-                    }))
-                }
+                    Objects: bundle!.assets.map((asset) => ({
+                        Key: this.getAssetS3Key(id, asset.path),
+                    })),
+                },
             })
             .promise();
         // Delete the bundle from sql
-        await this.knex(tables.bundles)
-            .where({ id })
-            .delete();
+        await this.knex(tables.bundles).where({ id }).delete();
     }
 
     async deleteMany(ids: string[]): Promise<void> {
@@ -159,19 +157,17 @@ export default class BundlesStorage implements IBundlesStorage {
                 Bucket: this.s3Bucket,
                 Delete: {
                     Objects: flatten(
-                        map(bundles, bundle =>
-                            map(bundle.assets, asset => ({
-                                Key: this.getAssetS3Key(bundle.id, asset.path)
+                        map(bundles, (bundle) =>
+                            map(bundle.assets, (asset) => ({
+                                Key: this.getAssetS3Key(bundle.id, asset.path),
                             }))
                         )
-                    )
-                }
+                    ),
+                },
             })
             .promise();
         // Delete the bundles from sql
-        await this.knex(tables.bundles)
-            .whereIn("id", ids)
-            .delete();
+        await this.knex(tables.bundles).whereIn("id", ids).delete();
     }
 
     private getAssetS3Key(bundleId: string, assetPath: string) {

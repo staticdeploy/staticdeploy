@@ -8,9 +8,7 @@ export default function configureHtml(
     configurationScriptContent: string
 ): Buffer {
     const $ = load(html.toString());
-    $(SELECTOR)
-        .removeAttr("src")
-        .html(configurationScriptContent);
+    $(SELECTOR).removeAttr("src").html(configurationScriptContent);
     const configuredHtml = $.html();
     return Buffer.from(configuredHtml);
 }

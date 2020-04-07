@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     IBaseRequest,
     managementApiAdapter,
-    staticServerAdapter
+    staticServerAdapter,
 } from "../src";
 
 interface IExecMocks {
@@ -20,7 +20,7 @@ export function getManagementApiAdapter(
             serviceName: "serviceName",
             serviceVersion: "serviceVersion",
             serviceHost: "serviceHost",
-            serviceBasePath: "/"
+            serviceBasePath: "/",
         }),
         "/"
     );

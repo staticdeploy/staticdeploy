@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "docusaurus-start",
-    "prettier": "prettier 'core/**/*.js' 'pages/**/*.js' 'blog/**/*.md' 'docs/**/*.md'",
+    "prettier": "prettier 'core/**/*.js' 'pages/**/*.js' 'docs/**/*.md'",
     "prettify": "yarn prettier --write",
     "lint:prettier": "yarn prettier --list-different",
     "lint:eslint": "eslint 'core/**/*.js' 'pages/**/*.js'",
@@ -29,9 +29,9 @@
     "cheerio": "^1.0.0-rc.3",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.18.0",
-    "fs-extra": "^8.1.0",
-    "prettier": "^1.19.1",
-    "rimraf": "^3.0.0",
+    "fs-extra": "^9.0.0",
+    "prettier": "^2.0.4",
+    "rimraf": "^3.0.2",
     "strip-indent": "^3.0.0",
     "url-join": "^4.0.1"
   }

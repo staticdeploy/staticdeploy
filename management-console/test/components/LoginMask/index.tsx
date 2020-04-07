@@ -16,7 +16,7 @@ describe("LoginMask", () => {
         getStatus: sinon.stub(),
         authEnforced: true,
         hasAuthStrategy: sinon.stub(),
-        getStrategyDisplayName: sinon.stub()
+        getStrategyDisplayName: sinon.stub(),
     });
 
     describe("when the user is not logged in", () => {
@@ -27,7 +27,7 @@ describe("LoginMask", () => {
                 authToken: null,
                 isLoggingIn: false,
                 isLoggedIn: false,
-                loginError: null
+                loginError: null,
             });
             const loginMask = shallow(
                 <LoginMask authService={mockAuthService as any} />
@@ -42,7 +42,7 @@ describe("LoginMask", () => {
                 authToken: null,
                 isLoggingIn: false,
                 isLoggedIn: false,
-                loginError: null
+                loginError: null,
             });
             const loginMask = shallow(
                 <LoginMask authService={mockAuthService as any} />
@@ -57,7 +57,7 @@ describe("LoginMask", () => {
             authToken: null,
             isLoggingIn: true,
             isLoggedIn: false,
-            loginError: null
+            loginError: null,
         });
         const loginMask = shallow(
             <LoginMask authService={mockAuthService as any} />
@@ -72,7 +72,7 @@ describe("LoginMask", () => {
             authToken: null,
             isLoggingIn: false,
             isLoggedIn: false,
-            loginError: new Error("Error logging in")
+            loginError: new Error("Error logging in"),
         });
         const loginMask = shallow(
             <LoginMask authService={mockAuthService as any} />
@@ -88,7 +88,7 @@ describe("LoginMask", () => {
             authToken: null,
             isLoggingIn: false,
             isLoggedIn: true,
-            loginError: null
+            loginError: null,
         });
         mockAuthService.authEnforced = false;
         const loginMask = shallow(
@@ -105,7 +105,7 @@ describe("LoginMask", () => {
             authToken: "authToken",
             isLoggingIn: false,
             isLoggedIn: true,
-            loginError: null
+            loginError: null,
         });
         const loginMask = shallow(
             <LoginMask authService={mockAuthService as any}>

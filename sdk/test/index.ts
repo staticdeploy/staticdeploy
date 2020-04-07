@@ -5,7 +5,7 @@ import StaticdeployClient from "../src";
 const baseUrl = "http://localhost";
 const staticdeployClient = new StaticdeployClient({
     apiUrl: baseUrl,
-    apiToken: null
+    apiToken: null,
 });
 
 beforeEach(() => {
@@ -19,13 +19,13 @@ describe("StaticdeployClient", () => {
                 .post("/deploy", {
                     appName: "appName",
                     entrypointUrlMatcher: "entrypointUrlMatcher",
-                    bundleNameTagCombination: "bundleNameTagCombination"
+                    bundleNameTagCombination: "bundleNameTagCombination",
                 })
                 .reply(204);
             await staticdeployClient.deploy({
                 appName: "appName",
                 entrypointUrlMatcher: "entrypointUrlMatcher",
-                bundleNameTagCombination: "bundleNameTagCombination"
+                bundleNameTagCombination: "bundleNameTagCombination",
             });
             scope.done();
         });

@@ -17,16 +17,16 @@ export default convroute({
             name: "userId",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "200": { description: "Returns the user" },
-        "404": { description: "User not found" }
+        "404": { description: "User not found" },
     },
     handler: async (req: IRequest, res) => {
         const getUser = req.makeUsecase("getUser");
         const user = await getUser.exec(req.params.userId);
         res.status(200).send(user);
-    }
+    },
 });

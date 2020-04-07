@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     AuthenticationRequiredError,
     MissingRoleError,
-    NoUserCorrespondingToIdpUserError
+    NoUserCorrespondingToIdpUserError,
 } from "../../src/common/errors";
 import { IIdpUser } from "../../src/entities/User";
 import Authenticator from "../../src/services/Authenticator";
@@ -13,7 +13,7 @@ import { getMockDependencies } from "../testUtils";
 
 function getMockAuthenticator(idpUser: IIdpUser | null): Authenticator {
     return {
-        getIdpUser: sinon.stub().resolves(idpUser)
+        getIdpUser: sinon.stub().resolves(idpUser),
     } as any;
 }
 
@@ -119,7 +119,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to create the app", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["root"]
+                roles: ["root"],
             });
             await authorizer.ensureCanCreateApp();
         });
@@ -128,7 +128,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to update the app", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["app-manager:different-appName"]
+                roles: ["app-manager:different-appName"],
             });
             const ensurePromise = authorizer.ensureCanUpdateApp("appName");
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
@@ -136,7 +136,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to update the app", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["app-manager:appName"]
+                roles: ["app-manager:appName"],
             });
             await authorizer.ensureCanUpdateApp("appName");
         });
@@ -145,7 +145,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to delete the app", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["app-manager:different-appName"]
+                roles: ["app-manager:different-appName"],
             });
             const ensurePromise = authorizer.ensureCanDeleteApp("appName");
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
@@ -153,7 +153,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to delete the app", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["app-manager:appName"]
+                roles: ["app-manager:appName"],
             });
             await authorizer.ensureCanDeleteApp("appName");
         });
@@ -162,7 +162,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get apps", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             await authorizer.ensureCanGetApps();
         });
@@ -173,7 +173,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to create the bundle", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["bundle-manager:different-bundleName"]
+                roles: ["bundle-manager:different-bundleName"],
             });
             const ensurePromise = authorizer.ensureCanCreateBundle(
                 "bundleName"
@@ -183,7 +183,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to create the bundle", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["bundle-manager:bundleName"]
+                roles: ["bundle-manager:bundleName"],
             });
             await authorizer.ensureCanCreateBundle("bundleName");
         });
@@ -192,7 +192,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to delete the bundles", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["bundle-manager:different-bundleName"]
+                roles: ["bundle-manager:different-bundleName"],
             });
             const ensurePromise = authorizer.ensureCanDeleteBundles(
                 "bundleName"
@@ -202,7 +202,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to delete the bundles", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["bundle-manager:bundleName"]
+                roles: ["bundle-manager:bundleName"],
             });
             await authorizer.ensureCanDeleteBundles("bundleName");
         });
@@ -211,7 +211,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get bundles", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             await authorizer.ensureCanGetBundles();
         });
@@ -223,7 +223,7 @@ describe("service Authorizer", () => {
             it("case: missing entrypoint-manager role", async () => {
                 const authorizer = getAuthorizerForUser({
                     id: "id",
-                    roles: ["app-manager:appName"]
+                    roles: ["app-manager:appName"],
                 });
                 const ensurePromise = authorizer.ensureCanCreateEntrypoint(
                     "example.com/",
@@ -236,7 +236,7 @@ describe("service Authorizer", () => {
             it("case: missing app-manager role", async () => {
                 const authorizer = getAuthorizerForUser({
                     id: "id",
-                    roles: ["entrypoint-manager:example.com/"]
+                    roles: ["entrypoint-manager:example.com/"],
                 });
                 const ensurePromise = authorizer.ensureCanCreateEntrypoint(
                     "example.com/",
@@ -252,8 +252,8 @@ describe("service Authorizer", () => {
                 id: "id",
                 roles: [
                     "entrypoint-manager:example.com/",
-                    "app-manager:appName"
-                ]
+                    "app-manager:appName",
+                ],
             });
             await authorizer.ensureCanCreateEntrypoint(
                 "example.com/",
@@ -265,7 +265,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to update the entrypoint", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["entrypoint-manager:different-example.com/"]
+                roles: ["entrypoint-manager:different-example.com/"],
             });
             const ensurePromise = authorizer.ensureCanUpdateEntrypoint(
                 "example.com/"
@@ -275,7 +275,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to update the entrypoint", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["entrypoint-manager:example.com/"]
+                roles: ["entrypoint-manager:example.com/"],
             });
             await authorizer.ensureCanUpdateEntrypoint("example.com/");
         });
@@ -284,7 +284,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to delete the entrypoint", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["entrypoint-manager:different-example.com/"]
+                roles: ["entrypoint-manager:different-example.com/"],
             });
             const ensurePromise = authorizer.ensureCanDeleteEntrypoint(
                 "example.com/"
@@ -294,7 +294,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to delete the entrypoint", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["entrypoint-manager:example.com/"]
+                roles: ["entrypoint-manager:example.com/"],
             });
             await authorizer.ensureCanDeleteEntrypoint("example.com/");
         });
@@ -303,7 +303,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get entrypoints", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             await authorizer.ensureCanGetEntrypoints();
         });
@@ -319,7 +319,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to create the group", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["root"]
+                roles: ["root"],
             });
             await authorizer.ensureCanCreateGroup();
         });
@@ -328,7 +328,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to update the group", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             const ensurePromise = authorizer.ensureCanUpdateGroup();
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
@@ -336,7 +336,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to update the group", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["root"]
+                roles: ["root"],
             });
             await authorizer.ensureCanUpdateGroup();
         });
@@ -345,7 +345,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to delete the group", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             const ensurePromise = authorizer.ensureCanDeleteGroup();
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
@@ -353,7 +353,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to delete the group", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["root"]
+                roles: ["root"],
             });
             await authorizer.ensureCanDeleteGroup();
         });
@@ -362,7 +362,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get groups", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             await authorizer.ensureCanGetGroups();
         });
@@ -373,7 +373,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get operation logs", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             await authorizer.ensureCanGetOperationLogs();
         });
@@ -389,7 +389,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to create the user", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["root"]
+                roles: ["root"],
             });
             await authorizer.ensureCanCreateUser();
         });
@@ -398,7 +398,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to update the user", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             const ensurePromise = authorizer.ensureCanUpdateUser();
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
@@ -406,7 +406,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to update the user", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["root"]
+                roles: ["root"],
             });
             await authorizer.ensureCanUpdateUser();
         });
@@ -415,7 +415,7 @@ describe("service Authorizer", () => {
         it("throws MissingRoleError if the user is not allowed to delete the user", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             const ensurePromise = authorizer.ensureCanDeleteUser();
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
@@ -423,7 +423,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to delete the user", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: ["root"]
+                roles: ["root"],
             });
             await authorizer.ensureCanDeleteUser();
         });
@@ -432,7 +432,7 @@ describe("service Authorizer", () => {
         it("doesn't throw if the user is allowed to get users", async () => {
             const authorizer = getAuthorizerForUser({
                 id: "id",
-                roles: []
+                roles: [],
             });
             await authorizer.ensureCanGetUsers();
         });

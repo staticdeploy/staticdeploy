@@ -23,7 +23,7 @@ export default function parseDates() {
             ...response,
             data: isArray(response.data)
                 ? response.data.map(parseObjectDates)
-                : parseObjectDates(response.data)
+                : parseObjectDates(response.data),
         };
     };
 }

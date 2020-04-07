@@ -4,7 +4,7 @@ import {
     FormErrors,
     FormInstance,
     InjectedFormProps,
-    reduxForm as wrappedReduxForm
+    reduxForm as wrappedReduxForm,
 } from "redux-form";
 
 const identity = (thing: any) => thing;
@@ -41,7 +41,7 @@ export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
         const DecoratedForm = wrappedReduxForm({
             form: config.form,
             validate: config.validate,
-            touchOnBlur: config.touchOnBlur !== false
+            touchOnBlur: config.touchOnBlur !== false,
         })(Form as any);
         return class ConverterForm
             extends React.Component<IProps<ExternalValues> & AdditionalProps>
@@ -65,9 +65,9 @@ export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
                 return (
                     <DecoratedForm
                         {...rest}
-                        ref={form => (this.form = form!)}
+                        ref={(form) => (this.form = form!)}
                         initialValues={toInternal(initialValues)}
-                        onSubmit={values =>
+                        onSubmit={(values) =>
                             onSubmit && onSubmit(toExternal(values))
                         }
                     />

@@ -32,7 +32,7 @@ describe("ErrorAlert", () => {
     it("when the page reload button is clicked, reloads the page", () => {
         const fakeLocation = { reload: sinon.spy() };
         Object.defineProperty((global as any).window, "location", {
-            get: () => fakeLocation
+            get: () => fakeLocation,
         });
         const errorAlert = mount(<ErrorAlert message="Error message" />);
         errorAlert.find(".c-ErrorAlert-actions a").simulate("click");

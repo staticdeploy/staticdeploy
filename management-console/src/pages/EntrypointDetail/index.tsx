@@ -1,3 +1,5 @@
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
 import { IApp, IBundle, IEntrypoint } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -31,14 +33,21 @@ class EntrypointDetail extends React.Component<Props> {
                 key="EntrypointEditOperationModal"
                 entrypoint={this.props.result.entrypoint}
                 refetchEntrypointDetail={this.props.refetch}
-                trigger={<ODItem icon="edit" label="Edit entrypoint" />}
+                trigger={
+                    <ODItem icon={<EditOutlined />} label="Edit entrypoint" />
+                }
             />,
             <EntrypointDeleteOperationModal
                 key="EntrypointDeleteOperationModal"
                 entrypoint={this.props.result.entrypoint}
                 history={this.props.history}
-                trigger={<ODItem icon="delete" label="Delete entrypoint" />}
-            />
+                trigger={
+                    <ODItem
+                        icon={<DeleteOutlined />}
+                        label="Delete entrypoint"
+                    />
+                }
+            />,
         ];
     }
     render() {
@@ -101,7 +110,7 @@ export default withData({
         const { appId, entrypointId } = props.match.params;
         const [app, entrypoint] = await Promise.all([
             staticdeploy.apps.getOne(appId),
-            staticdeploy.entrypoints.getOne(entrypointId)
+            staticdeploy.entrypoints.getOne(entrypointId),
         ]);
         const bundle = entrypoint.bundleId
             ? await staticdeploy.bundles.getOne(entrypoint.bundleId)
@@ -114,5 +123,5 @@ export default withData({
             newProps.match.params.entrypointId,
     spinnerSize: "large",
     spinnerTip: "Fetching entrypoint details...",
-    Component: EntrypointDetail
+    Component: EntrypointDetail,
 });

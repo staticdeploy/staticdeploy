@@ -1,7 +1,7 @@
 import {
     IConfiguration,
     IEntrypoint,
-    IEntrypointsStorage
+    IEntrypointsStorage,
 } from "@staticdeploy/core";
 import Knex from "knex";
 
@@ -14,21 +14,21 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
 
     async findOne(id: string): Promise<IEntrypoint | null> {
         const [entrypoint = null] = await this.knex(tables.entrypoints).where({
-            id
+            id,
         });
         return entrypoint;
     }
 
     async findOneByUrlMatcher(urlMatcher: string): Promise<IEntrypoint | null> {
         const [entrypoint = null] = await this.knex(tables.entrypoints).where({
-            urlMatcher
+            urlMatcher,
         });
         return entrypoint;
     }
 
     async findManyByAppId(appId: string): Promise<IEntrypoint[]> {
         const entrypoints = await this.knex(tables.entrypoints).where({
-            appId
+            appId,
         });
         return entrypoints;
     }
@@ -100,8 +100,6 @@ export default class EntrypointsStorage implements IEntrypointsStorage {
     }
 
     async deleteOne(id: string): Promise<void> {
-        await this.knex(tables.entrypoints)
-            .where({ id })
-            .delete();
+        await this.knex(tables.entrypoints).where({ id }).delete();
     }
 }

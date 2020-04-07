@@ -13,7 +13,7 @@ function getOperationLog(partial: Partial<IOperationLog>) {
         parameters: {},
         performedBy: "performedBy",
         performedAt: new Date(),
-        ...partial
+        ...partial,
     };
 }
 
@@ -25,25 +25,25 @@ describe("OperationLogsList", () => {
                     getOperationLog({
                         id: "0",
                         performedBy: "0",
-                        performedAt: new Date("1970")
+                        performedAt: new Date("1970"),
                     }),
                     getOperationLog({
                         id: "1",
                         performedBy: "1",
-                        performedAt: new Date("1971")
+                        performedAt: new Date("1971"),
                     }),
                     getOperationLog({
                         id: "2",
                         performedBy: "2",
-                        performedAt: new Date("1972")
-                    })
+                        performedAt: new Date("1972"),
+                    }),
                 ]}
             />
         );
         const orderedIds = operationLogsList
             .find(Table)
             .prop<IOperationLog[]>("dataSource")
-            .map(operationLog => operationLog.id);
+            .map((operationLog) => operationLog.id);
         expect(orderedIds).to.deep.equal(["2", "1", "0"]);
     });
 });

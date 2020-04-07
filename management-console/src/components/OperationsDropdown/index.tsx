@@ -1,5 +1,5 @@
+import DownOutlined from "@ant-design/icons/DownOutlined";
 import Dropdown from "antd/lib/dropdown";
-import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
 import React from "react";
 
@@ -41,7 +41,7 @@ export default class OperationsDropdown extends React.Component<IProps> {
                 {/* eslint-disable-next-line */}
                 <a className="c-OperationsDropdown-link ant-dropdown-link">
                     {"Actions "}
-                    <Icon type="down" />
+                    <DownOutlined />
                 </a>
             </Dropdown>
         );

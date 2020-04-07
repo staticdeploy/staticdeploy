@@ -7,7 +7,7 @@ export default ((req, res) => {
         app({
             id: req.params.appId,
             updatedAt: new Date().toISOString(),
-            ...req.body
+            ...req.body,
         })
     );
 }) as RequestHandler;

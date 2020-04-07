@@ -11,7 +11,7 @@ describe("TextField", () => {
         it("if it hasn't been touched, displays no error", () => {
             const props: any = {
                 meta: { error: "error", touched: false },
-                input: {}
+                input: {},
             };
             const textField = shallow(<WrappedTextField {...props} />);
             expect(textField.find(Form.Item).prop("validateStatus")).to.equal(
@@ -23,7 +23,7 @@ describe("TextField", () => {
         it("if it has been touched and prop inlineError is not true, displays a help and no suffix on the Input component", () => {
             const props: any = {
                 meta: { error: "error", touched: true },
-                input: {}
+                input: {},
             };
             const textField = shallow(<WrappedTextField {...props} />);
             expect(textField.find(Form.Item).prop("validateStatus")).to.equal(
@@ -40,7 +40,7 @@ describe("TextField", () => {
             const props: any = {
                 meta: { error: "error", touched: true },
                 input: {},
-                inlineError: true
+                inlineError: true,
             };
             const textField = shallow(<WrappedTextField {...props} />);
             expect(textField.find(Form.Item).prop("validateStatus")).to.equal(

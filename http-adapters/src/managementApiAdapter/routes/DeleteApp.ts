@@ -17,17 +17,17 @@ export default convroute({
             name: "appId",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "204": { description: "App deleted, returns nothing" },
         "404": { description: "App not found" },
-        "409": { description: "App has entrypoints" }
+        "409": { description: "App has entrypoints" },
     },
     handler: async (req: IRequest, res) => {
         const deleteApp = req.makeUsecase("deleteApp");
         await deleteApp.exec(req.params.appId);
         res.status(204).send();
-    }
+    },
 });

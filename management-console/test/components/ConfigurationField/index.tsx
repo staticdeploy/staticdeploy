@@ -44,7 +44,9 @@ describe("ConfigurationField", () => {
         );
         const textFields = configurationField.find(TextField);
         expect(textFields).to.have.length(2);
-        const fieldNames = textFields.map(textField => textField.prop("name"));
+        const fieldNames = textFields.map((textField) =>
+            textField.prop("name")
+        );
         expect(fieldNames.sort()).to.deep.equal(
             ["fieldName.key", "fieldName.value"].sort()
         );

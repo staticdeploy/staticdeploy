@@ -1,4 +1,4 @@
-import Icon from "antd/lib/icon";
+import RightOutlined from "@ant-design/icons/RightOutlined";
 import Table, { ColumnProps } from "antd/lib/table";
 import React from "react";
 import { NavLink } from "react-router-dom";
@@ -32,14 +32,11 @@ export default class LinksList<Item extends IItem> extends React.Component<
                             <div className="c-LinksList-item-description">
                                 {this.props.getDescription(item)}
                             </div>
-                            <Icon
-                                className="c-LinksList-item-arrow"
-                                type="right"
-                            />
+                            <RightOutlined className="c-LinksList-item-arrow" />
                         </NavLink>
                     );
-                }
-            }
+                },
+            },
         ];
     }
     render() {
@@ -51,7 +48,11 @@ export default class LinksList<Item extends IItem> extends React.Component<
                 size="small"
                 bordered={false}
                 rowKey="id"
-                pagination={{ pageSize: 15, hideOnSinglePage: true }}
+                pagination={{
+                    pageSize: 15,
+                    hideOnSinglePage: true,
+                    showSizeChanger: false,
+                }}
             />
         );
     }

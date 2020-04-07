@@ -56,7 +56,7 @@ export { IApp, isAppNameValid } from "./entities/App";
 export {
     IAsset,
     IAssetWithContent,
-    IAssetWithoutContent
+    IAssetWithoutContent,
 } from "./entities/Asset";
 export {
     IBaseBundle,
@@ -65,14 +65,14 @@ export {
     isBundleNameOrTagValid,
     isBundleNameTagCombinationValid,
     formNameTagCombination,
-    splitNameTagCombination
+    splitNameTagCombination,
 } from "./entities/Bundle";
 export { IConfiguration, isConfigurationValid } from "./entities/Configuration";
 export { IEndpointRequest } from "./entities/EndpointRequest";
 export { IEndpointResponse } from "./entities/EndpointResponse";
 export {
     IEntrypoint,
-    isEntrypointUrlMatcherValid
+    isEntrypointUrlMatcherValid,
 } from "./entities/Entrypoint";
 export { IFile } from "./entities/File";
 export { IGroup } from "./entities/Group";
@@ -83,12 +83,12 @@ export {
     RoleTuple,
     isRoleValid,
     fromRoleTuple,
-    toRoleTuple
+    toRoleTuple,
 } from "./entities/Role";
 export {
     IUser,
     IIdpUser,
     IUserWithGroups,
     IUserWithRoles,
-    UserType
+    UserType,
 } from "./entities/User";

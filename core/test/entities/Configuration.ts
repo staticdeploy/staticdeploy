@@ -8,8 +8,8 @@ describe("Configuration entity validator isConfigurationValid", () => {
             {},
             { key: "value" },
             { key: "value", otherKey: "otherValue" },
-            { "key-with-special-chars": "value" }
-        ].forEach(configuration => {
+            { "key-with-special-chars": "value" },
+        ].forEach((configuration) => {
             it(`case: ${JSON.stringify(configuration)}`, () => {
                 expect(isConfigurationValid(configuration)).to.equal(true);
             });
@@ -27,8 +27,8 @@ describe("Configuration entity validator isConfigurationValid", () => {
             { key: {} },
             { key: [] },
             { key: true },
-            { key: null }
-        ].forEach(configuration => {
+            { key: null },
+        ].forEach((configuration) => {
             it(`case: ${JSON.stringify(configuration)}`, () => {
                 expect(isConfigurationValid(configuration)).to.equal(false);
             });

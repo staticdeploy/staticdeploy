@@ -60,7 +60,7 @@ following html as response:
       // Configuration variables defined on the entrypoint
       EXAMPLE_CONFIG_KEY: "EXAMPLE_CONFIG_VALUE",
       // Configuration variables added by StaticDeploy
-      BASE_PATH: "/base-path/"
+      BASE_PATH: "/base-path/",
     };
   </script>
   <script>

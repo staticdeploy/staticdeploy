@@ -1,8 +1,8 @@
 import { IBundle } from "@staticdeploy/core";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tooltip from "antd/lib/tooltip";
+import dayjs from "dayjs";
 import sortBy from "lodash/sortBy";
-import moment from "moment";
 import React from "react";
 
 import TruncatedText from "../TruncatedText";
@@ -22,7 +22,7 @@ export default class BundlesList extends React.Component<IProps> {
                 title: "Id",
                 dataIndex: "id",
                 className: "c-BundlesList-id-column",
-                render: (id: string) => <code>{id}</code>
+                render: (id: string) => <code>{id}</code>,
             },
             {
                 key: "description",
@@ -31,7 +31,7 @@ export default class BundlesList extends React.Component<IProps> {
                 className: "c-BundlesList-description-column",
                 render: (description: string) => (
                     <TruncatedText>{description}</TruncatedText>
-                )
+                ),
             },
             {
                 key: "createdAt",
@@ -40,14 +40,12 @@ export default class BundlesList extends React.Component<IProps> {
                 className: "c-BundlesList-createdAt-column",
                 render: (createdAt: string) => (
                     <Tooltip
-                        title={moment(createdAt).format(
-                            "YYYY-MM-DD HH:mm:ss Z"
-                        )}
+                        title={dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss Z")}
                     >
-                        {moment(createdAt).fromNow(true)}
+                        <>{dayjs(createdAt).fromNow(true)}</>
                     </Tooltip>
-                )
-            }
+                ),
+            },
         ];
     }
     renderTitle() {
@@ -59,7 +57,7 @@ export default class BundlesList extends React.Component<IProps> {
                 {this.renderTitle()}
                 <Table<IBundle>
                     columns={this.getColumns()}
-                    expandedRowRender={bundle => <Details bundle={bundle} />}
+                    expandedRowRender={(bundle) => <Details bundle={bundle} />}
                     dataSource={sortBy(
                         this.props.bundles,
                         "createdAt"
@@ -67,7 +65,12 @@ export default class BundlesList extends React.Component<IProps> {
                     size="small"
                     bordered={false}
                     rowKey="id"
-                    pagination={{ pageSize: 15, hideOnSinglePage: true }}
+                    rowClassName="c-BundlesList-row"
+                    pagination={{
+                        pageSize: 15,
+                        hideOnSinglePage: true,
+                        showSizeChanger: false,
+                    }}
                 />
             </div>
         );

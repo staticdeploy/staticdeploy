@@ -25,7 +25,7 @@ export default class GroupCreateOperationModal extends React.Component<IProps> {
         const values = this.form!.getValues();
         return staticdeploy.groups.create({
             name: values.name,
-            roles: values.roles
+            roles: values.roles,
         });
     };
     refetchGroupsListAndGoToGroupDetail = (group: IGroup) => {
@@ -40,7 +40,7 @@ export default class GroupCreateOperationModal extends React.Component<IProps> {
                 trigger={this.props.trigger}
                 startOperationButtonText="Create"
                 onAfterSuccessClose={this.refetchGroupsListAndGoToGroupDetail}
-                successMessage={createdGroup => (
+                successMessage={(createdGroup) => (
                     <span>
                         {"Created group "}
                         {emphasizeString(createdGroup.name)}
@@ -49,7 +49,7 @@ export default class GroupCreateOperationModal extends React.Component<IProps> {
                     </span>
                 )}
             >
-                <GroupForm ref={form => (this.form = form!)} />
+                <GroupForm ref={(form) => (this.form = form!)} />
             </OperationModal>
         );
     }

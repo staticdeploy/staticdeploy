@@ -8,7 +8,7 @@ describe("managementApiAdapter DELETE /bundleNames/:bundleName/bundleTags/:bundl
     it("204 on bundles deleted, deletes the bundles", async () => {
         const execMock = sinon.stub().resolves([]);
         const server = getManagementApiAdapter({
-            deleteBundlesByNameAndTag: execMock
+            deleteBundlesByNameAndTag: execMock,
         });
         await request(server)
             .delete("/bundleNames/bundleName/bundleTags/bundleTag/bundles")

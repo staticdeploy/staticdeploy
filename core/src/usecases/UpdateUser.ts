@@ -33,13 +33,13 @@ export default class UpdateUser extends Usecase {
         const updatedUser = await this.storages.users.updateOne(id, {
             name: patch.name,
             groupsIds: patch.groupsIds,
-            updatedAt: new Date()
+            updatedAt: new Date(),
         });
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.UpdateUser, {
             oldUser: existingUser,
-            newUser: updatedUser
+            newUser: updatedUser,
         });
 
         return updatedUser;

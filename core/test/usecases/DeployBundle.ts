@@ -4,7 +4,7 @@ import sinon from "sinon";
 import {
     BundleNameTagCombinationNotValidError,
     BundleNotFoundError,
-    EntrypointMismatchedAppIdError
+    EntrypointMismatchedAppIdError,
 } from "../../src/common/errors";
 import DeployBundle from "../../src/usecases/DeployBundle";
 import { getMockDependencies } from "../testUtils";
@@ -15,7 +15,7 @@ describe("usecase DeployBundle", () => {
         const deployBundlePromise = deployBundle.exec({
             bundleNameTagCombination: "*",
             appName: "appName",
-            entrypointUrlMatcher: "example.com/"
+            entrypointUrlMatcher: "example.com/",
         });
         await expect(deployBundlePromise).to.be.rejectedWith(
             BundleNameTagCombinationNotValidError
@@ -30,7 +30,7 @@ describe("usecase DeployBundle", () => {
         const deployBundlePromise = deployBundle.exec({
             bundleNameTagCombination: "name:tag",
             appName: "appName",
-            entrypointUrlMatcher: "example.com/"
+            entrypointUrlMatcher: "example.com/",
         });
         await expect(deployBundlePromise).to.be.rejectedWith(
             BundleNotFoundError
@@ -48,7 +48,7 @@ describe("usecase DeployBundle", () => {
         const deployBundlePromise = deployBundle.exec({
             bundleNameTagCombination: "name:tag",
             appName: "appName",
-            entrypointUrlMatcher: "example.com/"
+            entrypointUrlMatcher: "example.com/",
         });
         await expect(deployBundlePromise).to.be.rejectedWith(
             EntrypointMismatchedAppIdError
@@ -63,13 +63,13 @@ describe("usecase DeployBundle", () => {
         deps.storages.apps.findOneByName.resolves({ id: "appId" } as any);
         deps.storages.bundles.findLatestByNameAndTag.resolves({} as any);
         deps.storages.entrypoints.findOneByUrlMatcher.resolves({
-            appId: "anotherAppId"
+            appId: "anotherAppId",
         } as any);
         const deployBundle = new DeployBundle(deps);
         const deployBundlePromise = deployBundle.exec({
             bundleNameTagCombination: "name:tag",
             appName: "appName",
-            entrypointUrlMatcher: "example.com/"
+            entrypointUrlMatcher: "example.com/",
         });
         await expect(deployBundlePromise).to.be.rejectedWith(
             EntrypointMismatchedAppIdError
@@ -83,7 +83,7 @@ describe("usecase DeployBundle", () => {
         const deps = getMockDependencies();
         // Stub deps used directly by DeployBundle
         deps.storages.bundles.findLatestByNameAndTag.resolves({
-            id: "bundleId"
+            id: "bundleId",
         } as any);
         // Stub deps used by other usecases called by DeployBundle
         deps.storages.apps.createOne.resolves({ id: "appId" } as any);
@@ -93,14 +93,14 @@ describe("usecase DeployBundle", () => {
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
             appName: "appName",
-            entrypointUrlMatcher: "example.com/"
+            entrypointUrlMatcher: "example.com/",
         });
         expect(deps.storages.apps.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
             name: "appName",
             defaultConfiguration: {},
             createdAt: sinon.match.date,
-            updatedAt: sinon.match.date
+            updatedAt: sinon.match.date,
         });
         expect(deps.storages.entrypoints.createOne).to.have.been.calledOnceWith(
             {
@@ -111,7 +111,7 @@ describe("usecase DeployBundle", () => {
                 configuration: null,
                 redirectTo: null,
                 createdAt: sinon.match.date,
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });
@@ -121,7 +121,7 @@ describe("usecase DeployBundle", () => {
         // Stub deps used directly by DeployBundle
         deps.storages.apps.findOneByName.resolves({ id: "appId" } as any);
         deps.storages.bundles.findLatestByNameAndTag.resolves({
-            id: "bundleId"
+            id: "bundleId",
         } as any);
         // Stub deps used by other usecases called by DeployBundle
         deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
@@ -130,7 +130,7 @@ describe("usecase DeployBundle", () => {
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
             appName: "appName",
-            entrypointUrlMatcher: "example.com/"
+            entrypointUrlMatcher: "example.com/",
         });
         expect(deps.storages.entrypoints.createOne).to.have.been.calledOnceWith(
             {
@@ -141,7 +141,7 @@ describe("usecase DeployBundle", () => {
                 configuration: null,
                 redirectTo: null,
                 createdAt: sinon.match.date,
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });
@@ -152,21 +152,21 @@ describe("usecase DeployBundle", () => {
         deps.storages.apps.findOneByName.resolves({ id: "appId" } as any);
         deps.storages.entrypoints.findOneByUrlMatcher.resolves({
             id: "entrypointId",
-            appId: "appId"
+            appId: "appId",
         } as any);
         deps.storages.bundles.findLatestByNameAndTag.resolves({
-            id: "bundleId"
+            id: "bundleId",
         } as any);
         // Stub deps used by other usecases called by DeployBundle
         deps.storages.entrypoints.findOne.resolves({
-            id: "entrypointId"
+            id: "entrypointId",
         } as any);
         deps.storages.bundles.oneExistsWithId.resolves(true);
         const deployBundle = new DeployBundle(deps);
         await deployBundle.exec({
             bundleNameTagCombination: "name:tag",
             appName: "appName",
-            entrypointUrlMatcher: "example.com/"
+            entrypointUrlMatcher: "example.com/",
         });
         expect(deps.storages.entrypoints.updateOne).to.have.been.calledOnceWith(
             "entrypointId",
@@ -174,7 +174,7 @@ describe("usecase DeployBundle", () => {
                 bundleId: "bundleId",
                 redirectTo: undefined,
                 configuration: undefined,
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });

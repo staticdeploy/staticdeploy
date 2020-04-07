@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import {
     ConflictingUserError,
-    SomeGroupNotFoundError
+    SomeGroupNotFoundError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import { UserType } from "../../src/entities/User";
@@ -20,7 +20,7 @@ describe("usecase CreateUser", () => {
             idpId: "idpId",
             type: UserType.Human,
             name: "name",
-            groupsIds: []
+            groupsIds: [],
         });
         await expect(createUserPromise).to.be.rejectedWith(
             ConflictingUserError
@@ -39,7 +39,7 @@ describe("usecase CreateUser", () => {
             idpId: "idpId",
             type: UserType.Human,
             name: "name",
-            groupsIds: ["groupId"]
+            groupsIds: ["groupId"],
         });
         await expect(createUserPromise).to.be.rejectedWith(
             SomeGroupNotFoundError
@@ -58,7 +58,7 @@ describe("usecase CreateUser", () => {
             idpId: "idpId",
             type: UserType.Human,
             name: "name",
-            groupsIds: ["groupId"]
+            groupsIds: ["groupId"],
         });
         expect(deps.storages.users.createOne).to.have.been.calledOnceWith({
             id: sinon.match.string,
@@ -68,7 +68,7 @@ describe("usecase CreateUser", () => {
             name: "name",
             groupsIds: ["groupId"],
             createdAt: sinon.match.date,
-            updatedAt: sinon.match.date
+            updatedAt: sinon.match.date,
         });
     });
 
@@ -80,7 +80,7 @@ describe("usecase CreateUser", () => {
             idpId: "idpId",
             type: UserType.Human,
             name: "name",
-            groupsIds: []
+            groupsIds: [],
         });
         expect(
             deps.storages.operationLogs.createOne
@@ -99,7 +99,7 @@ describe("usecase CreateUser", () => {
             idpId: "idpId",
             type: UserType.Human,
             name: "name",
-            groupsIds: []
+            groupsIds: [],
         });
         expect(createdUser).to.equal(mockCreatedUser);
     });

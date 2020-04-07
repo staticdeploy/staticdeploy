@@ -20,7 +20,7 @@ describe("usecase GetCurrentUser", () => {
             deps.authenticationStrategies.push({
                 getIdpUserFromAuthToken: sinon
                     .stub()
-                    .resolves({ id: "id", idp: "idp" })
+                    .resolves({ id: "id", idp: "idp" }),
             } as any);
             deps.storages.users.findOneWithRolesByIdpAndIdpId.resolves(
                 mockUser

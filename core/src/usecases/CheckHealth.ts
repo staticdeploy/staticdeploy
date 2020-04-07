@@ -8,7 +8,7 @@ export default class CheckHealth extends Usecase {
             isHealthy: healthCheckResult.isHealthy,
             details: (await this.authorizer.canSeeHealtCheckDetails())
                 ? healthCheckResult.details
-                : undefined
+                : undefined,
         };
     }
 }

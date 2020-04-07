@@ -11,7 +11,7 @@ export default function whitelistInlineScript(
     },
     inlineScriptSha256: string
 ): { [name: string]: string } {
-    const cspHeaderKey = keys(headers).find(headerKey =>
+    const cspHeaderKey = keys(headers).find((headerKey) =>
         CSP_HEADER_REGEX.test(headerKey)
     );
 
@@ -30,9 +30,9 @@ export default function whitelistInlineScript(
                 ...cspDirectives,
                 [SCRIPT_SRC_DIRECTIVE]: compact([
                     ...castArray(cspDirectives[SCRIPT_SRC_DIRECTIVE]),
-                    `'sha256-${inlineScriptSha256}'`
-                ])
-            }
-        })
+                    `'sha256-${inlineScriptSha256}'`,
+                ]),
+            },
+        }),
     };
 }

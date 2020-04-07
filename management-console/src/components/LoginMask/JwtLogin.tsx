@@ -1,5 +1,5 @@
+import KeyOutlined from "@ant-design/icons/KeyOutlined";
 import Button from "antd/lib/button";
-import Icon from "antd/lib/icon";
 import React from "react";
 import { InjectedFormProps } from "redux-form";
 
@@ -24,7 +24,7 @@ class WrappedJwtLoginForm extends React.Component<
                     placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp..."
                     name="jwt"
                     inlineError={true}
-                    addonBefore={<Icon type="key" rotate={180} />}
+                    addonBefore={<KeyOutlined rotate={180} />}
                 />
                 <Button className="c-LoginMask-login-button" htmlType="submit">
                     {`Login with ${strategyDisplayName}`}
@@ -36,7 +36,7 @@ class WrappedJwtLoginForm extends React.Component<
 const JwtLoginForm = reduxForm<IFormValues, IFormValues, IJwtLoginFormProps>({
     form: "JwtLogin",
     touchOnBlur: false,
-    validate: formValues => (!formValues.jwt ? { jwt: "Required" } : {})
+    validate: (formValues) => (!formValues.jwt ? { jwt: "Required" } : {}),
 })(WrappedJwtLoginForm);
 
 interface IProps {

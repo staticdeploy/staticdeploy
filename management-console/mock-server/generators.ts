@@ -4,13 +4,15 @@ import { lowerCase, pick, range } from "lodash";
 const id = () => faker.random.alphaNumeric(8);
 
 // Apps
+const appName = () =>
+    lowerCase(faker.commerce.productName()).replace(/ /g, "-");
 export const app = (supplied: any = {}) => ({
     id: id(),
-    name: lowerCase(faker.commerce.productName()).replace(/ /g, "-"),
+    name: appName(),
     defaultConfiguration: { KEY: "VALUE" },
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
-    ...supplied
+    ...supplied,
 });
 
 // Bundles
@@ -25,12 +27,12 @@ export const bundle = (supplied: any = {}) => ({
     assets: [
         { path: "/index.html", mimeType: "text/html" },
         { path: "/js/index.js", mimeType: "application/js" },
-        { path: "/css/index.css", mimeType: "text/css" }
+        { path: "/css/index.css", mimeType: "text/css" },
     ],
     fallbackAssetPath: faker.random.arrayElement(["/index.html", "/404.html"]),
     fallbackStatusCode: faker.random.arrayElement([404, 200]),
     createdAt: faker.date.past(),
-    ...supplied
+    ...supplied,
 });
 export const baseBundle = () =>
     pick(bundle(), ["id", "name", "tag", "createdAt"]);
@@ -39,16 +41,18 @@ export const times = (n: number, generator: () => any) =>
     range(n).map(generator);
 
 // Entrypoints
+const entrypointUrlMatcher = () =>
+    `${faker.internet.domainName()}/${faker.hacker.noun()}/`;
 export const entrypoint = (supplied: any = {}) => ({
     id: id(),
     appId: id(),
-    urlMatcher: `${faker.internet.domainName()}/${faker.hacker.noun()}/`,
+    urlMatcher: entrypointUrlMatcher(),
     bundleId: Math.random() > 0.5 ? id() : null,
     redirectTo: Math.random() > 0.5 ? faker.internet.url() : null,
     configuration: Math.random() > 0.5 ? { KEY: "VALUE" } : null,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
-    ...supplied
+    ...supplied,
 });
 
 // Groups
@@ -58,15 +62,14 @@ export const group = (supplied: any = {}) => ({
     roles: times(3, () =>
         faker.random.arrayElement([
             "root",
-            `app-manager:${id()}`,
-            `bundle-manager:${id()}`,
-            `entrypoint-creator:${id()}`,
-            `entrypoint-manager:${id()}`
+            `app-manager:${appName()}`,
+            `bundle-manager:${bundleName()}`,
+            `entrypoint-manager:${entrypointUrlMatcher()}`,
         ])
     ),
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
-    ...supplied
+    ...supplied,
 });
 
 // Operation logs
@@ -80,14 +83,14 @@ export const operationLog = () => ({
         "entrypoints:update",
         "entrypoints:delete",
         "bundles:create",
-        "bundles:delete"
+        "bundles:delete",
     ]),
     parameters: {
         oldApp: { name: "oldApp" },
-        newApp: { name: "newApp" }
+        newApp: { name: "newApp" },
     },
     performedBy: id(),
-    performedAt: faker.date.past()
+    performedAt: faker.date.past(),
 });
 
 // Users
@@ -99,7 +102,7 @@ export const user = (supplied: any = {}) => ({
     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
-    ...supplied
+    ...supplied,
 });
 export const userWithGroups = (supplied: any = {}) =>
     user({ groups: times(5, group), ...supplied });

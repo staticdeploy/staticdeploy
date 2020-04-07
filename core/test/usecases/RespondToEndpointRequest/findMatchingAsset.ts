@@ -228,7 +228,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path without trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path.html", ...baseAsset }
+                { path: "/path.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset("/path", assets, fallback);
             expect(matchingAsset.path).to.equal("/path");
@@ -237,7 +237,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path.html", ...baseAsset }
+                { path: "/path.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset("/path/", assets, fallback);
             expect(matchingAsset.path).to.equal("/path");
@@ -246,7 +246,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with prefix but no trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path.html", ...baseAsset }
+                { path: "/path.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset(
                 "/prefix/path",
@@ -259,7 +259,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with prefix and trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path.html", ...baseAsset }
+                { path: "/path.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset(
                 "/prefix/path/",
@@ -274,7 +274,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path without trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset("/path", assets, fallback);
             expect(matchingAsset.path).to.equal("/path");
@@ -283,7 +283,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset("/path/", assets, fallback);
             expect(matchingAsset.path).to.equal("/path");
@@ -292,7 +292,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with prefix but no trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset(
                 "/prefix/path",
@@ -305,7 +305,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with prefix and trailing /", () => {
             const assets = [
                 { path: "/path", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset(
                 "/prefix/path/",
@@ -320,7 +320,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path without trailing /", () => {
             const assets = [
                 { path: "/path.html", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset("/path", assets, fallback);
             expect(matchingAsset.path).to.equal("/path.html");
@@ -329,7 +329,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with trailing /", () => {
             const assets = [
                 { path: "/path.html", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset("/path/", assets, fallback);
             expect(matchingAsset.path).to.equal("/path.html");
@@ -338,7 +338,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with prefix but no trailing /", () => {
             const assets = [
                 { path: "/path.html", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset(
                 "/prefix/path",
@@ -351,7 +351,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
         it("case: request path with prefix and trailing /", () => {
             const assets = [
                 { path: "/path.html", ...baseAsset },
-                { path: "/path/index.html", ...baseAsset }
+                { path: "/path/index.html", ...baseAsset },
             ];
             const matchingAsset = findMatchingAsset(
                 "/prefix/path/",
@@ -367,7 +367,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path without trailing /", () => {
                 const assets = [
                     { path: "/path", ...baseAsset },
-                    { path: "/longer/path", ...baseAsset }
+                    { path: "/longer/path", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/longer/path",
@@ -380,7 +380,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with trailing /", () => {
                 const assets = [
                     { path: "/path", ...baseAsset },
-                    { path: "/longer/path", ...baseAsset }
+                    { path: "/longer/path", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/longer/path/",
@@ -393,7 +393,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with prefix but no trailing /", () => {
                 const assets = [
                     { path: "/path", ...baseAsset },
-                    { path: "/longer/path", ...baseAsset }
+                    { path: "/longer/path", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/prefix/longer/path",
@@ -406,7 +406,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with prefix and trailing /", () => {
                 const assets = [
                     { path: "/path", ...baseAsset },
-                    { path: "/longer/path", ...baseAsset }
+                    { path: "/longer/path", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/prefix/longer/path/",
@@ -421,7 +421,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path without trailing /", () => {
                 const assets = [
                     { path: "/path.html", ...baseAsset },
-                    { path: "/longer/path.html", ...baseAsset }
+                    { path: "/longer/path.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/longer/path",
@@ -434,7 +434,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with trailing /", () => {
                 const assets = [
                     { path: "/path.html", ...baseAsset },
-                    { path: "/longer/path.html", ...baseAsset }
+                    { path: "/longer/path.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/longer/path/",
@@ -447,7 +447,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with prefix but no trailing /", () => {
                 const assets = [
                     { path: "/path.html", ...baseAsset },
-                    { path: "/longer/path.html", ...baseAsset }
+                    { path: "/longer/path.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/prefix/longer/path",
@@ -460,7 +460,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with prefix and trailing /", () => {
                 const assets = [
                     { path: "/path.html", ...baseAsset },
-                    { path: "/longer/path.html", ...baseAsset }
+                    { path: "/longer/path.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/prefix/longer/path/",
@@ -475,7 +475,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path without trailing /", () => {
                 const assets = [
                     { path: "/path/index.html", ...baseAsset },
-                    { path: "/longer/path/index.html", ...baseAsset }
+                    { path: "/longer/path/index.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/longer/path",
@@ -488,7 +488,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with trailing /", () => {
                 const assets = [
                     { path: "/path/index.html", ...baseAsset },
-                    { path: "/longer/path/index.html", ...baseAsset }
+                    { path: "/longer/path/index.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/longer/path/",
@@ -501,7 +501,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with prefix but no trailing /", () => {
                 const assets = [
                     { path: "/path/index.html", ...baseAsset },
-                    { path: "/longer/path/index.html", ...baseAsset }
+                    { path: "/longer/path/index.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/prefix/longer/path",
@@ -514,7 +514,7 @@ describe("RespondToEndpointRequest.findMatchingAsset", () => {
             it("case: request path with prefix and trailing /", () => {
                 const assets = [
                     { path: "/path/index.html", ...baseAsset },
-                    { path: "/longer/path/index.html", ...baseAsset }
+                    { path: "/longer/path/index.html", ...baseAsset },
                 ];
                 const matchingAsset = findMatchingAsset(
                     "/prefix/longer/path/",

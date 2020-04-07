@@ -15,9 +15,9 @@ interface IRequest extends IBaseRequest {
 const bodySchema = {
     type: "object",
     properties: {
-        defaultConfiguration: { type: "object" }
+        defaultConfiguration: { type: "object" },
     },
-    additionalProperties: false
+    additionalProperties: false,
 };
 
 export default convroute({
@@ -30,22 +30,22 @@ export default convroute({
             name: "appId",
             in: "path",
             required: true,
-            type: "string"
+            type: "string",
         },
         {
             name: "patch",
             in: "body",
             required: true,
-            schema: bodySchema
-        }
+            schema: bodySchema,
+        },
     ],
     responses: {
         "200": { description: "App updated, returns the app" },
-        "404": { description: "App not found" }
+        "404": { description: "App not found" },
     },
     handler: async (req: IRequest, res) => {
         const updateApp = req.makeUsecase("updateApp");
         const updatedApp = await updateApp.exec(req.params.appId, req.body);
         res.status(200).send(updatedApp);
-    }
+    },
 });

@@ -26,7 +26,7 @@ export default class AppEditOperationModal extends React.Component<IProps> {
         }
         const values = this.form!.getValues();
         return staticdeploy.apps.update(this.props.app.id, {
-            defaultConfiguration: values.defaultConfiguration
+            defaultConfiguration: values.defaultConfiguration,
         });
     };
     refetchAppDetailAndGoToAppDetail = (app: IApp) => {
@@ -57,7 +57,7 @@ export default class AppEditOperationModal extends React.Component<IProps> {
                 <AppForm
                     isEditForm={true}
                     initialValues={this.props.app}
-                    ref={form => (this.form = form!)}
+                    ref={(form) => (this.form = form!)}
                 />
             </OperationModal>
         );

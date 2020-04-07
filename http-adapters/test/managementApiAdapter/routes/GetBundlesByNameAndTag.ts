@@ -7,7 +7,7 @@ describe("managementApiAdapter GET /bundleNames/:bundleName/bundleTags/:bundleTa
     it("200 and returns the filtered bundle tags", () => {
         const execMock = sinon.stub().resolves([]);
         const server = getManagementApiAdapter({
-            getBundlesByNameAndTag: execMock
+            getBundlesByNameAndTag: execMock,
         });
         return request(server)
             .get("/bundleNames/bundleName/bundleTags/bundleTag/bundles")

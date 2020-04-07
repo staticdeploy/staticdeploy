@@ -19,7 +19,7 @@ export default class DeleteUser extends Usecase {
 
         // Log the operation
         await this.operationLogger.logOperation(Operation.DeleteUser, {
-            deletedUser: toBeDeletedUser
+            deletedUser: toBeDeletedUser,
         });
     }
 }

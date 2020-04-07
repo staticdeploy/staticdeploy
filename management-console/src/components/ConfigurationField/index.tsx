@@ -1,3 +1,4 @@
+import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
 import Button from "antd/lib/button";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
@@ -5,7 +6,7 @@ import React from "react";
 import {
     FieldArray,
     FieldArrayFieldsProps,
-    WrappedFieldArrayProps
+    WrappedFieldArrayProps,
 } from "redux-form";
 
 import { IKVPair } from "../../common/configurationUtils";
@@ -50,7 +51,7 @@ export class WrappedConfigurationField extends React.Component<
                 <Col span={2}>
                     <Button
                         className="c-ConfigurationField-remove-button"
-                        icon="delete"
+                        icon={<DeleteOutlined />}
                         onClick={() => fields.remove(index)}
                     />
                 </Col>

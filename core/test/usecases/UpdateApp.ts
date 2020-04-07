@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import {
     AppNotFoundError,
-    ConfigurationNotValidError
+    ConfigurationNotValidError,
 } from "../../src/common/errors";
 import { Operation } from "../../src/entities/OperationLog";
 import UpdateApp from "../../src/usecases/UpdateApp";
@@ -24,7 +24,7 @@ describe("usecase UpdateApp", () => {
         deps.storages.apps.findOne.resolves({ appId: "appId" } as any);
         const updateApp = new UpdateApp(deps);
         const updateAppPromise = updateApp.exec("appId", {
-            defaultConfiguration: "not-valid-configuration" as any
+            defaultConfiguration: "not-valid-configuration" as any,
         });
         await expect(updateAppPromise).to.be.rejectedWith(
             ConfigurationNotValidError
@@ -43,7 +43,7 @@ describe("usecase UpdateApp", () => {
             "appId",
             {
                 defaultConfiguration: {},
-                updatedAt: sinon.match.date
+                updatedAt: sinon.match.date,
             }
         );
     });

@@ -83,7 +83,7 @@ describe("Role entity util matchesName", () => {
             ["*", "a-wedge-me", true],
             ["*", "NA-wedge-ME", true],
             ["*", "differentNa-wedge-me", true],
-            ["*", "a-wedge-me", true]
+            ["*", "a-wedge-me", true],
         ];
         testCases.forEach(([nameMatcher, name, expectedResult]) => {
             const matchesOrNot = expectedResult ? "matches" : "doesn't match";

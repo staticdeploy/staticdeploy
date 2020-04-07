@@ -12,9 +12,7 @@ describe("OidcAuthenticationStrategy", () => {
 
     describe("setup", () => {
         it("throws an AuthenticationStrategySetupError if an error occurs fetching the openid configuration", async () => {
-            nock(openidConfigurationUrl)
-                .get("/")
-                .reply(400);
+            nock(openidConfigurationUrl).get("/").reply(400);
             const oidcAuthenticationStrategy = new OidcAuthenticationStrategy(
                 openidConfigurationUrl,
                 clientId
@@ -32,9 +30,7 @@ describe("OidcAuthenticationStrategy", () => {
             nock(openidConfigurationUrl)
                 .get("/")
                 .reply(200, { jwks_uri: jwksUrl });
-            nock(jwksUrl)
-                .get("/")
-                .reply(400);
+            nock(jwksUrl).get("/").reply(400);
             const oidcAuthenticationStrategy = new OidcAuthenticationStrategy(
                 openidConfigurationUrl,
                 clientId

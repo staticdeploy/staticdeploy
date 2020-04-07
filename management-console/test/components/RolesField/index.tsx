@@ -44,7 +44,9 @@ describe("RolesField", () => {
         );
         const textFields = rolesField.find(TextField);
         expect(textFields).to.have.length(1);
-        const [fieldName] = textFields.map(textField => textField.prop("name"));
+        const [fieldName] = textFields.map((textField) =>
+            textField.prop("name")
+        );
         expect(fieldName).to.equal("fieldName");
     });
 });

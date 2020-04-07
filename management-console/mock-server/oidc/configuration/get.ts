@@ -5,7 +5,7 @@ export default ((_req, res) => {
         res.status(400).send({ message: "Random error" });
     } else {
         res.status(200).send({
-            authorization_endpoint: "http://localhost:3456/oidc/authorize"
+            authorization_endpoint: "http://localhost:3456/oidc/authorize",
         });
     }
 }) as RequestHandler;

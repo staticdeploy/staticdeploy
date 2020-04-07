@@ -17,16 +17,16 @@ export default convroute({
             name: "groupId",
             in: "path",
             required: true,
-            type: "string"
-        }
+            type: "string",
+        },
     ],
     responses: {
         "200": { description: "Returns the group" },
-        "404": { description: "Group not found" }
+        "404": { description: "Group not found" },
     },
     handler: async (req: IRequest, res) => {
         const getGroup = req.makeUsecase("getGroup");
         const group = await getGroup.exec(req.params.groupId);
         res.status(200).send(group);
-    }
+    },
 });

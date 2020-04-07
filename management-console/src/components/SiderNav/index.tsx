@@ -1,4 +1,8 @@
-import Icon from "antd/lib/icon";
+import FolderOutlined from "@ant-design/icons/FolderOutlined";
+import GlobalOutlined from "@ant-design/icons/GlobalOutlined";
+import ProfileOutlined from "@ant-design/icons/ProfileOutlined";
+import TeamOutlined from "@ant-design/icons/TeamOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import Menu from "antd/lib/menu";
 import * as React from "react";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
@@ -17,31 +21,31 @@ class SiderNav extends React.Component<RouteComponentProps> {
             >
                 <Menu.Item key="/apps">
                     <Link to="/apps">
-                        <Icon type="global" />
+                        <GlobalOutlined />
                         <span>{"Apps and entrypoints"}</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="/bundles">
                     <Link to="/bundles">
-                        <Icon type="folder" />
+                        <FolderOutlined />
                         <span>{"Bundles"}</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="/users">
                     <Link to="/users">
-                        <Icon type="user" />
+                        <UserOutlined />
                         <span>{"Users"}</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="/groups">
                     <Link to="/groups">
-                        <Icon type="team" />
+                        <TeamOutlined />
                         <span>{"Groups"}</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="/operationLogs">
                     <Link to="/operationLogs">
-                        <Icon type="profile" />
+                        <ProfileOutlined />
                         <span>{"Operation logs"}</span>
                     </Link>
                 </Menu.Item>

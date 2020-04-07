@@ -9,7 +9,7 @@ export interface IIdpUser {
 
 export enum UserType {
     Human = "human",
-    Machine = "machine"
+    Machine = "machine",
 }
 
 export interface IUser {
