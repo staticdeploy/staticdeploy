@@ -1,10 +1,8 @@
 import { JSONWebKeySet, JWKS, JWT } from "@panva/jose";
-import {
-    AuthenticationStrategySetupError,
-    IAuthenticationStrategy,
-    IIdpUser,
-} from "@staticdeploy/core";
+import { IAuthenticationStrategy, IIdpUser } from "@staticdeploy/core";
 import axios from "axios";
+import Logger from "bunyan";
+import mem from "mem";
 
 interface IOpenidConfiguration {
     issuer: string;
@@ -18,16 +16,13 @@ export default class OidcAuthenticationStrategy
 
     constructor(
         private openidConfigurationUrl: string,
-        private clientId: string
+        private clientId: string,
+        private logger: Logger
     ) {}
-
-    async setup() {
-        await this.fetchOpenidConfiguration();
-        await this.fetchJwks();
-    }
 
     async getIdpUserFromAuthToken(authToken: string): Promise<IIdpUser | null> {
         try {
+            await this.configureStrategy();
             const jwt = JWT.verify(authToken, this.keyStore, {
                 issuer: this.openidConfiguration.issuer,
                 audience: this.clientId,
@@ -39,32 +34,30 @@ export default class OidcAuthenticationStrategy
         }
     }
 
+    private configureStrategy = mem(
+        async () => {
+            try {
+                await this.fetchOpenidConfiguration();
+                await this.fetchJwks();
+            } catch (err) {
+                this.logger.error(
+                    err,
+                    "Error configuring OidcAuthenticationStrategy"
+                );
+            }
+        },
+        { maxAge: 5 * 60 * 1000 }
+    );
     private async fetchOpenidConfiguration(): Promise<void> {
-        try {
-            const { data } = await axios.get<IOpenidConfiguration>(
-                this.openidConfigurationUrl
-            );
-            this.openidConfiguration = data;
-        } catch (err) {
-            throw new AuthenticationStrategySetupError(
-                OidcAuthenticationStrategy.name,
-                "Error fetching openid configuration",
-                err
-            );
-        }
+        const { data } = await axios.get<IOpenidConfiguration>(
+            this.openidConfigurationUrl
+        );
+        this.openidConfiguration = data;
     }
     private async fetchJwks(): Promise<void> {
-        try {
-            const { data } = await axios.get<JSONWebKeySet>(
-                this.openidConfiguration!.jwks_uri
-            );
-            this.keyStore = JWKS.asKeyStore(data);
-        } catch (err) {
-            throw new AuthenticationStrategySetupError(
-                OidcAuthenticationStrategy.name,
-                "Error fetching jwks",
-                err
-            );
-        }
+        const { data } = await axios.get<JSONWebKeySet>(
+            this.openidConfiguration!.jwks_uri
+        );
+        this.keyStore = JWKS.asKeyStore(data);
     }
 }

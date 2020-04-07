@@ -1,15 +1,6 @@
 import { IIdpUser } from "../entities/User";
 
 // Auth errors
-export class AuthenticationStrategySetupError extends Error {
-    constructor(
-        public authenticationStrategy: string,
-        message: string,
-        public originalError: any
-    ) {
-        super(message);
-    }
-}
 export class AuthenticationRequiredError extends Error {
     constructor() {
         super("This operation requires the request to be authenticated");

@@ -18,7 +18,6 @@ describe("usecase CheckHealth", () => {
         deps.config.enforceAuth = true;
         deps.requestContext.authToken = "authToken";
         deps.authenticationStrategies.push({
-            setup: sinon.stub(),
             getIdpUserFromAuthToken: sinon
                 .stub<any, any>()
                 .resolves({ idp: "idp", id: "idpId" }),

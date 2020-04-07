@@ -9,10 +9,6 @@ export default class JwtAuthenticationStrategy
         this.verifyingKey = JWK.asKey(secretOrPublicKey);
     }
 
-    async setup(): Promise<void> {
-        // No setup needed
-    }
-
     async getIdpUserFromAuthToken(authToken: string): Promise<IIdpUser | null> {
         try {
             const jwt: any = JWT.verify(authToken, this.verifyingKey);
