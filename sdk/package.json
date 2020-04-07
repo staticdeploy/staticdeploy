@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/sdk",
   "description": "Browser and nodejs sdk for the StaticDeploy API",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "publishConfig": {
     "access": "public"
   },
@@ -35,7 +35,7 @@
     "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register -r test/setup.ts --extension ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.15.1",
+    "@staticdeploy/core": "^0.15.2",
     "axios": "^0.19.2",
     "lodash": "^4.17.15"
   },
