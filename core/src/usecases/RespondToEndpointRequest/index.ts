@@ -15,6 +15,7 @@ import { IEntrypoint } from "../../entities/Entrypoint";
 import addTrailingSlash from "./addTrailingSlash";
 import configureHtml from "./configureHtml";
 import findMatchingAsset from "./findMatchingAsset";
+import getCanonicalHostname from "./getCanonicalHostname";
 import getConfigurationScript from "./getConfigurationScript";
 import isCanonicalPath from "./isCanonicalPath";
 import toAbsolute from "./toAbsolute";
@@ -23,9 +24,10 @@ import whitelistInlineScript from "./whitelistInlineScript";
 export default class RespondToEndpointRequest extends Usecase {
     async exec(request: IEndpointRequest): Promise<IEndpointResponse> {
         // Find the matching entrypoint
-        const requestedUrl = join(request.hostname, request.path);
+        const canonicalHostname = getCanonicalHostname(request.hostname);
+        const requestedUrl = join(canonicalHostname, request.path);
         const entrypoints = await this.storages.entrypoints.findManyByUrlMatcherHostname(
-            request.hostname
+            canonicalHostname
         );
         const matchingEntrypoint = _(entrypoints)
             .filter(

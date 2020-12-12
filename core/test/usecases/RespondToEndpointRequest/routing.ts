@@ -255,6 +255,35 @@ describe("usecase RespondToEndpointRequest (routing)", () => {
     });
 
     test(
+        "serves the correct asset when requested with a hostname ending with dot",
+        {
+            entrypoints: [
+                {
+                    urlMatcher: "domain.com/",
+                    bundleContent: {
+                        asset: "domain.com/ + /asset",
+                        nested: { asset: "domain.com/ + /nested/asset" },
+                        fallback: "domain.com/ + /fallback",
+                    },
+                    bundleFallbackAssetPath: "/fallback",
+                },
+            ],
+            testCases: [
+                {
+                    requestedUrl: "domain.com./asset",
+                    expectedStatusCode: 200,
+                    expectedBody: "domain.com/ + /asset",
+                },
+                {
+                    requestedUrl: "domain.com./nested/asset",
+                    expectedStatusCode: 200,
+                    expectedBody: "domain.com/ + /nested/asset",
+                },
+            ],
+        }
+    );
+
+    test(
         "when file requestedPath doesn't exist, but requestPath + .html exists, serves it",
         {
             entrypoints: [
