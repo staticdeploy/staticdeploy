@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/serve-static",
   "description": "Express middleware for serving files in a local directory",
-  "version": "0.15.2",
+  "version": "0.15.3",
   "publishConfig": {
     "access": "public"
   },
@@ -26,10 +26,10 @@
     "test": "NODE_ENV=test mocha --exit -t 20000 -r ts-node/register --extension ts 'test/**/*.ts'"
   },
   "dependencies": {
-    "@staticdeploy/core": "^0.15.2",
-    "@staticdeploy/http-adapters": "^0.15.2",
-    "@staticdeploy/memory-storages": "^0.15.2",
-    "@staticdeploy/tar-archiver": "^0.15.2",
+    "@staticdeploy/core": "^0.15.3",
+    "@staticdeploy/http-adapters": "^0.15.3",
+    "@staticdeploy/memory-storages": "^0.15.3",
+    "@staticdeploy/tar-archiver": "^0.15.3",
     "express": "^4.17.1"
   },
   "devDependencies": {
