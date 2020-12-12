@@ -3,6 +3,7 @@ import { IBundle } from "@staticdeploy/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
+import decodedParams from "../../common/decodedParams";
 import BundlesList from "../../components/BundlesList";
 import { withData } from "../../components/DataFetcher";
 import ODItem from "../../components/OperationsDropdown/Item";
@@ -23,7 +24,7 @@ type Props = {
 class BundlesByNameTag extends React.Component<Props> {
     getActions() {
         const { history } = this.props;
-        const { bundleName, bundleTag } = this.props.match.params;
+        const { bundleName, bundleTag } = decodedParams(this.props.match);
         return [
             <BundlesDeleteOperationModal
                 key="BundlesDeleteOperationModal"
@@ -37,7 +38,7 @@ class BundlesByNameTag extends React.Component<Props> {
         ];
     }
     render() {
-        const { bundleName, bundleTag } = this.props.match.params;
+        const { bundleName, bundleTag } = decodedParams(this.props.match);
         return (
             <Page title="Bundles" actions={this.getActions()}>
                 <TextFieldRO
@@ -52,7 +53,7 @@ class BundlesByNameTag extends React.Component<Props> {
 
 export default withData({
     fetchData: (staticdeploy, props) => {
-        const { bundleName, bundleTag } = props.match.params;
+        const { bundleName, bundleTag } = decodedParams(props.match);
         return staticdeploy.bundles.getByNameAndTag(bundleName, bundleTag);
     },
     shouldRefetch: (oldProps, newProps) =>

@@ -25,7 +25,9 @@ class BundleNamesList extends React.Component<IProps> {
                         name: name,
                     }))}
                     getDescription={({ name }) => name}
-                    getHref={({ name }) => `/bundles/${name}`}
+                    getHref={({ name }) =>
+                        `/bundles/${encodeURIComponent(name)}`
+                    }
                 />
             </Page>
         );

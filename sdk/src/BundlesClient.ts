@@ -10,13 +10,17 @@ export default class BundlesClient {
     }
 
     async getTagsByName(name: string): Promise<string[]> {
-        const result = await this.axios.get(`/bundleNames/${name}/bundleTags`);
+        const result = await this.axios.get(
+            `/bundleNames/${encodeURIComponent(name)}/bundleTags`
+        );
         return result.data;
     }
 
     async getByNameAndTag(name: string, tag: string): Promise<IBundle[]> {
         const result = await this.axios.get(
-            `/bundleNames/${name}/bundleTags/${tag}/bundles`
+            `/bundleNames/${encodeURIComponent(
+                name
+            )}/bundleTags/${encodeURIComponent(tag)}/bundles`
         );
         return result.data;
     }
@@ -53,7 +57,9 @@ export default class BundlesClient {
 
     async deleteByNameAndTag(name: string, tag: string): Promise<void> {
         await this.axios.delete(
-            `/bundleNames/${name}/bundleTags/${tag}/bundles`
+            `/bundleNames/${encodeURIComponent(
+                name
+            )}/bundleTags/${encodeURIComponent(tag)}/bundles`
         );
     }
 }

@@ -2,6 +2,7 @@ import isNil from "lodash/isNil";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
+import decodedParams from "../../common/decodedParams";
 import { withData } from "../../components/DataFetcher";
 import LinksList from "../../components/LinksList";
 import Page from "../../components/Page";
@@ -23,7 +24,6 @@ type Props = {
 
 class BundleTagsList extends React.Component<Props> {
     render() {
-        const { bundleName } = this.props.match.params;
         return (
             <Page title="Bundle tags">
                 <BundleTagsLinksList
@@ -33,7 +33,11 @@ class BundleTagsList extends React.Component<Props> {
                         tag: tag,
                     }))}
                     getDescription={({ tag }) => tag}
-                    getHref={({ tag }) => `/bundles/${bundleName}/${tag}`}
+                    getHref={({ tag }) =>
+                        `/bundles/${
+                            this.props.match.params.bundleName
+                        }/${encodeURIComponent(tag)}`
+                    }
                 />
             </Page>
         );
@@ -42,7 +46,9 @@ class BundleTagsList extends React.Component<Props> {
 
 export default withData({
     fetchData: (staticdeploy, props) =>
-        staticdeploy.bundles.getTagsByName(props.match.params.bundleName),
+        staticdeploy.bundles.getTagsByName(
+            decodedParams(props.match).bundleName
+        ),
     // Refetch when:
     shouldRefetch: (oldProps, newProps) =>
         // - the selected bundle name changes

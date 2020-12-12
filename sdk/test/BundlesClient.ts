@@ -28,12 +28,21 @@ describe("BundlesClient", () => {
     });
 
     describe("getTagsByName", () => {
-        it("requests GET /bundleNames/:bundleName/bundleTags", async () => {
-            const scope = nock(baseUrl)
-                .get("/bundleNames/0/bundleTags")
-                .reply(200, []);
-            await staticdeployClient.bundles.getTagsByName("0");
-            scope.done();
+        describe("requests GET /bundleNames/:bundleName/bundleTags", () => {
+            it("case: bundleName without special characters", async () => {
+                const scope = nock(baseUrl)
+                    .get("/bundleNames/0/bundleTags")
+                    .reply(200, []);
+                await staticdeployClient.bundles.getTagsByName("0");
+                scope.done();
+            });
+            it("case: bundleName with special characters", async () => {
+                const scope = nock(baseUrl)
+                    .get("/bundleNames/%2F/bundleTags")
+                    .reply(200, []);
+                await staticdeployClient.bundles.getTagsByName("/");
+                scope.done();
+            });
         });
         it("returns a list of bundles tags", async () => {
             nock(baseUrl).get("/bundleNames/0/bundleTags").reply(200, []);
@@ -45,12 +54,21 @@ describe("BundlesClient", () => {
     });
 
     describe("getByNameAndTag", () => {
-        it("requests GET /bundleNames/:bundleName/bundleTags/:bundleTag/bundles", async () => {
-            const scope = nock(baseUrl)
-                .get("/bundleNames/0/bundleTags/0/bundles")
-                .reply(200, []);
-            await staticdeployClient.bundles.getByNameAndTag("0", "0");
-            scope.done();
+        describe("requests GET /bundleNames/:bundleName/bundleTags/:bundleTag/bundles", () => {
+            it("case: bundleName and bundleTag without special characters", async () => {
+                const scope = nock(baseUrl)
+                    .get("/bundleNames/0/bundleTags/0/bundles")
+                    .reply(200, []);
+                await staticdeployClient.bundles.getByNameAndTag("0", "0");
+                scope.done();
+            });
+            it("case: bundleName and bundleTag with special characters", async () => {
+                const scope = nock(baseUrl)
+                    .get("/bundleNames/%2F/bundleTags/%2F/bundles")
+                    .reply(200, []);
+                await staticdeployClient.bundles.getByNameAndTag("/", "/");
+                scope.done();
+            });
         });
         it("returns a list of bundles", async () => {
             nock(baseUrl)
@@ -130,12 +148,21 @@ describe("BundlesClient", () => {
     });
 
     describe("deleteByNameAndTag", () => {
-        it("requests DELETE /bundleNames/:bundleName/bundleTags/:bundleTag/bundles", async () => {
-            const scope = nock(baseUrl)
-                .delete("/bundleNames/0/bundleTags/0/bundles")
-                .reply(204);
-            await staticdeployClient.bundles.deleteByNameAndTag("0", "0");
-            scope.done();
+        describe("requests DELETE /bundleNames/:bundleName/bundleTags/:bundleTag/bundles", () => {
+            it("case: bundleName and bundleTag without special characters", async () => {
+                const scope = nock(baseUrl)
+                    .delete("/bundleNames/0/bundleTags/0/bundles")
+                    .reply(204);
+                await staticdeployClient.bundles.deleteByNameAndTag("0", "0");
+                scope.done();
+            });
+            it("case: bundleName and bundleTag with special characters", async () => {
+                const scope = nock(baseUrl)
+                    .delete("/bundleNames/%2F/bundleTags/%2F/bundles")
+                    .reply(204);
+                await staticdeployClient.bundles.deleteByNameAndTag("/", "/");
+                scope.done();
+            });
         });
     });
 });
