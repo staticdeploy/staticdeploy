@@ -3,7 +3,7 @@ jobs:
 
   qa:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
       - image: postgres
         environment:
           POSTGRES_PASSWORD: password
@@ -32,7 +32,7 @@ jobs:
 
   publish-website:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
     steps:
       - checkout
       - run:
@@ -55,10 +55,11 @@ jobs:
 
   docker-build-push:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Install dependencies (commands below need lerna)
           command: yarn install --frozen-lockfile
@@ -83,7 +84,7 @@ jobs:
 
   npm-publish:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
     steps:
       - checkout
       - run:

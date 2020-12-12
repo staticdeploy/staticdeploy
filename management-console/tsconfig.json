@@ -3,7 +3,8 @@
     "compilerOptions": {
         "target": "es5",
         "module": "esnext",
-        "lib": ["es2017", "dom"],
+        "moduleResolution": "node",
+        "lib": ["dom", "dom.iterable", "esnext"],
         "types": [
             "@types/chai",
             "@types/classnames",
@@ -12,7 +13,6 @@
             "@types/express",
             "@types/faker",
             "@types/jsdom-global",
-            "@types/jwt-decode",
             "@types/lodash",
             "@types/mocha",
             "@types/node",
@@ -24,7 +24,7 @@
             "@types/sinon-chai",
             "@types/validator"
         ],
-        "jsx": "preserve",
+        "jsx": "react-jsx",
         "allowSyntheticDefaultImports": true,
         "suppressImplicitAnyIndexErrors": true,
         "allowJs": true,

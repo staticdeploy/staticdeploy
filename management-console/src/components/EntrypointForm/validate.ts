@@ -10,7 +10,8 @@ export default function validate(values: Partial<IInternalFormValues>) {
     if (!values.urlMatcher) {
         errors.urlMatcher = "Required";
     } else if (!isEntrypointUrlMatcherValid(values.urlMatcher)) {
-        errors.urlMatcher = "Must have format: domain + path + trailing slash";
+        errors.urlMatcher =
+            "Must have format: domain (w/o trailing dot) + path + trailing slash";
     }
 
     // Validate configuration

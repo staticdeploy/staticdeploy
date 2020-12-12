@@ -17,8 +17,8 @@ export interface IEntrypoint {
 
 /*
  *  A valid entrypoint urlMatcher has the shape domain + path, where domain is a
- *  fully-qualified domain name, and path an absolute and normalized path
- *  ending with a /.
+ *  fully-qualified domain name WITHOUT the ending dot, and path is an absolute
+ *  and normalized path ending with a / (slash).
  *
  *  Example of valid urlMatchers:
  *  - domain.com/
@@ -27,6 +27,7 @@ export interface IEntrypoint {
  *
  *  Example of invalid urlMatchers:
  *  - http://domain.com/
+ *  - domain.com./
  *  - domain.com
  *  - domain.com/path
  */
@@ -39,7 +40,7 @@ export function isEntrypointUrlMatcherValid(urlMatcher: string): boolean {
     const domain = urlMatcher.slice(0, indexOfFirstSlash);
     const path = urlMatcher.slice(indexOfFirstSlash);
     return (
-        isFQDN(domain) &&
+        isFQDN(domain, { allow_trailing_dot: false }) &&
         isAbsolute(path) &&
         normalize(path) === path &&
         /\/$/.test(path)

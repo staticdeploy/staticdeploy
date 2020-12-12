@@ -14,9 +14,7 @@ interface IProps {
     trigger: React.ReactNode;
 }
 
-export default class EntrypointDeleteOperationModal extends React.Component<
-    IProps
-> {
+export default class EntrypointDeleteOperationModal extends React.Component<IProps> {
     deleteEntrypoint = (staticdeploy: StaticdeployClient) =>
         staticdeploy.entrypoints.delete(this.props.entrypoint.id);
     goToAppDetail = () =>

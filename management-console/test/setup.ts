@@ -2,7 +2,7 @@ import chai from "chai";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import "ignore-styles";
 import jsdomGlobal from "jsdom-global";
 import sinonChai from "sinon-chai";

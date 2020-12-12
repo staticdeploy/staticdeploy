@@ -1,4 +1,4 @@
-export function delay(milliseconds: number): Promise<void> {
+export default function delay(milliseconds: number): Promise<void> {
     return new Promise((resolve) => {
         setTimeout(() => resolve(), milliseconds);
     });

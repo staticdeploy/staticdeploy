@@ -18,6 +18,7 @@ describe("Entrypoint entity validator isEntrypointUrlMatcherValid", () => {
     describe("returns false when the passed-in urlMatcher is not valid", () => {
         [
             "http://domain.com/",
+            "domain.com./",
             "domain.com",
             "domain.com/path",
             "domain.com/path/../subpath/",

@@ -10,7 +10,7 @@ import classnames from "classnames";
 import React from "react";
 
 import StaticdeployClientContext from "../../common/StaticdeployClientContext";
-import { delay } from "../../common/utils";
+import delay from "../../common/delay";
 import "./index.css";
 
 export enum OperationStatus {

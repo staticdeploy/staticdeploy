@@ -9,10 +9,10 @@ export default function staticServerAdapter(options: {
     return (
         express()
             .disable("x-powered-by")
-            // When present, use X-Forwarded-* headers to determine request properties
-            // like the originally requested hostname
+            // When present, use X-Forwarded-* headers to determine request
+            // properties like the originally requested hostname
             .set("trust proxy", true)
-            .use(staticRoute(options))
+            .get("*", staticRoute(options))
             .use(errorHandler())
     );
 }

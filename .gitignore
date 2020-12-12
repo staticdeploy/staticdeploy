@@ -17,5 +17,8 @@ yarn-error.log*
 lerna-debug.log*
 lerna-error.log*
 
+# Eslint
+.eslintcache
+
 # Ignore dotenv files
 .env

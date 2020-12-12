@@ -10,7 +10,7 @@ import config from "../../src/config";
 
 describe("staticdeploy expressApp", () => {
     describe("when config.enableManagementEndpoints === true", () => {
-        it("serves the management console at $HOST/", async () => {
+        it("serves the management console at $MANAGEMENT_HOSTNAME/", async () => {
             const logger = getLogger(config);
             const expressApp = getExpressApp({
                 config: config,
@@ -20,14 +20,14 @@ describe("staticdeploy expressApp", () => {
                 usecases: usecases,
                 logger: logger,
             });
-            return request(expressApp)
+            await request(expressApp)
                 .get("/")
                 .set("host", config.managementHostname)
                 .expect(200)
                 .expect(/StaticDeploy Management Console/);
         });
 
-        it("serves the management API at $HOST/api/", async () => {
+        it("serves the management API at $MANAGEMENT_HOSTNAME/api/", async () => {
             const logger = getLogger(config);
             const expressApp = getExpressApp({
                 config: config,
@@ -37,7 +37,7 @@ describe("staticdeploy expressApp", () => {
                 usecases: usecases,
                 logger: logger,
             });
-            return request(expressApp)
+            await request(expressApp)
                 .get("/api/health")
                 .set("host", config.managementHostname)
                 .expect(200)
@@ -46,7 +46,7 @@ describe("staticdeploy expressApp", () => {
     });
 
     describe("when config.enableManagementEndpoints === false", () => {
-        it("doesn't serve the management console at $HOST/", async () => {
+        it("doesn't serve the management console at $MANAGEMENT_HOSTNAME/", async () => {
             const logger = getLogger(config);
             const expressApp = getExpressApp({
                 config: config,
@@ -65,7 +65,7 @@ describe("staticdeploy expressApp", () => {
                 .expect(404);
         });
 
-        it("doesn't serve the management API at $HOST/api/", async () => {
+        it("doesn't serve the management API at $MANAGEMENT_HOSTNAME/api/", async () => {
             const logger = getLogger(config);
             const expressApp = getExpressApp({
                 config: config,
@@ -85,7 +85,7 @@ describe("staticdeploy expressApp", () => {
         });
     });
 
-    it("serves deployed bundles at $ENDPOINT", async () => {
+    it("serves deployed bundles at other endpoints (w/ and w/o hostname trailing dot)", async () => {
         const logger = getLogger(config);
         const expressApp = getExpressApp({
             config: {
@@ -135,5 +135,16 @@ describe("staticdeploy expressApp", () => {
             .set("host", "example.com")
             .expect(200)
             .expect(/test html/);
+        await request(expressApp)
+            .get("/")
+            .set("host", "example.com.")
+            .expect(200)
+            .expect(/test html/);
+        // Verify other endpoints return 404
+        await request(expressApp)
+            .get("/")
+            .set("host", "non-existing.com")
+            .expect(404)
+            .expect(/Entrypoint not found/);
     });
 });

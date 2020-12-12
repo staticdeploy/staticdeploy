@@ -1,6 +1,6 @@
 # Note: this Dockerfile is executed with the root of the staticdeploy monorepo
 # as context
-FROM node:12-alpine
+FROM node:14-alpine
 
 WORKDIR /opt/staticdeploy
 

@@ -13,21 +13,21 @@ describe("EntrypointForm validation function", () => {
                 const errors = validate({ urlMatcher: "domain..com/path/" });
                 expect(errors).to.have.property(
                     "urlMatcher",
-                    "Must have format: domain + path + trailing slash"
+                    "Must have format: domain (w/o trailing dot) + path + trailing slash"
                 );
             });
             it("case: invalid path", () => {
                 const errors = validate({ urlMatcher: "domain.com/../path/" });
                 expect(errors).to.have.property(
                     "urlMatcher",
-                    "Must have format: domain + path + trailing slash"
+                    "Must have format: domain (w/o trailing dot) + path + trailing slash"
                 );
             });
             it("case: no trailing slash", () => {
                 const errors = validate({ urlMatcher: "domain.com/path" });
                 expect(errors).to.have.property(
                     "urlMatcher",
-                    "Must have format: domain + path + trailing slash"
+                    "Must have format: domain (w/o trailing dot) + path + trailing slash"
                 );
             });
             it("case: valid", () => {
