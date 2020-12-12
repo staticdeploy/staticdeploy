@@ -1,3 +1,12 @@
+## 0.15.3 (December 12, 2020)
+
+Fixes:
+
+- correctly handle requests having a trailing dot in their hostname (#31)
+- in the Management Console, handle bundle names and tags containing `/` and
+  other special characters (#65)
+- only allow GET and HEAD methods for requesting assets (#66)
+
 ## 0.15.2 (April 8, 2020)
 
 Fixes:
