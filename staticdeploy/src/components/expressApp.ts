@@ -6,7 +6,6 @@ import {
 import tarArchiver from "@staticdeploy/tar-archiver";
 import Logger from "bunyan";
 import bunyanMiddleware from "bunyan-middleware";
-import escapeStringRegexp from "escape-string-regexp";
 import express from "express";
 import vhost from "vhost";
 
@@ -45,13 +44,7 @@ export default function getExpressApp(options: {
                 config: { enforceAuth: config.enforceAuth },
                 storages: storagesModule.getStorages(),
             }),
-            vhost(
-                new RegExp(
-                    `^${escapeStringRegexp(config.managementHostname)}\.?$`,
-                    "i"
-                ),
-                managementRouter
-            ),
+            vhost(config.managementHostname, managementRouter),
             staticServerAdapter({ hostnameHeader: config.hostnameHeader }),
         ]);
 }

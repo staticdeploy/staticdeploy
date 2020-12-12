@@ -10,7 +10,7 @@ import config from "../../src/config";
 
 describe("staticdeploy expressApp", () => {
     describe("when config.enableManagementEndpoints === true", () => {
-        it("serves the management console at $MANAGEMENT_HOSTNAME/ and $MANAGEMENT_HOSTNAME./", async () => {
+        it("serves the management console at $MANAGEMENT_HOSTNAME/", async () => {
             const logger = getLogger(config);
             const expressApp = getExpressApp({
                 config: config,
@@ -23,16 +23,11 @@ describe("staticdeploy expressApp", () => {
             await request(expressApp)
                 .get("/")
                 .set("host", config.managementHostname)
-                .expect(200)
-                .expect(/StaticDeploy Management Console/);
-            await request(expressApp)
-                .get("/")
-                .set("host", `${config.managementHostname}.`)
                 .expect(200)
                 .expect(/StaticDeploy Management Console/);
         });
 
-        it("serves the management API at $MANAGEMENT_HOSTNAME/api/ and $MANAGEMENT_HOSTNAME./api/", async () => {
+        it("serves the management API at $MANAGEMENT_HOSTNAME/api/", async () => {
             const logger = getLogger(config);
             const expressApp = getExpressApp({
                 config: config,
@@ -45,11 +40,6 @@ describe("staticdeploy expressApp", () => {
             await request(expressApp)
                 .get("/api/health")
                 .set("host", config.managementHostname)
-                .expect(200)
-                .expect({ isHealthy: true });
-            await request(expressApp)
-                .get("/api/health")
-                .set("host", `${config.managementHostname}.`)
                 .expect(200)
                 .expect({ isHealthy: true });
         });
