@@ -3,7 +3,7 @@ jobs:
 
   qa:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
       - image: postgres
         environment:
           POSTGRES_PASSWORD: password
@@ -32,7 +32,7 @@ jobs:
 
   publish-website:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
     steps:
       - checkout
       - run:
@@ -55,7 +55,7 @@ jobs:
 
   docker-build-push:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
     steps:
       - checkout
       - setup_remote_docker
@@ -83,7 +83,7 @@ jobs:
 
   npm-publish:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
     steps:
       - checkout
       - run:
