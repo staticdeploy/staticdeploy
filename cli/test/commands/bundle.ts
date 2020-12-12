@@ -38,23 +38,6 @@ describe("bundle command", () => {
                         }
                     }
                 };`,
-                "custom.config.js": `module.exports = {
-                    "bundle": {
-                        apiUrl: "custom.config.js apiUrl",
-                        apiToken: "apiToken",
-                        from: "from",
-                        name: "name",
-                        tag: "tag",
-                        description: "description",
-                        fallbackAssetPath: "/fallbackAssetPath",
-                        fallbackStatusCode: 200,
-                        headers: {
-                            "assetMatcher": {
-                                "headerName": "headerValue"
-                            }
-                        }
-                    }
-                };`,
             });
         });
         after(() => {
@@ -64,7 +47,7 @@ describe("bundle command", () => {
         // Use the bundle command definition in a test instance of yargs,
         // configured as the real instance in src/bin/staticdeploy.js
         const handler = sinon.spy();
-        const argv = yargs
+        const argv = yargs([], workdir)
             .command({ ...bundle, handler })
             .demandCommand(1)
             .exitProcess(false)
@@ -73,35 +56,18 @@ describe("bundle command", () => {
             handler.resetHistory();
         });
 
-        // Stub process.cwd() so that it returns the workdir specified above, so
-        // that path.resolve resolves paths relative to that
-        before(() => {
-            sinon.stub(process, "cwd").returns(workdir);
-        });
-        after(() => {
-            (process.cwd as sinon.SinonStub).restore();
-        });
-
         // No-op function to ignore parse errors
         const ignoreParseErrors = () => null;
 
         describe("reads options from a config file or from command line flags", () => {
-            it("case: default config file", () => {
-                argv.parse("bundle", ignoreParseErrors);
-                expect(handler).to.have.callCount(1);
-                expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "staticdeploy.config.js apiUrl",
-                });
-            });
-
-            it("case: non-default config file", () => {
+            it("case: config file", () => {
                 argv.parse(
-                    "bundle --config custom.config.js",
+                    `bundle --config ${workdir}/staticdeploy.config.js`,
                     ignoreParseErrors
                 );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "custom.config.js apiUrl",
+                    apiUrl: "staticdeploy.config.js apiUrl",
                 });
             });
 
@@ -117,7 +83,9 @@ describe("bundle command", () => {
             });
 
             it("case: config file and command line flags", () => {
-                argv.parse("bundle --apiUrl apiUrl");
+                argv.parse(
+                    `bundle --config ${workdir}/staticdeploy.config.js --apiUrl apiUrl`
+                );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
                     apiUrl: "apiUrl",

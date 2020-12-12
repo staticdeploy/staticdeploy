@@ -14,9 +14,7 @@ interface IProps {
     trigger: React.ReactNode;
 }
 
-export default class BundlesDeleteOperationModal extends React.Component<
-    IProps
-> {
+export default class BundlesDeleteOperationModal extends React.Component<IProps> {
     deleteBundles = (staticdeploy: StaticdeployClient) =>
         staticdeploy.bundles.deleteByNameAndTag(
             this.props.bundleName,

@@ -29,15 +29,6 @@ describe("deploy command", () => {
                         bundle: "bundle"
                     }
                 };`,
-                "custom.config.js": `module.exports = {
-                    "deploy": {
-                        apiUrl: "custom.config.js apiUrl",
-                        apiToken: "apiToken",
-                        app: "app",
-                        entrypoint: "entrypoint",
-                        bundle: "bundle"
-                    }
-                };`,
             });
         });
         after(() => {
@@ -56,35 +47,18 @@ describe("deploy command", () => {
             handler.resetHistory();
         });
 
-        // Stub process.cwd() so that it returns the workdir specified above, so
-        // that path.resolve resolves paths relative to that
-        before(() => {
-            sinon.stub(process, "cwd").returns(workdir);
-        });
-        after(() => {
-            (process.cwd as sinon.SinonStub).restore();
-        });
-
         // No-op function to ignore parse errors
         const ignoreParseErrors = () => null;
 
         describe("reads options from a config file or from command line flags", () => {
-            it("case: default config file", () => {
-                argv.parse("deploy", ignoreParseErrors);
-                expect(handler).to.have.callCount(1);
-                expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "staticdeploy.config.js apiUrl",
-                });
-            });
-
-            it("case: non-default config file", () => {
+            it("case: config file", () => {
                 argv.parse(
-                    "deploy --config custom.config.js",
+                    `deploy --config ${workdir}/staticdeploy.config.js`,
                     ignoreParseErrors
                 );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
-                    apiUrl: "custom.config.js apiUrl",
+                    apiUrl: "staticdeploy.config.js apiUrl",
                 });
             });
 
@@ -100,7 +74,9 @@ describe("deploy command", () => {
             });
 
             it("case: config file and command line flags", () => {
-                argv.parse("deploy --apiUrl apiUrl");
+                argv.parse(
+                    `deploy --config ${workdir}/staticdeploy.config.js --apiUrl apiUrl`
+                );
                 expect(handler).to.have.callCount(1);
                 expect(handler).to.have.been.calledWithMatch({
                     apiUrl: "apiUrl",

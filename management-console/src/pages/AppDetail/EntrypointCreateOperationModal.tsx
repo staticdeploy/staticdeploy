@@ -18,9 +18,7 @@ interface IProps {
     refetchAppDetail: () => void;
 }
 
-export default class EntrypointCreateOperationModal extends React.Component<
-    IProps
-> {
+export default class EntrypointCreateOperationModal extends React.Component<IProps> {
     form!: IEntrypointFormInstance;
     createEntrypoint = (staticdeploy: StaticdeployClient) => {
         if (!this.form.isValid()) {

@@ -48,8 +48,7 @@ export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
             implements IConverterForm<ExternalValues> {
             private form!: FormInstance<
                 InternalValues,
-                Partial<ConfigProps<InternalValues, {}>>,
-                string
+                Partial<ConfigProps<InternalValues, {}>>
             >;
             submit(): Promise<any> {
                 return this.form.submit();
