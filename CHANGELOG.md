@@ -1,3 +1,16 @@
+## 0.15.4 (December 16, 2020)
+
+Features:
+
+- allow configuring the max request body size accepted by the server, which
+  mainly limits the size of bundles that can be uploaded
+
+Fixes:
+
+- fix sdk regression caused by
+  [axios/axios#2781](https://github.com/axios/axios/pull/2781), which broke
+  uploading bundles larger than ~2MB
+
 ## 0.15.3 (December 12, 2020)
 
 Fixes:
