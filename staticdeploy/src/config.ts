@@ -20,6 +20,7 @@ const config: IConfig = {
         default: "true",
         parse: (value) => value !== "false",
     }),
+    maxRequestBodySize: env("MAX_REQUEST_BODY_SIZE", { default: "100mb" }),
 
     // Routing configuration
     hostnameHeader: env("HOSTNAME_HEADER"),

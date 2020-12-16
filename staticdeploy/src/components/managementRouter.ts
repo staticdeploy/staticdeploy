@@ -48,6 +48,7 @@ export default async (config: IConfig): Promise<express.Router> => {
                 serviceVersion: config.appVersion,
                 serviceHost: config.managementHostname,
                 serviceBasePath: "/api",
+                maxRequestBodySize: config.maxRequestBodySize,
             })
         )
         .use(managementConsoleStaticServer);

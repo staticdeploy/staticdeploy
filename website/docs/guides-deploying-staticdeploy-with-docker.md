@@ -42,11 +42,14 @@ passed in via environment variables.
 
 - `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the Management
   Console and API will be served
+- `ENABLE_MANAGEMENT_ENDPOINTS`: whether to enable or not the Management Console
+  and API. Defaults to `true`
+- `MAX_REQUEST_BODY_SIZE`: the max size of accepted request bodies, which mainly
+  limits the size of (base64-encoded) bundles that can be uploaded. Defaults to
+  `100mb`
 
 #### Routing configurations
 
-- `ENABLE_MANAGEMENT_ENDPOINTS`: whether to enable or not the Management Console
-  and API. Defaults to `true`
 - `HOSTNAME_HEADER`: the header from which to retrieve the hostname of requests
   for static assets. By default `Host` - or `X-Forwarded-Host` if present - are
   used. Some proxies however use other headers to pass the information upstream

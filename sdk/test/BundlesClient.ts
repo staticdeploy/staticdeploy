@@ -145,6 +145,18 @@ describe("BundlesClient", () => {
             });
             expect(bundle).to.deep.equal({});
         });
+        it("allows creating large bundles", async () => {
+            nock(baseUrl).post("/bundles").reply(201, {});
+            await staticdeployClient.bundles.create({
+                name: "name",
+                tag: "tag",
+                description: "description",
+                content: "0".repeat(100 * 1024 * 1024),
+                fallbackAssetPath: "/fallback",
+                fallbackStatusCode: 200,
+                headers: {},
+            });
+        });
     });
 
     describe("deleteByNameAndTag", () => {

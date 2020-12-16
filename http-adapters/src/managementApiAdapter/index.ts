@@ -7,6 +7,7 @@ export default function managementApiAdapter(options: {
     serviceVersion: string;
     serviceHost: string;
     serviceBasePath: string;
+    maxRequestBodySize: string;
 }): express.Application {
     const convexpressOptions = {
         info: {
@@ -15,7 +16,7 @@ export default function managementApiAdapter(options: {
         },
         host: options.serviceHost,
         bodyParserOptions: {
-            limit: "100mb",
+            limit: options.maxRequestBodySize,
             strict: false,
         },
         basePath: options.serviceBasePath,

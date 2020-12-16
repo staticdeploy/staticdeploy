@@ -21,6 +21,7 @@ export function getManagementApiAdapter(
             serviceVersion: "serviceVersion",
             serviceHost: "serviceHost",
             serviceBasePath: "/",
+            maxRequestBodySize: "100mb",
         }),
         "/"
     );

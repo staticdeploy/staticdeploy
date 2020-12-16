@@ -9,6 +9,7 @@ export default interface IConfig {
     port: string;
     managementHostname: string;
     enableManagementEndpoints: boolean;
+    maxRequestBodySize: string;
 
     // Routing configuration
     hostnameHeader?: string;
