@@ -131,7 +131,6 @@ describe("delete command", () => {
 
             expect(bundlesClientDeleteByNameAndTag).to.have.callCount(1);
             expect(appsClientDelete).to.have.callCount(1);
-            expect(appsClientDelete).to.have.callCount(1);
             expect(entrypointsClientDelete).to.have.callCount(1);
         });
     });

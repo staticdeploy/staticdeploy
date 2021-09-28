@@ -49,12 +49,6 @@ const command: CommandModule<any, any> = {
 
         const apps = await client.apps.getAll();
         const app = apps.find((item) => item.name === argv.app);
-
-        if (!app) {
-            log.error(`cannot find app ${argv.app}`);
-            return;
-        }
-
         const appId = String(app?.id);
         const appEntries = await client.entrypoints.getAll({ appId });
 
