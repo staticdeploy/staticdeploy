@@ -8,73 +8,66 @@ import log from "../common/log";
 import readStaticdeployConfig from "../common/readStaticdeployConfig";
 
 interface IArgv extends apiConfig.IApiConfig {
-  app: string;
-  tag: string;
-  entrypoint: string;
+    app: string;
+    tag: string;
+    entrypoint: string;
 }
 
 const command: CommandModule<any, any> = {
-  command: "delete",
-  describe: "Deletes all app, bundle and, entrypoint",
-  builder: {
-    ...apiConfig.builder,
-    config: {
-      coerce: resolve,
-      config: true,
-      default: "staticdeploy.config.js",
-      configParser: (configPath: string) => {
-        // Read the config file
-        const config = readStaticdeployConfig(configPath);
+    command: "delete",
+    describe: "Deletes all app, bundle and, entrypoint",
+    builder: {
+        ...apiConfig.builder,
+        config: {
+            coerce: resolve,
+            config: true,
+            default: "staticdeploy.config.js",
+            configParser: (configPath: string) => {
+                // Read the config file
+                const config = readStaticdeployConfig(configPath);
 
-        // Return the deploy config, defaulting to an empty object
-        return config.delete || {};
-      },
+                // Return the deploy config, defaulting to an empty object
+                return config.delete || {};
+            },
+        },
+        app: {
+            describe: "Name of the app the entrypoint links to",
+            type: "string",
+            demandOption: true,
+        },
+        tag: {
+            describe: "Tag of the bundle",
+            type: "string",
+            demandOption: true,
+        },
     },
-    app: {
-      describe: "Name of the app the entrypoint links to",
-      type: "string",
-      demandOption: true,
-    },
-    entrypoint: {
-      describe: "urlMatcher of the entrypoint to deploy to",
-      type: "string",
-      demandOption: true,
-    },
-    tag: {
-      describe: "Tag of the bundle",
-      type: "string",
-      demandOption: true,
-    },
-  },
-  handler: handleCommandHandlerErrors(async (argv: IArgv) => {
-    const client = new StaticdeployClient({
-      apiUrl: argv.apiUrl,
-      apiToken: argv.apiToken || null,
-    });
+    handler: handleCommandHandlerErrors(async (argv: IArgv) => {
+        const client = new StaticdeployClient({
+            apiUrl: argv.apiUrl,
+            apiToken: argv.apiToken || null,
+        });
 
-    const apps = await client.apps.getAll();
-    const app = apps.find((item) => item.name === argv.app);
-    if (app) {
-      const appId = String(app?.id);
+        const apps = await client.apps.getAll();
+        const app = apps.find((item) => item.name === argv.app);
 
-      const appEntries = await client.entrypoints.getAll({ appId });
+        if (!app) {
+            log.error(`cannot find app ${argv.app}`);
+            return;
+        }
 
-      for (let i = 0; i < appEntries.length; i++) {
-        const element = appEntries[i];
-        await client.entrypoints.delete(element.id);
-      }
+        const appId = String(app?.id);
+        const appEntries = await client.entrypoints.getAll({ appId });
 
-      await client.bundles.deleteByNameAndTag(argv.app, argv.tag);
-      await client.apps.delete(appId);
-      log.success(
-        `app ${argv.app} along with bundle and entrypoint(s) have been deleted`
-      );
-    }
+        for (const index of appEntries.keys()) {
+            const element = appEntries[index];
+            await client.entrypoints.delete(element.id);
+        }
 
-    log.error(
-        `cannot find app ${argv.app}`
-      );
-  }),
-  
+        await client.bundles.deleteByNameAndTag(argv.app, argv.tag);
+        await client.apps.delete(appId);
+        log.success(
+            `app ${argv.app} along with bundle and entrypoint(s) have been deleted`
+        );
+    }),
 };
 export default command;
