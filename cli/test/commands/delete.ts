@@ -93,7 +93,10 @@ describe("delete command", () => {
             Parameters<typeof BundlesClient.prototype.deleteByNameAndTag>,
             ReturnType<typeof BundlesClient.prototype.deleteByNameAndTag>
         >;
-
+        let appsClientGetAll: sinon.SinonStub<
+            Parameters<typeof AppsClient.prototype.getAll>,
+            ReturnType<typeof AppsClient.prototype.getAll>
+        >;
         let appsClientDelete: sinon.SinonStub<
             Parameters<typeof AppsClient.prototype.delete>,
             ReturnType<typeof AppsClient.prototype.delete>
@@ -101,6 +104,10 @@ describe("delete command", () => {
         let entrypointsClientDelete: sinon.SinonStub<
             Parameters<typeof EntrypointsClient.prototype.delete>,
             ReturnType<typeof EntrypointsClient.prototype.delete>
+        >;
+        let entrypointsClientGetAll: sinon.SinonStub<
+            Parameters<typeof EntrypointsClient.prototype.getAll>,
+            ReturnType<typeof EntrypointsClient.prototype.getAll>
         >;
 
         beforeEach(() => {
@@ -110,11 +117,35 @@ describe("delete command", () => {
             );
 
             appsClientDelete = sinon.stub(AppsClient.prototype, "delete");
+            appsClientGetAll = sinon.stub(AppsClient.prototype, "getAll");
+            entrypointsClientGetAll = sinon.stub(
+                EntrypointsClient.prototype,
+                "getAll"
+            );
             entrypointsClientDelete = sinon.stub(
                 EntrypointsClient.prototype,
                 "delete"
             );
+
+            appsClientGetAll.returns(
+                Promise.resolve([
+                    {
+                        name: "app",
+                    } as any,
+                ])
+            );
+            entrypointsClientGetAll.returns(
+                Promise.resolve([
+                    {
+                        id: 1234,
+                    } as any,
+                    {
+                        id: 9876,
+                    } as any,
+                ])
+            );
         });
+
         afterEach(() => {
             bundlesClientDeleteByNameAndTag.restore();
             appsClientDelete.restore();
@@ -129,9 +160,11 @@ describe("delete command", () => {
                 tag: "tag",
             });
 
+            expect(appsClientGetAll).to.have.callCount(1);
+            expect(entrypointsClientGetAll).to.have.callCount(1);
             expect(bundlesClientDeleteByNameAndTag).to.have.callCount(1);
             expect(appsClientDelete).to.have.callCount(1);
-            expect(entrypointsClientDelete).to.have.callCount(1);
+            expect(entrypointsClientDelete).to.have.callCount(2);
         });
     });
 });
