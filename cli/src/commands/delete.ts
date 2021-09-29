@@ -6,7 +6,6 @@ import * as apiConfig from "../common/apiConfig";
 import handleCommandHandlerErrors from "../common/handleCommandHandlerErrors";
 import log from "../common/log";
 import readStaticdeployConfig from "../common/readStaticdeployConfig";
-
 interface IArgv extends apiConfig.IApiConfig {
     app: string;
     tag: string;
@@ -15,7 +14,7 @@ interface IArgv extends apiConfig.IApiConfig {
 
 const command: CommandModule<any, any> = {
     command: "delete",
-    describe: "Deletes all app, bundle and, entrypoint",
+    describe: "Deletes an app and its related bundles and entrypoints",
     builder: {
         ...apiConfig.builder,
         config: {

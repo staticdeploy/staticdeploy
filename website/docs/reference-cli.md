@@ -45,6 +45,18 @@ Deploys a bundle to an entrypoint. It takes the following options:
 - `--entrypoint`: urlMatcher of the entrypoint to deploy to
 - `--app`: name of the app the entrypoint links to
 
+### staticdeploy delete
+
+Deletes an app and its related bundles and entrypoints. It takes the following
+options:
+
+- `--config` (optional): specify the file from which to load options. Defaults
+  to `staticdeploy.config.js` (if it exists)
+- `--apiUrl`: URL of the StaticDeploy Management API
+- `--apiToken`: authentication token for the API
+- `--app`: name of the app
+- `--tag`: tag of the bundle
+
 ## Using a config file
 
 As seen above, you can supply options to `staticdeploy` in a config file. A
@@ -58,6 +70,9 @@ module.exports = {
   },
   // Optional
   deploy: {
+    // Options for the deploy command as specified above
+  },
+  delete: {
     // Options for the deploy command as specified above
   },
 };

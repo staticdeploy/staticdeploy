@@ -9,7 +9,6 @@ import { tmpdir } from "os";
 import { join } from "path";
 import sinon from "sinon";
 import yargs from "yargs";
-
 import deleteCommand from "../../src/commands/delete";
 
 describe("delete command", () => {
@@ -126,7 +125,6 @@ describe("delete command", () => {
                 EntrypointsClient.prototype,
                 "delete"
             );
-
             appsClientGetAll.returns(
                 Promise.resolve([
                     {
