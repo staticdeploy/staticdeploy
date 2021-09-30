@@ -63,9 +63,8 @@ module.exports = {
     // Options for the deploy command as specified above
   },
   delete: {
-    ploy: {
     // Options for the deploy command as specified above
-  }
+  },
 };
 ```
 
