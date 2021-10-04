@@ -40,6 +40,16 @@ npm i -g @staticdeploy/cli
   - `--entrypoint`: urlMatcher of the entrypoint to deploy to
   - `--app`: name of the app the entrypoint links to
 
+- `staticdeploy delete`: deletes an app and its related bundles and entrypoints.
+  Options (all required):
+
+  - `--config` (optional): specify the file from which to load options. Defaults
+    to `staticdeploy.config.js`
+  - `--apiUrl`: URL of the StaticDeploy API
+  - `--apiToken`: authentication token for the API
+  - `--app`: name of the app
+  - `--tag`: tag of the bundle
+
 A valid config file has the following structure:
 
 ```js
@@ -51,7 +61,10 @@ module.exports = {
   // Optional
   deploy: {
     // Options for the deploy command as specified above
-  }
+  },
+  delete: {
+    // Options for the deploy command as specified above
+  },
 };
 ```
 
