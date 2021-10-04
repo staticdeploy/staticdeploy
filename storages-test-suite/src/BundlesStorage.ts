@@ -323,7 +323,14 @@ export default (storages: IStorages) => {
                 tag: "tag",
                 description: "description",
                 hash: "hash",
-                assets: [],
+                assets: [
+                    {
+                        path: "/file",
+                        content: Buffer.from("/file"),
+                        mimeType: "text/plain",
+                        headers: {},
+                    },
+                ],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
                 createdAt: new Date(),
@@ -331,6 +338,11 @@ export default (storages: IStorages) => {
             await storages.bundles.deleteMany(["id"]);
             const bundleExists = await storages.bundles.oneExistsWithId("id");
             expect(bundleExists).to.equal(false);
+            const fileContent = await storages.bundles.getBundleAssetContent(
+                "id",
+                "/file"
+            );
+            expect(fileContent).to.equal(null);
         });
     });
 };
