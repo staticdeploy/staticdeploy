@@ -149,10 +149,10 @@ export default class BundlesStorage implements IBundlesStorage {
             await this.deleteObjectsIndividually(bundles);
             return;
         }
-        await this.deleteObjectsInBatch(bundles);
+        await this.deleteObjectsInBulk(bundles);
     }
 
-    private async deleteObjectsInBatch(bundles: IBundleWithoutAssetsContent[]) {
+    private async deleteObjectsInBulk(bundles: IBundleWithoutAssetsContent[]) {
         await this.s3Client
             .deleteObjects({
                 Bucket: this.s3Bucket,
