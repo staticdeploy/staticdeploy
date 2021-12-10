@@ -28,4 +28,5 @@ export default interface IConfig {
     s3Endpoint?: string;
     s3AccessKeyId?: string;
     s3SecretAccessKey?: string;
+    s3GoogleCloudStorageCompatible?: boolean;
 }

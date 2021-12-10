@@ -18,7 +18,8 @@ export default class BundlesStorage implements IBundlesStorage {
     constructor(
         private knex: Knex,
         private s3Client: S3,
-        private s3Bucket: string
+        private s3Bucket: string,
+        private s3GoogleCloudStorageCompatible: boolean
     ) {}
 
     async findOne(id: string): Promise<IBundleWithoutAssetsContent | null> {
@@ -127,31 +128,31 @@ export default class BundlesStorage implements IBundlesStorage {
         return createdBundle;
     }
 
-    async deleteOne(id: string): Promise<void> {
-        // const [bundle]: [IBundleWithoutAssetsContent]
-        const [bundle] = await this.knex<IBundleWithoutAssetsContent>(
-            tables.bundles
-        ).where({ id });
-        // Delete files from S3
-        await this.s3Client
-            .deleteObjects({
-                Bucket: this.s3Bucket,
-                Delete: {
-                    Objects: bundle!.assets.map((asset) => ({
-                        Key: this.getAssetS3Key(id, asset.path),
-                    })),
-                },
-            })
-            .promise();
-        // Delete the bundle from sql
-        await this.knex(tables.bundles).where({ id }).delete();
-    }
-
     async deleteMany(ids: string[]): Promise<void> {
         const bundles: IBundleWithoutAssetsContent[] = await this.knex(
             tables.bundles
         ).whereIn("id", ids);
         // Delete bundles' files on S3
+        await this.deleteObjects(bundles);
+        // Delete the bundles from sql
+        await this.knex(tables.bundles).whereIn("id", ids).delete();
+    }
+
+    private getAssetS3Key(bundleId: string, assetPath: string) {
+        // When using minio.io as an S3 server, keys can't have a leading /
+        // (unlike in AWS S3), so we omit it
+        return join(bundleId, assetPath);
+    }
+
+    private async deleteObjects(bundles: IBundleWithoutAssetsContent[]) {
+        if (this.s3GoogleCloudStorageCompatible) {
+            await this.deleteObjectsIndividually(bundles);
+            return;
+        }
+        await this.deleteObjectsInBatch(bundles);
+    }
+
+    private async deleteObjectsInBatch(bundles: IBundleWithoutAssetsContent[]) {
         await this.s3Client
             .deleteObjects({
                 Bucket: this.s3Bucket,
@@ -166,13 +167,20 @@ export default class BundlesStorage implements IBundlesStorage {
                 },
             })
             .promise();
-        // Delete the bundles from sql
-        await this.knex(tables.bundles).whereIn("id", ids).delete();
     }
 
-    private getAssetS3Key(bundleId: string, assetPath: string) {
-        // When using minio.io as an S3 server, keys can't have a leading /
-        // (unlike in AWS S3), so we omit it
-        return join(bundleId, assetPath);
+    private async deleteObjectsIndividually(
+        bundles: IBundleWithoutAssetsContent[]
+    ) {
+        await concurrentForEach(bundles, async (bundle) => {
+            await concurrentForEach(bundle.assets, async (asset) => {
+                await this.s3Client
+                    .deleteObject({
+                        Bucket: this.s3Bucket,
+                        Key: this.getAssetS3Key(bundle.id, asset.path),
+                    })
+                    .promise();
+            });
+        });
     }
 }

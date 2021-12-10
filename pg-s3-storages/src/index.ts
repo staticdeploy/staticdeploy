@@ -19,6 +19,7 @@ export default class PgS3Storages implements IStoragesModule {
     private knex: Knex;
     private s3Client: S3;
     private s3Bucket: string;
+    private s3GoogleCloudStorageCompatible: boolean;
 
     constructor(options: {
         postgresUrl: string;
@@ -27,6 +28,7 @@ export default class PgS3Storages implements IStoragesModule {
             endpoint: string;
             accessKeyId: string;
             secretAccessKey: string;
+            googleCloudStorageCompatible: boolean;
         };
     }) {
         // Instantiate knex
@@ -40,6 +42,8 @@ export default class PgS3Storages implements IStoragesModule {
             secretAccessKey: options.s3Config.secretAccessKey,
             s3ForcePathStyle: true,
         });
+        this.s3GoogleCloudStorageCompatible =
+            options.s3Config.googleCloudStorageCompatible;
     }
 
     async setup() {
@@ -53,7 +57,8 @@ export default class PgS3Storages implements IStoragesModule {
             bundles: new BundlesStorage(
                 this.knex,
                 this.s3Client,
-                this.s3Bucket
+                this.s3Bucket,
+                this.s3GoogleCloudStorageCompatible
             ),
             entrypoints: new EntrypointsStorage(this.knex),
             groups: new GroupsStorage(this.knex),

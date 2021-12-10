@@ -47,5 +47,9 @@ const config: IConfig = {
     s3Endpoint: env("S3_ENDPOINT"),
     s3AccessKeyId: env("S3_ACCESS_KEY_ID"),
     s3SecretAccessKey: env("S3_SECRET_ACCESS_KEY"),
+    s3GoogleCloudStorageCompatible: env("S3_GCS_COMPATIBLE", {
+        default: "false",
+        parse: (value) => value !== "false",
+    }),
 };
 export default config;

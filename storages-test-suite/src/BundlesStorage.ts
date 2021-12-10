@@ -323,7 +323,20 @@ export default (storages: IStorages) => {
                 tag: "tag",
                 description: "description",
                 hash: "hash",
-                assets: [],
+                assets: [
+                    {
+                        path: "/file/0",
+                        content: Buffer.from("/file/0"),
+                        mimeType: "text/plain",
+                        headers: {},
+                    },
+                    {
+                        path: "/file/1",
+                        content: Buffer.from("/file/1"),
+                        mimeType: "text/plain",
+                        headers: {},
+                    },
+                ],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
                 createdAt: new Date(),
