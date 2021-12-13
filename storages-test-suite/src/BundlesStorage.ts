@@ -344,6 +344,11 @@ export default (storages: IStorages) => {
             await storages.bundles.deleteMany(["id"]);
             const bundleExists = await storages.bundles.oneExistsWithId("id");
             expect(bundleExists).to.equal(false);
+            const fileContent = await storages.bundles.getBundleAssetContent(
+                "id",
+                "/file"
+            );
+            expect(fileContent).to.equal(null);
         });
     });
 };

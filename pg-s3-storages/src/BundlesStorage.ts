@@ -6,7 +6,7 @@ import {
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
 import Knex from "knex";
-import { flatten, map, omit } from "lodash";
+import { flatMap, map, omit } from "lodash";
 import { join } from "path";
 
 import concurrentForEach from "./common/concurrentForEach";
@@ -19,7 +19,7 @@ export default class BundlesStorage implements IBundlesStorage {
         private knex: Knex,
         private s3Client: S3,
         private s3Bucket: string,
-        private s3GoogleCloudStorageCompatible: boolean
+        private s3EnableGCSCompatibility: boolean
     ) {}
 
     async findOne(id: string): Promise<IBundleWithoutAssetsContent | null> {
@@ -133,54 +133,46 @@ export default class BundlesStorage implements IBundlesStorage {
             tables.bundles
         ).whereIn("id", ids);
         // Delete bundles' files on S3
-        await this.deleteObjects(bundles);
+        await this.deleteBundlesFiles(bundles);
         // Delete the bundles from sql
         await this.knex(tables.bundles).whereIn("id", ids).delete();
+    }
+
+    private async deleteBundlesFiles(bundles: IBundleWithoutAssetsContent[]) {
+        const s3Keys = flatMap(bundles, (bundle) =>
+            map(bundle.assets, (asset) =>
+                this.getAssetS3Key(bundle.id, asset.path)
+            )
+        );
+        if (this.s3EnableGCSCompatibility) {
+            await this.deleteObjectsIndividually(s3Keys);
+        } else {
+            await this.deleteObjectsInBulk(s3Keys);
+        }
+    }
+
+    private async deleteObjectsIndividually(s3Keys: string[]) {
+        await concurrentForEach(s3Keys, async (s3Key) =>
+            this.s3Client
+                .deleteObject({ Bucket: this.s3Bucket, Key: s3Key })
+                .promise()
+        );
+    }
+
+    private async deleteObjectsInBulk(s3Keys: string[]) {
+        await this.s3Client
+            .deleteObjects({
+                Bucket: this.s3Bucket,
+                Delete: {
+                    Objects: map(s3Keys, (s3Key) => ({ Key: s3Key })),
+                },
+            })
+            .promise();
     }
 
     private getAssetS3Key(bundleId: string, assetPath: string) {
         // When using minio.io as an S3 server, keys can't have a leading /
         // (unlike in AWS S3), so we omit it
         return join(bundleId, assetPath);
-    }
-
-    private async deleteObjects(bundles: IBundleWithoutAssetsContent[]) {
-        if (this.s3GoogleCloudStorageCompatible) {
-            await this.deleteObjectsIndividually(bundles);
-            return;
-        }
-        await this.deleteObjectsInBulk(bundles);
-    }
-
-    private async deleteObjectsInBulk(bundles: IBundleWithoutAssetsContent[]) {
-        await this.s3Client
-            .deleteObjects({
-                Bucket: this.s3Bucket,
-                Delete: {
-                    Objects: flatten(
-                        map(bundles, (bundle) =>
-                            map(bundle.assets, (asset) => ({
-                                Key: this.getAssetS3Key(bundle.id, asset.path),
-                            }))
-                        )
-                    ),
-                },
-            })
-            .promise();
-    }
-
-    private async deleteObjectsIndividually(
-        bundles: IBundleWithoutAssetsContent[]
-    ) {
-        await concurrentForEach(bundles, async (bundle) => {
-            await concurrentForEach(bundle.assets, async (asset) => {
-                await this.s3Client
-                    .deleteObject({
-                        Bucket: this.s3Bucket,
-                        Key: this.getAssetS3Key(bundle.id, asset.path),
-                    })
-                    .promise();
-            });
-        });
     }
 }

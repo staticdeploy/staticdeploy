@@ -5,14 +5,10 @@ import Knex from "knex";
 import PgS3Storages from "../src";
 import tables from "../src/common/tables";
 
-execStorageTest({ googleCloudStorageCompatible: false });
-execStorageTest({ googleCloudStorageCompatible: true });
+execStorageTests(false);
+execStorageTests(true);
 
-function execStorageTest({
-    googleCloudStorageCompatible,
-}: {
-    googleCloudStorageCompatible: boolean;
-}) {
+function execStorageTests(enableGCSCompatibility: boolean) {
     // Create a pgS3Storages object with test configurations
     const pgS3Storages = new PgS3Storages({
         postgresUrl: "postgres://postgres:password@localhost/postgres",
@@ -21,7 +17,7 @@ function execStorageTest({
             endpoint: "http://localhost:9000",
             accessKeyId: "accessKeyId",
             secretAccessKey: "secretAccessKey",
-            googleCloudStorageCompatible,
+            enableGCSCompatibility: enableGCSCompatibility,
         },
     });
 
@@ -34,8 +30,8 @@ function execStorageTest({
             const s3Client: S3 = (pgS3Storages as any).s3Client;
             const s3Bucket: string = (pgS3Storages as any).s3Bucket;
 
-            // Empty the database, starting from entrypoints since they reference apps
-            // and bundles
+            // Empty the database, starting from entrypoints since they
+            // reference apps and bundles
             await knex(tables.entrypoints).delete();
             await knex(tables.apps).delete();
             await knex(tables.bundles).delete();
