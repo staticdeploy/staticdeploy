@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/oidc-authentication-strategy",
   "description": "OpenID Connect authentication strategy",
-  "version": "0.15.4",
+  "version": "0.15.5",
   "private": true,
   "main": "lib/index.js",
   "typings": "lib/index.d.js",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@panva/jose": "^1.9.3",
-    "@staticdeploy/core": "^0.15.4",
+    "@staticdeploy/core": "^0.15.5",
     "axios": "^0.24.0",
     "bunyan": "^1.8.15",
     "mem": "^8.0.0"

@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/management-console",
   "description": "staticdeploy management console",
-  "version": "0.15.4",
+  "version": "0.15.5",
   "private": true,
   "main": "build/index.html",
   "files": [
@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@staticdeploy/core": "^0.15.4",
-    "@staticdeploy/sdk": "^0.15.4",
+    "@staticdeploy/core": "^0.15.5",
+    "@staticdeploy/sdk": "^0.15.5",
     "antd": "^4.17.3",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.7",

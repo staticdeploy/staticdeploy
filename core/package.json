@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/core",
   "description": "StaticDeploy core module",
-  "version": "0.15.4",
+  "version": "0.15.5",
   "publishConfig": {
     "access": "public"
   },
