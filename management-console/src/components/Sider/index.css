@@ -19,6 +19,8 @@
 /* Pad elements in the sider */
 .c-Sider-logo-container {
     padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .c-Sider .c-SiderNav .ant-menu-item {
     padding: 0px 24px !important;
@@ -29,14 +31,10 @@
     min-height: 100vh;
 }
 .c-Sider-logo-container {
-    position: fixed;
-    top: 10px;
     width: 64px;
     height: 64px;
 }
 .c-Sider .c-SiderNav {
-    position: fixed;
-    top: 84px;
     width: 64px;
 }
 .c-Sider-logout-button-container {

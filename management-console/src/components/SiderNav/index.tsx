@@ -19,35 +19,20 @@ class SiderNav extends React.Component<RouteComponentProps> {
                 theme="dark"
                 selectedKeys={[firstLevelPath]}
             >
-                <Menu.Item key="/apps">
-                    <Link to="/apps">
-                        <GlobalOutlined />
-                        <span>{"Apps and entrypoints"}</span>
-                    </Link>
+                <Menu.Item key="/apps" icon={<GlobalOutlined />}>
+                    <Link to="/apps">{"Apps and entrypoints"}</Link>
                 </Menu.Item>
-                <Menu.Item key="/bundles">
-                    <Link to="/bundles">
-                        <FolderOutlined />
-                        <span>{"Bundles"}</span>
-                    </Link>
+                <Menu.Item key="/bundles" icon={<FolderOutlined />}>
+                    <Link to="/bundles">{"Bundles"}</Link>
                 </Menu.Item>
-                <Menu.Item key="/users">
-                    <Link to="/users">
-                        <UserOutlined />
-                        <span>{"Users"}</span>
-                    </Link>
+                <Menu.Item key="/users" icon={<UserOutlined />}>
+                    <Link to="/users">{"Users"}</Link>
                 </Menu.Item>
-                <Menu.Item key="/groups">
-                    <Link to="/groups">
-                        <TeamOutlined />
-                        <span>{"Groups"}</span>
-                    </Link>
+                <Menu.Item key="/groups" icon={<TeamOutlined />}>
+                    <Link to="/groups">{"Groups"}</Link>
                 </Menu.Item>
-                <Menu.Item key="/operationLogs">
-                    <Link to="/operationLogs">
-                        <ProfileOutlined />
-                        <span>{"Operation logs"}</span>
-                    </Link>
+                <Menu.Item key="/operationLogs" icon={<ProfileOutlined />}>
+                    <Link to="/operationLogs">{"Operation logs"}</Link>
                 </Menu.Item>
             </Menu>
         );
