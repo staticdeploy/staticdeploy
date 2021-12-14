@@ -1,3 +1,11 @@
+## 0.15.5 (December 14, 2021)
+
+Features:
+
+- add `S3_ENABLE_GCS_COMPATIBILITY` configuration option for the `staticdeploy`
+  server to make it fully compatibile with Google Cloud Storage (GCS), for
+  deployments where GCS is used as the S3-compatible blob storage service
+
 ## 0.15.4 (December 16, 2020)
 
 Features:
