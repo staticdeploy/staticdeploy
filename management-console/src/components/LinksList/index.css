@@ -1,3 +1,7 @@
+/* Fix the table layout so it doesn't exceed the width of its container */
+.c-LinksList table {
+    table-layout: fixed !important;
+}
 /* Remove horizontal marign from table */
 .c-LinksList .ant-table-body {
     margin: 0px !important;

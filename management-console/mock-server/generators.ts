@@ -16,8 +16,8 @@ export const app = (supplied: any = {}) => ({
 });
 
 // Bundles
-export const bundleName = () => faker.random.word();
-export const bundleTag = () => faker.lorem.word();
+export const bundleName = () => faker.lorem.slug(4);
+export const bundleTag = () => faker.lorem.slug(4);
 export const bundle = (supplied: any = {}) => ({
     id: id(),
     hash: faker.random.alphaNumeric(255),
