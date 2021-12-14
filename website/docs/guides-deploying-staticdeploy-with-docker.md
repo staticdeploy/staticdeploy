@@ -77,8 +77,9 @@ passed in via environment variables.
 
 #### pg-s3 storages configurations
 
-When setting these config (all of them), the pg-s3 storages module will be
-enabled (the memory one is used otherwise):
+When setting these config (all of them, save for `S3_ENABLE_GCS_COMPATIBILITY`,
+which is optional), the pg-s3 storages module will be enabled (the memory one is
+used otherwise):
 
 - `POSTGRES_URL`: connection string for the
   [PostgreSQL](https://www.postgresql.org/) database
@@ -86,6 +87,8 @@ enabled (the memory one is used otherwise):
 - `S3_ENDPOINT`: endpoint of the S3 server
 - `S3_ACCESS_KEY_ID`: access key id for the S3 server
 - `S3_SECRET_ACCESS_KEY`: secret access key for the S3 server
+- `S3_ENABLE_GCS_COMPATIBILITY`: `true` or `false`, enables compatibility with
+  Google Cloud Storage, which doesn't support some S3 APIs. Defaults to `false`
 
 ## Monitoring
 

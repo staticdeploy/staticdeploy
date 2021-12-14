@@ -54,9 +54,10 @@ export default class StaticdeployClient {
                 this.addAuthorizationHeaderInterceptorId
             );
         }
-        this.addAuthorizationHeaderInterceptorId = this.axios.interceptors.request.use(
-            addAuthorizationHeader(apiToken)
-        );
+        this.addAuthorizationHeaderInterceptorId =
+            this.axios.interceptors.request.use(
+                addAuthorizationHeader(apiToken)
+            );
     }
 
     async deploy(options: {

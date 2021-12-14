@@ -13,7 +13,8 @@ export default (storages: IStorages) => {
                     performedAt: new Date(),
                 };
                 await storages.operationLogs.createOne(operationLog);
-                const foundOperationLogs = await storages.operationLogs.findMany();
+                const foundOperationLogs =
+                    await storages.operationLogs.findMany();
                 expect(foundOperationLogs).to.deep.equal([operationLog]);
             });
 
@@ -26,7 +27,8 @@ export default (storages: IStorages) => {
                     performedAt: new Date(),
                 };
                 await storages.operationLogs.createOne(operationLog);
-                const foundOperationLogs = await storages.operationLogs.findMany();
+                const foundOperationLogs =
+                    await storages.operationLogs.findMany();
                 expect(foundOperationLogs).to.deep.equal([operationLog]);
             });
         });

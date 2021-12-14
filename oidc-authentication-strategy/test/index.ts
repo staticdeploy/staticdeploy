@@ -82,9 +82,10 @@ describe("OidcAuthenticationStrategy", () => {
             });
 
             it("null on un-decodable jwt", async () => {
-                const idpUser = await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
-                    "un-decodable"
-                );
+                const idpUser =
+                    await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
+                        "un-decodable"
+                    );
                 expect(idpUser).to.equal(null);
             });
 
@@ -94,9 +95,10 @@ describe("OidcAuthenticationStrategy", () => {
                     signingKey,
                     { kid: false, header: { kid: "different-kid" } }
                 );
-                const idpUser = await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
-                    authToken
-                );
+                const idpUser =
+                    await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
+                        authToken
+                    );
                 expect(idpUser).to.equal(null);
             });
 
@@ -105,9 +107,10 @@ describe("OidcAuthenticationStrategy", () => {
                     { sub: sub, iss: "different-iss", aud: clientId },
                     signingKey
                 );
-                const idpUser = await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
-                    authToken
-                );
+                const idpUser =
+                    await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
+                        authToken
+                    );
                 expect(idpUser).to.equal(null);
             });
 
@@ -116,9 +119,10 @@ describe("OidcAuthenticationStrategy", () => {
                     { sub: sub, iss: iss, aud: "difference-clientId" },
                     signingKey
                 );
-                const idpUser = await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
-                    authToken
-                );
+                const idpUser =
+                    await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
+                        authToken
+                    );
                 expect(idpUser).to.equal(null);
             });
 
@@ -128,9 +132,10 @@ describe("OidcAuthenticationStrategy", () => {
                     JWK.generateSync("RSA"),
                     { kid: false, header: { kid: signingKey.kid } }
                 );
-                const idpUser = await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
-                    authToken
-                );
+                const idpUser =
+                    await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
+                        authToken
+                    );
                 expect(idpUser).to.equal(null);
             });
 
@@ -139,9 +144,10 @@ describe("OidcAuthenticationStrategy", () => {
                     { sub: sub, iss: iss, aud: clientId },
                     signingKey
                 );
-                const idpUser = await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
-                    authToken
-                );
+                const idpUser =
+                    await oidcAuthenticationStrategy.getIdpUserFromAuthToken(
+                        authToken
+                    );
                 expect(idpUser).to.deep.equal({ id: sub, idp: iss });
             });
         });

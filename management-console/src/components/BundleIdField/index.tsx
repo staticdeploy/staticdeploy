@@ -1,5 +1,5 @@
 import { IBundle } from "@staticdeploy/core";
-import Cascader, { CascaderOptionType, CascaderProps } from "antd/lib/cascader";
+import Cascader from "antd/lib/cascader";
 import Form, { FormItemProps } from "antd/lib/form";
 import classnames from "classnames";
 import dayjs from "dayjs";
@@ -25,8 +25,8 @@ interface IProps {
     bundles: IBundle[];
     className?: string;
     label?: FormItemProps["label"];
-    disabled?: CascaderProps["disabled"];
-    placeholder?: CascaderProps["placeholder"];
+    disabled?: boolean;
+    placeholder?: string;
 }
 
 export class WrappedBundleIdField extends React.Component<
@@ -58,7 +58,7 @@ export class WrappedBundleIdField extends React.Component<
      *    }
      *  ]
      */
-    getOptions(): CascaderOptionType[] {
+    getOptions() {
         const intermediateMap: IIntermediateMap = {};
         this.props.bundles.forEach((bundle) =>
             setWith(
@@ -118,18 +118,17 @@ export class WrappedBundleIdField extends React.Component<
                 <Cascader
                     options={this.getOptions()}
                     value={this.getValue()}
-                    onChange={([, , bundleId]) =>
+                    onChange={([, , bundleId]: React.Key[]) =>
                         // On user select, the Cascader calls onChange with the
                         // array of node values selected by the user. We are
                         // only interested in the last node, which is the bundle
                         // id
                         this.props.input.onChange(bundleId || null)
                     }
-                    // onBlur is not typed, but accepted
-                    {...{ onBlur: this.props.input.onBlur }}
+                    onBlur={this.props.input.onBlur}
                     disabled={this.props.disabled}
                     placeholder={this.props.placeholder}
-                    displayRender={(_lables, selectedOptions) => {
+                    displayRender={(_labels, selectedOptions) => {
                         const [bundleName, bundleTag, bundleId] = map(
                             selectedOptions,
                             "value"

@@ -81,10 +81,8 @@ export default (storages: IStorages) => {
         });
 
         it("try to find a bundle by a non-existing name:tag combination and get null", async () => {
-            const notFoundBundle = await storages.bundles.findLatestByNameAndTag(
-                "name",
-                "tag"
-            );
+            const notFoundBundle =
+                await storages.bundles.findLatestByNameAndTag("name", "tag");
             expect(notFoundBundle).to.equal(null);
         });
 
@@ -116,10 +114,8 @@ export default (storages: IStorages) => {
 
         describe("retrieve a non-existing bundle asset and get null", () => {
             it("case: non-existing bundle", async () => {
-                const notFountContent = await storages.bundles.getBundleAssetContent(
-                    "id",
-                    "/file"
-                );
+                const notFountContent =
+                    await storages.bundles.getBundleAssetContent("id", "/file");
                 expect(notFountContent).to.equal(null);
             });
 
@@ -135,10 +131,8 @@ export default (storages: IStorages) => {
                     fallbackStatusCode: 200,
                     createdAt: new Date(),
                 });
-                const notFountContent = await storages.bundles.getBundleAssetContent(
-                    "id",
-                    "/file"
-                );
+                const notFountContent =
+                    await storages.bundles.getBundleAssetContent("id", "/file");
                 expect(notFountContent).to.equal(null);
             });
         });
@@ -323,7 +317,20 @@ export default (storages: IStorages) => {
                 tag: "tag",
                 description: "description",
                 hash: "hash",
-                assets: [],
+                assets: [
+                    {
+                        path: "/file/0",
+                        content: Buffer.from("/file/0"),
+                        mimeType: "text/plain",
+                        headers: {},
+                    },
+                    {
+                        path: "/file/1",
+                        content: Buffer.from("/file/1"),
+                        mimeType: "text/plain",
+                        headers: {},
+                    },
+                ],
                 fallbackAssetPath: "/file",
                 fallbackStatusCode: 200,
                 createdAt: new Date(),
@@ -331,6 +338,11 @@ export default (storages: IStorages) => {
             await storages.bundles.deleteMany(["id"]);
             const bundleExists = await storages.bundles.oneExistsWithId("id");
             expect(bundleExists).to.equal(false);
+            const fileContent = await storages.bundles.getBundleAssetContent(
+                "id",
+                "/file"
+            );
+            expect(fileContent).to.equal(null);
         });
     });
 };

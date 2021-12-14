@@ -14,9 +14,8 @@ export default class CreateGroup extends Usecase {
         partial.roles.forEach(validateRole);
 
         // Ensure no group with the same name exists
-        const conflictingGroupExists = await this.storages.groups.oneExistsWithName(
-            partial.name
-        );
+        const conflictingGroupExists =
+            await this.storages.groups.oneExistsWithName(partial.name);
         if (conflictingGroupExists) {
             throw new ConflictingGroupError(partial.name);
         }

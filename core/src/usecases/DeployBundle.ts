@@ -14,11 +14,8 @@ export default class DeployBundle extends Usecase {
         appName: string;
         entrypointUrlMatcher: string;
     }): Promise<void> {
-        const {
-            bundleNameTagCombination,
-            appName,
-            entrypointUrlMatcher,
-        } = options;
+        const { bundleNameTagCombination, appName, entrypointUrlMatcher } =
+            options;
         const [bundleName, bundleTag] = splitNameTagCombination(
             bundleNameTagCombination
         );

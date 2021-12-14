@@ -7,7 +7,6 @@
         "lib": ["dom", "dom.iterable", "esnext"],
         "types": [
             "@types/chai",
-            "@types/classnames",
             "@types/enzyme",
             "@types/enzyme-adapter-react-16",
             "@types/express",

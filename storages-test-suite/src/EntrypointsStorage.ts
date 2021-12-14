@@ -41,16 +41,18 @@ export default (storages: IStorages) => {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             });
-            const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(
-                "example.com/"
-            );
+            const entrypointExists =
+                await storages.entrypoints.oneExistsWithUrlMatcher(
+                    "example.com/"
+                );
             expect(entrypointExists).to.equal(true);
         });
 
         it("check if one entrypoint with a non-existing urlMatcher exists and get false", async () => {
-            const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(
-                "example.com/"
-            );
+            const entrypointExists =
+                await storages.entrypoints.oneExistsWithUrlMatcher(
+                    "example.com/"
+                );
             expect(entrypointExists).to.equal(false);
         });
 
@@ -65,16 +67,14 @@ export default (storages: IStorages) => {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             });
-            const anyEntrypointExists = await storages.entrypoints.anyExistsWithAppId(
-                "id"
-            );
+            const anyEntrypointExists =
+                await storages.entrypoints.anyExistsWithAppId("id");
             expect(anyEntrypointExists).to.equal(true);
         });
 
         it("check if (at least) one entrypoint with a non-existing appId exists and get false", async () => {
-            const anyEntrypointExists = await storages.entrypoints.anyExistsWithAppId(
-                "id"
-            );
+            const anyEntrypointExists =
+                await storages.entrypoints.anyExistsWithAppId("id");
             expect(anyEntrypointExists).to.equal(false);
         });
 
@@ -89,16 +89,14 @@ export default (storages: IStorages) => {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             });
-            const anyEntrypointExists = await storages.entrypoints.anyExistsWithBundleIdIn(
-                ["id"]
-            );
+            const anyEntrypointExists =
+                await storages.entrypoints.anyExistsWithBundleIdIn(["id"]);
             expect(anyEntrypointExists).to.equal(true);
         });
 
         it("check if (at least) one entrypoint with a non-existing bundleId exists and get false", async () => {
-            const anyEntrypointExists = await storages.entrypoints.anyExistsWithBundleIdIn(
-                ["id"]
-            );
+            const anyEntrypointExists =
+                await storages.entrypoints.anyExistsWithBundleIdIn(["id"]);
             expect(anyEntrypointExists).to.equal(false);
         });
 
@@ -135,16 +133,14 @@ export default (storages: IStorages) => {
                 updatedAt: new Date(),
             };
             await storages.entrypoints.createOne(entrypoint);
-            const foundEntrypoint = await storages.entrypoints.findOneByUrlMatcher(
-                "example.com/"
-            );
+            const foundEntrypoint =
+                await storages.entrypoints.findOneByUrlMatcher("example.com/");
             expect(foundEntrypoint).to.deep.equal(entrypoint);
         });
 
         it("try to find an entrypoint by a non-existing urlMatcher and get null", async () => {
-            const notFoundEntrypoint = await storages.entrypoints.findOneByUrlMatcher(
-                "example.com/"
-            );
+            const notFoundEntrypoint =
+                await storages.entrypoints.findOneByUrlMatcher("example.com/");
             expect(notFoundEntrypoint).to.equal(null);
         });
 
@@ -178,9 +174,10 @@ export default (storages: IStorages) => {
                 updatedAt: new Date(),
             };
             await storages.entrypoints.createOne(entrypoint);
-            const foundEntrypoints = await storages.entrypoints.findManyByUrlMatcherHostname(
-                "example.com"
-            );
+            const foundEntrypoints =
+                await storages.entrypoints.findManyByUrlMatcherHostname(
+                    "example.com"
+                );
             expect(foundEntrypoints).to.deep.equal([entrypoint]);
         });
 
@@ -316,9 +313,10 @@ export default (storages: IStorages) => {
                 updatedAt: new Date(),
             });
             await storages.entrypoints.deleteOne("id");
-            const entrypointExists = await storages.entrypoints.oneExistsWithUrlMatcher(
-                "example.com/"
-            );
+            const entrypointExists =
+                await storages.entrypoints.oneExistsWithUrlMatcher(
+                    "example.com/"
+                );
             expect(entrypointExists).to.equal(false);
         });
     });

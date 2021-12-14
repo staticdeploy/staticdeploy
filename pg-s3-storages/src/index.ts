@@ -4,7 +4,7 @@ import {
     IStoragesModule,
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
-import Knex from "knex";
+import { Knex, knex } from "knex";
 import { extname, join } from "path";
 
 import AppsStorage from "./AppsStorage";
@@ -19,6 +19,7 @@ export default class PgS3Storages implements IStoragesModule {
     private knex: Knex;
     private s3Client: S3;
     private s3Bucket: string;
+    private s3EnableGCSCompatibility: boolean;
 
     constructor(options: {
         postgresUrl: string;
@@ -27,10 +28,11 @@ export default class PgS3Storages implements IStoragesModule {
             endpoint: string;
             accessKeyId: string;
             secretAccessKey: string;
+            enableGCSCompatibility: boolean;
         };
     }) {
         // Instantiate knex
-        this.knex = Knex(options.postgresUrl);
+        this.knex = knex(options.postgresUrl);
 
         // Instantiate S3 client
         this.s3Bucket = options.s3Config.bucket;
@@ -40,6 +42,7 @@ export default class PgS3Storages implements IStoragesModule {
             secretAccessKey: options.s3Config.secretAccessKey,
             s3ForcePathStyle: true,
         });
+        this.s3EnableGCSCompatibility = options.s3Config.enableGCSCompatibility;
     }
 
     async setup() {
@@ -53,7 +56,8 @@ export default class PgS3Storages implements IStoragesModule {
             bundles: new BundlesStorage(
                 this.knex,
                 this.s3Client,
-                this.s3Bucket
+                this.s3Bucket,
+                this.s3EnableGCSCompatibility
             ),
             entrypoints: new EntrypointsStorage(this.knex),
             groups: new GroupsStorage(this.knex),

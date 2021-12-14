@@ -22,7 +22,8 @@ describe("OperationLogsClient", () => {
         });
         it("returns a list of operation logs", async () => {
             nock(baseUrl).get("/operationLogs").reply(200, []);
-            const operationLogs = await staticdeployClient.operationLogs.getAll();
+            const operationLogs =
+                await staticdeployClient.operationLogs.getAll();
             expect(operationLogs).to.deep.equal([]);
         });
     });

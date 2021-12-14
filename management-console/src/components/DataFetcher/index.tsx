@@ -86,7 +86,7 @@ export default class DataFetcher<
             this.setState({
                 status: FetchStatus.FAILED,
                 result: null,
-                error: err,
+                error: err as Error,
             });
         }
     }

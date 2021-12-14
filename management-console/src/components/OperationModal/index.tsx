@@ -108,7 +108,7 @@ export default class OperationModal<Result> extends React.Component<
             this.setState({
                 status: OperationStatus.Failed,
                 result: null,
-                error: err,
+                error: err as Error,
             });
         }
     };

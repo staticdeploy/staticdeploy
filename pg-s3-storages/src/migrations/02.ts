@@ -5,7 +5,7 @@ import {
     toRoleTuple,
 } from "@staticdeploy/core/lib";
 import { map } from "bluebird";
-import Knex from "knex";
+import { Knex } from "knex";
 
 import tables from "../common/tables";
 

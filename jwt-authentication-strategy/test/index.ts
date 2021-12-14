@@ -18,25 +18,28 @@ describe("JwtAuthenticationStrategy", () => {
             const signingKey = JWK.asKey(secretOrPrivateKey);
             describe(`cases with ${type} as signing key`, () => {
                 it("returns null on un-decodable jwt", async () => {
-                    const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
-                        "un-decodable"
-                    );
+                    const idpUser =
+                        await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
+                            "un-decodable"
+                        );
                     expect(idpUser).to.equal(null);
                 });
 
                 it("returns null on jwt without sub", async () => {
                     const authToken = JWT.sign({}, signingKey);
-                    const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
-                        authToken
-                    );
+                    const idpUser =
+                        await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
+                            authToken
+                        );
                     expect(idpUser).to.equal(null);
                 });
 
                 it("returns null on jwt without iss", async () => {
                     const authToken = JWT.sign({ sub: sub }, signingKey);
-                    const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
-                        authToken
-                    );
+                    const idpUser =
+                        await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
+                            authToken
+                        );
                     expect(idpUser).to.equal(null);
                 });
 
@@ -45,9 +48,10 @@ describe("JwtAuthenticationStrategy", () => {
                         { sub: sub, iss: iss },
                         JWK.asKey(Buffer.from("different-secret"))
                     );
-                    const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
-                        authToken
-                    );
+                    const idpUser =
+                        await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
+                            authToken
+                        );
                     expect(idpUser).to.equal(null);
                 });
 
@@ -56,9 +60,10 @@ describe("JwtAuthenticationStrategy", () => {
                         { sub: sub, iss: iss },
                         signingKey
                     );
-                    const idpUser = await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
-                        authToken
-                    );
+                    const idpUser =
+                        await jwtAuthenticationStrategy.getIdpUserFromAuthToken(
+                            authToken
+                        );
                     expect(idpUser).to.deep.equal({ id: sub, idp: iss });
                 });
             });

@@ -175,9 +175,8 @@ describe("service Authorizer", () => {
                 id: "id",
                 roles: ["bundle-manager:different-bundleName"],
             });
-            const ensurePromise = authorizer.ensureCanCreateBundle(
-                "bundleName"
-            );
+            const ensurePromise =
+                authorizer.ensureCanCreateBundle("bundleName");
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
         it("doesn't throw if the user is allowed to create the bundle", async () => {
@@ -194,9 +193,8 @@ describe("service Authorizer", () => {
                 id: "id",
                 roles: ["bundle-manager:different-bundleName"],
             });
-            const ensurePromise = authorizer.ensureCanDeleteBundles(
-                "bundleName"
-            );
+            const ensurePromise =
+                authorizer.ensureCanDeleteBundles("bundleName");
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
         it("doesn't throw if the user is allowed to delete the bundles", async () => {
@@ -267,9 +265,8 @@ describe("service Authorizer", () => {
                 id: "id",
                 roles: ["entrypoint-manager:different-example.com/"],
             });
-            const ensurePromise = authorizer.ensureCanUpdateEntrypoint(
-                "example.com/"
-            );
+            const ensurePromise =
+                authorizer.ensureCanUpdateEntrypoint("example.com/");
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
         it("doesn't throw if the user is allowed to update the entrypoint", async () => {
@@ -286,9 +283,8 @@ describe("service Authorizer", () => {
                 id: "id",
                 roles: ["entrypoint-manager:different-example.com/"],
             });
-            const ensurePromise = authorizer.ensureCanDeleteEntrypoint(
-                "example.com/"
-            );
+            const ensurePromise =
+                authorizer.ensureCanDeleteEntrypoint("example.com/");
             await expect(ensurePromise).to.be.rejectedWith(MissingRoleError);
         });
         it("doesn't throw if the user is allowed to delete the entrypoint", async () => {

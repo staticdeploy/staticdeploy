@@ -4,7 +4,6 @@ import enUS from "antd/lib/locale-provider/en_US";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import compact from "lodash/compact";
-import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";

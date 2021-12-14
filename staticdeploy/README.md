@@ -17,7 +17,7 @@ status.
 
 The following environment variables can be used to configure the server:
 
-> General service configurations
+#### General service configurations
 
 - `LOG_LEVEL` (defaults to `info`)
 - `MANAGEMENT_HOSTNAME` _(required)_: the hostname at which the Management
@@ -28,7 +28,7 @@ The following environment variables can be used to configure the server:
   limits the size of (base64-encoded) bundles that can be uploaded. Defaults to
   `100mb`
 
-> Routing configurations
+#### Routing configurations
 
 - `HOSTNAME_HEADER`: the header from which to retrieve the hostname of requests
   for static assets. By default `Host` - or `X-Forwarded-Host` if present - are
@@ -36,7 +36,7 @@ The following environment variables can be used to configure the server:
   (example: Azure's Verizon CDN uses `X-Host`), so you can use this option to
   make StaticDeploy work behind such proxies
 
-> Auth configurations
+#### Auth configurations
 
 - `ENFORCE_AUTH`: `true` or `false`, determines whether authentication and
   authorization are enforced (i.e. requests must be authenticated, and the user
@@ -53,10 +53,11 @@ The following environment variables can be used to configure the server:
 - `OIDC_CLIENT_ID`: the client id of the OpenID Connect application
 - `OIDC_PROVIDER_NAME`: the name to show in the "Login with" interface
 
-> pg-s3 storages configurations
+#### pg-s3 storages configurations
 
-When setting these config (all of them), the pg-s3 storages module will be
-enabled (the memory one is used otherwise):
+When setting these config (all of them, save for `S3_ENABLE_GCS_COMPATIBILITY`,
+which is optional), the pg-s3 storages module will be enabled (the memory one is
+used otherwise):
 
 - `POSTGRES_URL`: connection string for the
   [PostgreSQL](https://www.postgresql.org/) database
@@ -64,3 +65,5 @@ enabled (the memory one is used otherwise):
 - `S3_ENDPOINT`: endpoint of the S3 server
 - `S3_ACCESS_KEY_ID`: access key id for the S3 server
 - `S3_SECRET_ACCESS_KEY`: secret access key for the S3 server
+- `S3_ENABLE_GCS_COMPATIBILITY`: `true` or `false`, enables compatibility with
+  Google Cloud Storage, which doesn't support some S3 APIs. Defaults to `false`

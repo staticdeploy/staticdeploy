@@ -51,7 +51,7 @@ class EntrypointForm extends React.Component<
             this.setState({
                 bundles: [],
                 loadingBundles: false,
-                errorLoadingBundles: err,
+                errorLoadingBundles: err as Error,
             });
         }
     }

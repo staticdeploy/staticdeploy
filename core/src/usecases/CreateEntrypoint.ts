@@ -43,18 +43,18 @@ export default class CreateEntrypoint extends Usecase {
 
         // Ensure the linked bundle exists
         if (partial.bundleId) {
-            const linkedBundleExists = await this.storages.bundles.oneExistsWithId(
-                partial.bundleId
-            );
+            const linkedBundleExists =
+                await this.storages.bundles.oneExistsWithId(partial.bundleId);
             if (!linkedBundleExists) {
                 throw new BundleNotFoundError(partial.bundleId, "id");
             }
         }
 
         // Ensure no entrypoint with the same urlMatcher exists
-        const conflictingEntrypointExists = await this.storages.entrypoints.oneExistsWithUrlMatcher(
-            partial.urlMatcher
-        );
+        const conflictingEntrypointExists =
+            await this.storages.entrypoints.oneExistsWithUrlMatcher(
+                partial.urlMatcher
+            );
         if (conflictingEntrypointExists) {
             throw new ConflictingEntrypointError(partial.urlMatcher);
         }

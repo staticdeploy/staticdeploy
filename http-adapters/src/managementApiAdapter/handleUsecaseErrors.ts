@@ -48,20 +48,19 @@ function findMatchingMapping(err: any): ErrorStatusMapping | null {
     );
 }
 
-export default (
-    handler: IConvRoute["handler"]
-): IConvRoute["handler"] => async (req, res) => {
-    try {
-        await (handler as any)(req, res);
-    } catch (err) {
-        const matchingMapping = findMatchingMapping(err);
-        if (!matchingMapping) {
-            throw err;
+export default (handler: IConvRoute["handler"]): IConvRoute["handler"] =>
+    async (req, res) => {
+        try {
+            await (handler as any)(req, res);
+        } catch (err) {
+            const matchingMapping = findMatchingMapping(err);
+            if (!matchingMapping) {
+                throw err;
+            }
+            const [ErrorClass, statusCode] = matchingMapping;
+            res.status(statusCode).send({
+                name: ErrorClass.name,
+                message: err.message,
+            });
         }
-        const [ErrorClass, statusCode] = matchingMapping;
-        res.status(statusCode).send({
-            name: ErrorClass.name,
-            message: err.message,
-        });
-    }
-};
+    };

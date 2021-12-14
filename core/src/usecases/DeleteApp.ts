@@ -15,9 +15,8 @@ export default class DeleteApp extends Usecase {
         await this.authorizer.ensureCanDeleteApp(toBeDeletedApp.name);
 
         // Ensure the app has no linked entrypoints
-        const hasLinkedEntrypoints = await this.storages.entrypoints.anyExistsWithAppId(
-            id
-        );
+        const hasLinkedEntrypoints =
+            await this.storages.entrypoints.anyExistsWithAppId(id);
         if (hasLinkedEntrypoints) {
             throw new AppHasEntrypointsError(id);
         }

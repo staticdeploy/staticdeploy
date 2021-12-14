@@ -27,9 +27,8 @@ export default class OperationLogsStorage implements IOperationLogsStorage {
         performedBy: string;
         performedAt: Date;
     }): Promise<IOperationLog> {
-        this.operationLogs[
-            toBeCreatedOperationLog.id
-        ] = toBeCreatedOperationLog;
+        this.operationLogs[toBeCreatedOperationLog.id] =
+            toBeCreatedOperationLog;
         return toBeCreatedOperationLog;
     }
 }

@@ -29,6 +29,7 @@ export default (config: IConfig, logger: Logger): IStoragesModule => {
                   endpoint: config.s3Endpoint!,
                   accessKeyId: config.s3AccessKeyId!,
                   secretAccessKey: config.s3SecretAccessKey!,
+                  enableGCSCompatibility: config.s3EnableGCSCompatibility!,
               },
           });
 };

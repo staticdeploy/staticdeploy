@@ -5,8 +5,8 @@ import {
     IBundleWithoutAssetsContent,
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
-import Knex from "knex";
-import { flatten, map, omit } from "lodash";
+import { Knex } from "knex";
+import { flatMap, map, omit } from "lodash";
 import { join } from "path";
 
 import concurrentForEach from "./common/concurrentForEach";
@@ -18,7 +18,8 @@ export default class BundlesStorage implements IBundlesStorage {
     constructor(
         private knex: Knex,
         private s3Client: S3,
-        private s3Bucket: string
+        private s3Bucket: string,
+        private s3EnableGCSCompatibility: boolean
     ) {}
 
     async findOne(id: string): Promise<IBundleWithoutAssetsContent | null> {
@@ -127,47 +128,46 @@ export default class BundlesStorage implements IBundlesStorage {
         return createdBundle;
     }
 
-    async deleteOne(id: string): Promise<void> {
-        // const [bundle]: [IBundleWithoutAssetsContent]
-        const [bundle] = await this.knex<IBundleWithoutAssetsContent>(
-            tables.bundles
-        ).where({ id });
-        // Delete files from S3
-        await this.s3Client
-            .deleteObjects({
-                Bucket: this.s3Bucket,
-                Delete: {
-                    Objects: bundle!.assets.map((asset) => ({
-                        Key: this.getAssetS3Key(id, asset.path),
-                    })),
-                },
-            })
-            .promise();
-        // Delete the bundle from sql
-        await this.knex(tables.bundles).where({ id }).delete();
-    }
-
     async deleteMany(ids: string[]): Promise<void> {
         const bundles: IBundleWithoutAssetsContent[] = await this.knex(
             tables.bundles
         ).whereIn("id", ids);
         // Delete bundles' files on S3
+        await this.deleteBundlesFiles(bundles);
+        // Delete the bundles from sql
+        await this.knex(tables.bundles).whereIn("id", ids).delete();
+    }
+
+    private async deleteBundlesFiles(bundles: IBundleWithoutAssetsContent[]) {
+        const s3Keys = flatMap(bundles, (bundle) =>
+            map(bundle.assets, (asset) =>
+                this.getAssetS3Key(bundle.id, asset.path)
+            )
+        );
+        if (this.s3EnableGCSCompatibility) {
+            await this.deleteObjectsIndividually(s3Keys);
+        } else {
+            await this.deleteObjectsInBulk(s3Keys);
+        }
+    }
+
+    private async deleteObjectsIndividually(s3Keys: string[]) {
+        await concurrentForEach(s3Keys, async (s3Key) =>
+            this.s3Client
+                .deleteObject({ Bucket: this.s3Bucket, Key: s3Key })
+                .promise()
+        );
+    }
+
+    private async deleteObjectsInBulk(s3Keys: string[]) {
         await this.s3Client
             .deleteObjects({
                 Bucket: this.s3Bucket,
                 Delete: {
-                    Objects: flatten(
-                        map(bundles, (bundle) =>
-                            map(bundle.assets, (asset) => ({
-                                Key: this.getAssetS3Key(bundle.id, asset.path),
-                            }))
-                        )
-                    ),
+                    Objects: map(s3Keys, (s3Key) => ({ Key: s3Key })),
                 },
             })
             .promise();
-        // Delete the bundles from sql
-        await this.knex(tables.bundles).whereIn("id", ids).delete();
     }
 
     private getAssetS3Key(bundleId: string, assetPath: string) {
