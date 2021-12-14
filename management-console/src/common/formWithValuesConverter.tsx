@@ -45,7 +45,8 @@ export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
         })(Form as any);
         return class ConverterForm
             extends React.Component<IProps<ExternalValues> & AdditionalProps>
-            implements IConverterForm<ExternalValues> {
+            implements IConverterForm<ExternalValues>
+        {
             private form!: FormInstance<
                 InternalValues,
                 Partial<ConfigProps<InternalValues, {}>>
@@ -66,7 +67,7 @@ export function reduxForm<ExternalValues, InternalValues, AdditionalProps = {}>(
                         {...rest}
                         ref={(form) => (this.form = form!)}
                         initialValues={toInternal(initialValues)}
-                        onSubmit={(values) =>
+                        onSubmit={(values: InternalValues) =>
                             onSubmit && onSubmit(toExternal(values))
                         }
                     />

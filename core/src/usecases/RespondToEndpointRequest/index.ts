@@ -26,9 +26,10 @@ export default class RespondToEndpointRequest extends Usecase {
         // Find the matching entrypoint
         const canonicalHostname = getCanonicalHostname(request.hostname);
         const requestedUrl = join(canonicalHostname, request.path);
-        const entrypoints = await this.storages.entrypoints.findManyByUrlMatcherHostname(
-            canonicalHostname
-        );
+        const entrypoints =
+            await this.storages.entrypoints.findManyByUrlMatcherHostname(
+                canonicalHostname
+            );
         const matchingEntrypoint = _(entrypoints)
             .filter(
                 (entrypoint) =>

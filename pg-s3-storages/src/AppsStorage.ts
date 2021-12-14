@@ -1,5 +1,5 @@
 import { IApp, IAppsStorage, IConfiguration } from "@staticdeploy/core";
-import Knex from "knex";
+import { Knex } from "knex";
 
 import convertErrors from "./common/convertErrors";
 import tables from "./common/tables";

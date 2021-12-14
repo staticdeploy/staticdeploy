@@ -12,8 +12,12 @@ dayjs.extend(relativeTime);
 
 // Setup jsdom
 jsdomGlobal(undefined, { pretendToBeVisual: true });
-(global as any).requestAnimationFrame = (global as any).window.requestAnimationFrame;
-(global as any).cancelAnimationFrame = (global as any).window.cancelAnimationFrame;
+(global as any).requestAnimationFrame = (
+    global as any
+).window.requestAnimationFrame;
+(global as any).cancelAnimationFrame = (
+    global as any
+).window.cancelAnimationFrame;
 
 // Setup enzyme
 configure({ adapter: new Adapter() });

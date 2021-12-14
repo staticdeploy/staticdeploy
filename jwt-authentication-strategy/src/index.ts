@@ -3,7 +3,8 @@ import { IAuthenticationStrategy, IIdpUser } from "@staticdeploy/core";
 import { has, isString } from "lodash";
 
 export default class JwtAuthenticationStrategy
-    implements IAuthenticationStrategy {
+    implements IAuthenticationStrategy
+{
     private verifyingKey: JWK.Key;
     constructor(secretOrPublicKey: Buffer) {
         this.verifyingKey = JWK.asKey(secretOrPublicKey);

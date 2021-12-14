@@ -1,6 +1,6 @@
 import registerStoragesTests from "@staticdeploy/storages-test-suite";
 import { S3 } from "aws-sdk";
-import Knex from "knex";
+import { Knex } from "knex";
 
 import PgS3Storages from "../src";
 import tables from "../src/common/tables";

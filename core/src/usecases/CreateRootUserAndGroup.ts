@@ -28,10 +28,11 @@ export default class CreateRootUserAndGroup {
         }
 
         // Create the root user if it doesn't exist
-        const rootUserExists = await this.storages.users.oneExistsWithIdpAndIdpId(
-            idp,
-            ROOT_USER_IDP_ID
-        );
+        const rootUserExists =
+            await this.storages.users.oneExistsWithIdpAndIdpId(
+                idp,
+                ROOT_USER_IDP_ID
+            );
         if (!rootUserExists) {
             await this.storages.users.createOne({
                 id: generateId(),

@@ -29,9 +29,8 @@ export default class UpdateGroup extends Usecase {
 
         // Ensure no group with the same name exists
         if (patch.name && patch.name !== existingGroup.name) {
-            const hasConflictingGroup = await this.storages.groups.oneExistsWithName(
-                patch.name
-            );
+            const hasConflictingGroup =
+                await this.storages.groups.oneExistsWithName(patch.name);
             if (hasConflictingGroup) {
                 throw new ConflictingGroupError(patch.name);
             }

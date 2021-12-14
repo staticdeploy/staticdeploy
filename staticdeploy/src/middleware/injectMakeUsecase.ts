@@ -18,12 +18,8 @@ export default function injectMakeUsecase(
         storages: IStorages;
     }
 ): RequestHandler {
-    const {
-        archiver,
-        authenticationStrategies,
-        config,
-        storages,
-    } = dependencies;
+    const { archiver, authenticationStrategies, config, storages } =
+        dependencies;
     return (req: IRequestWithAuthToken, _res, next) => {
         req.makeUsecase = <Name extends keyof IUsecasesByName>(name: Name) => {
             const UsecaseClass = usecases[name];

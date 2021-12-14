@@ -10,16 +10,15 @@ export default class DeleteBundlesByNameAndTag extends Usecase {
         await this.authorizer.ensureCanDeleteBundles(name);
 
         // Find bundles to be deleted
-        const toBeDeletedBundles = await this.storages.bundles.findManyByNameAndTag(
-            name,
-            tag
-        );
+        const toBeDeletedBundles =
+            await this.storages.bundles.findManyByNameAndTag(name, tag);
         const toBeDeletedBundleIds = map(toBeDeletedBundles, "id");
 
         // Ensure the bundles are not used by any entrypoint
-        const hasLinkedEntrypoints = await this.storages.entrypoints.anyExistsWithBundleIdIn(
-            toBeDeletedBundleIds
-        );
+        const hasLinkedEntrypoints =
+            await this.storages.entrypoints.anyExistsWithBundleIdIn(
+                toBeDeletedBundleIds
+            );
         if (hasLinkedEntrypoints) {
             throw new BundlesInUseError(toBeDeletedBundleIds);
         }

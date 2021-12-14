@@ -4,7 +4,7 @@ import {
     IStoragesModule,
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
-import Knex from "knex";
+import { Knex, knex } from "knex";
 import { extname, join } from "path";
 
 import AppsStorage from "./AppsStorage";
@@ -32,7 +32,7 @@ export default class PgS3Storages implements IStoragesModule {
         };
     }) {
         // Instantiate knex
-        this.knex = Knex(options.postgresUrl);
+        this.knex = knex(options.postgresUrl);
 
         // Instantiate S3 client
         this.s3Bucket = options.s3Config.bucket;

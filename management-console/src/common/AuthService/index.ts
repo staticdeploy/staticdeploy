@@ -88,7 +88,7 @@ export default class AuthService {
             this.setStatus({
                 isLoggingIn: false,
                 isLoggedIn: false,
-                loginError: err,
+                loginError: err as Error,
                 requiresUserCreation: false,
                 requiresUserCreationError: null,
             });

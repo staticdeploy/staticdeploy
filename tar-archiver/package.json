@@ -31,27 +31,27 @@
   "dependencies": {
     "@staticdeploy/core": "^0.15.4",
     "bluebird": "^3.7.2",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^10.0.0",
     "recursive-readdir": "^2.2.2",
-    "tar": "^6.0.5"
+    "tar": "^6.1.11"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.33",
-    "@types/chai": "^4.2.14",
+    "@types/bluebird": "^3.5.36",
+    "@types/chai": "^4.3.0",
     "@types/deep-equal-in-any-order": "^1.0.1",
-    "@types/fs-extra": "^9.0.5",
-    "@types/mocha": "^8.2.0",
+    "@types/fs-extra": "^9.0.13",
+    "@types/mocha": "^9.0.0",
     "@types/recursive-readdir": "^2.2.0",
-    "@types/tar": "^4.0.4",
-    "chai": "^4.2.0",
+    "@types/tar": "^6.1.1",
+    "chai": "^4.3.4",
     "create-fs-tree": "^1.0.0",
-    "deep-equal-in-any-order": "^1.0.28",
-    "mocha": "^8.2.1",
-    "prettier": "^2.2.1",
+    "deep-equal-in-any-order": "^1.1.15",
+    "mocha": "^9.1.3",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.4.0",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^4.1.3"
+    "typescript": "^4.5.4"
   }
 }

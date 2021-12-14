@@ -5,7 +5,7 @@ import {
     IBundleWithoutAssetsContent,
 } from "@staticdeploy/core";
 import { S3 } from "aws-sdk";
-import Knex from "knex";
+import { Knex } from "knex";
 import { flatMap, map, omit } from "lodash";
 import { join } from "path";
 

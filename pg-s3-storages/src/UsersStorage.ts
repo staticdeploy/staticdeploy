@@ -5,8 +5,8 @@ import {
     IUserWithRoles,
     UserType,
 } from "@staticdeploy/core";
-import Knex from "knex";
-import { flatMap, omit } from "lodash";
+import { Knex } from "knex";
+import { flatMap, omit, isEmpty } from "lodash";
 
 import convertErrors from "./common/convertErrors";
 import tables from "./common/tables";
@@ -98,12 +98,14 @@ export default class UsersStorage implements IUsersStorage {
         const [createdUser] = await this.knex(tables.users)
             .insert(UsersStorage.omitGroupsIds(toBeCreatedUser))
             .returning("*");
-        await this.knex(tables.usersAndGroups).insert(
-            toBeCreatedUser.groupsIds.map((groupId) => ({
-                userId: toBeCreatedUser.id,
-                groupId: groupId,
-            }))
-        );
+        if (!isEmpty(toBeCreatedUser.groupsIds)) {
+            await this.knex(tables.usersAndGroups).insert(
+                toBeCreatedUser.groupsIds.map((groupId) => ({
+                    userId: toBeCreatedUser.id,
+                    groupId: groupId,
+                }))
+            );
+        }
         return createdUser;
     }
 
@@ -120,12 +122,14 @@ export default class UsersStorage implements IUsersStorage {
             .update(UsersStorage.omitGroupsIds(patch))
             .returning("*");
         if (patch.groupsIds) {
-            await this.knex(tables.usersAndGroups).insert(
-                patch.groupsIds.map((groupId) => ({
-                    userId: id,
-                    groupId: groupId,
-                }))
-            );
+            if (!isEmpty(patch.groupsIds)) {
+                await this.knex(tables.usersAndGroups).insert(
+                    patch.groupsIds.map((groupId) => ({
+                        userId: id,
+                        groupId: groupId,
+                    }))
+                );
+            }
             await this.knex(tables.usersAndGroups)
                 .where({ userId: id })
                 .whereNotIn("groupId", patch.groupsIds)

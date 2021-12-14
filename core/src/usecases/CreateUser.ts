@@ -18,10 +18,11 @@ export default class CreateUser extends Usecase {
         await this.authorizer.ensureCanCreateUser();
 
         // Ensure no user with the same idp / idpId combination exists
-        const conflictingUserExists = await this.storages.users.oneExistsWithIdpAndIdpId(
-            partial.idp,
-            partial.idpId
-        );
+        const conflictingUserExists =
+            await this.storages.users.oneExistsWithIdpAndIdpId(
+                partial.idp,
+                partial.idpId
+            );
         if (conflictingUserExists) {
             throw new ConflictingUserError(partial.idp, partial.idpId);
         }

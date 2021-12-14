@@ -1,4 +1,4 @@
-import Knex from "knex";
+import { Knex } from "knex";
 
 import tables from "../common/tables";
 

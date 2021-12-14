@@ -81,10 +81,8 @@ export default (storages: IStorages) => {
         });
 
         it("try to find a bundle by a non-existing name:tag combination and get null", async () => {
-            const notFoundBundle = await storages.bundles.findLatestByNameAndTag(
-                "name",
-                "tag"
-            );
+            const notFoundBundle =
+                await storages.bundles.findLatestByNameAndTag("name", "tag");
             expect(notFoundBundle).to.equal(null);
         });
 
@@ -116,10 +114,8 @@ export default (storages: IStorages) => {
 
         describe("retrieve a non-existing bundle asset and get null", () => {
             it("case: non-existing bundle", async () => {
-                const notFountContent = await storages.bundles.getBundleAssetContent(
-                    "id",
-                    "/file"
-                );
+                const notFountContent =
+                    await storages.bundles.getBundleAssetContent("id", "/file");
                 expect(notFountContent).to.equal(null);
             });
 
@@ -135,10 +131,8 @@ export default (storages: IStorages) => {
                     fallbackStatusCode: 200,
                     createdAt: new Date(),
                 });
-                const notFountContent = await storages.bundles.getBundleAssetContent(
-                    "id",
-                    "/file"
-                );
+                const notFountContent =
+                    await storages.bundles.getBundleAssetContent("id", "/file");
                 expect(notFountContent).to.equal(null);
             });
         });

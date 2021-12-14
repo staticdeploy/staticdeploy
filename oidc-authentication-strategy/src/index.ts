@@ -10,7 +10,8 @@ interface IOpenidConfiguration {
 }
 
 export default class OidcAuthenticationStrategy
-    implements IAuthenticationStrategy {
+    implements IAuthenticationStrategy
+{
     private openidConfiguration!: IOpenidConfiguration;
     private keyStore!: JWKS.KeyStore;
 
