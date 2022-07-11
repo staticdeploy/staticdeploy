@@ -12,7 +12,7 @@ export default function errorHandler(): ErrorRequestHandler {
 
 function renderPage(error: Error) {
     return `
-        <!doctype hmtl>
+        <!doctype html>
 
         <head>
             <title>${renderTitle(error)}</title>
